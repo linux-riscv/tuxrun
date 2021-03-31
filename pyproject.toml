@@ -10,3 +10,6 @@ home-page = "https://tuxsuite.com/"
 description-file = "README.md"
 classifiers = ["License :: OSI Approved :: MIT License"]
 requires-python = ">=3.6"
+
+[tool.flit.scripts]
+tuxmake = "tuxmake.__main__:main"
