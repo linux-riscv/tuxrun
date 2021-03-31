@@ -12,4 +12,4 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 requires-python = ">=3.6"
 
 [tool.flit.scripts]
-tuxmake = "tuxmake.__main__:main"
+tuxrun = "tuxrun.__main__:main"
