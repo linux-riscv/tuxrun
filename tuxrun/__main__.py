@@ -45,7 +45,7 @@ def download(src, dst):
 # Setups #
 ##########
 def setup_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="TuxRun")
+    parser = argparse.ArgumentParser(prog="tuxrun", description="TuxRun")
 
     group = parser.add_argument_group("configuration files")
     group.add_argument("--device", required=True, help="Device configuration")
@@ -111,10 +111,11 @@ def _main(options, tmpdir: Path) -> int:
 
     try:
         proc = subprocess.Popen(args, bufsize=1, stderr=subprocess.PIPE, text=True)
+        assert proc.stderr is not None
         for line in proc.stderr:
             line = line.rstrip("\n")
             try:
-                data = yaml.load(line, Loader=yaml.CFullLoader)
+                data = yaml.load(line, Loader=yaml.CFullLoader)  # type: ignore
                 if log_file is not None:
                     log_file.write("- " + line + "\n")
                 else:
@@ -125,14 +126,14 @@ def _main(options, tmpdir: Path) -> int:
                     sys.stdout.write(
                         f"{COLORS['dt']}{timestamp}{COLORS['end']} {COLORS[level]}{msg}{COLORS['end']}\n"
                     )
-            except:
+            except (yaml.YAMLError, KeyError):
                 sys.stdout.write(line + "\n")
             sys.stdout.flush()
         return proc.wait()
     except FileNotFoundError as exc:
         sys.stderr.write(f"File not found '{exc.filename}'\n")
         return 1
-    except Exception as exc:
+    except Exception:
         proc.kill()
         outs, errs = proc.communicate()
         # TODO: do something with outs and errs
@@ -152,5 +153,9 @@ def main() -> int:
         shutil.rmtree(tmpdir)
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+def start():
+    if __name__ == "__main__":
+        sys.exit(main())
+
+
+start()
