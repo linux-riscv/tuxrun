@@ -10,6 +10,8 @@ RUN apt-get update -q=2 \
         python3-pytest \
         python3-pytest-cov \
         python3-pytest-mock \
+        python3-requests \
+        python3-yaml \
     && true
 
 # vim: ft=dockerfile
