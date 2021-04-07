@@ -1,4 +1,4 @@
-test: unit-tests stylecheck typecheck spellcheck
+test: typecheck spellcheck stylecheck unit-tests
 
 unit-tests:
 	python3 -m pytest --cov=tuxrun --cov-report=term-missing --cov-fail-under=100 test
