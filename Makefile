@@ -1,7 +1,7 @@
 test: typecheck unit-tests spellcheck stylecheck
 
 unit-tests:
-	python3 -m pytest --cov=tuxrun --cov-report=term-missing --cov-fail-under=39 test
+	python3 -m pytest --cov=tuxrun --cov-report=term-missing --cov-fail-under=71 test
 
 .PHONY: htmlcov
 
