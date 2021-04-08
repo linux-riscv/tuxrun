@@ -116,6 +116,8 @@ def _main(options, tmpdir: Path) -> int:
             line = line.rstrip("\n")
             try:
                 data = yaml.load(line, Loader=yaml.CFullLoader)  # type: ignore
+                if not data:
+                    continue
                 if log_file is not None:
                     log_file.write("- " + line + "\n")
                 else:
