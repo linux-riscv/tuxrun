@@ -14,3 +14,13 @@ spellcheck:
 	codespell \
 		--check-filenames \
 		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov'
+
+doc:
+	mkdocs build
+
+doc-serve:
+	mkdocs serve
+
+flit = flit
+publish-pypi:
+	$(flit) publish
