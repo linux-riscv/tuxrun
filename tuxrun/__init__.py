@@ -1,4 +1,4 @@
 """
 Command line tool for testing Linux under QEMU
 """
-__version__ = "0.1.1"
+__version__ = "0.1.2"
