@@ -1,3 +1,5 @@
+export PROJECT := tuxrun
+
 test: typecheck unit-tests spellcheck stylecheck
 
 unit-tests:
@@ -29,3 +31,6 @@ doc-serve:
 flit = flit
 publish-pypi:
 	$(flit) publish
+
+release:
+	flit=true scripts/release $(V)
