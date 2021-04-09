@@ -5,6 +5,7 @@ RUN apt-get update -q=2 \
         codespell \
         flake8 \
         flit \
+        git \
         make \
         mkdocs \
         mypy \
