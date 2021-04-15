@@ -72,10 +72,9 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument("--device-dict", default=None, help="Device configuration")
     group.add_argument("--definition", default=None, help="Job definition")
 
-    group = parser.add_argument_group("docker")
-    group.add_argument("--docker", default=None, help="Docker image")
+    group = parser.add_argument_group("runtime")
     group.add_argument(
-        "--pull", default=False, action="store_true", help="Force a docker pull"
+        "--runtime", default="podman", choices=["local", "podman"], help="Runtime"
     )
 
     parser.add_argument(
@@ -132,14 +131,12 @@ def _main(options, tmpdir: Path) -> int:
         str(tmpdir / "definition.yaml"),
     ]
 
-    # Add docker if needed
-    if options.docker:
-        # docker pull on demand
-        if options.pull:
-            subprocess.call(["docker", "pull", options.docker])
-        docker = [
-            "docker",
+    # Use podman if requested
+    if options.runtime == "podman":
+        args = [
+            "podman",
             "run",
+            "--quiet",
             "--rm",
             "-v",
             f"{tmpdir}:{tmpdir}",
@@ -149,9 +146,8 @@ def _main(options, tmpdir: Path) -> int:
             "/lib/modules:/lib/modules:ro",
             "--hostname",
             "tuxrun",
-            options.docker,
-        ]
-        args = docker + args
+            "tuxrun:latest",
+        ] + args
 
     # Should we write lava-run logs to a file
     log_file = None
