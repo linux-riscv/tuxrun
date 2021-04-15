@@ -1,0 +1,14 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "mips64"
+  no_kvm: true
+{% endblock %}
+
+{% set arch = "mips64" %}
+{% set console = "ttyS0" %}
+{% set rootfs_dev = "/dev/hda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=ide,format=raw" %}
+
+{% set rootfs = "https://storage.tuxboot.com/mips64/rootfs.ext4.zst" %}

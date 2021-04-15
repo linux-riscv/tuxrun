@@ -23,7 +23,20 @@ def job(tmp_path):
 
 @pytest.fixture
 def tuxrun_args(monkeypatch, device, job):
-    args = ["tuxrun", "--device", str(device), "--definition", str(job)]
+    args = ["tuxrun", "--device-dict", str(device), "--definition", str(job)]
+    monkeypatch.setattr("sys.argv", args)
+    return args
+
+
+@pytest.fixture
+def tuxrun_args_generate(monkeypatch):
+    args = [
+        "tuxrun",
+        "--device",
+        "qemu-i386",
+        "--kernel",
+        "https://storage.tuxboot.com/i386/bzImage",
+    ]
     monkeypatch.setattr("sys.argv", args)
     return args
 
@@ -54,6 +67,36 @@ def test_main_usage(capsys):
 
 
 def test_almost_real_run(tuxrun_args, lava_run, capsys):
+    lava_run.stderr = [
+        '- {"lvl": "info", "msg": "Hello, world", "dt": ""2021-04-08T18:42:25.139513"\n'
+    ]
+    exitcode = main()
+    assert exitcode == 0
+    stdout, _ = capsys.readouterr()
+    assert "Hello, world" in stdout
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [
+        [],
+        ["--device", "qemu-arm", "--device-dict", "device.yaml"],
+        ["--device", "qemu-arm"],
+        ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
+        ["--device-dict", "device.yaml"],
+        ["--definition", "definition.yaml"],
+    ],
+)
+def test_command_line_errors(argv, capsys, monkeypatch):
+    monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"] + argv)
+    exitcode = main()
+    assert exitcode == 1
+    stdout, stderr = capsys.readouterr()
+    assert "usage: tuxrun" in stdout
+    assert "tuxrun: error:" in stderr
+
+
+def test_almost_real_run_generate(tuxrun_args_generate, lava_run, capsys):
     lava_run.stderr = [
         '- {"lvl": "info", "msg": "Hello, world", "dt": ""2021-04-08T18:42:25.139513"\n'
     ]

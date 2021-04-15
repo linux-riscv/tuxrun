@@ -1,0 +1,16 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "riscv64"
+  no_kvm: true
+  guestfs_interface: "virtio"
+{% endblock %}
+
+{% set arch = "riscv64" %}
+{% set console = "ttyS0" %}
+{% set rootfs_dev = "/dev/vda" %}
+{% set rootfs_arg = "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0" %}
+
+{% set bios = "https://storage.tuxboot.com/riscv64/fw_jump.elf" %}
+{% set rootfs = "https://storage.tuxboot.com/riscv64/rootfs.ext4.zst" %}

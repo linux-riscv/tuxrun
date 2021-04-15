@@ -1,0 +1,17 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "i386"
+  no_kvm: true
+  cpu: "qemu32"
+  extra_options:
+  - "-machine q35"
+{% endblock %}
+
+{% set arch = "i386" %}
+{% set console = "ttyS0" %}
+{% set rootfs_dev = "/dev/sda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=ide,format=raw" %}
+
+{% set rootfs = "https://storage.tuxboot.com/i386/rootfs.ext4.zst" %}

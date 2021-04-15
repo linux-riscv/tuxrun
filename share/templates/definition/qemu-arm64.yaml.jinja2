@@ -1,0 +1,16 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "arm64"
+  cpu: "cortex-a57"
+  guestfs_interface: "virtio"
+  machine: "virt,gic-version=3"
+{% endblock %}
+
+{% set arch = "arm64" %}
+{% set console = "ttyAMA0" %}
+{% set rootfs_dev = "/dev/vda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0" %}
+
+{% set rootfs = "https://storage.tuxboot.com/arm64/rootfs.ext4.zst" %}

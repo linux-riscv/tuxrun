@@ -7,13 +7,18 @@ import sys
 import tempfile
 from urllib.parse import urlparse
 
+import jinja2
 import requests
 import yaml
+
+from tuxrun.yaml import yaml_load
 
 
 #############
 # Constants #
 #############
+BASE = (Path(__file__) / ".." / "..").resolve()
+
 COLORS = {
     "exception": "\033[1;31m",
     "error": "\033[1;31m",
@@ -27,6 +32,16 @@ COLORS = {
     "dt": "\033[0;90m",
     "end": "\033[0m",
 }
+
+DEVICES = [
+    "qemu-arm",
+    "qemu-arm64",
+    "qemu-i386",
+    "qemu-mips64",
+    "qemu-ppc64",
+    "qemu-riscv64",
+    "qemu-x86_64",
+]
 
 
 ###########
@@ -47,9 +62,15 @@ def download(src, dst):
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tuxrun", description="TuxRun")
 
+    group = parser.add_argument_group("Configuration")
+    group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
+    group.add_argument("--kernel", default=None, help="kernel URL")
+    group.add_argument("--modules", default=None, help="modules URL")
+    group.add_argument("--tests", default="", help="modules URL", choices=["ltp-smoke"])
+
     group = parser.add_argument_group("configuration files")
-    group.add_argument("--device", required=True, help="Device configuration")
-    group.add_argument("--definition", required=True, help="Job definition")
+    group.add_argument("--device-dict", default=None, help="Device configuration")
+    group.add_argument("--definition", default=None, help="Job definition")
 
     group = parser.add_argument_group("docker")
     group.add_argument("--docker", default=None, help="Docker image")
@@ -68,9 +89,37 @@ def setup_parser() -> argparse.ArgumentParser:
 # Entrypoint #
 ##############
 def _main(options, tmpdir: Path) -> int:
-    # Download if needed and copy to tmpdir
-    download(str(options.device), (tmpdir / "device.yaml"))
-    download(str(options.definition), (tmpdir / "definition.yaml"))
+    # Render the job definition and device dictionary
+    if options.device:
+        def_env = jinja2.Environment(
+            autoescape=False,
+            loader=jinja2.FileSystemLoader(
+                str(BASE / "share" / "templates" / "definition")
+            ),
+        )
+        dev_env = jinja2.Environment(
+            autoescape=False,
+            loader=jinja2.FileSystemLoader(
+                str(BASE / "share" / "templates" / "device")
+            ),
+        )
+
+        definition = def_env.get_template(f"{options.device}.yaml.jinja2").render(
+            device=options.device,
+            kernel=options.kernel,
+            modules=options.modules,
+            tests=[t for t in options.tests.split(",") if t],
+        )
+        context = yaml_load(definition).get("context", {})
+        device = dev_env.get_template("qemu.jinja2").render(**context)
+        (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
+        (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
+
+    # Use the provided ones
+    else:
+        # Download if needed and copy to tmpdir
+        download(str(options.device_dict), (tmpdir / "device.yaml"))
+        download(str(options.definition), (tmpdir / "definition.yaml"))
 
     args = [
         "lava-run",
@@ -145,9 +194,50 @@ def _main(options, tmpdir: Path) -> int:
 
 def main() -> int:
     # Parse command line
-    options = setup_parser().parse_args()
+    parser = setup_parser()
+    options = parser.parse_args()
 
-    # Create a temp directory
+    # --device/--kernel/--modules/--tests and --device-dict/--definition are
+    # mutualy exclusive and required
+    first_group = bool(
+        options.device or options.kernel or options.modules or options.tests
+    )
+    second_group = bool(options.device_dict or options.definition)
+    if not first_group and not second_group:
+        parser.print_usage()
+        sys.stderr.write(
+            "tuxrun: error: configuration or configuration files argument groups are required\n"
+        )
+        return 1
+    if first_group and second_group:
+        parser.print_usage()
+        sys.stderr.write(
+            "tuxrun: error: configuration and configuration files argument groups are mutualy exclusive\n"
+        )
+        return 1
+
+    # --device/--kernel are mandatory
+    if first_group:
+        if not options.device:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --device is required\n")
+            return 1
+        if not options.kernel:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --kernel is required\n")
+            return 1
+    # --device-dict/--definition are mandatory
+    else:
+        if not options.device_dict:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --device-dict is required\n")
+            return 1
+        if not options.definition:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --definition is required\n")
+            return 1
+
+    # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
     try:
         return _main(options, tmpdir)
