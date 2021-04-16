@@ -17,6 +17,12 @@ from tuxrun.yaml import yaml_load
 #############
 # Constants #
 #############
+ALIASES = {
+    "qemu-mips": "qemu-mips64",
+    "qemu-powerpc": "qemu-ppc64",
+    "qemu-riscv": "qemu-riscv64",
+}
+
 BASE = (Path(__file__) / ".." / "..").resolve()
 
 COLORS = {
@@ -37,8 +43,11 @@ DEVICES = [
     "qemu-arm",
     "qemu-arm64",
     "qemu-i386",
+    "qemu-mips",
     "qemu-mips64",
+    "qemu-powerpc",
     "qemu-ppc64",
+    "qemu-riscv",
     "qemu-riscv64",
     "qemu-x86_64",
 ]
@@ -222,6 +231,8 @@ def main() -> int:
             parser.print_usage()
             sys.stderr.write("tuxrun: error: argument --kernel is required\n")
             return 1
+
+        options.device = ALIASES.get(options.device, options.device)
     # --device-dict/--definition are mandatory
     else:
         if not options.device_dict:
