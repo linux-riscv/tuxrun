@@ -71,7 +71,7 @@ def download(src, dst):
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tuxrun", description="TuxRun")
 
-    group = parser.add_argument_group("Configuration")
+    group = parser.add_argument_group("artefacts")
     group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
     group.add_argument("--kernel", default=None, help="kernel URL")
     group.add_argument("--modules", default=None, help="modules URL")
@@ -84,6 +84,9 @@ def setup_parser() -> argparse.ArgumentParser:
     group = parser.add_argument_group("runtime")
     group.add_argument(
         "--runtime", default="podman", choices=["local", "podman"], help="Runtime"
+    )
+    group.add_argument(
+        "--image", default="docker.io/tuxrun:latest", help="Image to use"
     )
 
     parser.add_argument(
@@ -155,7 +158,7 @@ def _main(options, tmpdir: Path) -> int:
             "/lib/modules:/lib/modules:ro",
             "--hostname",
             "tuxrun",
-            "tuxrun:latest",
+            options.image,
         ] + args
 
     # Should we write lava-run logs to a file
