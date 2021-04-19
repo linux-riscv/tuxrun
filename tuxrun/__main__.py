@@ -83,7 +83,10 @@ def setup_parser() -> argparse.ArgumentParser:
 
     group = parser.add_argument_group("runtime")
     group.add_argument(
-        "--runtime", default="podman", choices=["local", "podman"], help="Runtime"
+        "--runtime",
+        default="podman",
+        choices=["docker", "local", "podman"],
+        help="Runtime",
     )
     group.add_argument(
         "--image", default="docker.io/tuxrun:latest", help="Image to use"
@@ -144,7 +147,22 @@ def _main(options, tmpdir: Path) -> int:
     ]
 
     # Use podman if requested
-    if options.runtime == "podman":
+    if options.runtime == "docker":
+        args = [
+            "docker",
+            "run",
+            "--rm",
+            "-v",
+            f"{tmpdir}:{tmpdir}",
+            "-v",
+            "/boot:/boot:ro",
+            "-v",
+            "/lib/modules:/lib/modules:ro",
+            "--hostname",
+            "tuxrun",
+            options.image,
+        ] + args
+    elif options.runtime == "podman":
         args = [
             "podman",
             "run",
