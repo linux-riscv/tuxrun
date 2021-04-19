@@ -191,7 +191,9 @@ def _main(options, tmpdir: Path) -> int:
             line = line.rstrip("\n")
             try:
                 data = yaml.load(line, Loader=yaml.CFullLoader)  # type: ignore
-                if not data:
+                if not data or not isinstance(data, dict):
+                    continue
+                if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
                     continue
                 if log_file is not None:
                     log_file.write("- " + line + "\n")
@@ -203,9 +205,8 @@ def _main(options, tmpdir: Path) -> int:
                     sys.stdout.write(
                         f"{COLORS['dt']}{timestamp}{COLORS['end']} {COLORS[level]}{msg}{COLORS['end']}\n"
                     )
-            except (yaml.YAMLError, KeyError):
-                sys.stdout.write(line + "\n")
-            sys.stdout.flush()
+            except yaml.YAMLError:
+                pass
         return proc.wait()
     except FileNotFoundError as exc:
         sys.stderr.write(f"File not found '{exc.filename}'\n")
