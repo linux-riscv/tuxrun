@@ -68,7 +68,7 @@ def test_main_usage(capsys):
 
 def test_almost_real_run(tuxrun_args, lava_run, capsys):
     lava_run.stderr = [
-        '- {"lvl": "info", "msg": "Hello, world", "dt": ""2021-04-08T18:42:25.139513"\n'
+        '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n'
     ]
     exitcode = main()
     assert exitcode == 0
@@ -98,7 +98,7 @@ def test_command_line_errors(argv, capsys, monkeypatch):
 
 def test_almost_real_run_generate(tuxrun_args_generate, lava_run, capsys):
     lava_run.stderr = [
-        '- {"lvl": "info", "msg": "Hello, world", "dt": ""2021-04-08T18:42:25.139513"\n'
+        '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n'
     ]
     exitcode = main()
     assert exitcode == 0
