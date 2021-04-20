@@ -85,7 +85,7 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument(
         "--runtime",
         default="podman",
-        choices=["docker", "local", "podman"],
+        choices=["docker", "null", "podman"],
         help="Runtime",
     )
     group.add_argument(
