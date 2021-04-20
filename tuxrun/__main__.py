@@ -65,6 +65,19 @@ def download(src, dst):
         shutil.copyfile(src, dst)
 
 
+def pathurlnone(string):
+    if string is None:
+        return None
+    url = urlparse(string)
+    if url.scheme in ["http", "https"]:
+        return string
+    if url.scheme not in ["", "file"]:
+        raise argparse.ArgumentTypeError(f"Invalid scheme '{url.scheme}'")
+
+    path = string if url.scheme == "" else url.path
+    return f"file://{Path(path).expanduser().resolve()}"
+
+
 ##########
 # Setups #
 ##########
@@ -73,8 +86,9 @@ def setup_parser() -> argparse.ArgumentParser:
 
     group = parser.add_argument_group("artefacts")
     group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
-    group.add_argument("--kernel", default=None, help="kernel URL")
-    group.add_argument("--modules", default=None, help="modules URL")
+    group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
+    group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
+    group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
     group.add_argument("--tests", default="", help="modules URL", choices=["ltp-smoke"])
 
     group = parser.add_argument_group("configuration files")
@@ -122,6 +136,7 @@ def _main(options, tmpdir: Path) -> int:
             device=options.device,
             kernel=options.kernel,
             modules=options.modules,
+            rootfs=options.rootfs,
             tests=[t for t in options.tests.split(",") if t],
         )
         context = yaml_load(definition).get("context", {})
@@ -146,38 +161,30 @@ def _main(options, tmpdir: Path) -> int:
         str(tmpdir / "definition.yaml"),
     ]
 
-    # Use podman if requested
-    if options.runtime == "docker":
-        args = [
-            "docker",
-            "run",
-            "--rm",
-            "-v",
+    # Use a container runtime
+    if options.runtime in ["docker", "podman"]:
+        bindings = [
             f"{tmpdir}:{tmpdir}",
-            "-v",
             "/boot:/boot:ro",
-            "-v",
             "/lib/modules:/lib/modules:ro",
-            "--hostname",
-            "tuxrun",
-            options.image,
-        ] + args
-    elif options.runtime == "podman":
-        args = [
-            "podman",
-            "run",
-            "--quiet",
-            "--rm",
-            "-v",
-            f"{tmpdir}:{tmpdir}",
-            "-v",
-            "/boot:/boot:ro",
-            "-v",
-            "/lib/modules:/lib/modules:ro",
-            "--hostname",
-            "tuxrun",
-            options.image,
-        ] + args
+        ]
+        for path in [options.kernel, options.modules, options.rootfs]:
+            if not path:
+                continue
+            bindings.append(f"{path[7:]}:{path[7:]}:ro")
+
+        if options.runtime == "docker":
+            runtime_args = ["docker", "run"]
+        elif options.runtime == "podman":
+            runtime_args = ["podman", "run", "--quiet"]
+
+        args = (
+            runtime_args
+            + ["--rm", "--hostname", "tuxrun"]
+            + [path for binding in bindings for path in ["-v", binding]]
+            + [options.image]
+            + args
+        )
 
     # Should we write lava-run logs to a file
     log_file = None
