@@ -1,0 +1,64 @@
+device_type: "qemu"
+
+job_name: "tuxrun@{{ device }}: {{ tests|default(["boot"], true)|join(", ")}}"
+priority: "medium"
+visibility: "public"
+
+{% block context %}{% endblock %}
+{% block timeouts %}
+timeouts:
+  job:
+    minutes: {% if tests == ["ltp-smoke"] %}10{% else %}5{% endif %}
+  action:
+   minutes: 5
+  actions:
+    power-off:
+      seconds: 30
+{% endblock %}
+
+actions:
+- deploy:
+    to: tmpfs
+    timeout:
+      minutes: 5
+    os: oe
+    images:
+      kernel:
+        image_arg: '-kernel {kernel} -append "console={{ console }},115200 root={{ rootfs_dev }} debug verbose console_msg_format=syslog"'
+        url: "{{ kernel }}"
+{% if bios %}
+      bios:
+        image_arg: "-bios {bios}"
+        url: "{{ bios }}"
+{% endif %}
+{% if dtb %}
+      dtb:
+        image_arg: "-dtb {dtb}"
+        url: "{{ dtb }}"
+{% endif %}
+      rootfs:
+        image_arg: "{{ rootfs_arg }}"
+        url: "{{ rootfs }}"
+        compression: zstd
+{% if modules %}
+        format: ext4
+        overlays:
+          modules:
+            url: "{{ modules }}"
+            path: /
+            format: tar
+            compression: xz
+{% endif %}
+- boot:
+    method: qemu
+    timeout:
+      minutes: 3
+    auto_login:
+      login_prompt: 'tuxtest login:'
+      username: root
+    prompts:
+    - 'root@tuxtest:'
+
+{% for test in tests %}
+{% include "tests/" + test + ".jinja2" %}
+{% endfor %}

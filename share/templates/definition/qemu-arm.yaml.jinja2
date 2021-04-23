@@ -1,0 +1,20 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "arm"
+  cpu: "cortex-a15"
+  guestfs_interface: "none"
+  machine: "virt,gic-version=3"
+{% if tests %}
+  extra_options:
+  - "-device virtio-blk-device,drive=lavatest"
+{% endif %}
+{% endblock %}
+
+{% set arch = "arm" %}
+{% set console = "ttyAMA0" %}
+{% set rootfs_dev = "/dev/vda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0" %}
+
+{% set rootfs = rootfs|default("https://storage.tuxboot.com/arm/rootfs.ext4.zst") %}

@@ -7,13 +7,24 @@ import sys
 import tempfile
 from urllib.parse import urlparse
 
+import jinja2
 import requests
 import yaml
+
+from tuxrun.yaml import yaml_load
 
 
 #############
 # Constants #
 #############
+ALIASES = {
+    "qemu-mips": "qemu-mips64",
+    "qemu-powerpc": "qemu-ppc64",
+    "qemu-riscv": "qemu-riscv64",
+}
+
+BASE = (Path(__file__) / ".." / "..").resolve()
+
 COLORS = {
     "exception": "\033[1;31m",
     "error": "\033[1;31m",
@@ -28,6 +39,19 @@ COLORS = {
     "end": "\033[0m",
 }
 
+DEVICES = [
+    "qemu-arm",
+    "qemu-arm64",
+    "qemu-i386",
+    "qemu-mips",
+    "qemu-mips64",
+    "qemu-powerpc",
+    "qemu-ppc64",
+    "qemu-riscv",
+    "qemu-riscv64",
+    "qemu-x86_64",
+]
+
 
 ###########
 # Helpers #
@@ -41,20 +65,45 @@ def download(src, dst):
         shutil.copyfile(src, dst)
 
 
+def pathurlnone(string):
+    if string is None:
+        return None
+    url = urlparse(string)
+    if url.scheme in ["http", "https"]:
+        return string
+    if url.scheme not in ["", "file"]:
+        raise argparse.ArgumentTypeError(f"Invalid scheme '{url.scheme}'")
+
+    path = string if url.scheme == "" else url.path
+    return f"file://{Path(path).expanduser().resolve()}"
+
+
 ##########
 # Setups #
 ##########
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tuxrun", description="TuxRun")
 
-    group = parser.add_argument_group("configuration files")
-    group.add_argument("--device", required=True, help="Device configuration")
-    group.add_argument("--definition", required=True, help="Job definition")
+    group = parser.add_argument_group("artefacts")
+    group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
+    group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
+    group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
+    group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
+    group.add_argument("--tests", default="", help="modules URL", choices=["ltp-smoke"])
 
-    group = parser.add_argument_group("docker")
-    group.add_argument("--docker", default=None, help="Docker image")
+    group = parser.add_argument_group("configuration files")
+    group.add_argument("--device-dict", default=None, help="Device configuration")
+    group.add_argument("--definition", default=None, help="Job definition")
+
+    group = parser.add_argument_group("runtime")
     group.add_argument(
-        "--pull", default=False, action="store_true", help="Force a docker pull"
+        "--runtime",
+        default="podman",
+        choices=["docker", "null", "podman"],
+        help="Runtime",
+    )
+    group.add_argument(
+        "--image", default="docker.io/tuxrun:latest", help="Image to use"
     )
 
     parser.add_argument(
@@ -68,9 +117,38 @@ def setup_parser() -> argparse.ArgumentParser:
 # Entrypoint #
 ##############
 def _main(options, tmpdir: Path) -> int:
-    # Download if needed and copy to tmpdir
-    download(str(options.device), (tmpdir / "device.yaml"))
-    download(str(options.definition), (tmpdir / "definition.yaml"))
+    # Render the job definition and device dictionary
+    if options.device:
+        def_env = jinja2.Environment(
+            autoescape=False,
+            loader=jinja2.FileSystemLoader(
+                str(BASE / "share" / "templates" / "definition")
+            ),
+        )
+        dev_env = jinja2.Environment(
+            autoescape=False,
+            loader=jinja2.FileSystemLoader(
+                str(BASE / "share" / "templates" / "device")
+            ),
+        )
+
+        definition = def_env.get_template(f"{options.device}.yaml.jinja2").render(
+            device=options.device,
+            kernel=options.kernel,
+            modules=options.modules,
+            rootfs=options.rootfs,
+            tests=[t for t in options.tests.split(",") if t],
+        )
+        context = yaml_load(definition).get("context", {})
+        device = dev_env.get_template("qemu.jinja2").render(**context)
+        (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
+        (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
+
+    # Use the provided ones
+    else:
+        # Download if needed and copy to tmpdir
+        download(str(options.device_dict), (tmpdir / "device.yaml"))
+        download(str(options.definition), (tmpdir / "definition.yaml"))
 
     args = [
         "lava-run",
@@ -83,26 +161,30 @@ def _main(options, tmpdir: Path) -> int:
         str(tmpdir / "definition.yaml"),
     ]
 
-    # Add docker if needed
-    if options.docker:
-        # docker pull on demand
-        if options.pull:
-            subprocess.call(["docker", "pull", options.docker])
-        docker = [
-            "docker",
-            "run",
-            "--rm",
-            "-v",
+    # Use a container runtime
+    if options.runtime in ["docker", "podman"]:
+        bindings = [
             f"{tmpdir}:{tmpdir}",
-            "-v",
             "/boot:/boot:ro",
-            "-v",
             "/lib/modules:/lib/modules:ro",
-            "--hostname",
-            "tuxrun",
-            options.docker,
         ]
-        args = docker + args
+        for path in [options.kernel, options.modules, options.rootfs]:
+            if not path:
+                continue
+            bindings.append(f"{path[7:]}:{path[7:]}:ro")
+
+        if options.runtime == "docker":
+            runtime_args = ["docker", "run"]
+        elif options.runtime == "podman":
+            runtime_args = ["podman", "run", "--quiet"]
+
+        args = (
+            runtime_args
+            + ["--rm", "--hostname", "tuxrun"]
+            + [path for binding in bindings for path in ["-v", binding]]
+            + [options.image]
+            + args
+        )
 
     # Should we write lava-run logs to a file
     log_file = None
@@ -116,7 +198,9 @@ def _main(options, tmpdir: Path) -> int:
             line = line.rstrip("\n")
             try:
                 data = yaml.load(line, Loader=yaml.CFullLoader)  # type: ignore
-                if not data:
+                if not data or not isinstance(data, dict):
+                    continue
+                if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
                     continue
                 if log_file is not None:
                     log_file.write("- " + line + "\n")
@@ -128,9 +212,8 @@ def _main(options, tmpdir: Path) -> int:
                     sys.stdout.write(
                         f"{COLORS['dt']}{timestamp}{COLORS['end']} {COLORS[level]}{msg}{COLORS['end']}\n"
                     )
-            except (yaml.YAMLError, KeyError):
-                sys.stdout.write(line + "\n")
-            sys.stdout.flush()
+            except yaml.YAMLError:
+                pass
         return proc.wait()
     except FileNotFoundError as exc:
         sys.stderr.write(f"File not found '{exc.filename}'\n")
@@ -145,9 +228,52 @@ def _main(options, tmpdir: Path) -> int:
 
 def main() -> int:
     # Parse command line
-    options = setup_parser().parse_args()
+    parser = setup_parser()
+    options = parser.parse_args()
 
-    # Create a temp directory
+    # --device/--kernel/--modules/--tests and --device-dict/--definition are
+    # mutualy exclusive and required
+    first_group = bool(
+        options.device or options.kernel or options.modules or options.tests
+    )
+    second_group = bool(options.device_dict or options.definition)
+    if not first_group and not second_group:
+        parser.print_usage()
+        sys.stderr.write(
+            "tuxrun: error: configuration or configuration files argument groups are required\n"
+        )
+        return 1
+    if first_group and second_group:
+        parser.print_usage()
+        sys.stderr.write(
+            "tuxrun: error: configuration and configuration files argument groups are mutualy exclusive\n"
+        )
+        return 1
+
+    # --device/--kernel are mandatory
+    if first_group:
+        if not options.device:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --device is required\n")
+            return 1
+        if not options.kernel:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --kernel is required\n")
+            return 1
+
+        options.device = ALIASES.get(options.device, options.device)
+    # --device-dict/--definition are mandatory
+    else:
+        if not options.device_dict:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --device-dict is required\n")
+            return 1
+        if not options.definition:
+            parser.print_usage()
+            sys.stderr.write("tuxrun: error: argument --definition is required\n")
+            return 1
+
+    # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
     try:
         return _main(options, tmpdir)

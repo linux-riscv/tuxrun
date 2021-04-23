@@ -20,7 +20,7 @@ typecheck:
 spellcheck:
 	codespell \
 		--check-filenames \
-		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov'
+		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov,*.jinja2'
 
 doc:
 	mkdocs build
