@@ -171,7 +171,8 @@ def _main(options, tmpdir: Path) -> int:
         for path in [options.kernel, options.modules, options.rootfs]:
             if not path:
                 continue
-            bindings.append(f"{path[7:]}:{path[7:]}:ro")
+            if urlparse(path).scheme == "file":
+                bindings.append(f"{path[7:]}:{path[7:]}:ro")
 
         if options.runtime == "docker":
             runtime_args = ["docker", "run"]
