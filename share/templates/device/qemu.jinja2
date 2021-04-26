@@ -29,6 +29,7 @@ available_architectures:
 - mips
 - mipsel
 - mips64
+- mips64el
 - nios2
 - ppc
 - ppc64
@@ -80,6 +81,8 @@ actions:
             qemu-system-mipsel
 {% elif arch == 'mips64' %}
             qemu-system-mips64
+{% elif arch == 'mips64el' %}
+            qemu-system-mips64el
 {% elif arch == 'nios2' %}
             qemu-system-nios2
 {% elif arch == 'ppc' %}
