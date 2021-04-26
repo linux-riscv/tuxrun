@@ -45,6 +45,7 @@ DEVICES = [
     "qemu-i386",
     "qemu-mips",
     "qemu-mips64",
+    "qemu-mips64el",
     "qemu-powerpc",
     "qemu-ppc64",
     "qemu-riscv",
