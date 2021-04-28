@@ -2,3 +2,4 @@
 /htmlcov
 /public
 .coverage
+*.pyc
