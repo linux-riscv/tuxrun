@@ -7,10 +7,10 @@ import sys
 import tempfile
 from urllib.parse import urlparse
 
-import jinja2
 import requests
 import yaml
 
+import tuxrun.templates as templates
 from tuxrun.yaml import yaml_load
 
 
@@ -23,7 +23,6 @@ ALIASES = {
     "qemu-riscv": "qemu-riscv64",
 }
 
-BASE = (Path(__file__) / ".." / "..").resolve()
 
 COLORS = {
     "exception": "\033[1;31m",
@@ -122,20 +121,9 @@ def setup_parser() -> argparse.ArgumentParser:
 def _main(options, tmpdir: Path) -> int:
     # Render the job definition and device dictionary
     if options.device:
-        def_env = jinja2.Environment(
-            autoescape=False,
-            loader=jinja2.FileSystemLoader(
-                str(BASE / "share" / "templates" / "definition")
-            ),
-        )
-        dev_env = jinja2.Environment(
-            autoescape=False,
-            loader=jinja2.FileSystemLoader(
-                str(BASE / "share" / "templates" / "device")
-            ),
-        )
-
-        definition = def_env.get_template(f"{options.device}.yaml.jinja2").render(
+        definition = templates.jobs.get_template(
+            f"{options.device}.yaml.jinja2"
+        ).render(
             device=options.device,
             kernel=options.kernel,
             modules=options.modules,
@@ -143,7 +131,7 @@ def _main(options, tmpdir: Path) -> int:
             tests=[t for t in options.tests.split(",") if t],
         )
         context = yaml_load(definition).get("context", {})
-        device = dev_env.get_template("qemu.jinja2").render(**context)
+        device = templates.devices.get_template("qemu.jinja2").render(**context)
         (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
         (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
 
