@@ -104,7 +104,9 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Runtime",
     )
     group.add_argument(
-        "--image", default="docker.io/tuxrun:latest", help="Image to use"
+        "--image",
+        default="docker.io/lavasoftware/lava-dispatcher:latest",
+        help="Image to use",
     )
 
     parser.add_argument(
