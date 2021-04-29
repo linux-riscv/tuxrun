@@ -1,0 +1,16 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "sparc64"
+  machine: "sun4u"
+  no_kvm: true
+  no_network: true
+{% endblock %}
+
+{% set arch = "sparc64" %}
+{% set console = "ttyS0" %}
+{% set rootfs_dev = "/dev/sda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=ide,format=raw" %}
+
+{% set rootfs = rootfs|default("https://storage.tuxboot.com/sparc64/rootfs.ext4.zst", true) %}

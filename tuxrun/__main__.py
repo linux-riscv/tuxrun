@@ -49,6 +49,7 @@ DEVICES = [
     "qemu-ppc64",
     "qemu-riscv",
     "qemu-riscv64",
+    "qemu-sparc64",
     "qemu-x86_64",
 ]
 
