@@ -91,6 +91,7 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
     group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
     group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
+    group.add_argument("--dtb", default=None, type=pathurlnone, help="dtb URL")
     group.add_argument("--tests", default="", help="modules URL", choices=["ltp-smoke"])
 
     group = parser.add_argument_group("configuration files")
@@ -129,6 +130,7 @@ def _main(options, tmpdir: Path) -> int:
             device=options.device,
             kernel=options.kernel,
             modules=options.modules,
+            dtb=options.dtb,
             rootfs=options.rootfs,
             tests=[t for t in options.tests.split(",") if t],
         )
@@ -161,7 +163,7 @@ def _main(options, tmpdir: Path) -> int:
             "/boot:/boot:ro",
             "/lib/modules:/lib/modules:ro",
         ]
-        for path in [options.kernel, options.modules, options.rootfs]:
+        for path in [options.kernel, options.modules, options.dtb, options.rootfs]:
             if not path:
                 continue
             if urlparse(path).scheme == "file":
@@ -256,6 +258,13 @@ def main() -> int:
             return 1
 
         options.device = ALIASES.get(options.device, options.device)
+
+        if options.dtb and options.device != "qemu-armv5":
+            parser.print_usage()
+            sys.stderr.write(
+                "tuxrun: error: argument --dtb is only valid for qemu-armv5 device\n"
+            )
+            return 1
     # --device-dict/--definition are mandatory
     else:
         if not options.device_dict:
