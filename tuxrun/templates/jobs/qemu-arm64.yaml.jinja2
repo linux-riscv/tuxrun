@@ -6,6 +6,8 @@ context:
   cpu: "cortex-a57"
   guestfs_interface: "virtio"
   machine: "virt,gic-version=3"
+  no_kvm: true
+  no_network: true
 {% endblock %}
 
 {% set arch = "arm64" %}
