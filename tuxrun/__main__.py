@@ -40,6 +40,7 @@ COLORS = {
 
 DEVICES = [
     "qemu-arm",
+    "qemu-armv5",
     "qemu-arm64",
     "qemu-i386",
     "qemu-mips",
