@@ -3,8 +3,9 @@
 {% block context %}
 context:
   arch: "riscv64"
-  no_kvm: true
   guestfs_interface: "virtio"
+  no_kvm: true
+  no_network: true
 {% endblock %}
 
 {% set arch = "riscv64" %}

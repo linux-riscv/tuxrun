@@ -1,0 +1,20 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "arm"
+  cpu: "arm926"
+  guestfs_interface: "scsi"
+  machine: "versatilepb"
+  memory: "256M"
+  no_kvm: true
+  no_network: true
+{% endblock %}
+
+{% set arch = "armv5" %}
+{% set console = "ttyAMA0" %}
+{% set dtb = dtb|default("https://storage.tuxboot.com/armv5/versatile-pb.dtb", true) %}
+{% set rootfs_dev = "/dev/sda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=scsi,format=raw" %}
+
+{% set rootfs = rootfs|default("https://storage.tuxboot.com/armv5/rootfs.ext4.zst", true) %}

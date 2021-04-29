@@ -3,11 +3,11 @@
 {% block context %}
 context:
   arch: "ppc64"
-  no_kvm: true
+  cpu: "POWER7"
   guestfs_interface: "scsi,index=1"
-  extra_options:
-  - "-machine pseries"
-  - "-cpu POWER7"
+  machine: pseries
+  no_kvm: true
+  no_network: true
 {% endblock %}
 
 {% set arch = "ppc64" %}

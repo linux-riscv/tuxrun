@@ -3,10 +3,10 @@
 {% block context %}
 context:
   arch: "i386"
-  no_kvm: true
   cpu: "qemu32"
-  extra_options:
-  - "-machine q35"
+  machine: "q35"
+  no_kvm: true
+  no_network: true
 {% endblock %}
 
 {% set arch = "i386" %}
