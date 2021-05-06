@@ -18,6 +18,7 @@ from tuxrun.yaml import yaml_load
 # Constants #
 #############
 ALIASES = {
+    "qemu-arm": "qemu-armv7",
     "qemu-mips": "qemu-mips64",
     "qemu-powerpc": "qemu-ppc64",
     "qemu-riscv": "qemu-riscv64",
@@ -39,8 +40,8 @@ COLORS = {
 }
 
 DEVICES = [
-    "qemu-arm",
     "qemu-armv5",
+    "qemu-armv7",
     "qemu-arm64",
     "qemu-i386",
     "qemu-mips",
