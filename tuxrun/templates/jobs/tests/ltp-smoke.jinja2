@@ -1,17 +1,3 @@
-- test:
-    timeout:
-      minutes: 2
-    definitions:
-    - repository: https://storage.tuxboot.com/test-definitions/2021.04.tar.zst
-      from: url
-      compression: zstd
-      path: automated/linux/ltp/ltp.yaml
-      parameters:
-        SKIP_INSTALL: 'true'
-        TST_CMDFILES: 'smoketest'
-        SKIPFILE: '/tuxtest/skipfiles/{{ arch }}/ltp-smoke'
-        ENVIRONMENT: 'production'
-        TIMEOUT_MULTIPLIER: '3'
-        LTP_TMPDIR: '/scratch'
-        LTP_INSTALL_PATH: '/usr/lib/ltp-testsuite/'
-      name: ltp-smoke
+{% extends 'tests/base-ltp.jinja2' %}
+{% set name = "smoke" %}
+{% set cmdfile = "smoketest" %}

@@ -5,10 +5,20 @@ priority: "medium"
 visibility: "public"
 
 {% block context %}{% endblock %}
+
+{%- set timeouts = {
+    "ltp-smoke": 2,
+  } %}
+
+{%- set ns = namespace(timeout=5+3) %}
+{%- for test in tests %}
+  {%- set ns.timeout = ns.timeout + timeouts[test] %}
+{%- endfor %}
+
 {% block timeouts %}
 timeouts:
   job:
-    minutes: {% if tests == ["ltp-smoke"] %}10{% else %}5{% endif %}
+    minutes: {{ ns.timeout }}
   action:
    minutes: 5
   actions:
@@ -58,7 +68,6 @@ actions:
       username: root
     prompts:
     - 'root@tuxtest:'
-
 {% for test in tests %}
 {% include "tests/" + test + ".jinja2" %}
 {% endfor %}
