@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 import requests
 import yaml
 
+from tuxrun import __version__
 import tuxrun.templates as templates
 from tuxrun.yaml import yaml_load
 
@@ -86,6 +87,10 @@ def pathurlnone(string):
 ##########
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tuxrun", description="TuxRun")
+
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s, {__version__}"
+    )
 
     group = parser.add_argument_group("artefacts")
     group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
