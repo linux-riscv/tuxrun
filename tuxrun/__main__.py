@@ -109,9 +109,7 @@ def setup_parser() -> argparse.ArgumentParser:
         nargs="+",
         default=[],
         help="test suites",
-        choices=[
-            "ltp-smoke",
-        ],
+        choices=templates.tests(),
     )
 
     group = parser.add_argument_group("configuration files")
