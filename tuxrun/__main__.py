@@ -60,6 +60,12 @@ DEVICES = [
 ###########
 # Helpers #
 ###########
+def debug(options, msg):
+    if options.debug:
+        for line in msg.split("\n"):
+            print(f"tuxrun: {line}")
+
+
 def download(src, dst):
     url = urlparse(src)
     if url.scheme in ["http", "https"]:
@@ -117,8 +123,15 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Image to use",
     )
 
-    parser.add_argument(
-        "--log-file", default=None, type=Path, help="Store logs to file"
+    group = parser.add_argument_group("logging")
+    group.add_argument("--log-file", default=None, type=Path, help="Store logs to file")
+
+    group = parser.add_argument_group("debugging")
+    group.add_argument(
+        "--debug",
+        default=False,
+        action="store_true",
+        help="Print more debug information about tuxrun",
     )
 
     return parser
@@ -140,8 +153,14 @@ def _main(options, tmpdir: Path) -> int:
             rootfs=options.rootfs,
             tests=[t for t in options.tests.split(",") if t],
         )
+        debug(options, "job definition")
+        debug(options, definition)
+
         context = yaml_load(definition).get("context", {})
         device = templates.devices.get_template("qemu.jinja2").render(**context)
+        debug(options, "device dictionary")
+        debug(options, device)
+
         (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
         (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
 
@@ -194,6 +213,7 @@ def _main(options, tmpdir: Path) -> int:
         log_file = options.log_file.open("w")
 
     try:
+        debug(options, f"Calling {' '.join(args)}")
         proc = subprocess.Popen(args, bufsize=1, stderr=subprocess.PIPE, text=True)
         assert proc.stderr is not None
         for line in proc.stderr:
@@ -201,9 +221,12 @@ def _main(options, tmpdir: Path) -> int:
             try:
                 data = yaml.load(line, Loader=yaml.CFullLoader)  # type: ignore
                 if not data or not isinstance(data, dict):
+                    debug(options, line)
                     continue
                 if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
+                    debug(options, line)
                     continue
+
                 if log_file is not None:
                     log_file.write("- " + line + "\n")
                 else:
@@ -215,7 +238,7 @@ def _main(options, tmpdir: Path) -> int:
                         f"{COLORS['dt']}{timestamp}{COLORS['end']} {COLORS[level]}{msg}{COLORS['end']}\n"
                     )
             except yaml.YAMLError:
-                pass
+                debug(options, line)
         return proc.wait()
     except FileNotFoundError as exc:
         sys.stderr.write(f"File not found '{exc.filename}'\n")
@@ -284,6 +307,7 @@ def main() -> int:
 
     # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
+    debug(options, f"temporary directory: '{tmpdir}'")
     try:
         return _main(options, tmpdir)
     finally:
