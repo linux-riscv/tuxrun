@@ -104,7 +104,13 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
     group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
     group.add_argument("--dtb", default=None, type=pathurlnone, help="dtb URL")
-    group.add_argument("--tests", default="", help="modules URL", choices=["ltp-smoke"])
+    group.add_argument(
+        "--tests",
+        nargs="+",
+        default=[],
+        help="test suites",
+        choices=templates.tests(),
+    )
 
     group = parser.add_argument_group("configuration files")
     group.add_argument("--device-dict", default=None, help="Device configuration")
@@ -151,7 +157,8 @@ def _main(options, tmpdir: Path) -> int:
             modules=options.modules,
             dtb=options.dtb,
             rootfs=options.rootfs,
-            tests=[t for t in options.tests.split(",") if t],
+            tests=options.tests,
+            timeouts=templates.timeouts(),
         )
         debug(options, "job definition")
         debug(options, definition)
