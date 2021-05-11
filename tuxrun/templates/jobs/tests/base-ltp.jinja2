@@ -1,6 +1,6 @@
 - test:
     timeout:
-      minutes: {{ timeouts["ltp-" + name] }}
+      minutes: {{ timeout }}
     definitions:
     - repository: https://storage.tuxboot.com/test-definitions/2021.04.tar.zst
       from: url

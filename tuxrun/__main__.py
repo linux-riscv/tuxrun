@@ -158,6 +158,7 @@ def _main(options, tmpdir: Path) -> int:
             dtb=options.dtb,
             rootfs=options.rootfs,
             tests=options.tests,
+            timeouts=templates.timeouts(),
         )
         debug(options, "job definition")
         debug(options, definition)

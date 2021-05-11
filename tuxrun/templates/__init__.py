@@ -33,3 +33,14 @@ def tests():
             continue
         names.append(name)
     return sorted(names)
+
+
+def timeouts():
+    ret = {}
+    for test in tests():
+        tmpl = jobs.get_template(f"tests/{test}.jinja2")
+        ast = jobs.parse(Path(tmpl.filename).read_text(encoding="utf-8"))
+        for node in ast.find_all(jinja2.nodes.Assign):
+            if node.target.name == "timeout":
+                ret[test] = node.node.value
+    return ret

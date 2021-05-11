@@ -6,10 +6,6 @@ visibility: "public"
 
 {% block context %}{% endblock %}
 
-{%- set timeouts = {
-    "ltp-smoke": 2,
-  } %}
-
 {%- set ns = namespace(timeout=5+3) %}
 {%- for test in tests %}
   {%- set ns.timeout = ns.timeout + timeouts[test] %}
