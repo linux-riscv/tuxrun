@@ -111,6 +111,7 @@ def setup_parser() -> argparse.ArgumentParser:
         help="test suites",
         choices=templates.tests(),
     )
+    group.add_argument("--boot-args", default="", help="extend boot arguments")
 
     group = parser.add_argument_group("configuration files")
     group.add_argument("--device-dict", default=None, help="Device configuration")
@@ -159,6 +160,7 @@ def _main(options, tmpdir: Path) -> int:
             rootfs=options.rootfs,
             tests=options.tests,
             timeouts=templates.timeouts(),
+            tux_boot_args=options.boot_args.replace('"', ""),
         )
         debug(options, "job definition")
         debug(options, definition)
