@@ -117,43 +117,83 @@ actions:
           options:
 {% block qemu_options %}
 {# arch cpu #}
-{% if arch == 'hppa' %}
-          - -machine {{ machine|default('hppa') }}
-{% endif %}
-{% if arch == 'm68k' %}
-          - -machine {{ machine|default('mcf5208evb') }}
-{% endif %}
-{% if arch == 'mips' %}
-          - -machine {{ machine|default('malta') }}
-{% endif %}
-{% if arch == 'mips64' %}
-          - -machine {{ machine|default('malta') }}
-{% endif %}
-{% if arch == 'nios2' %}
-          - -machine {{ machine|default('10m50-ghrd') }}
-{% endif %}
-{% if arch == 'ppc' %}
-          - -machine {{ machine|default('g3beige') }}
-{% endif %}
-{% if arch == 'ppc64' %}
-          - -machine {{ machine|default('pseries') }}
-{% endif %}
-{% if arch == 'riscv64' %}
+{% if arch == 'arm64' or arch == 'aarch64' %}
+          - -cpu {{ cpu|default('cortex-a57') }}
           - -machine {{ machine|default('virt') }}
+{% elif arch == 'arm' %}
+          - -cpu {{ cpu|default('cortex-a15') }}
+          - -machine {{ machine|default('virt') }}
+{% elif arch == 'amd64' or arch == 'x86_64' %}
+          - -cpu {{ cpu|default('qemu64') }}
+          - -machine {{ machine|default('q35') }}
+{% elif arch == 'hppa' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('hppa') }}
+{% elif arch == 'i386' %}
+          - -cpu {{ cpu|default('qemu32') }}
+          - -machine {{ machine|default('q35') }}
+{% elif arch == 'm68k' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('mcf5208evb') }}
+{% elif arch == 'mips' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('malta') }}
+{% elif arch == 'mipsel' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('malta') }}
+{% elif arch == 'mips64' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('malta') }}
+{% elif arch == 'mips64el' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('malta') }}
+{% elif arch == 'nios2' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('10m50-ghrd') }}
+{% elif arch == 'ppc' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('g3beige') }}
+{% elif arch == 'ppc64' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
+{% endif %}
+          - -machine {{ machine|default('pseries') }}
+{% elif arch == 'riscv64' %}
           - -cpu {{ cpu|default('rv64') }}
+          - -machine {{ machine|default('virt') }}
+{% elif arch == 'sparc' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
 {% endif %}
-{% if arch == 'sparc' %}
           - -machine {{ machine|default('SS-5') }}
+{% elif arch == 'sparc64' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
 {% endif %}
-{% if arch == 'sparc64' %}
           - -machine {{ machine|default('sun4u') }}
+{% elif arch == 'xtensa' %}
+{% if cpu %}
+          - -cpu {{ cpu }}
 {% endif %}
-{% if arch == 'xtensa' %}
           - -machine {{ machine|default('sim') }}
 {% endif %}
 {% if arch == 'arm64' or arch == 'aarch64' or arch == 'arm' %}
-          - -cpu {{ cpu|default('cortex-a57') }}
-          - -machine {{ machine|default('virt') }}
 {# arch cpu + vga #}
 {% if vga %}
           - {{ vga }}
