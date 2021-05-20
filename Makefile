@@ -22,6 +22,9 @@ spellcheck:
 		--check-filenames \
 		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov,*.jinja2'
 
+integration:
+	python3 test/integration.py
+
 doc:
 	mkdocs build
 
