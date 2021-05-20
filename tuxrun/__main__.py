@@ -18,14 +18,6 @@ from tuxrun.yaml import yaml_load
 #############
 # Constants #
 #############
-ALIASES = {
-    "qemu-arm": "qemu-armv7",
-    "qemu-mips": "qemu-mips64",
-    "qemu-powerpc": "qemu-ppc64",
-    "qemu-riscv": "qemu-riscv64",
-}
-
-
 COLORS = {
     "exception": "\033[1;31m",
     "error": "\033[1;31m",
@@ -45,12 +37,9 @@ DEVICES = [
     "qemu-armv7",
     "qemu-arm64",
     "qemu-i386",
-    "qemu-mips",
     "qemu-mips64",
     "qemu-mips64el",
-    "qemu-powerpc",
     "qemu-ppc64",
-    "qemu-riscv",
     "qemu-riscv64",
     "qemu-sparc64",
     "qemu-x86_64",
@@ -294,8 +283,6 @@ def main() -> int:
             parser.print_usage()
             sys.stderr.write("tuxrun: error: argument --kernel is required\n")
             return 1
-
-        options.device = ALIASES.get(options.device, options.device)
 
         if options.dtb and options.device != "qemu-armv5":
             parser.print_usage()
