@@ -1,0 +1,18 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "ppc64le"
+  cpu: "POWER8"
+  guestfs_interface: "scsi,index=1"
+  machine: pseries
+  no_kvm: true
+  no_network: true
+{% endblock %}
+
+{% set arch = "ppc64le" %}
+{% set console = "hvc0" %}
+{% set rootfs_dev = "/dev/sda" %}
+{% set rootfs_arg = "-drive file={rootfs},format=raw,if=scsi,index=0" %}
+
+{% set rootfs = rootfs|default("https://storage.tuxboot.com/ppc64le/rootfs.ext4.zst", true) %}
