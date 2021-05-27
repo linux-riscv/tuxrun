@@ -93,6 +93,9 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
     group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
     group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
+    group.add_argument(
+        "--partition", default=None, type=int, help="rootfs partition number"
+    )
     group.add_argument("--dtb", default=None, type=pathurlnone, help="dtb URL")
     group.add_argument(
         "--tests",
@@ -154,6 +157,7 @@ def _main(options, tmpdir: Path) -> int:
             modules=options.modules,
             dtb=options.dtb,
             rootfs=options.rootfs,
+            rootfs_partition=options.partition,
             tests=options.tests,
             timeouts=templates.timeouts(),
             tux_boot_args=options.boot_args.replace('"', ""),
