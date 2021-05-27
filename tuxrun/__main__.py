@@ -46,6 +46,20 @@ DEVICES = [
     "qemu-x86_64",
 ]
 
+KERNELS = {
+    "qemu-armv5": "https://storage.tuxboot.com/armv5/zImage",
+    "qemu-armv7": "https://storage.tuxboot.com/armv7/zImage",
+    "qemu-arm64": "https://storage.tuxboot.com/arm64/Image",
+    "qemu-i386": "https://storage.tuxboot.com/i386/bzImage",
+    "qemu-mips64": "https://storage.tuxboot.com/mips64/vmlinux",
+    "qemu-mips64el": "https://storage.tuxboot.com/mips64el/vmlinux",
+    "qemu-ppc64": "https://storage.tuxboot.com/ppc64/vmlinux",
+    "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/vmlinux",
+    "qemu-riscv64": "https://storage.tuxboot.com/riscv64/Image",
+    "qemu-sparc64": "https://storage.tuxboot.com/sparc64/vmlinux",
+    "qemu-x86_64": "https://storage.tuxboot.com/x86_64/bzImage",
+}
+
 
 ###########
 # Helpers #
@@ -285,16 +299,14 @@ def main() -> int:
         )
         return 1
 
-    # --device/--kernel are mandatory
+    # --device are mandatory
     if first_group:
         if not options.device:
             parser.print_usage()
             sys.stderr.write("tuxrun: error: argument --device is required\n")
             return 1
         if not options.kernel:
-            parser.print_usage()
-            sys.stderr.write("tuxrun: error: argument --kernel is required\n")
-            return 1
+            options.kernel = KERNELS[options.device]
 
         if options.dtb and options.device != "qemu-armv5":
             parser.print_usage()

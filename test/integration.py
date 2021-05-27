@@ -10,24 +10,6 @@ import yaml
 from typing import Dict
 
 
-#############
-# Constants #
-#############
-KERNELS = {
-    "qemu-armv5": "https://storage.tuxboot.com/armv5/zImage",
-    "qemu-armv7": "https://storage.tuxboot.com/armv7/zImage",
-    "qemu-arm64": "https://storage.tuxboot.com/arm64/Image",
-    "qemu-i386": "https://storage.tuxboot.com/i386/bzImage",
-    "qemu-mips64": "https://storage.tuxboot.com/mips64/vmlinux",
-    "qemu-mips64el": "https://storage.tuxboot.com/mips64el/vmlinux",
-    "qemu-ppc64": "https://storage.tuxboot.com/ppc64/vmlinux",
-    "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/vmlinux",
-    "qemu-riscv64": "https://storage.tuxboot.com/riscv64/Image",
-    "qemu-sparc64": "https://storage.tuxboot.com/sparc64/vmlinux",
-    "qemu-x86_64": "https://storage.tuxboot.com/x86_64/bzImage",
-}
-
-
 ###########
 # Helpers #
 ###########
@@ -97,8 +79,6 @@ def run(device, test, debug):
         "tuxrun",
         "--device",
         device,
-        "--kernel",
-        KERNELS[device],
         "--log-file",
         str(tmpdir / "logs.yaml"),
     ]
