@@ -140,6 +140,12 @@ def setup_parser() -> argparse.ArgumentParser:
 def _main(options, tmpdir: Path) -> int:
     # Render the job definition and device dictionary
     if options.device:
+        kernel_compression = None
+        if options.kernel.endswith(".gz"):
+            kernel_compression = "gz"
+        if options.kernel.endswith(".xz"):
+            kernel_compression = "xz"
+
         definition = templates.jobs.get_template(
             f"{options.device}.yaml.jinja2"
         ).render(
@@ -151,6 +157,7 @@ def _main(options, tmpdir: Path) -> int:
             tests=options.tests,
             timeouts=templates.timeouts(),
             tux_boot_args=options.boot_args.replace('"', ""),
+            kernel_compression=kernel_compression,
         )
         debug(options, "job definition")
         debug(options, definition)

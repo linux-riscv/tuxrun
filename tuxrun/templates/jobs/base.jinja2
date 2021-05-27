@@ -32,6 +32,9 @@ actions:
       kernel:
         image_arg: '-kernel {kernel} -append "console={{ console }},115200 root={{ rootfs_dev }} debug verbose console_msg_format=syslog{% if tux_boot_args %} {{ tux_boot_args }}{% endif %}"'
         url: "{{ kernel }}"
+{% if kernel_compression %}
+        compression: {{ kernel_compression }}
+{% endif %}
 {% if bios %}
       bios:
         image_arg: "-bios {bios}"
