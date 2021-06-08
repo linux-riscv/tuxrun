@@ -8,6 +8,7 @@ import tempfile
 import yaml
 
 from typing import Dict
+from tuxrun.__main__ import KERNELS
 
 
 ###########
@@ -121,7 +122,17 @@ def main():
         "--devices", default=list(KERNELS.keys()), nargs="+", help="devices"
     )
     parser.add_argument(
-        "--tests", default=["boot", "ltp-smoke"], nargs="+", help="tests"
+        "--tests",
+        default=[
+            "boot",
+            "ltp-fcntl-locktests",
+            "ltp-fs_bind",
+            "ltp-fsx",
+            "ltp-nptl",
+            "ltp-smoke",
+        ],
+        nargs="+",
+        help="tests",
     )
     parser.add_argument("--debug", default=False, action="store_true", help="debug")
     options = parser.parse_args()
@@ -129,7 +140,8 @@ def main():
     for device in options.devices:
         for test in options.tests:
             print(f"=> {device} x {test}")
-            run(device, "" if test == "boot" else test, options.debug)
+            if run(device, "" if test == "boot" else test, options.debug):
+                return 1
             print("")
 
 
