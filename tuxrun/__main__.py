@@ -110,6 +110,7 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument(
         "--partition", default=None, type=int, help="rootfs partition number"
     )
+    group.add_argument("--bios", default=None, type=pathurlnone, help="bios URL")
     group.add_argument("--dtb", default=None, type=pathurlnone, help="dtb URL")
     group.add_argument(
         "--tests",
@@ -169,6 +170,7 @@ def _main(options, tmpdir: Path) -> int:
             device=options.device,
             kernel=options.kernel,
             modules=options.modules,
+            bios=options.bios,
             dtb=options.dtb,
             rootfs=options.rootfs,
             rootfs_partition=options.partition,
@@ -212,7 +214,13 @@ def _main(options, tmpdir: Path) -> int:
             "/boot:/boot:ro",
             "/lib/modules:/lib/modules:ro",
         ]
-        for path in [options.kernel, options.modules, options.dtb, options.rootfs]:
+        for path in [
+            options.kernel,
+            options.modules,
+            options.bios,
+            options.dtb,
+            options.rootfs,
+        ]:
             if not path:
                 continue
             if urlparse(path).scheme == "file":
@@ -307,6 +315,13 @@ def main() -> int:
             return 1
         if not options.kernel:
             options.kernel = KERNELS[options.device]
+
+        if options.bios and options.device != "qemu-riscv64":
+            parser.print_usage()
+            sys.stderr.write(
+                "tuxrun: error: argument --bios is only valid for qemu-riscv64 device\n"
+            )
+            return 1
 
         if options.dtb and options.device != "qemu-armv5":
             parser.print_usage()
