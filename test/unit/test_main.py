@@ -81,7 +81,7 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
     [
         [],
         ["--device", "qemu-armv7", "--device-dict", "device.yaml"],
-        ["--device", "qemu-armv7"],
+        ["--device", "qemu-armv7", "--dtb", "bla.dtb"],
         ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
         ["--device-dict", "device.yaml"],
         ["--definition", "definition.yaml"],
