@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import argparse
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -225,6 +226,14 @@ def _main(options, tmpdir: Path) -> int:
                 continue
             if urlparse(path).scheme == "file":
                 bindings.append(f"{path[7:]}:{path[7:]}:ro")
+
+        # Bind /dev/kvm is available
+        if Path("/dev/kvm").exists():
+            bindings.append("/dev/kvm:/dev/kvm:rw")
+        # Bind /var/tmp/.guestfs-$id if available
+        guestfs = Path(f"/var/tmp/.guestfs-{os.getuid()}")
+        if guestfs.exists():
+            bindings.append(f"{guestfs}:/var/tmp/.guestfs-0:rw")
 
         if options.runtime == "docker":
             runtime_args = ["docker", "run"]
