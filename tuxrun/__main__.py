@@ -260,7 +260,7 @@ def _main(options, tmpdir: Path) -> int:
         for line in proc.stderr:
             line = line.rstrip("\n")
             try:
-                data = yaml.load(line, Loader=yaml.CFullLoader)  # type: ignore
+                data = yaml_load(line)
                 if not data or not isinstance(data, dict):
                     debug(options, line)
                     continue
