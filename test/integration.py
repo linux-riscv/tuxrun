@@ -5,10 +5,10 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import yaml
 
 from typing import Dict
 from tuxrun.__main__ import KERNELS
+from tuxrun.yaml import yaml_load
 
 
 ###########
@@ -17,9 +17,7 @@ from tuxrun.__main__ import KERNELS
 def get_results(tmpdir: Path) -> Dict:
     required_keys = set(["msg", "lvl", "dt"])
     res = {}
-    data = yaml.load(
-        (tmpdir / "logs.yaml").read_text(encoding="utf-8"), Loader=yaml.CFullLoader
-    )
+    data = yaml_load((tmpdir / "logs.yaml").read_text(encoding="utf-8"))
 
     if data is None:
         return {}
@@ -71,7 +69,7 @@ def get_job_result(results: Dict, simple_results: Dict) -> str:
     return "fail"
 
 
-def run(device, test, debug):
+def run(device, test, runtime, debug):
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
 
     args = [
@@ -80,6 +78,8 @@ def run(device, test, debug):
         "tuxrun",
         "--device",
         device,
+        "--runtime",
+        runtime,
         "--log-file",
         str(tmpdir / "logs.yaml"),
     ]
@@ -135,12 +135,20 @@ def main():
         help="tests",
     )
     parser.add_argument("--debug", default=False, action="store_true", help="debug")
+    parser.add_argument(
+        "--runtime",
+        default="podman",
+        choices=["docker", "null", "podman"],
+        help="Runtime",
+    )
     options = parser.parse_args()
 
     for device in options.devices:
         for test in options.tests:
             print(f"=> {device} x {test}")
-            if run(device, "" if test == "boot" else test, options.debug):
+            if run(
+                device, "" if test == "boot" else test, options.runtime, options.debug
+            ):
                 return 1
             print("")
 
