@@ -79,7 +79,7 @@ integration:
       - qemu-sparc64
       - qemu-x86_64
       TEST:
-      - ltp-fcntl-locktests ltp-fsx ltp-smoke
+      - ltp-fcntl-locktests ltp-fsx ltp-fs_perms_simple ltp-smoke
       - ltp-fs_bind
       - ltp-nptl
   only:

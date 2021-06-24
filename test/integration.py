@@ -127,6 +127,7 @@ def main():
             "boot",
             "ltp-fcntl-locktests",
             "ltp-fs_bind",
+            "ltp-fs_perms_simple",
             "ltp-fsx",
             "ltp-nptl",
             "ltp-smoke",
