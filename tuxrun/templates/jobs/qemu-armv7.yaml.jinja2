@@ -8,8 +8,9 @@ context:
   machine: "virt,gic-version=3"
   no_kvm: true
   no_network: true
-{% if tests %}
   extra_options:
+  - "-smp 2"
+{% if tests %}
   - "-device virtio-blk-device,drive=lavatest"
 {% endif %}
 {% endblock %}

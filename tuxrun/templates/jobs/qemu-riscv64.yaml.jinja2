@@ -6,6 +6,8 @@ context:
   guestfs_interface: "virtio"
   no_kvm: true
   no_network: true
+  extra_options:
+  - "-smp 2"
 {% endblock %}
 
 {% set arch = "riscv64" %}

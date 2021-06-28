@@ -7,6 +7,8 @@ context:
   machine: "q35"
   no_kvm: true
   no_network: true
+  extra_options:
+  - "-smp 2"
 {% endblock %}
 
 {% set arch = "x86_64" %}

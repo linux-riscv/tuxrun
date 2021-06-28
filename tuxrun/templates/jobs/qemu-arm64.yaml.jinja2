@@ -8,6 +8,8 @@ context:
   machine: "virt,gic-version=3"
   no_kvm: true
   no_network: true
+  extra_options:
+  - "-smp 2"
 {% endblock %}
 
 {% set arch = "arm64" %}

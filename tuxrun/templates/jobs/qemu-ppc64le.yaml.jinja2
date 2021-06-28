@@ -8,6 +8,8 @@ context:
   machine: pseries
   no_kvm: true
   no_network: true
+  extra_options:
+  - "-smp 2"
 {% endblock %}
 
 {% set arch = "ppc64le" %}
