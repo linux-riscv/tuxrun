@@ -71,6 +71,7 @@ integration:
       - qemu-armv7
       - qemu-arm64
       - qemu-i386
+      - qemu-mips32
       - qemu-mips64
       - qemu-mips64el
       - qemu-ppc64

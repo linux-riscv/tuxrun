@@ -1,0 +1,17 @@
+{% extends 'base.jinja2' %}
+
+{% block context %}
+context:
+  arch: "mips"
+  cpu: "mips32r6-generic"
+  machine: "malta"
+  no_kvm: true
+  no_network: true
+{% endblock %}
+
+{% set arch = "mips32" %}
+{% set console = "ttyS0" %}
+{% set rootfs_dev = "/dev/hda" %}
+{% set rootfs_arg = "-drive file={rootfs},if=ide,format=raw" %}
+
+{% set rootfs = rootfs|default("https://storage.tuxboot.com/mips32/rootfs.ext4.zst", true) %}
