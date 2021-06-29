@@ -308,13 +308,13 @@ def main() -> int:
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
-        parser.print_usage()
+        parser.print_usage(file=sys.stderr)
         sys.stderr.write(
             "tuxrun: error: configuration or configuration files argument groups are required\n"
         )
         return 1
     if first_group and second_group:
-        parser.print_usage()
+        parser.print_usage(file=sys.stderr)
         sys.stderr.write(
             "tuxrun: error: configuration and configuration files argument groups are mutualy exclusive\n"
         )
@@ -323,21 +323,21 @@ def main() -> int:
     # --device are mandatory
     if first_group:
         if not options.device:
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --device is required\n")
             return 1
         if not options.kernel:
             options.kernel = KERNELS[options.device]
 
         if options.bios and options.device != "qemu-riscv64":
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write(
                 "tuxrun: error: argument --bios is only valid for qemu-riscv64 device\n"
             )
             return 1
 
         if options.dtb and options.device != "qemu-armv5":
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write(
                 "tuxrun: error: argument --dtb is only valid for qemu-armv5 device\n"
             )
@@ -345,11 +345,11 @@ def main() -> int:
     # --device-dict/--definition are mandatory
     else:
         if not options.device_dict:
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --device-dict is required\n")
             return 1
         if not options.definition:
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --definition is required\n")
             return 1
 

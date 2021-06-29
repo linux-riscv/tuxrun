@@ -58,10 +58,10 @@ def test_start_calls_main(monkeypatch, mocker):
     main.assert_called()
 
 
-def test_main_usage(capsys):
-    with pytest.raises(SystemExit) as e:
-        main()
-    assert e.value.code != 0
+def test_main_usage(monkeypatch, capsys):
+    monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"])
+    ret = main()
+    assert ret != 0
     _, err = capsys.readouterr()
     assert "usage: tuxrun" in err
 
@@ -92,7 +92,7 @@ def test_command_line_errors(argv, capsys, monkeypatch):
     exitcode = main()
     assert exitcode == 1
     stdout, stderr = capsys.readouterr()
-    assert "usage: tuxrun" in stdout
+    assert "usage: tuxrun" in stderr
     assert "tuxrun: error:" in stderr
 
 
