@@ -17,4 +17,3 @@ context:
 {% set rootfs_dev = "/dev/sda" %}
 {% set rootfs_arg = "-drive file={rootfs},if=scsi,format=raw" %}
 
-{% set rootfs = rootfs|default("https://storage.tuxboot.com/armv5/rootfs.ext4.zst", true) %}

@@ -16,4 +16,3 @@ context:
 {% set rootfs_arg = "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0" %}
 
 {% set bios = bios|default("https://storage.tuxboot.com/riscv64/fw_jump.elf", true) %}
-{% set rootfs = rootfs|default("https://storage.tuxboot.com/riscv64/rootfs.ext4.zst", true) %}

@@ -12,7 +12,7 @@ import requests
 import yaml
 
 from tuxrun import __version__
-from tuxrun.assets import KERNELS
+from tuxrun.assets import KERNELS, ROOTFS
 import tuxrun.templates as templates
 from tuxrun.yaml import yaml_load
 
@@ -311,8 +311,12 @@ def main() -> int:
             parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --device is required\n")
             return 1
+
         if not options.kernel:
             options.kernel = KERNELS[options.device]
+
+        if not options.rootfs:
+            options.rootfs = ROOTFS[options.device]
 
         if options.bios and options.device != "qemu-riscv64":
             parser.print_usage(file=sys.stderr)
