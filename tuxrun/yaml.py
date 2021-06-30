@@ -3,7 +3,7 @@ import yaml
 
 try:
     from yaml import CFullLoader as FullLoader  # type: ignore
-except ImportError:
+except ImportError:  # pragma: no cover
     try:
         from yaml import FullLoader
     except ImportError:
