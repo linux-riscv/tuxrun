@@ -12,8 +12,9 @@ import requests
 import yaml
 
 from tuxrun import __version__
-from tuxrun.assets import KERNELS, ROOTFS
+from tuxrun.assets import KERNELS, get_rootfs
 import tuxrun.templates as templates
+from tuxrun.utils import TTYProgressIndicator
 from tuxrun.yaml import yaml_load
 
 
@@ -315,8 +316,13 @@ def main() -> int:
         if not options.kernel:
             options.kernel = KERNELS[options.device]
 
-        if not options.rootfs:
-            options.rootfs = ROOTFS[options.device]
+        options.rootfs = pathurlnone(
+            get_rootfs(
+                options.device,
+                options.rootfs,
+                TTYProgressIndicator("Downloading root filesystem"),
+            )
+        )
 
         if options.bios and options.device != "qemu-riscv64":
             parser.print_usage(file=sys.stderr)
