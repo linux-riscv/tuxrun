@@ -12,7 +12,9 @@ import requests
 import yaml
 
 from tuxrun import __version__
+from tuxrun.assets import KERNELS, get_rootfs
 import tuxrun.templates as templates
+from tuxrun.utils import TTYProgressIndicator
 from tuxrun.yaml import yaml_load
 
 
@@ -48,22 +50,6 @@ DEVICES = [
     "qemu-sparc64",
     "qemu-x86_64",
 ]
-
-KERNELS = {
-    "qemu-armv5": "https://storage.tuxboot.com/armv5/zImage",
-    "qemu-armv7": "https://storage.tuxboot.com/armv7/zImage",
-    "qemu-arm64": "https://storage.tuxboot.com/arm64/Image",
-    "qemu-i386": "https://storage.tuxboot.com/i386/bzImage",
-    "qemu-mips32": "https://storage.tuxboot.com/mips32/vmlinux",
-    "qemu-mips32el": "https://storage.tuxboot.com/mips32el/vmlinux",
-    "qemu-mips64": "https://storage.tuxboot.com/mips64/vmlinux",
-    "qemu-mips64el": "https://storage.tuxboot.com/mips64el/vmlinux",
-    "qemu-ppc64": "https://storage.tuxboot.com/ppc64/vmlinux",
-    "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/vmlinux",
-    "qemu-riscv64": "https://storage.tuxboot.com/riscv64/Image",
-    "qemu-sparc64": "https://storage.tuxboot.com/sparc64/vmlinux",
-    "qemu-x86_64": "https://storage.tuxboot.com/x86_64/bzImage",
-}
 
 
 ###########
@@ -308,13 +294,13 @@ def main() -> int:
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
-        parser.print_usage()
+        parser.print_usage(file=sys.stderr)
         sys.stderr.write(
             "tuxrun: error: configuration or configuration files argument groups are required\n"
         )
         return 1
     if first_group and second_group:
-        parser.print_usage()
+        parser.print_usage(file=sys.stderr)
         sys.stderr.write(
             "tuxrun: error: configuration and configuration files argument groups are mutualy exclusive\n"
         )
@@ -323,21 +309,30 @@ def main() -> int:
     # --device are mandatory
     if first_group:
         if not options.device:
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --device is required\n")
             return 1
+
         if not options.kernel:
             options.kernel = KERNELS[options.device]
 
+        options.rootfs = pathurlnone(
+            get_rootfs(
+                options.device,
+                options.rootfs,
+                TTYProgressIndicator("Downloading root filesystem"),
+            )
+        )
+
         if options.bios and options.device != "qemu-riscv64":
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write(
                 "tuxrun: error: argument --bios is only valid for qemu-riscv64 device\n"
             )
             return 1
 
         if options.dtb and options.device != "qemu-armv5":
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write(
                 "tuxrun: error: argument --dtb is only valid for qemu-armv5 device\n"
             )
@@ -345,11 +340,11 @@ def main() -> int:
     # --device-dict/--definition are mandatory
     else:
         if not options.device_dict:
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --device-dict is required\n")
             return 1
         if not options.definition:
-            parser.print_usage()
+            parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --definition is required\n")
             return 1
 

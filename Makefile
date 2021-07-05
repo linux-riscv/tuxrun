@@ -3,7 +3,7 @@ export PROJECT := tuxrun
 test: typecheck unit-tests spellcheck stylecheck
 
 unit-tests:
-	python3 -m pytest --cov=tuxrun --cov-report=term-missing --cov-fail-under=81 test
+	python3 -m pytest --cov=tuxrun --cov-report=term-missing --cov-fail-under=90.78 test
 
 .PHONY: htmlcov
 
