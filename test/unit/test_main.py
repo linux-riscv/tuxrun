@@ -129,3 +129,35 @@ def test_ignores_empty_line_from_lava_run_logfile(tuxrun_args, lava_run, tmp_pat
     logdata = yaml.safe_load(log.open())
     assert type(logdata[0]) is dict
     assert type(logdata[1]) is dict
+
+
+def test_tuxmake_directory(monkeypatch, mocker, tmp_path):
+    tuxmake_build = tmp_path / "build"
+    tuxmake_build.mkdir()
+    (tuxmake_build / "metadata.json").write_text(
+        """
+        {
+            "results": {
+                "artifacts": {"kernel": ["bzImage"], "modules": ["modules.tar.xz"]}
+            },
+            "build": {"target_arch": "x86_64"}
+        }
+        """
+    )
+    monkeypatch.setattr("sys.argv", ["tuxrun", "--tuxmake", str(tuxmake_build)])
+    run = mocker.patch("tuxrun.__main__.run")
+
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.kernel == f"file://{tuxmake_build}/bzImage"
+    assert options.device == "qemu-x86_64"
+
+
+def test_invalid_tuxmake_directory(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr("sys.argv", ["tuxrun", "--tuxmake", str(tmp_path)])
+    with pytest.raises(SystemExit) as exit:
+        main()
+        assert exit.status_code != 0
+    _, err = capsys.readouterr()
+    assert "metadata.json" in err

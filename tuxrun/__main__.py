@@ -16,6 +16,7 @@ from tuxrun.assets import KERNELS, get_rootfs
 import tuxrun.templates as templates
 from tuxrun.utils import TTYProgressIndicator
 from tuxrun.yaml import yaml_load
+from tuxrun.tuxmake import TuxMakeBuild
 
 
 #############
@@ -83,6 +84,13 @@ def pathurlnone(string):
     return f"file://{Path(path).expanduser().resolve()}"
 
 
+def tuxmake_directory(s):
+    try:
+        return TuxMakeBuild(s)
+    except TuxMakeBuild.Invalid as e:
+        raise argparse.ArgumentTypeError(str(e))
+
+
 ##########
 # Setups #
 ##########
@@ -97,6 +105,13 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
     group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
     group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
+    group.add_argument(
+        "--tuxmake",
+        metavar="DIRECTORY",
+        default=None,
+        type=tuxmake_directory,
+        help="directory containing a TuxMake build",
+    )
     group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
     group.add_argument(
         "--partition", default=None, type=int, help="rootfs partition number"
@@ -146,7 +161,7 @@ def setup_parser() -> argparse.ArgumentParser:
 ##############
 # Entrypoint #
 ##############
-def _main(options, tmpdir: Path) -> int:
+def run(options, tmpdir: Path) -> int:
     # Render the job definition and device dictionary
     if options.device:
         kernel_compression = None
@@ -287,10 +302,14 @@ def main() -> int:
     parser = setup_parser()
     options = parser.parse_args()
 
-    # --device/--kernel/--modules/--tests and --device-dict/--definition are
-    # mutualy exclusive and required
+    # --tuxmake/--device/--kernel/--modules/--tests and
+    # --device-dict/--definition are mutualy exclusive and required
     first_group = bool(
-        options.device or options.kernel or options.modules or options.tests
+        options.tuxmake
+        or options.device
+        or options.kernel
+        or options.modules
+        or options.tests
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
@@ -308,6 +327,15 @@ def main() -> int:
 
     # --device are mandatory
     if first_group:
+        if options.tuxmake:
+            tuxmake = options.tuxmake
+            if not options.kernel:
+                options.kernel = f"file://{tuxmake.kernel}"
+            if not options.modules:
+                options.modules = f"file://{tuxmake.modules}"
+            if not options.device:
+                options.device = f"qemu-{tuxmake.target_arch}"
+
         if not options.device:
             parser.print_usage(file=sys.stderr)
             sys.stderr.write("tuxrun: error: argument --device is required\n")
@@ -352,7 +380,7 @@ def main() -> int:
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
     debug(options, f"temporary directory: '{tmpdir}'")
     try:
-        return _main(options, tmpdir)
+        return run(options, tmpdir)
     finally:
         shutil.rmtree(tmpdir)
 
