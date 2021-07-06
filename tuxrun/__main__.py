@@ -106,6 +106,15 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
     group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
     group.add_argument(
+        "--overlay",
+        default=[],
+        type=pathurlnone,
+        help="Tarball with overlay for rootfs. Can be specified multiple times",
+        action="append",
+        dest="overlays",
+        metavar="OVERLAY",
+    )
+    group.add_argument(
         "--tuxmake",
         metavar="DIRECTORY",
         default=None,
@@ -163,6 +172,7 @@ def setup_parser() -> argparse.ArgumentParser:
 ##############
 def run(options, tmpdir: Path) -> int:
     # Render the job definition and device dictionary
+    extra_assets = []
     if options.device:
         kernel_compression = None
         if options.kernel.endswith(".gz"):
@@ -170,12 +180,21 @@ def run(options, tmpdir: Path) -> int:
         if options.kernel.endswith(".xz"):
             kernel_compression = "xz"
 
+        overlays = []
+        if options.modules:
+            overlays.append(("modules", options.modules))
+            extra_assets.append(options.modules)
+        for item in options.overlays:
+            name = str(hash(item)).replace("-", "n")
+            overlays.append((name, item))
+            extra_assets.append(item)
+
         definition = templates.jobs.get_template(
             f"{options.device}.yaml.jinja2"
         ).render(
             device=options.device,
             kernel=options.kernel,
-            modules=options.modules,
+            overlays=overlays,
             bios=options.bios,
             dtb=options.dtb,
             rootfs=options.rootfs,
@@ -222,11 +241,10 @@ def run(options, tmpdir: Path) -> int:
         ]
         for path in [
             options.kernel,
-            options.modules,
             options.bios,
             options.dtb,
             options.rootfs,
-        ]:
+        ] + extra_assets:
             if not path:
                 continue
             if urlparse(path).scheme == "file":
@@ -309,6 +327,7 @@ def main() -> int:
         or options.device
         or options.kernel
         or options.modules
+        or options.overlays
         or options.tests
     )
     second_group = bool(options.device_dict or options.definition)

@@ -50,13 +50,15 @@ actions:
         url: "{{ rootfs }}"
         compression: zstd
         format: ext4
-{% if modules %}
+{% if overlays %}
         overlays:
-          modules:
-            url: "{{ modules }}"
+{% for name, overlay in overlays %}
+          {{ name }}:
+            url: "{{ overlay }}"
             path: /
             format: tar
             compression: xz
+{% endfor %}
 {% endif %}
 - boot:
     method: qemu
