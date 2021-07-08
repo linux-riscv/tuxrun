@@ -2,8 +2,14 @@ export PROJECT := tuxrun
 
 test: typecheck unit-tests spellcheck stylecheck
 
+COVERAGE = 91.84
+
 unit-tests:
-	python3 -m pytest --cov=tuxrun --cov-report=term-missing --cov-fail-under=90.78 test
+	python3 -m pytest \
+		--cov=tuxrun \
+		--cov-report=term-missing \
+		--cov-fail-under=$(COVERAGE) \
+		test
 
 .PHONY: htmlcov
 
