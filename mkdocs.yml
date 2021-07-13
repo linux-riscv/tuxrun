@@ -17,3 +17,4 @@ extra_css:
 
 nav:
   - Welcome to TuxRun: index.md
+  - Install TuxRun: install.md
