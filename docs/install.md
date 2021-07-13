@@ -10,4 +10,8 @@ $ pip install tuxrun
 
 ## Debian packages
 
+*Coming soon*
+
 ## RPM Packages
+
+*Coming soon*
