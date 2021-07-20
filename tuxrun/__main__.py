@@ -331,7 +331,7 @@ def main() -> int:
             tuxmake = options.tuxmake
             if not options.kernel:
                 options.kernel = f"file://{tuxmake.kernel}"
-            if not options.modules:
+            if not options.modules and tuxmake.modules:
                 options.modules = f"file://{tuxmake.modules}"
             if not options.device:
                 options.device = f"qemu-{tuxmake.target_arch}"

@@ -158,6 +158,27 @@ def test_tuxmake_directory(monkeypatch, tmp_path, run):
     assert options.device == "qemu-x86_64"
 
 
+def test_no_modules(monkeypatch, tmp_path, run):
+    tuxmake_build = tmp_path / "build"
+    tuxmake_build.mkdir()
+    (tuxmake_build / "metadata.json").write_text(
+        """
+        {
+            "results": {
+                "artifacts": {"kernel": ["bzImage"]}
+            },
+            "build": {"target_arch": "x86_64"}
+        }
+        """
+    )
+    monkeypatch.setattr("sys.argv", ["tuxrun", "--tuxmake", str(tuxmake_build)])
+
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.modules is None
+
+
 def test_invalid_tuxmake_directory(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr("sys.argv", ["tuxrun", "--tuxmake", str(tmp_path)])
     with pytest.raises(SystemExit) as exit:
