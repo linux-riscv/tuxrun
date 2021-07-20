@@ -22,6 +22,11 @@ def job(tmp_path):
 
 
 @pytest.fixture
+def run(mocker):
+    return mocker.patch("tuxrun.__main__.run")
+
+
+@pytest.fixture
 def tuxrun_args(monkeypatch, device, job):
     args = ["tuxrun", "--device-dict", str(device), "--definition", str(job)]
     monkeypatch.setattr("sys.argv", args)
@@ -131,7 +136,7 @@ def test_ignores_empty_line_from_lava_run_logfile(tuxrun_args, lava_run, tmp_pat
     assert type(logdata[1]) is dict
 
 
-def test_tuxmake_directory(monkeypatch, mocker, tmp_path):
+def test_tuxmake_directory(monkeypatch, tmp_path, run):
     tuxmake_build = tmp_path / "build"
     tuxmake_build.mkdir()
     (tuxmake_build / "metadata.json").write_text(
@@ -145,7 +150,6 @@ def test_tuxmake_directory(monkeypatch, mocker, tmp_path):
         """
     )
     monkeypatch.setattr("sys.argv", ["tuxrun", "--tuxmake", str(tuxmake_build)])
-    run = mocker.patch("tuxrun.__main__.run")
 
     main()
     run.assert_called()
