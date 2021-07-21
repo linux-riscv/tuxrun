@@ -47,9 +47,13 @@ def tuxrun_args_generate(monkeypatch):
 
 
 @pytest.fixture
-def lava_run(mocker):
-    Popen = mocker.patch("subprocess.Popen")
-    proc = Popen.return_value
+def lava_run_call(mocker):
+    return mocker.patch("subprocess.Popen")
+
+
+@pytest.fixture
+def lava_run(lava_run_call, mocker):
+    proc = lava_run_call.return_value
     proc.wait.return_value = 0
     proc.communicate.return_value = (mocker.MagicMock(), mocker.MagicMock())
     return proc
@@ -186,3 +190,37 @@ def test_invalid_tuxmake_directory(monkeypatch, tmp_path, capsys):
         assert exit.status_code != 0
     _, err = capsys.readouterr()
     assert "metadata.json" in err
+
+
+def test_modules(monkeypatch, lava_run_call, lava_run):
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--kernel=bzImage",
+            "--device=qemu-x86_64",
+            "--modules=/path/to/foo.tar.gz",
+        ],
+    )
+    assert main() == 0
+    lava_run_call.assert_called()
+    args = lava_run_call.call_args[0][0]
+    assert "/path/to/foo.tar.gz:/path/to/foo.tar.gz:ro" in args
+
+
+def test_overlays(monkeypatch, lava_run_call, lava_run):
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--kernel=bzImage",
+            "--device=qemu-x86_64",
+            "--overlay=/path/to/stuff.tar.gz",
+            "--overlay=/path/to/morestuff.tar.gz",
+        ],
+    )
+    assert main() == 0
+    lava_run_call.assert_called()
+    args = lava_run_call.call_args[0][0]
+    assert "/path/to/stuff.tar.gz:/path/to/stuff.tar.gz:ro" in args
+    assert "/path/to/morestuff.tar.gz:/path/to/morestuff.tar.gz:ro" in args
