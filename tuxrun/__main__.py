@@ -12,7 +12,7 @@ import requests
 import yaml
 
 from tuxrun import __version__
-from tuxrun.assets import KERNELS, get_rootfs
+from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions
 import tuxrun.templates as templates
 from tuxrun.utils import TTYProgressIndicator
 from tuxrun.yaml import yaml_load
@@ -189,6 +189,10 @@ def run(options, tmpdir: Path) -> int:
             overlays.append((name, item))
             extra_assets.append(item)
 
+        test_definitions = get_test_definitions(
+            TTYProgressIndicator("Downloading test definitions")
+        )
+
         definition = templates.jobs.get_template(
             f"{options.device}.yaml.jinja2"
         ).render(
@@ -200,6 +204,7 @@ def run(options, tmpdir: Path) -> int:
             rootfs=options.rootfs,
             rootfs_partition=options.partition,
             tests=options.tests,
+            test_definitions=test_definitions,
             timeouts=templates.timeouts(),
             tux_boot_args=options.boot_args.replace('"', ""),
             kernel_compression=kernel_compression,

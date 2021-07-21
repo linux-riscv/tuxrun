@@ -42,10 +42,17 @@ ROOTFS = {
 }
 
 
+TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2021.04.tar.zst"
+
+
 def get_rootfs(
     device, rootfs: str = None, progress: ProgressIndicator = NoProgressIndicator()
 ) -> str:
     return __download_and_cache__(rootfs or ROOTFS[device], progress)
+
+
+def get_test_definitions(progress: ProgressIndicator = NoProgressIndicator()):
+    return __download_and_cache__(TEST_DEFINITIONS, progress)
 
 
 def __download_and_cache__(
