@@ -2,6 +2,7 @@
 import argparse
 import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
@@ -135,6 +136,11 @@ def setup_parser() -> argparse.ArgumentParser:
         choices=templates.tests(),
     )
     group.add_argument("--boot-args", default="", help="extend boot arguments")
+    group.add_argument(
+        "command",
+        nargs="*",
+        help="Command to run inside the VM",
+    )
 
     group = parser.add_argument_group("configuration files")
     group.add_argument("--device-dict", default=None, help="Device configuration")
@@ -193,6 +199,8 @@ def run(options, tmpdir: Path) -> int:
             TTYProgressIndicator("Downloading test definitions")
         )
 
+        command = " ".join([shlex.quote(s) for s in options.command])
+
         definition = templates.jobs.get_template(
             f"{options.device}.yaml.jinja2"
         ).render(
@@ -204,6 +212,7 @@ def run(options, tmpdir: Path) -> int:
             rootfs=options.rootfs,
             rootfs_partition=options.partition,
             tests=options.tests,
+            command=command,
             test_definitions=test_definitions,
             timeouts=templates.timeouts(),
             tux_boot_args=options.boot_args.replace('"', ""),
@@ -334,6 +343,7 @@ def main() -> int:
         or options.modules
         or options.overlays
         or options.tests
+        or options.command
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
@@ -375,6 +385,9 @@ def main() -> int:
                 TTYProgressIndicator("Downloading root filesystem"),
             )
         )
+
+        if options.command:
+            options.tests.append("command")
 
         if options.bios and options.device != "qemu-riscv64":
             parser.print_usage(file=sys.stderr)
