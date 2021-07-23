@@ -33,7 +33,7 @@ ci-image:
     changes:
     - Dockerfile.ci
 
-ci-image:
+ci-image-integration:
   stage: image
   image: docker:20.10-dind
   services:
