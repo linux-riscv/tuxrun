@@ -33,6 +33,23 @@ ci-image:
     changes:
     - Dockerfile.ci
 
+ci-image:
+  stage: image
+  image: docker:20.10-dind
+  services:
+  - name: docker:20.10-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+  - 'docker build -t $CI_REGISTRY/linaro/tuxrun/ci -f Dockerfile.ci-integration .'
+  - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
+  - 'docker push $CI_REGISTRY/linaro/tuxrun/ci-integration'
+  only:
+    refs:
+    - master
+    changes:
+    - Dockerfile.ci-integration
+
 ########
 # test #
 ########
@@ -57,11 +74,8 @@ spellcheck:
 ###############
 integration:
   extends: .job
-  image: docker.io/lavasoftware/lava-dispatcher:latest
+  image: $CI_REGISTRY/linaro/tuxrun/ci-integration
   stage: integration
-  before_script:
-  - apt-get update
-  - apt-get install --yes linux-image-amd64
   script:
   - PYTHONPATH=. python3 test/integration.py --runtime null --device $DEVICE --tests $TEST
   parallel:
