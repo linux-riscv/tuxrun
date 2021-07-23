@@ -57,7 +57,7 @@ spellcheck:
 ###############
 integration:
   extends: .job
-  image: lavasoftware/lava-dispatcher:latest
+  image: docker.io/lavasoftware/lava-dispatcher:latest
   stage: integration
   before_script:
   - apt-get update
