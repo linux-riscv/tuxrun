@@ -98,9 +98,6 @@ integration:
       - ltp-fcntl-locktests ltp-fsx ltp-fs_perms_simple ltp-smoke
       - ltp-fs_bind
       - ltp-nptl
-  only:
-    refs:
-    - master
 
 #########
 # Build #
