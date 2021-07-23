@@ -224,3 +224,15 @@ def test_overlays(monkeypatch, lava_run_call, lava_run):
     args = lava_run_call.call_args[0][0]
     assert "/path/to/stuff.tar.gz:/path/to/stuff.tar.gz:ro" in args
     assert "/path/to/morestuff.tar.gz:/path/to/morestuff.tar.gz:ro" in args
+
+
+def test_custom_commands(monkeypatch, run):
+    monkeypatch.setattr(
+        "sys.argv",
+        ["tuxrun", "--kernel=bzImage", "--device=qemu-x86_64", "cat", "/etc/hostname"],
+    )
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert "command" in options.tests
+    assert options.command == ["cat", "/etc/hostname"]

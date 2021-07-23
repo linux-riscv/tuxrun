@@ -1,0 +1,17 @@
+{% set name = "custom-commands" %}
+{% set timeout = 2 %}
+- test:
+    timeout:
+      minutes: {{ timeout }}
+    definitions:
+    - repository:
+        metadata:
+          format: lava-test test definition 1.0
+          name: tuxrun-command
+          description: "Run command"
+        run:
+          steps:
+          - "{{ command }}"
+      from: inline
+      path: tuxrun-command
+      name: tuxrun-command
