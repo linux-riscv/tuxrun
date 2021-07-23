@@ -41,7 +41,7 @@ ci-image-integration:
   variables:
     DOCKER_DRIVER: overlay2
   script:
-  - 'docker build -t $CI_REGISTRY/linaro/tuxrun/ci -f Dockerfile.ci-integration .'
+  - 'docker build -t $CI_REGISTRY/linaro/tuxrun/ci-integration -f Dockerfile.ci-integration .'
   - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
   - 'docker push $CI_REGISTRY/linaro/tuxrun/ci-integration'
   only:
