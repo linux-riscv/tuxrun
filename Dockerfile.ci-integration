@@ -3,5 +3,4 @@ RUN apt-get update -q=2 && \
     apt-get install -q=2 --yes \
         linux-image-amd64
 
-
 # vim: ft=dockerfile
