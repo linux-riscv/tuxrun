@@ -37,22 +37,6 @@ COLORS = {
     "end": "\033[0m",
 }
 
-DEVICES = [
-    "qemu-armv5",
-    "qemu-armv7",
-    "qemu-arm64",
-    "qemu-i386",
-    "qemu-mips32",
-    "qemu-mips32el",
-    "qemu-mips64",
-    "qemu-mips64el",
-    "qemu-ppc64",
-    "qemu-ppc64le",
-    "qemu-riscv64",
-    "qemu-sparc64",
-    "qemu-x86_64",
-]
-
 
 ###########
 # Helpers #
@@ -103,7 +87,7 @@ def setup_parser() -> argparse.ArgumentParser:
     )
 
     group = parser.add_argument_group("artefacts")
-    group.add_argument("--device", default=None, help="Device type", choices=DEVICES)
+    group.add_argument("--device", default=None, help="Device type", choices=templates.devices_list())
     group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
     group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
     group.add_argument(
