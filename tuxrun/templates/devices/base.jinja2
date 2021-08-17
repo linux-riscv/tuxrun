@@ -110,6 +110,10 @@ constants:
       - 'Ramdisk image is corrupt or invalid'
       - 'ERROR: Failed to allocate'
       - 'TFTP error: trying to overwrite reserved memory'
+      - 'Bad Linux RISCV Image magic!'
+      - 'Wrong Image Format for boot'
+      - 'ERROR: Did not find a cmdline Flattened Device Tree'
+      - 'ERROR: RD image overlaps OS image'
 {% endif %}
 {% if uboot_extra_error_message %}
       - '{{ uboot_extra_error_message }}'
@@ -154,6 +158,11 @@ constants:
   # avoid setting searchwindowsize:
   # Data before searchwindowsize point is preserved, but not searched.
   spawn_maxread: '{{ spawn_maxread | default(4092) }}'
+
+  # Set the failure retry to default or override it
+  failure_retry: {{ failure_retry|default(1) }}
+  # Override boot_retry
+  boot_retry: {{ boot_retry }}
 {% endblock constants -%}
 
 {% block commands %}
