@@ -328,10 +328,13 @@ def run(options, tmpdir: Path) -> int:
                 else:
                     level = data["lvl"]
                     msg = data["msg"]
+                    ns = " "
+                    if level == "feedback" and "ns" in data:
+                        ns = f" <{COLORS['feedback']}{data['ns']}{COLORS['end']}> "
                     timestamp = data["dt"].split(".")[0]
 
                     sys.stdout.write(
-                        f"{COLORS['dt']}{timestamp}{COLORS['end']} {COLORS[level]}{msg}{COLORS['end']}\n"
+                        f"{COLORS['dt']}{timestamp}{COLORS['end']}{ns}{COLORS[level]}{msg}{COLORS['end']}\n"
                     )
             except yaml.YAMLError:
                 debug(options, line)
