@@ -1,5 +1,12 @@
-from pathlib import Path
+# -*- coding: utf-8 -*-
+# vim: set ts=4
+#
+# Copyright 2021-present Linaro Limited
+#
+# SPDX-License-Identifier: MIT
+
 import json
+from pathlib import Path
 
 
 class InvalidTuxMakeBuild(Exception):

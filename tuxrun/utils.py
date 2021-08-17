@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+# vim: set ts=4
+#
+# Copyright 2021-present Linaro Limited
+#
+# SPDX-License-Identifier: MIT
+
 from abc import ABC, abstractmethod
 import sys
 

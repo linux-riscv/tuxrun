@@ -1,4 +1,11 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# vim: set ts=4
+#
+# Copyright 2021-present Linaro Limited
+#
+# SPDX-License-Identifier: MIT
+
 import argparse
 import os
 from pathlib import Path
@@ -15,9 +22,9 @@ import yaml
 from tuxrun import __version__
 from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions
 import tuxrun.templates as templates
+from tuxrun.tuxmake import TuxMakeBuild
 from tuxrun.utils import TTYProgressIndicator
 from tuxrun.yaml import yaml_load
-from tuxrun.tuxmake import TuxMakeBuild
 
 
 #############

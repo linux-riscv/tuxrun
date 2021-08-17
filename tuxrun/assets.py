@@ -1,9 +1,17 @@
-from urllib.parse import urlparse
+# -*- coding: utf-8 -*-
+# vim: set ts=4
+#
+# Copyright 2021-present Linaro Limited
+#
+# SPDX-License-Identifier: MIT
+
+import os
 import re
 import requests
-import os
 import sys
 import time
+from urllib.parse import urlparse
+
 from tuxrun.utils import ProgressIndicator, NoProgressIndicator
 from tuxrun.xdg import get_cache_dir
 
