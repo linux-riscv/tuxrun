@@ -85,19 +85,45 @@ def setup_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--version", action="version", version=f"%(prog)s, {__version__}"
     )
+    parser.add_argument(
+        "--device",
+        default=None,
+        metavar="NAME",
+        help="Device type",
+        choices=templates.devices_list(),
+    )
 
     group = parser.add_argument_group("artefacts")
-    group.add_argument("--device", default=None, help="Device type", choices=templates.devices_list())
-    group.add_argument("--kernel", default=None, type=pathurlnone, help="kernel URL")
-    group.add_argument("--modules", default=None, type=pathurlnone, help="modules URL")
+    group.add_argument(
+        "--bios", default=None, metavar="URL", type=pathurlnone, help="bios URL"
+    )
+    group.add_argument(
+        "--dtb", default=None, metavar="URL", type=pathurlnone, help="dtb URL"
+    )
+    group.add_argument(
+        "--kernel", default=None, metavar="URL", type=pathurlnone, help="kernel URL"
+    )
+    group.add_argument(
+        "--modules", default=None, metavar="URL", type=pathurlnone, help="modules URL"
+    )
     group.add_argument(
         "--overlay",
         default=[],
+        metavar="URL",
         type=pathurlnone,
         help="Tarball with overlay for rootfs. Can be specified multiple times",
         action="append",
         dest="overlays",
-        metavar="OVERLAY",
+    )
+    group.add_argument(
+        "--partition",
+        default=None,
+        metavar="NUMBER",
+        type=int,
+        help="rootfs partition number",
+    )
+    group.add_argument(
+        "--rootfs", default=None, metavar="URL", type=pathurlnone, help="rootfs URL"
     )
     group.add_argument(
         "--tuxmake",
@@ -106,20 +132,19 @@ def setup_parser() -> argparse.ArgumentParser:
         type=tuxmake_directory,
         help="directory containing a TuxMake build",
     )
-    group.add_argument("--rootfs", default=None, type=pathurlnone, help="rootfs URL")
-    group.add_argument(
-        "--partition", default=None, type=int, help="rootfs partition number"
-    )
-    group.add_argument("--bios", default=None, type=pathurlnone, help="bios URL")
-    group.add_argument("--dtb", default=None, type=pathurlnone, help="dtb URL")
+
+    group = parser.add_argument_group("run options")
     group.add_argument(
         "--tests",
         nargs="+",
         default=[],
+        metavar="T",
         help="test suites",
         choices=templates.tests(),
     )
-    group.add_argument("--boot-args", default="", help="extend boot arguments")
+    group.add_argument(
+        "--boot-args", default="", metavar="ARGS", help="extend boot arguments"
+    )
     group.add_argument(
         "command",
         nargs="*",
@@ -134,6 +159,7 @@ def setup_parser() -> argparse.ArgumentParser:
     group.add_argument(
         "--runtime",
         default="podman",
+        metavar="RUNTIME",
         choices=["docker", "null", "podman"],
         help="Runtime",
     )
