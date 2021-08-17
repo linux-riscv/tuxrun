@@ -265,9 +265,9 @@ def run(options, tmpdir: Path) -> int:
             "/lib/modules:/lib/modules:ro",
         ]
         for path in [
-            options.kernel,
             options.bios,
             options.dtb,
+            options.kernel,
             options.rootfs,
         ] + extra_assets:
             if not path:
@@ -348,29 +348,33 @@ def main() -> int:
     # --tuxmake/--device/--kernel/--modules/--tests and
     # --device-dict/--definition are mutualy exclusive and required
     first_group = bool(
-        options.tuxmake
-        or options.device
+        options.device
+        or options.bios
+        or options.dtb
         or options.kernel
         or options.modules
         or options.overlays
+        or options.partition
+        or options.rootfs
+        or options.tuxmake
         or options.tests
+        or options.boot_args
         or options.command
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
         parser.print_usage(file=sys.stderr)
         sys.stderr.write(
-            "tuxrun: error: configuration or configuration files argument groups are required\n"
+            "tuxrun: error: artefacts or configuration files argument groups are required\n"
         )
         return 1
     if first_group and second_group:
         parser.print_usage(file=sys.stderr)
         sys.stderr.write(
-            "tuxrun: error: configuration and configuration files argument groups are mutualy exclusive\n"
+            "tuxrun: error: artefacts and configuration files argument groups are mutualy exclusive\n"
         )
         return 1
 
-    # --device are mandatory
     if first_group:
         if options.tuxmake:
             tuxmake = options.tuxmake
