@@ -358,6 +358,9 @@ def run(options, tmpdir: Path) -> int:
         outs, errs = proc.communicate()
         # TODO: do something with outs and errs
         raise
+    finally:
+        if log_file is not None:
+            log_file.close()
     return 0
 
 
