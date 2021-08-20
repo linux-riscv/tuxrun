@@ -28,8 +28,6 @@ devices = jinja2.Environment(
 def devices_list():
     names = []
     for name in jobs.list_templates(extensions=["jinja2"]):
-        if not name.endswith(".yaml.jinja2"):
-            continue
         name = name[: -1 * len(".yaml.jinja2")]
 
         if name.startswith("tests/"):
@@ -43,9 +41,7 @@ def devices_list():
 def tests():
     names = []
     for name in jobs.list_templates(extensions=["jinja2"]):
-        if name.endswith(".yaml.jinja2"):
-            continue
-        name = name[: -1 * len(".jinja2")]
+        name = name[: -1 * len(".yaml.jinja2")]
 
         if not name.startswith("tests/"):
             continue
@@ -60,7 +56,7 @@ def tests():
 def timeouts():
     ret = {}
     for test in tests():
-        tmpl = jobs.get_template(f"tests/{test}.jinja2")
+        tmpl = jobs.get_template(f"tests/{test}.yaml.jinja2")
         ast = jobs.parse(Path(tmpl.filename).read_text(encoding="utf-8"))
         for node in ast.find_all(jinja2.nodes.Assign):
             if node.target.name == "timeout":

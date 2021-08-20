@@ -70,5 +70,5 @@ actions:
     prompts:
     - 'root@tuxtest:'
 {% for test in tests %}
-{% include "tests/" + test + ".jinja2" %}
+{% include "tests/" + test + ".yaml.jinja2" %}
 {% endfor %}
