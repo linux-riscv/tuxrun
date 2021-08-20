@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import shlex
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -310,6 +311,16 @@ def run(options, tmpdir: Path) -> int:
 
     try:
         debug(options, f"Calling {' '.join(args)}")
+
+        # Ignore the signal, this is handled by the runtim
+        signal.signal(signal.SIGINT, lambda s, f: None)
+        signal.signal(signal.SIGINT, lambda s, f: None)
+        signal.signal(signal.SIGQUIT, lambda s, f: None)
+        signal.signal(signal.SIGTERM, lambda s, f: None)
+        signal.signal(signal.SIGUSR1, lambda s, f: None)
+        signal.signal(signal.SIGUSR2, lambda s, f: None)
+
+        # Start the subprocess
         proc = subprocess.Popen(args, bufsize=1, stderr=subprocess.PIPE, text=True)
         assert proc.stderr is not None
         for line in proc.stderr:
