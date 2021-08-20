@@ -77,6 +77,10 @@ integration:
   image: $CI_REGISTRY/linaro/tuxrun/ci-integration
   stage: integration
   script:
+    # FIXME ltp-nptl takes forever on qemu-mips32(el) and qemu-riscv64; ignore that jobs for now
+  - 'if [ "${DEVICE}" = qemu-mips32 ] && [ ${TEST} = "ltp-nptl" ]; then exit; fi'
+  - 'if [ "${DEVICE}" = qemu-mips32el ] && [ ${TEST} = "ltp-nptl" ]; then exit; fi'
+  - 'if [ "${DEVICE}" = qemu-riscv64 ] && [ ${TEST} = "ltp-nptl" ]; then exit; fi'
   - PYTHONPATH=. python3 test/integration.py --runtime null --device $DEVICE --tests $TEST
   parallel:
     matrix:
@@ -98,9 +102,6 @@ integration:
       - ltp-fcntl-locktests ltp-fsx ltp-fs_perms_simple ltp-smoke
       - ltp-fs_bind
       - ltp-nptl
-  only:
-    refs:
-    - master
 
 #########
 # Build #
