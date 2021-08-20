@@ -241,7 +241,7 @@ def run(options, tmpdir: Path) -> int:
         debug(options, definition)
 
         context = yaml_load(definition).get("context", {})
-        device = templates.devices.get_template("qemu.jinja2").render(**context)
+        device = templates.devices.get_template("qemu.yaml.jinja2").render(**context)
         debug(options, "device dictionary")
         debug(options, device)
 
