@@ -77,10 +77,6 @@ integration:
   image: $CI_REGISTRY/linaro/tuxrun/ci-integration
   stage: integration
   script:
-    # FIXME ltp-nptl takes forever on qemu-mips32(el) and qemu-riscv64; ignore that jobs for now
-  - 'if [ "${DEVICE}" = qemu-mips32 ] && [ ${TEST} = "ltp-nptl" ]; then exit; fi'
-  - 'if [ "${DEVICE}" = qemu-mips32el ] && [ ${TEST} = "ltp-nptl" ]; then exit; fi'
-  - 'if [ "${DEVICE}" = qemu-riscv64 ] && [ ${TEST} = "ltp-nptl" ]; then exit; fi'
   - PYTHONPATH=. python3 test/integration.py --runtime null --device $DEVICE --tests $TEST
   parallel:
     matrix:
@@ -89,19 +85,24 @@ integration:
       - qemu-armv7
       - qemu-arm64
       - qemu-i386
-      - qemu-mips32
-      - qemu-mips32el
       - qemu-mips64
       - qemu-mips64el
       - qemu-ppc64
       - qemu-ppc64le
-      - qemu-riscv64
       - qemu-sparc64
       - qemu-x86_64
       TEST:
       - ltp-fcntl-locktests ltp-fsx ltp-fs_perms_simple ltp-smoke
       - ltp-fs_bind
       - ltp-nptl
+    # FIXME ltp-nptl takes forever on qemu-mips32(el) and qemu-riscv64; ignore that jobs for now
+    - DEVICE:
+      - qemu-mips32
+      - qemu-mips32el
+      - qemu-riscv64
+      TEST:
+      - ltp-fcntl-locktests ltp-fsx ltp-fs_perms_simple ltp-smoke
+      - ltp-fs_bind
 
 #########
 # Build #
