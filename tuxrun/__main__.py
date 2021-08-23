@@ -327,28 +327,29 @@ def run(options, tmpdir: Path) -> int:
             line = line.rstrip("\n")
             try:
                 data = yaml_load(line)
-                if not data or not isinstance(data, dict):
-                    debug(options, line)
-                    continue
-                if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
-                    debug(options, line)
-                    continue
-
-                if log_file is not None:
-                    log_file.write("- " + line + "\n")
-                else:
-                    level = data["lvl"]
-                    msg = data["msg"]
-                    ns = " "
-                    if level == "feedback" and "ns" in data:
-                        ns = f" <{COLORS['feedback']}{data['ns']}{COLORS['end']}> "
-                    timestamp = data["dt"].split(".")[0]
-
-                    sys.stdout.write(
-                        f"{COLORS['dt']}{timestamp}{COLORS['end']}{ns}{COLORS[level]}{msg}{COLORS['end']}\n"
-                    )
             except yaml.YAMLError:
                 debug(options, line)
+                continue
+            if not data or not isinstance(data, dict):
+                debug(options, line)
+                continue
+            if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
+                debug(options, line)
+                continue
+
+            if log_file is not None:
+                log_file.write("- " + line + "\n")
+            else:
+                level = data["lvl"]
+                msg = data["msg"]
+                ns = " "
+                if level == "feedback" and "ns" in data:
+                    ns = f" <{COLORS['feedback']}{data['ns']}{COLORS['end']}> "
+                timestamp = data["dt"].split(".")[0]
+
+                sys.stdout.write(
+                    f"{COLORS['dt']}{timestamp}{COLORS['end']}{ns}{COLORS[level]}{msg}{COLORS['end']}\n"
+                )
         return proc.wait()
     except FileNotFoundError as exc:
         sys.stderr.write(f"File not found '{exc.filename}'\n")
