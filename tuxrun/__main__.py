@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
+import logging
 import os
 from pathlib import Path
 import shlex
@@ -48,14 +49,14 @@ COLORS = {
 
 
 ###########
+# GLobals #
+###########
+LOG = logging.getLogger("tuxrun")
+
+
+###########
 # Helpers #
 ###########
-def debug(options, msg):
-    if options.debug:
-        for line in msg.split("\n"):
-            print(f"tuxrun: {line}")
-
-
 def download(src, dst):
     url = urlparse(src)
     if url.scheme in ["http", "https"]:
@@ -238,13 +239,13 @@ def run(options, tmpdir: Path) -> int:
             tux_boot_args=options.boot_args.replace('"', ""),
             kernel_compression=kernel_compression,
         )
-        debug(options, "job definition")
-        debug(options, definition)
+        LOG.debug("job definition")
+        LOG.debug(definition)
 
         context = yaml_load(definition).get("context", {})
         device = templates.devices.get_template("qemu.yaml.jinja2").render(**context)
-        debug(options, "device dictionary")
-        debug(options, device)
+        LOG.debug(options, "device dictionary")
+        LOG.debug(options, device)
 
         (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
         (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
@@ -300,7 +301,7 @@ def run(options, tmpdir: Path) -> int:
 
         # Start the subprocess
         args = runtime.cmd(args)
-        debug(options, f"Calling {' '.join(args)}")
+        LOG.debug(f"Calling {' '.join(args)}")
         proc = subprocess.Popen(args, bufsize=1, stderr=subprocess.PIPE, text=True)
         assert proc.stderr is not None
         for line in proc.stderr:
@@ -308,13 +309,13 @@ def run(options, tmpdir: Path) -> int:
             try:
                 data = yaml_load(line)
             except yaml.YAMLError:
-                debug(options, line)
+                LOG.debug(line)
                 continue
             if not data or not isinstance(data, dict):
-                debug(options, line)
+                LOG.debug(line)
                 continue
             if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
-                debug(options, line)
+                LOG.debug(line)
                 continue
 
             if log_file is not None:
@@ -350,6 +351,12 @@ def main() -> int:
     # Parse command line
     parser = setup_parser()
     options = parser.parse_args()
+
+    # Setup logging
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(logging.Formatter("%(message)s"))
+    LOG.addHandler(handler)
+    LOG.setLevel(logging.DEBUG if options.debug else logging.INFO)
 
     # --tuxmake/--device/--kernel/--modules/--tests and
     # --device-dict/--definition are mutualy exclusive and required
@@ -436,7 +443,7 @@ def main() -> int:
 
     # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
-    debug(options, f"temporary directory: '{tmpdir}'")
+    LOG.debug(f"temporary directory: '{tmpdir}'")
     try:
         return run(options, tmpdir)
     finally:
