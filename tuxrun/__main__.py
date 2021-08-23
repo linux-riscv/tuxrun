@@ -22,6 +22,7 @@ import yaml
 
 from tuxrun import __version__
 from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions
+from tuxrun.runtimes import Runtime
 import tuxrun.templates as templates
 from tuxrun.tuxmake import TuxMakeBuild
 from tuxrun.utils import TTYProgressIndicator
@@ -266,52 +267,29 @@ def run(options, tmpdir: Path) -> int:
     ]
 
     # Use a container runtime
-    if options.runtime in ["docker", "podman"]:
-        bindings = [
-            f"{tmpdir}:{tmpdir}",
-            "/boot:/boot:ro",
-            "/lib/modules:/lib/modules:ro",
-        ]
-        for path in [
-            options.bios,
-            options.dtb,
-            options.kernel,
-            options.rootfs,
-        ] + extra_assets:
-            if not path:
-                continue
-            if urlparse(path).scheme == "file":
-                bindings.append(f"{path[7:]}:{path[7:]}:ro")
+    runtime = Runtime.select(options.runtime)()
+    runtime.name(tmpdir.name)
+    runtime.image(options.image)
 
-        # Bind /dev/kvm is available
-        if Path("/dev/kvm").exists():
-            bindings.append("/dev/kvm:/dev/kvm:rw")
-        # Bind /var/tmp/.guestfs-$id if available
-        guestfs = Path(f"/var/tmp/.guestfs-{os.getuid()}")
-        if guestfs.exists():
-            bindings.append(f"{guestfs}:/var/tmp/.guestfs-0:rw")
-
-        if options.runtime == "docker":
-            runtime_args = ["docker", "run"]
-        elif options.runtime == "podman":
-            runtime_args = ["podman", "run", "--quiet"]
-
-        args = (
-            runtime_args
-            + ["--rm", "--hostname", "tuxrun"]
-            + [path for binding in bindings for path in ["-v", binding]]
-            + [options.image]
-            + args
-        )
+    runtime.bind(tmpdir)
+    for path in [
+        options.bios,
+        options.dtb,
+        options.kernel,
+        options.rootfs,
+    ] + extra_assets:
+        if not path:
+            continue
+        if urlparse(path).scheme == "file":
+            runtime.bind(path[7:], ro=True)
 
     # Should we write lava-run logs to a file
     log_file = None
     if options.log_file is not None:
         log_file = options.log_file.open("w")
 
+    proc = None
     try:
-        debug(options, f"Calling {' '.join(args)}")
-
         # Ignore the signal, this is handled by the runtim
         signal.signal(signal.SIGINT, lambda s, f: None)
         signal.signal(signal.SIGINT, lambda s, f: None)
@@ -321,6 +299,8 @@ def run(options, tmpdir: Path) -> int:
         signal.signal(signal.SIGUSR2, lambda s, f: None)
 
         # Start the subprocess
+        args = runtime.cmd(args)
+        debug(options, f"Calling {' '.join(args)}")
         proc = subprocess.Popen(args, bufsize=1, stderr=subprocess.PIPE, text=True)
         assert proc.stderr is not None
         for line in proc.stderr:
@@ -355,8 +335,9 @@ def run(options, tmpdir: Path) -> int:
         sys.stderr.write(f"File not found '{exc.filename}'\n")
         return 1
     except Exception:
-        proc.kill()
-        outs, errs = proc.communicate()
+        if proc is not None:
+            proc.kill()
+            outs, errs = proc.communicate()
         # TODO: do something with outs and errs
         raise
     finally:
