@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:bullseye
 RUN apt-get update -q=2 \
     && apt-get install -q=2 \
         black \
