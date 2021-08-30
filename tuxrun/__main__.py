@@ -149,7 +149,7 @@ def setup_parser() -> argparse.ArgumentParser:
         default=[],
         metavar="T",
         help="test suites",
-        choices=templates.tests(),
+        choices=templates.tests_list(),
     )
     group.add_argument(
         "--boot-args", default="", metavar="ARGS", help="extend boot arguments"

@@ -38,7 +38,7 @@ def devices_list():
     return sorted(names)
 
 
-def tests():
+def tests_list():
     names = []
     for name in jobs.list_templates(extensions=["jinja2"]):
         name = name[: -1 * len(".yaml.jinja2")]
@@ -55,7 +55,7 @@ def tests():
 
 def timeouts():
     ret = {}
-    for test in tests():
+    for test in tests_list():
         tmpl = jobs.get_template(f"tests/{test}.yaml.jinja2")
         ast = jobs.parse(Path(tmpl.filename).read_text(encoding="utf-8"))
         for node in ast.find_all(jinja2.nodes.Assign):
