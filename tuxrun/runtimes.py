@@ -5,11 +5,18 @@
 #
 # SPDX-License-Identifier: MIT
 
+from contextlib import contextmanager
+import logging
 import os
 from pathlib import Path
+import subprocess
+
+
+LOG = logging.getLogger("tuxrun")
 
 
 class Runtime:
+    binary = ""
     prefix = [""]
 
     def __init__(self):
@@ -17,6 +24,8 @@ class Runtime:
         self.__image__ = None
         self.__name__ = None
         self.__pre_proc__ = None
+        self.__proc__ = None
+        self.__ret__ = None
 
     @classmethod
     def select(cls, name):
@@ -39,6 +48,38 @@ class Runtime:
 
     def cmd(self, args):
         raise NotImplementedError()
+
+    @contextmanager
+    def run(self, args):
+        args = self.cmd(args)
+        LOG.debug("Calling %s", " ".join(args))
+        try:
+            self.__proc__ = subprocess.Popen(
+                args, bufsize=1, stderr=subprocess.PIPE, text=True
+            )
+            yield
+        except FileNotFoundError as exc:
+            LOG.error("File not found '%s'", exc.filename)
+            raise
+        except Exception as exc:
+            LOG.exception(exc)
+            if self.__proc__ is not None:
+                self.kill()
+                _, errs = self.__proc__.communicate()
+                for err in [e for e in errs.split("\n") if e]:
+                    LOG.error("err: %s", err)
+            raise
+        finally:
+            self.__ret__ = self.__proc__.wait()
+
+    def lines(self):
+        return self.__proc__.stderr
+
+    def kill(self):
+        self.__proc__.kill()
+
+    def ret(self):
+        return self.__ret__
 
 
 class ContainerRuntime(Runtime):
@@ -63,12 +104,17 @@ class ContainerRuntime(Runtime):
         prefix.extend(["--name", self.__name__])
         return prefix + [self.__image__] + args
 
+    def kill(self):
+        subprocess.run([self.binary, "kill", self.__name__], capture_output=True)
+
 
 class DockerRuntime(ContainerRuntime):
+    binary = "docker"
     prefix = ["docker", "run", "--rm", "--hostname", "tuxrun"]
 
 
 class PodmanRuntime(ContainerRuntime):
+    binary = "podman"
     prefix = ["podman", "run", "--rm", "--quiet", "--hostname", "tuxrun"]
 
 

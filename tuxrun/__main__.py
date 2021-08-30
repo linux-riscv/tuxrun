@@ -12,13 +12,11 @@ from pathlib import Path
 import shlex
 import shutil
 import signal
-import subprocess
 import sys
 import tempfile
 from urllib.parse import urlparse
 
 import requests
-import yaml
 
 from tuxrun import __version__
 from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions
@@ -26,25 +24,8 @@ from tuxrun.runtimes import Runtime
 import tuxrun.templates as templates
 from tuxrun.tuxmake import TuxMakeBuild
 from tuxrun.utils import TTYProgressIndicator
+from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
-
-
-#############
-# Constants #
-#############
-COLORS = {
-    "exception": "\033[1;31m",
-    "error": "\033[1;31m",
-    "warning": "\033[1;33m",
-    "info": "\033[1;37m",
-    "debug": "\033[0;37m",
-    "target": "\033[32m",
-    "input": "\033[0;35m",
-    "feedback": "\033[0;33m",
-    "results": "\033[1;34m",
-    "dt": "\033[0;90m",
-    "end": "\033[0m",
-}
 
 
 ###########
@@ -313,67 +294,21 @@ def run(options, tmpdir: Path) -> int:
         if urlparse(path).scheme == "file":
             runtime.bind(path[7:], ro=True)
 
-    # Should we write lava-run logs to a file
-    log_file = None
-    if options.log_file is not None:
-        log_file = options.log_file.open("w")
+    # Ignore the signal, this is handled by the runtim
+    signal.signal(signal.SIGINT, lambda s, f: None)
+    signal.signal(signal.SIGINT, lambda s, f: None)
+    signal.signal(signal.SIGQUIT, lambda s, f: None)
+    signal.signal(signal.SIGTERM, lambda s, f: None)
+    signal.signal(signal.SIGUSR1, lambda s, f: None)
+    signal.signal(signal.SIGUSR2, lambda s, f: None)
 
-    proc = None
-    try:
-        # Ignore the signal, this is handled by the runtim
-        signal.signal(signal.SIGINT, lambda s, f: None)
-        signal.signal(signal.SIGINT, lambda s, f: None)
-        signal.signal(signal.SIGQUIT, lambda s, f: None)
-        signal.signal(signal.SIGTERM, lambda s, f: None)
-        signal.signal(signal.SIGUSR1, lambda s, f: None)
-        signal.signal(signal.SIGUSR2, lambda s, f: None)
-
-        # Start the subprocess
-        args = runtime.cmd(args)
-        LOG.debug(f"Calling {' '.join(args)}")
-        proc = subprocess.Popen(args, bufsize=1, stderr=subprocess.PIPE, text=True)
-        assert proc.stderr is not None
-        for line in proc.stderr:
-            line = line.rstrip("\n")
-            try:
-                data = yaml_load(line)
-            except yaml.YAMLError:
-                LOG.debug(line)
-                continue
-            if not data or not isinstance(data, dict):
-                LOG.debug(line)
-                continue
-            if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
-                LOG.debug(line)
-                continue
-
-            if log_file is not None:
-                log_file.write("- " + line + "\n")
-            else:
-                level = data["lvl"]
-                msg = data["msg"]
-                ns = " "
-                if level == "feedback" and "ns" in data:
-                    ns = f" <{COLORS['feedback']}{data['ns']}{COLORS['end']}> "
-                timestamp = data["dt"].split(".")[0]
-
-                sys.stdout.write(
-                    f"{COLORS['dt']}{timestamp}{COLORS['end']}{ns}{COLORS[level]}{msg}{COLORS['end']}\n"
-                )
-        return proc.wait()
-    except FileNotFoundError as exc:
-        sys.stderr.write(f"File not found '{exc.filename}'\n")
-        return 1
-    except Exception:
-        if proc is not None:
-            proc.kill()
-            outs, errs = proc.communicate()
-        # TODO: do something with outs and errs
-        raise
-    finally:
-        if log_file is not None:
-            log_file.close()
-    return 0
+    # Start the writer (stderr or log-file)
+    with Writer(options.log_file) as writer:
+        # Start the runtime
+        with runtime.run(args):
+            for line in runtime.lines():
+                writer.write(line)
+    return runtime.ret()
 
 
 def main() -> int:
@@ -475,6 +410,9 @@ def main() -> int:
     LOG.debug(f"temporary directory: '{tmpdir}'")
     try:
         return run(options, tmpdir)
+    except Exception as exc:
+        LOG.error("Raised an exception %s", exc)
+        raise
     finally:
         shutil.rmtree(tmpdir)
 
