@@ -85,6 +85,28 @@ def tuxmake_directory(s):
         raise argparse.ArgumentTypeError(str(e))
 
 
+class ListDevicesAction(argparse.Action):
+    def __init__(
+        self, option_strings, help, dest=argparse.SUPPRESS, default=argparse.SUPPRESS
+    ):
+        super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        parser._print_message("\n".join(templates.devices_list()) + "\n", sys.stderr)
+        parser.exit()
+
+
+class ListTestsAction(argparse.Action):
+    def __init__(
+        self, option_strings, help, dest=argparse.SUPPRESS, default=argparse.SUPPRESS
+    ):
+        super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        parser._print_message("\n".join(templates.tests_list()) + "\n", sys.stderr)
+        parser.exit()
+
+
 ##########
 # Setups #
 ##########
@@ -100,6 +122,14 @@ def setup_parser() -> argparse.ArgumentParser:
         metavar="NAME",
         help="Device type",
         choices=templates.devices_list(),
+    )
+
+    group = parser.add_argument_group("listing")
+    group.add_argument(
+        "--list-devices", action=ListDevicesAction, help="List available devices"
+    )
+    group.add_argument(
+        "--list-tests", action=ListTestsAction, help="List available tests"
     )
 
     group = parser.add_argument_group("artefacts")

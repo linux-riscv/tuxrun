@@ -236,3 +236,27 @@ def test_custom_commands(monkeypatch, run):
     options = run.call_args[0][0]
     assert "command" in options.tests
     assert options.command == ["cat", "/etc/hostname"]
+
+
+def test_list_devices(mocker, monkeypatch, capsys):
+    monkeypatch.setattr(
+        "sys.argv",
+        ["tuxrun", "--list-devices"],
+    )
+    mocker.patch("argparse.ArgumentParser.exit")
+    main()
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert "qemu-i386" in stderr
+
+
+def test_list_tests(mocker, monkeypatch, capsys):
+    monkeypatch.setattr(
+        "sys.argv",
+        ["tuxrun", "--list-tests"],
+    )
+    mocker.patch("argparse.ArgumentParser.exit")
+    main()
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert "ltp-smoke" in stderr
