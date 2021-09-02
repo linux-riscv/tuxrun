@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
+import contextlib
 import logging
 from pathlib import Path
 import shlex
@@ -417,7 +418,8 @@ def main() -> int:
         LOG.error("Raised an exception %s", exc)
         raise
     finally:
-        shutil.rmtree(tmpdir)
+        with contextlib.suppress(FileNotFoundError, PermissionError):
+            shutil.rmtree(tmpdir)
 
 
 def start():
