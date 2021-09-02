@@ -10,6 +10,7 @@ import logging
 import os
 from pathlib import Path
 import subprocess
+import time
 
 
 LOG = logging.getLogger("tuxrun")
@@ -17,6 +18,7 @@ LOG = logging.getLogger("tuxrun")
 
 class Runtime:
     binary = ""
+    container = False
     prefix = [""]
 
     def __init__(self):
@@ -47,8 +49,14 @@ class Runtime:
     def name(self, name):
         self.__name__ = name
 
+    def pre_run(self, tmpdir):
+        pass
+
+    def post_run(self):
+        pass
+
     def cmd(self, args):
-        raise NotImplementedError()
+        raise NotImplementedError()  # pragma: no cover
 
     @contextlib.contextmanager
     def run(self, args):
@@ -75,7 +83,8 @@ class Runtime:
                     LOG.error("err: %s", err)
             raise
         finally:
-            self.__ret__ = self.__proc__.wait()
+            if self.__proc__ is not None:
+                self.__ret__ = self.__proc__.wait()
             for proc in self.__sub_procs__:
                 proc.wait()
 
@@ -83,13 +92,16 @@ class Runtime:
         return self.__proc__.stderr
 
     def kill(self):
-        self.__proc__.kill()
+        if self.__proc__:
+            self.__proc__.kill()
 
     def ret(self):
         return self.__ret__
 
 
 class ContainerRuntime(Runtime):
+    container = True
+
     def __init__(self):
         super().__init__()
         self.bind("/boot", ro=True)
@@ -103,7 +115,7 @@ class ContainerRuntime(Runtime):
             self.bind(guestfs, "/var/tmp/.guestfs-0")
 
     def cmd(self, args):
-        prefix = self.prefix
+        prefix = self.prefix.copy()
         for binding in self.__bindings__:
             (src, dst, ro) = binding
             ro = "ro" if ro else "rw"
@@ -127,10 +139,43 @@ class DockerRuntime(ContainerRuntime):
     binary = "docker"
     prefix = ["docker", "run", "--rm", "--hostname", "tuxrun"]
 
+    def pre_run(self, tmpdir):
+        self.bind("/var/run/docker.sock")
+
 
 class PodmanRuntime(ContainerRuntime):
     binary = "podman"
     prefix = ["podman", "run", "--rm", "--quiet", "--hostname", "tuxrun"]
+
+    def pre_run(self, tmpdir):
+        socket = tmpdir / "podman.sock"
+        self.bind(socket, "/run/podman/podman.sock")
+        args = [
+            self.binary,
+            "system",
+            "service",
+            "--time",
+            "0",
+            f"unix://{socket}",
+        ]
+        self.__pre_proc__ = subprocess.Popen(
+            args,
+            stderr=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            preexec_fn=os.setpgrp,
+        )
+        # wait for the socket
+        for i in range(0, 60):
+            if socket.exists():
+                return
+            time.sleep(1)
+        raise Exception(f"Unable to create podman socket at {socket}")
+
+    def post_run(self):
+        if self.__pre_proc__ is None:
+            return
+        self.__pre_proc__.kill()
+        self.__pre_proc__.wait()
 
 
 class NullRuntime(Runtime):

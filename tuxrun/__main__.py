@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
+import contextlib
 import logging
 from pathlib import Path
 import shlex
@@ -114,18 +115,22 @@ def setup_parser() -> argparse.ArgumentParser:
     )
 
     group = parser.add_argument_group("artefacts")
-    group.add_argument(
-        "--bios", default=None, metavar="URL", type=pathurlnone, help="bios URL"
-    )
-    group.add_argument(
-        "--dtb", default=None, metavar="URL", type=pathurlnone, help="dtb URL"
-    )
-    group.add_argument(
-        "--kernel", default=None, metavar="URL", type=pathurlnone, help="kernel URL"
-    )
-    group.add_argument(
-        "--modules", default=None, metavar="URL", type=pathurlnone, help="modules URL"
-    )
+
+    def artefact(name):
+        group.add_argument(
+            f"--{name}",
+            default=None,
+            metavar="URL",
+            type=pathurlnone,
+            help=f"{name} URL",
+        )
+
+    artefact("bios")
+    artefact("dtb")
+    artefact("kernel")
+    artefact("mcp-fw")
+    artefact("mcp-romfw")
+    artefact("modules")
     group.add_argument(
         "--overlay",
         default=[],
@@ -142,9 +147,9 @@ def setup_parser() -> argparse.ArgumentParser:
         type=int,
         help="rootfs partition number",
     )
-    group.add_argument(
-        "--rootfs", default=None, metavar="URL", type=pathurlnone, help="rootfs URL"
-    )
+    artefact("rootfs")
+    artefact("scp-fw")
+    artefact("scp-romfw")
     group.add_argument(
         "--tuxmake",
         metavar="DIRECTORY",
@@ -152,6 +157,8 @@ def setup_parser() -> argparse.ArgumentParser:
         type=tuxmake_directory,
         help="directory containing a TuxMake build",
     )
+    artefact("uefi")
+    artefact("userdata")
 
     group = parser.add_argument_group("run options")
     group.add_argument(
@@ -211,10 +218,11 @@ def run(options, tmpdir: Path) -> int:
     extra_assets = []
     if options.device:
         kernel_compression = None
-        if options.kernel.endswith(".gz"):
-            kernel_compression = "gz"
-        if options.kernel.endswith(".xz"):
-            kernel_compression = "xz"
+        if options.kernel:
+            if options.kernel.endswith(".gz"):
+                kernel_compression = "gz"
+            if options.kernel.endswith(".xz"):
+                kernel_compression = "xz"
 
         overlays = []
         if options.modules:
@@ -235,27 +243,41 @@ def run(options, tmpdir: Path) -> int:
         definition = templates.jobs.get_template(
             f"{options.device}.yaml.jinja2"
         ).render(
-            device=options.device,
-            kernel=options.kernel,
-            overlays=overlays,
             bios=options.bios,
+            command=command,
+            device=options.device,
             dtb=options.dtb,
+            kernel=options.kernel,
+            kernel_compression=kernel_compression,
+            mcp_fw=options.mcp_fw,
+            mcp_romfw=options.mcp_romfw,
+            overlays=overlays,
             rootfs=options.rootfs,
             rootfs_partition=options.partition,
+            scp_fw=options.scp_fw,
+            scp_romfw=options.scp_romfw,
             tests=options.tests,
-            command=command,
             test_definitions=test_definitions,
             timeouts=templates.timeouts(),
+            tmpdir=tmpdir,
             tux_boot_args=options.boot_args.replace('"', ""),
-            kernel_compression=kernel_compression,
+            uefi=options.uefi,
+            userdata=options.userdata,
         )
         LOG.debug("job definition")
         LOG.debug(definition)
 
         context = yaml_load(definition).get("context", {})
-        device = templates.devices.get_template("qemu.yaml.jinja2").render(**context)
-        LOG.debug(options, "device dictionary")
-        LOG.debug(options, device)
+        if options.device.startswith("qemu-"):
+            device_name = "qemu.yaml.jinja2"
+        elif options.device.startswith("fvp-"):
+            device_name = "fvp.yaml.jinja2"
+        else:
+            raise NotImplementedError
+
+        device = templates.devices.get_template(device_name).render(**context)
+        LOG.debug("device dictionary")
+        LOG.debug(device)
 
         (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
         (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
@@ -287,12 +309,31 @@ def run(options, tmpdir: Path) -> int:
         options.bios,
         options.dtb,
         options.kernel,
+        options.mcp_fw,
+        options.mcp_romfw,
         options.rootfs,
+        options.scp_fw,
+        options.scp_romfw,
+        options.uefi,
     ] + extra_assets:
         if not path:
             continue
         if urlparse(path).scheme == "file":
             runtime.bind(path[7:], ro=True)
+
+    if options.device and options.device.startswith("fvp-") and runtime.container:
+        runtime.bind(f"{tmpdir}/dispatcher")
+        (tmpdir / "dispatcher").mkdir()
+        dispatcher = templates.dispatchers.get_template(
+            "dispatcher.yaml.jinja2"
+        ).render(prefix=f"{tmpdir}/dispatcher/")
+        LOG.debug("dispatcher config")
+        LOG.debug(dispatcher)
+
+        (tmpdir / "dispatcher.yaml").write_text(dispatcher, encoding="utf-8")
+        # Add dispatcher.yaml to the command line arguments
+        args.insert(-1, "--dispatcher")
+        args.insert(-1, str(tmpdir / "dispatcher.yaml"))
 
     # Forward the signal to the runtime
     def handler(*_):
@@ -305,12 +346,18 @@ def run(options, tmpdir: Path) -> int:
     signal.signal(signal.SIGUSR1, handler)
     signal.signal(signal.SIGUSR2, handler)
 
+    # start the pre_run command
+    if options.device and options.device.startswith("fvp-"):
+        LOG.debug("Pre run command")
+        runtime.pre_run(tmpdir)
+
     # Start the writer (stderr or log-file)
     with Writer(options.log_file) as writer:
         # Start the runtime
         with runtime.run(args):
             for line in runtime.lines():
                 writer.write(line)
+    runtime.post_run()
     return runtime.ret()
 
 
@@ -370,16 +417,45 @@ def main() -> int:
             sys.stderr.write("tuxrun: error: argument --device is required\n")
             return 1
 
-        if not options.kernel:
-            options.kernel = KERNELS[options.device]
+        if options.device.startswith("qemu-"):
+            if not options.kernel:
+                options.kernel = KERNELS[options.device]
 
-        options.rootfs = pathurlnone(
-            get_rootfs(
-                options.device,
-                options.rootfs,
-                TTYProgressIndicator("Downloading root filesystem"),
+            options.rootfs = pathurlnone(
+                get_rootfs(
+                    options.device,
+                    options.rootfs,
+                    TTYProgressIndicator("Downloading root filesystem"),
+                )
             )
-        )
+        elif options.device.startswith("fvp-"):
+            artefacts = bool(
+                options.mcp_fw
+                and options.mcp_romfw
+                and options.mcp_fw
+                and options.rootfs
+                and options.scp_fw
+                and options.scp_romfw
+                and options.uefi
+            )
+            if options.device == "fvp-morello-android" and options.tests:
+                artefacts = bool(artefacts and options.userdata)
+
+            if not artefacts:
+                parser.print_usage(file=sys.stderr)
+                if options.device == "fvp-morello-android" and options.tests:
+                    sys.stderr.write(
+                        "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
+                        "--scp-romfw, --uefi and --userdata are mandatory for "
+                        "fvp devices\n"
+                    )
+                else:
+                    sys.stderr.write(
+                        "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
+                        "--scp-romfw and --uefi are mandatory for "
+                        "fvp devices\n"
+                    )
+                return 1
 
         if options.command:
             options.tests.append("command")
@@ -417,7 +493,8 @@ def main() -> int:
         LOG.error("Raised an exception %s", exc)
         raise
     finally:
-        shutil.rmtree(tmpdir)
+        with contextlib.suppress(FileNotFoundError, PermissionError):
+            shutil.rmtree(tmpdir)
 
 
 def start():

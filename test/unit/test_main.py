@@ -91,9 +91,12 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
         [],
         ["--device", "qemu-armv7", "--device-dict", "device.yaml"],
         ["--device", "qemu-armv7", "--dtb", "bla.dtb"],
+        ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
         ["--device-dict", "device.yaml"],
         ["--definition", "definition.yaml"],
+        ["--device", "fvp-morello-android", "--mcp-fw", "mcp.bin"],
+        ["--device", "fvp-morello-android", "--test", "multicore"],
     ],
 )
 def test_command_line_errors(argv, capsys, monkeypatch):
