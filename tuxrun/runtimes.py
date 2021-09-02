@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-from contextlib import contextmanager
+import contextlib
 import logging
 import os
 from pathlib import Path
@@ -25,6 +25,7 @@ class Runtime:
         self.__name__ = None
         self.__pre_proc__ = None
         self.__proc__ = None
+        self.__sub_procs__ = []
         self.__ret__ = None
 
     @classmethod
@@ -49,13 +50,17 @@ class Runtime:
     def cmd(self, args):
         raise NotImplementedError()
 
-    @contextmanager
+    @contextlib.contextmanager
     def run(self, args):
         args = self.cmd(args)
         LOG.debug("Calling %s", " ".join(args))
         try:
             self.__proc__ = subprocess.Popen(
-                args, bufsize=1, stderr=subprocess.PIPE, text=True
+                args,
+                bufsize=1,
+                stderr=subprocess.PIPE,
+                text=True,
+                preexec_fn=os.setpgrp,
             )
             yield
         except FileNotFoundError as exc:
@@ -71,6 +76,8 @@ class Runtime:
             raise
         finally:
             self.__ret__ = self.__proc__.wait()
+            for proc in self.__sub_procs__:
+                proc.wait()
 
     def lines(self):
         return self.__proc__.stderr
@@ -105,7 +112,15 @@ class ContainerRuntime(Runtime):
         return prefix + [self.__image__] + args
 
     def kill(self):
-        subprocess.run([self.binary, "kill", self.__name__], capture_output=True)
+        args = [self.binary, "stop", "--time", "60", self.__name__]
+        with contextlib.suppress(FileNotFoundError):
+            proc = subprocess.Popen(
+                args,
+                stderr=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                preexec_fn=os.setpgrp,
+            )
+            self.__sub_procs__.append(proc)
 
 
 class DockerRuntime(ContainerRuntime):

@@ -294,13 +294,16 @@ def run(options, tmpdir: Path) -> int:
         if urlparse(path).scheme == "file":
             runtime.bind(path[7:], ro=True)
 
-    # Ignore the signal, this is handled by the runtim
-    signal.signal(signal.SIGINT, lambda s, f: None)
-    signal.signal(signal.SIGINT, lambda s, f: None)
-    signal.signal(signal.SIGQUIT, lambda s, f: None)
-    signal.signal(signal.SIGTERM, lambda s, f: None)
-    signal.signal(signal.SIGUSR1, lambda s, f: None)
-    signal.signal(signal.SIGUSR2, lambda s, f: None)
+    # Forward the signal to the runtime
+    def handler(*_):
+        runtime.kill()
+
+    signal.signal(signal.SIGHUP, handler)
+    signal.signal(signal.SIGINT, handler)
+    signal.signal(signal.SIGQUIT, handler)
+    signal.signal(signal.SIGTERM, handler)
+    signal.signal(signal.SIGUSR1, handler)
+    signal.signal(signal.SIGUSR2, handler)
 
     # Start the writer (stderr or log-file)
     with Writer(options.log_file) as writer:
