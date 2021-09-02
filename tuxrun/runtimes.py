@@ -10,6 +10,7 @@ import logging
 import os
 from pathlib import Path
 import subprocess
+import time
 
 
 LOG = logging.getLogger("tuxrun")
@@ -17,6 +18,7 @@ LOG = logging.getLogger("tuxrun")
 
 class Runtime:
     binary = ""
+    container = False
     prefix = [""]
 
     def __init__(self):
@@ -46,6 +48,12 @@ class Runtime:
 
     def name(self, name):
         self.__name__ = name
+
+    def pre_run(self, tmpdir):
+        pass
+
+    def post_run(self):
+        pass
 
     def cmd(self, args):
         raise NotImplementedError()
@@ -90,6 +98,8 @@ class Runtime:
 
 
 class ContainerRuntime(Runtime):
+    container = True
+
     def __init__(self):
         super().__init__()
         self.bind("/boot", ro=True)
@@ -127,10 +137,44 @@ class DockerRuntime(ContainerRuntime):
     binary = "docker"
     prefix = ["docker", "run", "--rm", "--hostname", "tuxrun"]
 
+    def pre_run(self, tmpdir):
+        self.bind("/var/run/docker.sock")
+
 
 class PodmanRuntime(ContainerRuntime):
     binary = "podman"
     prefix = ["podman", "run", "--rm", "--quiet", "--hostname", "tuxrun"]
+
+    def pre_run(self, tmpdir):
+        socket = tmpdir / "podman.sock"
+        self.bind(socket, "/run/podman/podman.sock")
+        args = [
+            self.binary,
+            "system",
+            "service",
+            "--time",
+            "0",
+            f"unix://{socket}",
+        ]
+        self.__pre_proc__ = subprocess.Popen(
+            args,
+            stderr=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            preexec_fn=os.setpgrp,
+        )
+        # wait for the socket
+        for i in range(0, 60):
+            if socket.exists():
+                return
+            time.sleep(1)
+        raise Exception("Unable to create podman socket at {socket}")
+
+    def post_run(self):
+        if self.__pre_proc__ is None:
+            return
+        self.__pre_proc__.kill()
+        self.__pre_proc__.wait()
+        self.__pre_proc__ = None
 
 
 class NullRuntime(Runtime):
