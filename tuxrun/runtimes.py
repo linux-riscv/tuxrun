@@ -56,7 +56,7 @@ class Runtime:
         pass
 
     def cmd(self, args):
-        raise NotImplementedError()
+        raise NotImplementedError()  # pragma: no cover
 
     @contextlib.contextmanager
     def run(self, args):
@@ -83,7 +83,8 @@ class Runtime:
                     LOG.error("err: %s", err)
             raise
         finally:
-            self.__ret__ = self.__proc__.wait()
+            if self.__proc__ is not None:
+                self.__ret__ = self.__proc__.wait()
             for proc in self.__sub_procs__:
                 proc.wait()
 
@@ -91,7 +92,8 @@ class Runtime:
         return self.__proc__.stderr
 
     def kill(self):
-        self.__proc__.kill()
+        if self.__proc__:
+            self.__proc__.kill()
 
     def ret(self):
         return self.__ret__
@@ -113,7 +115,7 @@ class ContainerRuntime(Runtime):
             self.bind(guestfs, "/var/tmp/.guestfs-0")
 
     def cmd(self, args):
-        prefix = self.prefix
+        prefix = self.prefix.copy()
         for binding in self.__bindings__:
             (src, dst, ro) = binding
             ro = "ro" if ro else "rw"
@@ -167,14 +169,13 @@ class PodmanRuntime(ContainerRuntime):
             if socket.exists():
                 return
             time.sleep(1)
-        raise Exception("Unable to create podman socket at {socket}")
+        raise Exception(f"Unable to create podman socket at {socket}")
 
     def post_run(self):
         if self.__pre_proc__ is None:
             return
         self.__pre_proc__.kill()
         self.__pre_proc__.wait()
-        self.__pre_proc__ = None
 
 
 class NullRuntime(Runtime):

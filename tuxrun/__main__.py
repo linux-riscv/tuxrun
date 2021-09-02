@@ -445,13 +445,13 @@ def main() -> int:
                 parser.print_usage(file=sys.stderr)
                 if options.device == "fvp-morello-android" and options.tests:
                     sys.stderr.write(
-                        "tuxrun: error --mcp-fw, --mcp-romfw, --root, --scp-fw, "
+                        "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
                         "--scp-romfw, --uefi and --userdata are mandatory for "
                         "fvp devices\n"
                     )
                 else:
                     sys.stderr.write(
-                        "tuxrun: error --mcp-fw, --mcp-romfw, --root, --scp-fw, "
+                        "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
                         "--scp-romfw and --uefi are mandatory for "
                         "fvp devices\n"
                     )
