@@ -24,6 +24,12 @@ devices = jinja2.Environment(
     loader=jinja2.FileSystemLoader(str(BASE / "devices")),
 )
 
+dispatchers = jinja2.Environment(
+    autoescape=False,
+    trim_blocks=True,
+    loader=jinja2.FileSystemLoader(str(BASE / "dispatchers")),
+)
+
 
 def devices_list():
     names = []
