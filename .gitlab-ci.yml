@@ -56,6 +56,7 @@ ci-image-integration:
 unit-tests:
   extends: .job
   stage: test
+  coverage: 'Total coverage: (\d+\.\d+)%$/'
 
 stylecheck:
   extends: .job
