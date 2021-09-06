@@ -77,7 +77,7 @@ def test_kill_null(mocker):
 
     runtime.__proc__ = mocker.MagicMock()
     runtime.kill()
-    runtime.__proc__.kill.assert_called_once_with()
+    runtime.__proc__.send_signal.assert_called_once_with(15)
 
 
 def test_kill_podman(mocker):

@@ -9,6 +9,7 @@ import contextlib
 import logging
 import os
 from pathlib import Path
+import signal
 import subprocess
 import time
 
@@ -93,7 +94,7 @@ class Runtime:
 
     def kill(self):
         if self.__proc__:
-            self.__proc__.kill()
+            self.__proc__.send_signal(signal.SIGTERM)
 
     def ret(self):
         return self.__ret__
