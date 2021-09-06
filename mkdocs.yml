@@ -15,6 +15,21 @@ theme:
 extra_css:
   - style.css
 
+markdown_extensions:
+- admonition
+- pymdownx.highlight
+- pymdownx.superfences
+- toc:
+    permalink: true
+
 nav:
-  - Welcome to TuxRun: index.md
-  - Install TuxRun: install.md
+- Getting Started: index.md
+- Installing TuxRun:
+  - PyPI: install-pypi.md
+  - Run uninstalled: run-uninstalled.md
+- Running:
+  - FVP: run-fvp.md
+  - QEMU: run-qemu.md
+- Features:
+  - Devices: devices.md
+  - Tests: tests.md
