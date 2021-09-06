@@ -31,6 +31,11 @@ tuxrun --device qemu-arm64 \
 !!! warning "Modules format"
     The modules archive should be a **tar archive**, compressed with **xz**.
 
+!!! tip "Overlays"
+    Any overlay can be applied to the rootfs with the **--overlay** option.
+    This option can be specified multiple times. Each overlay should be a
+    **tar archive** compressed with **xz**.
+
 ## Boot arguments
 
 You can specify custom boot arguments with:
