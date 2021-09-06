@@ -31,8 +31,11 @@ spellcheck:
 integration:
 	python3 test/integration.py
 
-doc:
+doc: docs/index.md
 	mkdocs build
+
+docs/index.md: README.md scripts/readme2index.sh
+	scripts/readme2index.sh $@
 
 doc-serve:
 	mkdocs serve
