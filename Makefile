@@ -2,7 +2,7 @@ export PROJECT := tuxrun
 
 test: typecheck unit-tests spellcheck stylecheck
 
-COVERAGE = 92.35
+COVERAGE = 94.35
 
 unit-tests:
 	python3 -m pytest \
