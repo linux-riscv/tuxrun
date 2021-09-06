@@ -1,0 +1,16 @@
+{% extends 'base-qemu.yaml.jinja2' %}
+
+{% block context %}
+context:
+  arch: "ppc"
+  cpu: "e500mc"
+  guestfs_interface: "virtio"
+  machine: ppce500
+  no_kvm: true
+  no_network: true
+{% endblock %}
+
+{% set arch = "ppc32" %}
+{% set console = "ttyS0" %}
+{% set rootfs_dev = "/dev/vda" %}
+{% set rootfs_arg = "-drive file={rootfs},format=raw,if=virtio" %}

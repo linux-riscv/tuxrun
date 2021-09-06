@@ -88,6 +88,7 @@ integration:
       - qemu-i386
       - qemu-mips64
       - qemu-mips64el
+      - qemu-ppc32
       - qemu-ppc64
       - qemu-ppc64le
       - qemu-sparc64

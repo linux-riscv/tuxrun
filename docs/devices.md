@@ -28,6 +28,7 @@ qemu-mips32   | 32-bit MIPS         | malta       | mips32r6-generic | vmlinux
 qemu-mips32el | 32-bit MIPS (EL)    | malta       | mips32r6-generic | vmlinux
 qemu-mips64   | 64-bit MIPS         | malta       | 24Kf             | vmlinux
 qemu-mips64el | 64-bit MIPS (EL)    | malta       | 24Kf             | vmlinux
+qemu-ppc32    | 32-bit PowerPC      | ppce500     | e500mc           | uImage
 qemu-ppc64    | 64-bit PowerPC      | pSeries     | Power8           | vmlinux
 qemu-ppc64le  | 64-bit PowerPC (EL) | pSeries     | Power8           | vmlinux
 qemu-riscv64  | 64-bit RISC-V       | virt        | rv64             | Image
