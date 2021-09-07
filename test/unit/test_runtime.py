@@ -59,7 +59,8 @@ def test_cmd_podman():
         "world",
     ]
 
-    runtime.bind("/hello/world") == args + [
+    runtime.bind("/hello/world")
+    assert runtime.cmd(["hello", "world"]) == args + [
         "-v",
         "/hello/world:/hello/world:rw",
         "--name",
@@ -109,7 +110,11 @@ def test_kill_podman_raise(mocker):
 def test_pre_run_docker():
     runtime = Runtime.select("docker")()
     runtime.pre_run(None)
-    runtime.__bindings__[-1] == "/var/run/docker.sock"
+    assert runtime.__bindings__[-1] == (
+        "/var/run/docker.sock",
+        "/var/run/docker.sock",
+        False,
+    )
 
 
 def test_pre_run_null():
