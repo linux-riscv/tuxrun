@@ -50,7 +50,8 @@ podman build --tag fvp:morello-0.11.19 .
 In order to run a simple boot test on **fvp-morello-busybox**:
 
 ```shell
-tuxrun --device fvp-morello-buxybox \
+tuxrun --image tuxrun:fvp \
+       --device fvp-morello-buxybox \
        --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
        --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
        --rootfs https://example.com/fvp/morello/rootfs.img.xz \
@@ -64,7 +65,8 @@ tuxrun --device fvp-morello-buxybox \
 In order to run an Android test on **fvp-morello-android**:
 
 ```shell
-tuxrun --device fvp-morello-android \
+tuxrun --image tuxrun:fvp \
+       --device fvp-morello-android \
        --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
        --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
        --rootfs https://example.com/fvp/morello/rootfs.img.xz \
