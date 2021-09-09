@@ -89,6 +89,13 @@ class ListTestsAction(argparse.Action):
         parser.exit()
 
 
+class KeyValueAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        for value in values:
+            key, value = value.split("=")
+            getattr(namespace, self.dest)[key] = value
+
+
 ##########
 # Setups #
 ##########
@@ -158,7 +165,17 @@ def setup_parser() -> argparse.ArgumentParser:
         help="directory containing a TuxMake build",
     )
     artefact("uefi")
-    artefact("userdata")
+
+    group = parser.add_argument_group("test parameters")
+    group.add_argument(
+        "--parameters",
+        metavar="K=V",
+        default={},
+        type=str,
+        help="test parameters as key=value",
+        action=KeyValueAction,
+        nargs="+",
+    )
 
     group = parser.add_argument_group("run options")
     group.add_argument(
@@ -262,7 +279,7 @@ def run(options, tmpdir: Path) -> int:
             tmpdir=tmpdir,
             tux_boot_args=options.boot_args.replace('"', ""),
             uefi=options.uefi,
-            userdata=options.userdata,
+            parameters=options.parameters,
         )
         LOG.debug("job definition")
         LOG.debug(definition)
@@ -439,14 +456,14 @@ def main() -> int:
                 and options.uefi
             )
             if options.device == "fvp-morello-android" and options.tests:
-                artefacts = bool(artefacts and options.userdata)
+                artefacts = bool(artefacts and options.parameters.get("USERDATA"))
 
             if not artefacts:
                 parser.print_usage(file=sys.stderr)
                 if options.device == "fvp-morello-android" and options.tests:
                     sys.stderr.write(
                         "tuxrun: error: --mcp-fw, --mcp-romfw, --rootfs, --scp-fw, "
-                        "--scp-romfw, --uefi and --userdata are mandatory for "
+                        "--scp-romfw, --uefi and --parameters USERDATA=URL are mandatory for "
                         "fvp devices\n"
                     )
                 else:

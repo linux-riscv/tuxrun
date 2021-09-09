@@ -108,6 +108,25 @@ def test_command_line_errors(argv, capsys, monkeypatch):
     assert "tuxrun: error:" in stderr
 
 
+def test_command_line_parameters(monkeypatch, mocker):
+    monkeypatch.setattr(
+        "tuxrun.__main__.sys.argv",
+        [
+            "tuxrun",
+            "--device",
+            "qemu-armv5",
+            "--parameters",
+            "USERDATA=http://userdata.tar.xz",
+        ],
+    )
+    run = mocker.patch("tuxrun.__main__.run", return_value=0)
+    exitcode = main()
+    assert exitcode == 0
+    assert len(run.call_args.args) == 2
+    print(run.call_args.parameters)
+    assert run.call_args[0][0].parameters == {"USERDATA": "http://userdata.tar.xz"}
+
+
 def test_almost_real_run_generate(tuxrun_args_generate, lava_run, capsys):
     lava_run.stderr = [
         '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n'

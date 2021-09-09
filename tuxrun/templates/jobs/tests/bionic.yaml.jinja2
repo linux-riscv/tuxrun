@@ -12,6 +12,6 @@
       path: lava/test-definitions/bionic/testdef.yaml
       name: bionic
       parameters:
-        USERDATA_URL: "{{ userdata }}"
+        USERDATA_URL: "{{ parameters.USERDATA }}"
         TEST_PATHS: "nativetest64 nativetestc64"
         GTEST_FILTER: "{{ GTEST_FILTER }}"

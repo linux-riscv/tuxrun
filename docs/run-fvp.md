@@ -101,7 +101,7 @@ In order to run an Android test on **fvp-morello-android**:
            --scp-fw https://example.com/fvp/morello/scp_fw.bin \
            --scp-romfw https://example.com/fvp/morello/scp_romfw.bin \
            --uefi https://example.com/fvp/morello/uefi.bin \
-           --userdata https://example.com/fvp/morello/userdata.tar.xz \
+           --parameters USERDATA=https://example.com/fvp/morello/userdata.tar.xz \
            --tests binder
     ```
 
@@ -116,10 +116,10 @@ In order to run an Android test on **fvp-morello-android**:
            --scp-fw https://example.com/fvp/morello/scp_fw.bin \
            --scp-romfw https://example.com/fvp/morello/scp_romfw.bin \
            --uefi https://example.com/fvp/morello/uefi.bin \
-           --userdata https://example.com/fvp/morello/userdata.tar.xz \
+           --parameters USERDATA=https://example.com/fvp/morello/userdata.tar.xz \
            --tests binder
     ```
 
 !!! tip "Android boot test"
-    When running an Android boot test, **--userdata** is not needed (and won't
-    be used).
+    When running an Android boot test, **--parameters USERDATA=https://** is
+    not needed (and won't be used).
