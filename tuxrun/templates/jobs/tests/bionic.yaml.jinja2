@@ -10,8 +10,8 @@
     - repository: https://git.morello-project.org/morello/morello-ci-pipelines.git
       from: git
       path: lava/test-definitions/bionic/testdef.yaml
-      name: bionic-unit-tests-run
+      name: bionic
       parameters:
         USERDATA_URL: "{{ userdata }}"
         TEST_PATHS: "nativetest64 nativetestc64"
-        GTEST_FILTER: "{{GTEST_FILTER}}"
+        GTEST_FILTER: "{{ GTEST_FILTER }}"
