@@ -16,6 +16,7 @@ jobs = jinja2.Environment(
     autoescape=False,
     trim_blocks=True,
     loader=jinja2.FileSystemLoader(str(BASE / "jobs")),
+    undefined=jinja2.StrictUndefined,
 )
 
 devices = jinja2.Environment(
