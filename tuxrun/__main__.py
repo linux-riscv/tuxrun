@@ -56,8 +56,10 @@ def pathurlnone(string):
     if url.scheme not in ["", "file"]:
         raise argparse.ArgumentTypeError(f"Invalid scheme '{url.scheme}'")
 
-    path = string if url.scheme == "" else url.path
-    return f"file://{Path(path).expanduser().resolve()}"
+    path = Path(string if url.scheme == "" else url.path)
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} no such file or directory")
+    return f"file://{path.expanduser().resolve()}"
 
 
 def tuxmake_directory(s):

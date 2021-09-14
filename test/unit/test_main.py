@@ -1,4 +1,5 @@
 import pytest
+import os
 import yaml
 
 import tuxrun.__main__
@@ -9,6 +10,21 @@ def touch(directory, name):
     f = directory / name
     f.touch()
     return f
+
+
+@pytest.fixture
+def artefacts(tmp_path):
+    os.chdir(tmp_path)
+    touch(tmp_path, "arm.dtb")
+    touch(tmp_path, "device.yaml")
+    touch(tmp_path, "definition.yaml")
+    touch(tmp_path, "bios.bin")
+    touch(tmp_path, "bzImage")
+    touch(tmp_path, "stuff.tar.gz")
+    touch(tmp_path, "morestuff.tar.gz")
+    touch(tmp_path, "fvp.bin")
+    touch(tmp_path, "foo.tar.gz")
+    return tmp_path
 
 
 @pytest.fixture
@@ -89,17 +105,17 @@ FVP_MORELLO_ARGS = [
     "--device",
     "fvp-morello-android",
     "--mcp-fw",
-    "mcp.bin",
+    "fvp.bin",
     "--mcp-romfw",
-    "mcp_romfz.bin",
+    "fvp.bin",
     "--rootfs",
-    "rootf.bin",
+    "fvp.bin",
     "--scp-fw",
-    "scp_fw.bin",
+    "fvp.bin",
     "--scp-romfw",
-    "scp_romfw.bin",
+    "fvp.bin",
     "--uefi",
-    "uefi.bin",
+    "fvp.bin",
 ]
 
 
@@ -108,12 +124,12 @@ FVP_MORELLO_ARGS = [
     [
         [],
         ["--device", "qemu-armv7", "--device-dict", "device.yaml"],
-        ["--device", "qemu-armv7", "--dtb", "bla.dtb"],
+        ["--device", "qemu-armv7", "--dtb", "arm.dtb"],
         ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
         ["--device-dict", "device.yaml"],
         ["--definition", "definition.yaml"],
-        ["--device", "fvp-morello-android", "--mcp-fw", "mcp.bin"],
+        ["--device", "fvp-morello-android", "--mcp-fw", "fvp.bin"],
         ["--device", "fvp-morello-android", "--test", "multicore"],
         [*FVP_MORELLO_ARGS, "--tests", "bionic"],
         [*FVP_MORELLO_ARGS, "--tests", "lldb"],
@@ -126,7 +142,7 @@ FVP_MORELLO_ARGS = [
         ],
     ],
 )
-def test_command_line_errors(argv, capsys, monkeypatch, mocker):
+def test_command_line_errors(argv, capsys, monkeypatch, mocker, artefacts):
     monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"] + argv)
     run = mocker.patch("tuxrun.__main__.run", return_value=0)
     exitcode = main()
@@ -243,38 +259,38 @@ def test_invalid_tuxmake_directory(monkeypatch, tmp_path, capsys):
     assert "metadata.json" in err
 
 
-def test_modules(monkeypatch, lava_run_call, lava_run):
+def test_modules(monkeypatch, lava_run_call, lava_run, artefacts):
     monkeypatch.setattr(
         "sys.argv",
         [
             "tuxrun",
             "--kernel=bzImage",
             "--device=qemu-x86_64",
-            "--modules=/path/to/foo.tar.gz",
+            "--modules=foo.tar.gz",
         ],
     )
     assert main() == 0
     lava_run_call.assert_called()
     args = lava_run_call.call_args[0][0]
-    assert "/path/to/foo.tar.gz:/path/to/foo.tar.gz:ro" in args
+    assert f"{artefacts}/foo.tar.gz:{artefacts}/foo.tar.gz:ro" in args
 
 
-def test_overlays(monkeypatch, lava_run_call, lava_run):
+def test_overlays(monkeypatch, lava_run_call, lava_run, artefacts):
     monkeypatch.setattr(
         "sys.argv",
         [
             "tuxrun",
             "--kernel=bzImage",
             "--device=qemu-x86_64",
-            "--overlay=/path/to/stuff.tar.gz",
-            "--overlay=/path/to/morestuff.tar.gz",
+            "--overlay=stuff.tar.gz",
+            "--overlay=morestuff.tar.gz",
         ],
     )
     assert main() == 0
     lava_run_call.assert_called()
     args = lava_run_call.call_args[0][0]
-    assert "/path/to/stuff.tar.gz:/path/to/stuff.tar.gz:ro" in args
-    assert "/path/to/morestuff.tar.gz:/path/to/morestuff.tar.gz:ro" in args
+    assert f"{artefacts}/stuff.tar.gz:{artefacts}/stuff.tar.gz:ro" in args
+    assert f"{artefacts}/morestuff.tar.gz:{artefacts}/morestuff.tar.gz:ro" in args
 
 
 def test_custom_commands(monkeypatch, run):
