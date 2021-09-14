@@ -455,24 +455,37 @@ def main() -> int:
                 and options.scp_romfw
                 and options.uefi
             )
-            if options.device == "fvp-morello-android" and options.tests:
-                artefacts = bool(artefacts and options.parameters.get("USERDATA"))
-
             if not artefacts:
                 parser.print_usage(file=sys.stderr)
-                if options.device == "fvp-morello-android" and options.tests:
-                    sys.stderr.write(
-                        "tuxrun: error: --mcp-fw, --mcp-romfw, --rootfs, --scp-fw, "
-                        "--scp-romfw, --uefi and --parameters USERDATA=URL are mandatory for "
-                        "fvp devices\n"
-                    )
-                else:
-                    sys.stderr.write(
-                        "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
-                        "--scp-romfw and --uefi are mandatory for "
-                        "fvp devices\n"
-                    )
+                sys.stderr.write(
+                    "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
+                    "--scp-romfw and --uefi are mandatory for "
+                    "fvp devices\n"
+                )
                 return 1
+            if options.device == "fvp-morello-android" and options.tests:
+                tests = [t in options.tests for t in ["binder", "bionic", "logd"]]
+                if any(tests) and not options.parameters.get("USERDATA"):
+                    parser.print_usage(file=sys.stderr)
+                    sys.stderr.write(
+                        "tuxrun: error: --parameters USERDATA=http://... is "
+                        "mantadory for fvp-morello-android test\n"
+                    )
+                    return 1
+                if "lldb" in options.tests and not options.parameters.get("LLDB_URL"):
+                    parser.print_usage(file=sys.stderr)
+                    sys.stderr.write(
+                        "tuxrun: error: --parameters LLDB_URL=http://... is "
+                        "mantadory for fvp-morello-android lldb test\n"
+                    )
+                    return 1
+                if "lldb" in options.tests and not options.parameters.get("TC_URL"):
+                    parser.print_usage(file=sys.stderr)
+                    sys.stderr.write(
+                        "tuxrun: error: --parameters TC_URL=http://... is "
+                        "mantadory for fvp-morello-android lldb test\n"
+                    )
+                    return 1
 
         if options.command:
             options.tests.append("command")

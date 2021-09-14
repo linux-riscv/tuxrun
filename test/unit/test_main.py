@@ -85,6 +85,24 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
     assert "Hello, world" in stdout
 
 
+FVP_MORELLO_ARGS = [
+    "--device",
+    "fvp-morello-android",
+    "--mcp-fw",
+    "mcp.bin",
+    "--mcp-romfw",
+    "mcp_romfz.bin",
+    "--rootfs",
+    "rootf.bin",
+    "--scp-fw",
+    "scp_fw.bin",
+    "--scp-romfw",
+    "scp_romfw.bin",
+    "--uefi",
+    "uefi.bin",
+]
+
+
 @pytest.mark.parametrize(
     "argv",
     [
@@ -97,15 +115,26 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
         ["--definition", "definition.yaml"],
         ["--device", "fvp-morello-android", "--mcp-fw", "mcp.bin"],
         ["--device", "fvp-morello-android", "--test", "multicore"],
+        [*FVP_MORELLO_ARGS, "--tests", "bionic"],
+        [*FVP_MORELLO_ARGS, "--tests", "lldb"],
+        [
+            *FVP_MORELLO_ARGS,
+            "--tests",
+            "lldb",
+            "--parameters",
+            "LLDB_URL=http://example.com/lldb.tar.xz",
+        ],
     ],
 )
-def test_command_line_errors(argv, capsys, monkeypatch):
+def test_command_line_errors(argv, capsys, monkeypatch, mocker):
     monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"] + argv)
+    run = mocker.patch("tuxrun.__main__.run", return_value=0)
     exitcode = main()
     assert exitcode == 1
     stdout, stderr = capsys.readouterr()
     assert "usage: tuxrun" in stderr
     assert "tuxrun: error:" in stderr
+    run.assert_not_called()
 
 
 def test_command_line_parameters(monkeypatch, mocker):
