@@ -10,17 +10,17 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 ## FVP devices
 
-Device              | Tests               | Parameters               |
---------------------|---------------------|--------------------------|
-fvp-morello-android | binder              | USERDATA                 |
-fvp-morello-android | bionic              | USERDATA, GTEST_FILTER\* |
-fvp-morello-android | compartment         | USERDATA                 |
-fvp-morello-android | device-tree         |                          |
-fvp-morello-android | dvfs                |                          |
-fvp-morello-android | lldb                | LLDB_URL, TC_URL         |
-fvp-morello-android | logd                | USERDATA                 |
-fvp-morello-android | multicore           |                          |
-fvp-morello-oe      | fwts                |                          |
+Device              | Tests       | Parameters               |
+--------------------|-------------|--------------------------|
+fvp-morello-android | binder      | USERDATA                 |
+fvp-morello-android | bionic      | USERDATA, GTEST_FILTER\* |
+fvp-morello-android | compartment | USERDATA                 |
+fvp-morello-android | device-tree |                          |
+fvp-morello-android | dvfs        |                          |
+fvp-morello-android | lldb        | LLDB_URL, TC_URL         |
+fvp-morello-android | logd        | USERDATA                 |
+fvp-morello-android | multicore   |                          |
+fvp-morello-oe      | fwts        |                          |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters USERDATA=http://...`
@@ -33,12 +33,12 @@ fvp-morello-oe      | fwts                |                          |
 
 ## QEMU devices
 
-Device              | Tests               |
---------------------|---------------------|
-command             | qemu-\*             |
-ltp-fcntl-locktests | qemu-\*             |
-ltp-fs_bind         | qemu-\*             |
-ltp-fs_perms_simple | qemu-\*             |
-ltp-fsx             | qemu-\*             |
-ltp-nptl            | qemu-\*             |
-ltp-smoke           | qemu-\*             |
+Device  | Tests               |
+--------|---------------------|
+qemu-\* | command             |
+qemu-\* | ltp-fcntl-locktests |
+qemu-\* | ltp-fs_bind         |
+qemu-\* | ltp-fs_perms_simple |
+qemu-\* | ltp-fsx             |
+qemu-\* | ltp-nptl            |
+qemu-\* | ltp-smoke           |
