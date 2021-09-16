@@ -7,5 +7,5 @@ build: fvp fvp-morello
 fvp: docker Dockerfile
 	$(RUNTIME) build --tag tuxrun:fvp .
 
-fvp-morello: morello/Dockerfile morello/developer-arm-com-chain.pem
+fvp-morello: morello/Dockerfile
 	cd morello && $(RUNTIME) build --tag fvp:morello-0.11.19 .

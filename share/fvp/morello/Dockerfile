@@ -10,15 +10,13 @@ ENV PKG_DEPS="\
     telnet \
 "
 
-COPY developer-arm-com-chain.pem /tmp/developer-arm-com-chain.pem
-
 RUN set -e ;\
     apt update -q=2 ;\
     apt full-upgrade -q=2 --yes ;\
     apt install --yes ca-certificates ;\
     apt install -q=2 --yes --no-install-recommends ${PKG_DEPS} ;\
     # Install Morello FVP
-    curl --cacert /tmp/developer-arm-com-chain.pem --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/FVP_Morello.tgz \
+    curl --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/FVP_Morello.tgz \
     https://developer.arm.com/-/media/Arm%20Developer%20Community/Downloads/OSS/FVP/Morello%20Platform/FVP_Morello_0.11_19.tgz ;\
     tar xf /tmp/FVP_Morello.tgz -C /tmp ;\
     /tmp/FVP_Morello.sh \
