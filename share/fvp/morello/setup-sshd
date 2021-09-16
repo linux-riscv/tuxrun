@@ -1,9 +1,0 @@
-#!/bin/sh
-
-passwd -d root
-echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
-mkdir -p /var/run/sshd
-/usr/sbin/sshd -D &
-
-exec "$@"
