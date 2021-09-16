@@ -15,6 +15,6 @@ def response(mocker):
 
 @pytest.fixture(autouse=True)
 def get(mocker, response):
-    f = mocker.patch("requests.get")
+    f = mocker.patch("requests.Session.get")
     f.return_value = response
     return f

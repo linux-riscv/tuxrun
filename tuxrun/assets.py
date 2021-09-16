@@ -7,11 +7,11 @@
 
 import os
 import re
-import requests
 import sys
 import time
 from urllib.parse import urlparse
 
+from tuxrun.requests import requests_get
 from tuxrun.utils import ProgressIndicator, NoProgressIndicator
 from tuxrun.xdg import get_cache_dir
 
@@ -90,7 +90,7 @@ def __download_and_cache__(
             return str(cache)
 
     try:
-        response = requests.get(url, allow_redirects=True, stream=True)
+        response = requests_get(url, allow_redirects=True, stream=True)
     except Exception as e:
         if cache.exists():
             print(e, "Continuing with cached version of the file", file=sys.stderr)

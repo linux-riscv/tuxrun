@@ -17,10 +17,9 @@ import sys
 import tempfile
 from urllib.parse import urlparse
 
-import requests
-
 from tuxrun import __version__
 from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions
+from tuxrun.requests import requests_get
 from tuxrun.runtimes import Runtime
 import tuxrun.templates as templates
 from tuxrun.tuxmake import TuxMakeBuild
@@ -41,7 +40,7 @@ LOG = logging.getLogger("tuxrun")
 def download(src, dst):
     url = urlparse(src)
     if url.scheme in ["http", "https"]:
-        ret = requests.get(src)
+        ret = requests_get(src)
         dst.write_text(ret.text, encoding="utf-8")
     else:
         shutil.copyfile(src, dst)
