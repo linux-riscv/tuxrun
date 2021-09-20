@@ -18,7 +18,7 @@ import tempfile
 from urllib.parse import urlparse
 
 from tuxrun import __version__
-from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions
+from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions, ROOTFS
 from tuxrun.requests import requests_get
 from tuxrun.runtimes import Runtime
 import tuxrun.templates as templates
@@ -97,6 +97,27 @@ class KeyValueAction(argparse.Action):
             getattr(namespace, self.dest)[key] = value
 
 
+class UpdateCacheAction(argparse.Action):
+    def __init__(
+        self, option_strings, help, dest=argparse.SUPPRESS, default=argparse.SUPPRESS
+    ):
+        super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        print("Updating local cache:")
+        print("* Rootfs:")
+        for device in [d for d in templates.devices_list() if d in ROOTFS]:
+            print(f"  * {device}")
+            get_rootfs(
+                device, progress=TTYProgressIndicator("Downloading root filesystem")
+            )
+        print("* Test definitions")
+        get_test_definitions(
+            progress=TTYProgressIndicator("Downloading test definitions")
+        )
+        parser.exit()
+
+
 ##########
 # Setups #
 ##########
@@ -120,6 +141,11 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     group.add_argument(
         "--list-tests", action=ListTestsAction, help="List available tests"
+    )
+
+    group = parser.add_argument_group("cache")
+    group.add_argument(
+        "--update-cache", action=UpdateCacheAction, help="Update assets cache"
     )
 
     group = parser.add_argument_group("artefacts")

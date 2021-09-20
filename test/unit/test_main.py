@@ -327,3 +327,34 @@ def test_list_tests(mocker, monkeypatch, capsys):
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
     assert "ltp-smoke" in stderr
+
+
+def test_update_cache(mocker, monkeypatch, capsys):
+    monkeypatch.setattr(
+        "sys.argv",
+        ["tuxrun", "--update-cache"],
+    )
+    mocker.patch("argparse.ArgumentParser.exit")
+    main()
+    stdout, stderr = capsys.readouterr()
+    assert (
+        stdout
+        == """Updating local cache:
+* Rootfs:
+  * qemu-arm64
+  * qemu-armv5
+  * qemu-armv7
+  * qemu-i386
+  * qemu-mips32
+  * qemu-mips32el
+  * qemu-mips64
+  * qemu-mips64el
+  * qemu-ppc32
+  * qemu-ppc64
+  * qemu-ppc64le
+  * qemu-riscv64
+  * qemu-sparc64
+  * qemu-x86_64
+* Test definitions
+"""
+    )
