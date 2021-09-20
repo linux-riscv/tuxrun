@@ -92,6 +92,7 @@ def __download_and_cache__(
     try:
         response = requests_get(url, allow_redirects=True, stream=True)
         response.raise_for_status()
+        etag = str(response.headers["ETag"])
     except Exception as e:
         if cache.exists():
             print(e, "Continuing with cached version of the file", file=sys.stderr)
@@ -99,7 +100,6 @@ def __download_and_cache__(
         else:
             raise e
 
-    etag = str(response.headers["ETag"])
     if cache_etag_file.exists():
         cache_etag = cache_etag_file.read_text()
     else:
