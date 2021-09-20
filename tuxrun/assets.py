@@ -91,6 +91,7 @@ def __download_and_cache__(
 
     try:
         response = requests_get(url, allow_redirects=True, stream=True)
+        response.raise_for_status()
     except Exception as e:
         if cache.exists():
             print(e, "Continuing with cached version of the file", file=sys.stderr)
