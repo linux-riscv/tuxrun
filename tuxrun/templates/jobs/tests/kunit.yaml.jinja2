@@ -1,0 +1,11 @@
+{% set timeout = 20 %}
+- test:
+    timeout:
+      minutes: {{ timeout }}
+    definitions:
+    - repository: https://storage.tuxboot.com/test-definitions/2021.04.tar.zst
+      from: url
+      compression: zstd
+      path: automated/linux/kunit/kunit.yaml
+      name: kunit
+
