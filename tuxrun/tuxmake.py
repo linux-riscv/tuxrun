@@ -41,4 +41,7 @@ class TuxMakeBuild:
             )
         except KeyError:
             self.modules = None
-        self.target_arch = metadata["build"]["target_arch"]
+        try:
+            self.target_arch = metadata["build"]["target_arch"]
+        except KeyError:
+            raise self.Invalid("{directory}/metadata.json is invalid")

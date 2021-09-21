@@ -33,6 +33,14 @@ def directory_with_invalid_metadata(tmp_path):
 
 
 @pytest.fixture
+def directory_with_empty_metadata(tmp_path):
+    d = tmp_path / "invalid-metadata"
+    d.mkdir()
+    (d / "metadata.json").write_text("{}", encoding="utf-8")
+    return d
+
+
+@pytest.fixture
 def tuxmake_build(directory):
     return TuxMakeBuild(directory)
 
@@ -74,3 +82,7 @@ class TestTuxMakeBuild:
     def test_invalid_metadata(self, directory_with_invalid_metadata):
         with pytest.raises(InvalidTuxMakeBuild):
             TuxMakeBuild(directory_with_invalid_metadata)
+
+    def test_empty_metadata(self, directory_with_empty_metadata):
+        with pytest.raises(InvalidTuxMakeBuild):
+            TuxMakeBuild(directory_with_empty_metadata)
