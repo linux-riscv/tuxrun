@@ -35,6 +35,8 @@ dispatchers = jinja2.Environment(
 def devices_list():
     names = []
     for name in jobs.list_templates(extensions=["jinja2"]):
+        if not name.endswith(".yaml.jinja2"):
+            continue  # pragma: no cover
         name = name[: -1 * len(".yaml.jinja2")]
 
         if name.startswith("tests/"):
@@ -48,6 +50,8 @@ def devices_list():
 def tests_list():
     names = []
     for name in jobs.list_templates(extensions=["jinja2"]):
+        if not name.endswith(".yaml.jinja2"):
+            continue  # pragma: no cover
         name = name[: -1 * len(".yaml.jinja2")]
 
         if not name.startswith("tests/"):
