@@ -6,7 +6,7 @@ visibility: public
 
 {% block context %}{% endblock %}
 
-{%- set ns = namespace(timeout=10+20) %}
+{%- set ns = namespace(timeout=5+20) %}
 {%- for test in tests %}
   {%- set ns.timeout = ns.timeout + timeouts[test] %}
 {%- endfor %}
@@ -23,7 +23,7 @@ actions:
 - deploy:
     to: fvp
     timeout:
-      minutes: 10
+      minutes: 5
     images:
       scp_romfw:
         url: "{{ scp_romfw }}"
