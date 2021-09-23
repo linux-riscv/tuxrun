@@ -23,7 +23,7 @@ fvp-morello-android | multicore   |                          |
 fvp-morello-oe      | fwts        |                          |
 
 !!! tip "Passing parameters"
-    In order to pass parameters, use `tuxrun --parameters USERDATA=http://...`
+    In order to pass parameters, use `tuxrun --parameters USERDATA=http://.../userdata.tar.xz`
 
 !!! tip "Default parameters"
     **GTEST_FILTER** is optional and defaults to
@@ -36,9 +36,18 @@ fvp-morello-oe      | fwts        |                          |
 Device  | Tests               |
 --------|---------------------|
 qemu-\* | command             |
+qemu-\* | kunit\*             |
 qemu-\* | ltp-fcntl-locktests |
 qemu-\* | ltp-fs_bind         |
 qemu-\* | ltp-fs_perms_simple |
 qemu-\* | ltp-fsx             |
 qemu-\* | ltp-nptl            |
 qemu-\* | ltp-smoke           |
+
+!!! warning "KUnit config"
+    In order to run KUnit tests, the kernel should be compiled with
+    ```
+    CONFIG_KUNIT=m
+    CONFIG_KUNIT_ALL_TESTS=m
+    ```
+    The **modules.tar.xz** should be given with `--modules https://.../modules.tar.xz`.
