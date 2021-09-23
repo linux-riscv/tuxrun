@@ -23,7 +23,7 @@ Device        | Description         | Machine     | CPU              | Kernel
 qemu-arm64    | 64-bit ARMv8        | virt        | Cortex-A57       | Image
 qemu-armv5    | 32-bit ARM          | versatilepb | arm926           | zImage
 qemu-armv7    | 32-bit ARM          | virt        | Cortex-A15       | zImage
-qemu-i386     | 32-bit X86          | q35         | qemu32           | bzImage
+qemu-i386     | 32-bit X86          | q35         | coreduo          | bzImage
 qemu-mips32   | 32-bit MIPS         | malta       | mips32r6-generic | vmlinux
 qemu-mips32el | 32-bit MIPS (EL)    | malta       | mips32r6-generic | vmlinux
 qemu-mips64   | 64-bit MIPS         | malta       | 24Kf             | vmlinux
