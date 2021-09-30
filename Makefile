@@ -11,7 +11,7 @@ unit-tests:
 		--cov-fail-under=$(COVERAGE) \
 		test
 
-.PHONY: htmlcov
+.PHONY: htmlcov tags
 
 htmlcov:
 	python3 -m pytest --cov=tuxrun --cov-report=html
@@ -46,3 +46,6 @@ publish-pypi:
 
 release:
 	flit=true scripts/release $(V)
+
+tags:
+	ctags -R tuxrun/ test/
