@@ -207,6 +207,15 @@ def test_ignores_empty_line_from_lava_run_logfile(tuxrun_args, lava_run, tmp_pat
     assert type(logdata[1]) is dict
 
 
+def test_exit_status_is_0_on_success(tuxrun_args, lava_run):
+    assert main() == 0
+
+
+def test_exit_status_matches_results(tuxrun_args, lava_run, mocker):
+    mocker.patch("tuxrun.results.Results.ret", return_value=1)
+    assert main() == 1
+
+
 def test_tuxmake_directory(monkeypatch, tmp_path, run):
     tuxmake_build = tmp_path / "build"
     tuxmake_build.mkdir()

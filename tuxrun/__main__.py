@@ -23,6 +23,7 @@ from tuxrun.requests import requests_get
 from tuxrun.runtimes import Runtime
 import tuxrun.templates as templates
 from tuxrun.tuxmake import TuxMakeBuild
+from tuxrun.results import Results
 from tuxrun.utils import TTYProgressIndicator
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
@@ -395,14 +396,16 @@ def run(options, tmpdir: Path) -> int:
         LOG.debug("Pre run command")
         runtime.pre_run(tmpdir)
 
+    results = Results()
     # Start the writer (stderr or log-file)
     with Writer(options.log_file) as writer:
         # Start the runtime
         with runtime.run(args):
             for line in runtime.lines():
                 writer.write(line)
+                results.parse(line)
     runtime.post_run()
-    return runtime.ret()
+    return max([runtime.ret(), results.ret()])
 
 
 def main() -> int:
