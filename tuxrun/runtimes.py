@@ -117,8 +117,18 @@ class ContainerRuntime(Runtime):
 
     def cmd(self, args):
         prefix = self.prefix.copy()
+        srcs = set()
+        dsts = set()
         for binding in self.__bindings__:
             (src, dst, ro) = binding
+            if src in srcs:
+                LOG.error("Duplicated mount source %r", src)
+                raise Exception("Duplicated mount source %r", src)
+            if dst in dsts:
+                LOG.error("Duplicated mount destination %r", dst)
+                raise Exception("Duplicated mount destination %r", dst)
+            srcs.add(src)
+            dsts.add(dst)
             ro = "ro" if ro else "rw"
             prefix.extend(["-v", f"{src}:{dst}:{ro}"])
         prefix.extend(["--name", self.__name__])
