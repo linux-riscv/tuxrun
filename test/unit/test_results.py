@@ -22,3 +22,9 @@ def test_returns_1_on_failure():
     results.parse(gen_test("test1", "pass"))
     results.parse(gen_test("test2", "fail"))
     assert results.ret() == 1
+
+
+def test_data():
+    results = Results()
+    results.parse(gen_test("test1", "pass"))
+    assert results.data["mytestsuite"]["test1"]["result"] == "pass"

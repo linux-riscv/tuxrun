@@ -367,3 +367,10 @@ def test_update_cache(mocker, monkeypatch, capsys):
 * Test definitions
 """
     )
+
+
+def test_save_results_json(tuxrun_args, lava_run, mocker, tmp_path):
+    json = tmp_path / "results.json"
+    tuxrun_args += [f"--results={json}"]
+    main()
+    assert json.read_text().strip() == "{}"
