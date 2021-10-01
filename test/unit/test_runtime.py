@@ -173,7 +173,7 @@ def test_run(mocker):
     runtime.__proc__.wait.assert_called_once()
 
 
-def test_run_errors(mocker):
+def test_run_errors(mocker, tmp_path):
     popen = mocker.patch("subprocess.Popen", side_effect=FileNotFoundError)
 
     runtime = Runtime.select("podman")()
@@ -192,3 +192,29 @@ def test_run_errors(mocker):
         with runtime.run(["hello", "world"]):
             pass
     popen.assert_called_once()
+
+    # Test duplicated source bindings
+    popen = mocker.patch("subprocess.Popen", side_effect=FileNotFoundError)
+
+    runtime = Runtime.select("podman")()
+    runtime.name("name")
+    runtime.image("image")
+    runtime.bind("/hello", "/world")
+    runtime.bind("/hello", "/world2")
+    with pytest.raises(Exception) as exc:
+        with runtime.run(["hello", "world"]):
+            pass
+    assert exc.match("Duplicated mount source")
+    popen.assert_not_called()
+
+    # Test duplicated destination bindings
+    runtime = Runtime.select("podman")()
+    runtime.name("name")
+    runtime.image("image")
+    runtime.bind("/hello", "/world")
+    runtime.bind("/hello2", "/world")
+    with pytest.raises(Exception) as exc:
+        with runtime.run(["hello", "world"]):
+            pass
+    assert exc.match("Duplicated mount destination")
+    popen.assert_not_called()
