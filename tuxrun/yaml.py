@@ -12,9 +12,9 @@ try:
     from yaml import CFullLoader as FullLoader  # type: ignore
 except ImportError:  # pragma: no cover
     try:
-        from yaml import FullLoader
+        from yaml import FullLoader  # type: ignore
     except ImportError:
-        from yaml import Loader as FullLoader
+        from yaml import Loader as FullLoader  # type: ignore
 
     print("Warning: using python yaml loader")
 

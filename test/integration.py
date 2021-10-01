@@ -7,7 +7,7 @@ import sys
 import tempfile
 
 from typing import Dict
-from tuxrun.__main__ import KERNELS
+from tuxrun.devices import Device
 from tuxrun.yaml import yaml_load
 
 
@@ -117,10 +117,9 @@ def run(device, test, runtime, debug):
 # Entrypoint #
 ##############
 def main():
+    devices = [d for d in Device.list() if d.startswith("qemu-")]
     parser = argparse.ArgumentParser(description="Integration tests")
-    parser.add_argument(
-        "--devices", default=list(KERNELS.keys()), nargs="+", help="devices"
-    )
+    parser.add_argument("--devices", default=devices, nargs="+", help="devices")
     parser.add_argument(
         "--tests",
         default=[

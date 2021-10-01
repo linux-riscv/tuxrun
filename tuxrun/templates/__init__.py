@@ -32,21 +32,6 @@ dispatchers = jinja2.Environment(
 )
 
 
-def devices_list():
-    names = []
-    for name in jobs.list_templates(extensions=["jinja2"]):
-        if not name.endswith(".yaml.jinja2"):
-            continue  # pragma: no cover
-        name = name[: -1 * len(".yaml.jinja2")]
-
-        if name.startswith("tests/"):
-            continue
-        if name.startswith("base-"):
-            continue
-        names.append(name)
-    return sorted(names)
-
-
 def tests_list():
     names = []
     for name in jobs.list_templates(extensions=["jinja2"]):

@@ -6,8 +6,8 @@
 # SPDX-License-Identifier: MIT
 
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 from requests.packages import urllib3
+from requests.packages.urllib3.util.retry import Retry
 
 import requests
 
@@ -20,7 +20,7 @@ def get_session(*, retries):
     if urllib3.__version__ >= "1.26":
         allowed_methods = "allowed_methods"
     else:
-        allowed_methods = "method_whitelist"
+        allowed_methods = "method_whitelist"  # pragma: no cover
     retry_strategy = Retry(
         total=retries,
         status_forcelist=[413, 429, 500, 503, 504],

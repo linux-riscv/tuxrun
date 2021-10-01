@@ -19,7 +19,9 @@ import tempfile
 from urllib.parse import urlparse
 
 from tuxrun import __version__
-from tuxrun.assets import KERNELS, get_rootfs, get_test_definitions, ROOTFS
+from tuxrun.assets import get_rootfs, get_test_definitions, ROOTFS
+from tuxrun.devices import Device
+from tuxrun.exceptions import InvalidArgument
 from tuxrun.requests import requests_get
 from tuxrun.runtimes import Runtime
 import tuxrun.templates as templates
@@ -87,7 +89,7 @@ class ListDevicesAction(argparse.Action):
         super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        parser._print_message("\n".join(templates.devices_list()) + "\n", sys.stderr)
+        parser._print_message("\n".join(Device.list()) + "\n", sys.stderr)
         parser.exit()
 
 
@@ -118,7 +120,7 @@ class UpdateCacheAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         print("Updating local cache:")
         print("* Rootfs:")
-        for device in [d for d in templates.devices_list() if d in ROOTFS]:
+        for device in [d for d in Device.list() if d in ROOTFS]:
             print(f"  * {device}")
             get_rootfs(
                 device, progress=TTYProgressIndicator("Downloading root filesystem")
@@ -133,6 +135,21 @@ class UpdateCacheAction(argparse.Action):
 ##########
 # Setups #
 ##########
+def filter_options(options):
+    keys = [
+        "device",
+        "tuxmake",
+        "device_dict",
+        "definition",
+        "runtime",
+        "image",
+        "log_file",
+        "results",
+        "debug",
+    ]
+    return {k: getattr(options, k) for k in vars(options) if k not in keys}
+
+
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tuxrun", description="TuxRun")
 
@@ -144,7 +161,7 @@ def setup_parser() -> argparse.ArgumentParser:
         default=None,
         metavar="NAME",
         help="Device type",
-        choices=templates.devices_list(),
+        choices=Device.list(),
     )
 
     group = parser.add_argument_group("listing")
@@ -280,13 +297,6 @@ def run(options, tmpdir: Path) -> int:
     # Render the job definition and device dictionary
     extra_assets = []
     if options.device:
-        kernel_compression = None
-        if options.kernel:
-            if options.kernel.endswith(".gz"):
-                kernel_compression = "gz"
-            if options.kernel.endswith(".xz"):
-                kernel_compression = "xz"
-
         overlays = []
         if options.modules:
             overlays.append(("modules", options.modules))
@@ -303,15 +313,13 @@ def run(options, tmpdir: Path) -> int:
 
         command = " ".join([shlex.quote(s) for s in options.command])
 
-        definition = templates.jobs.get_template(
-            f"{options.device}.yaml.jinja2"
-        ).render(
+        device = Device.select(options.device)()
+        definition = device.definition(
             bios=options.bios,
             command=command,
             device=options.device,
             dtb=options.dtb,
             kernel=options.kernel,
-            kernel_compression=kernel_compression,
             mcp_fw=options.mcp_fw,
             mcp_romfw=options.mcp_romfw,
             overlays=overlays,
@@ -331,19 +339,12 @@ def run(options, tmpdir: Path) -> int:
         LOG.debug(definition)
 
         context = yaml_load(definition).get("context", {})
-        if options.device.startswith("qemu-"):
-            device_name = "qemu.yaml.jinja2"
-        elif options.device.startswith("fvp-"):
-            device_name = "fvp.yaml.jinja2"
-        else:
-            raise NotImplementedError
-
-        device = templates.devices.get_template(device_name).render(**context)
+        device_dict = device.device_dict(context)
         LOG.debug("device dictionary")
-        LOG.debug(device)
+        LOG.debug(device_dict)
 
         (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
-        (tmpdir / "device.yaml").write_text(device, encoding="utf-8")
+        (tmpdir / "device.yaml").write_text(device_dict, encoding="utf-8")
 
     # Use the provided ones
     else:
@@ -457,17 +458,13 @@ def main() -> int:
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
-        parser.print_usage(file=sys.stderr)
-        sys.stderr.write(
-            "tuxrun: error: artefacts or configuration files argument groups are required\n"
+        parser.error(
+            "tuxrun: error: artefacts or configuration files argument groups are required"
         )
-        return 1
     if first_group and second_group:
-        parser.print_usage(file=sys.stderr)
-        sys.stderr.write(
-            "tuxrun: error: artefacts and configuration files argument groups are mutualy exclusive\n"
+        parser.error(
+            "tuxrun: error: artefacts and configuration files argument groups are mutualy exclusive"
         )
-        return 1
 
     if first_group:
         if options.tuxmake:
@@ -480,14 +477,9 @@ def main() -> int:
                 options.device = f"qemu-{tuxmake.target_arch}"
 
         if not options.device:
-            parser.print_usage(file=sys.stderr)
-            sys.stderr.write("tuxrun: error: argument --device is required\n")
-            return 1
+            parser.error("argument --device is required")
 
         if options.device.startswith("qemu-"):
-            if not options.kernel:
-                options.kernel = KERNELS[options.device]
-
             options.rootfs = pathurlnone(
                 get_rootfs(
                     options.device,
@@ -495,74 +487,21 @@ def main() -> int:
                     TTYProgressIndicator("Downloading root filesystem"),
                 )
             )
-        elif options.device.startswith("fvp-"):
-            artefacts = bool(
-                options.mcp_fw
-                and options.mcp_romfw
-                and options.mcp_fw
-                and options.rootfs
-                and options.scp_fw
-                and options.scp_romfw
-                and options.uefi
-            )
-            if not artefacts:
-                parser.print_usage(file=sys.stderr)
-                sys.stderr.write(
-                    "tuxrun: error: --mcp-fw, --mcp-romfw, --root, --scp-fw, "
-                    "--scp-romfw and --uefi are mandatory for "
-                    "fvp devices\n"
-                )
-                return 1
-            if options.device == "fvp-morello-android" and options.tests:
-                tests = [t in options.tests for t in ["binder", "bionic", "logd"]]
-                if any(tests) and not options.parameters.get("USERDATA"):
-                    parser.print_usage(file=sys.stderr)
-                    sys.stderr.write(
-                        "tuxrun: error: --parameters USERDATA=http://... is "
-                        "mantadory for fvp-morello-android test\n"
-                    )
-                    return 1
-                if "lldb" in options.tests and not options.parameters.get("LLDB_URL"):
-                    parser.print_usage(file=sys.stderr)
-                    sys.stderr.write(
-                        "tuxrun: error: --parameters LLDB_URL=http://... is "
-                        "mantadory for fvp-morello-android lldb test\n"
-                    )
-                    return 1
-                if "lldb" in options.tests and not options.parameters.get("TC_URL"):
-                    parser.print_usage(file=sys.stderr)
-                    sys.stderr.write(
-                        "tuxrun: error: --parameters TC_URL=http://... is "
-                        "mantadory for fvp-morello-android lldb test\n"
-                    )
-                    return 1
 
         if options.command:
             options.tests.append("command")
 
-        if options.bios and options.device != "qemu-riscv64":
-            parser.print_usage(file=sys.stderr)
-            sys.stderr.write(
-                "tuxrun: error: argument --bios is only valid for qemu-riscv64 device\n"
-            )
-            return 1
+        try:
+            Device.select(options.device)().validate(**filter_options(options))
+        except InvalidArgument as exc:
+            parser.error(str(exc))
 
-        if options.dtb and options.device != "qemu-armv5":
-            parser.print_usage(file=sys.stderr)
-            sys.stderr.write(
-                "tuxrun: error: argument --dtb is only valid for qemu-armv5 device\n"
-            )
-            return 1
     # --device-dict/--definition are mandatory
     else:
         if not options.device_dict:
-            parser.print_usage(file=sys.stderr)
-            sys.stderr.write("tuxrun: error: argument --device-dict is required\n")
-            return 1
+            parser.error("tuxrun: error: argument --device-dict is required")
         if not options.definition:
-            parser.print_usage(file=sys.stderr)
-            sys.stderr.write("tuxrun: error: argument --definition is required\n")
-            return 1
+            parser.error("tuxrun: error: argument --definition is required")
 
     # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
