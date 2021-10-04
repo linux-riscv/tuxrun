@@ -458,12 +458,10 @@ def main() -> int:
     )
     second_group = bool(options.device_dict or options.definition)
     if not first_group and not second_group:
-        parser.error(
-            "tuxrun: error: artefacts or configuration files argument groups are required"
-        )
+        parser.error("artefacts or configuration files argument groups are required")
     if first_group and second_group:
         parser.error(
-            "tuxrun: error: artefacts and configuration files argument groups are mutualy exclusive"
+            "artefacts and configuration files argument groups are mutualy exclusive"
         )
 
     if first_group:
@@ -499,9 +497,9 @@ def main() -> int:
     # --device-dict/--definition are mandatory
     else:
         if not options.device_dict:
-            parser.error("tuxrun: error: argument --device-dict is required")
+            parser.error("argument --device-dict is required")
         if not options.definition:
-            parser.error("tuxrun: error: argument --definition is required")
+            parser.error("argument --definition is required")
 
     # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
