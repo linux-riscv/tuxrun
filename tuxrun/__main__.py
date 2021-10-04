@@ -62,6 +62,16 @@ def pathurlnone(string):
     return f"file://{path.expanduser().resolve()}"
 
 
+def pathnone(string):
+    if string is None:
+        return None
+
+    path = Path(string)
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} no such file or directory")
+    return path.expanduser().resolve()
+
+
 def tuxmake_directory(s):
     try:
         return TuxMakeBuild(s)
@@ -224,8 +234,12 @@ def setup_parser() -> argparse.ArgumentParser:
     )
 
     group = parser.add_argument_group("configuration files")
-    group.add_argument("--device-dict", default=None, help="Device configuration")
-    group.add_argument("--definition", default=None, help="Job definition")
+    group.add_argument(
+        "--device-dict", default=None, type=pathnone, help="Device configuration"
+    )
+    group.add_argument(
+        "--definition", default=None, type=pathnone, help="Job definition"
+    )
 
     group = parser.add_argument_group("runtime")
     group.add_argument(
