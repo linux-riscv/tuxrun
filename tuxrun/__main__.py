@@ -8,6 +8,7 @@
 
 import argparse
 import contextlib
+import json
 import logging
 from pathlib import Path
 import shlex
@@ -255,8 +256,11 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Image to use",
     )
 
-    group = parser.add_argument_group("logging")
+    group = parser.add_argument_group("output")
     group.add_argument("--log-file", default=None, type=Path, help="Store logs to file")
+    group.add_argument(
+        "--results", default=None, type=Path, help="Save test results to file (JSON)"
+    )
 
     group = parser.add_argument_group("debugging")
     group.add_argument(
@@ -419,6 +423,8 @@ def run(options, tmpdir: Path) -> int:
                 writer.write(line)
                 results.parse(line)
     runtime.post_run()
+    if options.results:
+        options.results.write_text(json.dumps(results.data))
     return max([runtime.ret(), results.ret()])
 
 
