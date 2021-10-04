@@ -1,4 +1,4 @@
-FROM docker.io/lavasoftware/lava-dispatcher:2021.08
+FROM docker.io/lavasoftware/lava-dispatcher:2021.09
 
 ENV DEBIAN_FRONTEND noninteractive
 
