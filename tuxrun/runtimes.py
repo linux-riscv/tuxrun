@@ -122,11 +122,11 @@ class ContainerRuntime(Runtime):
         for binding in self.__bindings__:
             (src, dst, ro) = binding
             if src in srcs:
-                LOG.error("Duplicated mount source %r", src)
-                raise Exception("Duplicated mount source %r", src)
+                LOG.error("Duplicated mount source %r" % src)
+                raise Exception("Duplicated mount source %r" % src)
             if dst in dsts:
-                LOG.error("Duplicated mount destination %r", dst)
-                raise Exception("Duplicated mount destination %r", dst)
+                LOG.error("Duplicated mount destination %r" % dst)
+                raise Exception("Duplicated mount destination %r" % dst)
             srcs.add(src)
             dsts.add(dst)
             ro = "ro" if ro else "rw"
