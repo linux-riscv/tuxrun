@@ -24,6 +24,12 @@ def test_returns_1_on_failure():
     assert results.ret() == 1
 
 
+def test_returns_invalid_logs():
+    results = Results()
+    results.parse("{")
+    results.parse('{ "lvl": "results", "msg": {"case": "tux", "result": "pass"}}')
+
+
 def test_data():
     results = Results()
     results.parse(gen_test("test1", "pass"))
