@@ -83,10 +83,11 @@ def test_start_calls_main(monkeypatch, mocker):
     main.assert_called()
 
 
-def test_main_usage(monkeypatch, capsys):
+def test_main_usage(monkeypatch, capsys, run):
     monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"])
-    ret = main()
-    assert ret != 0
+    with pytest.raises(SystemExit) as exc:
+        main()
+    assert exc.value.code == 2
     _, err = capsys.readouterr()
     assert "usage: tuxrun" in err
 
@@ -145,21 +146,34 @@ FVP_MORELLO_ARGS = [
 def test_command_line_errors(argv, capsys, monkeypatch, mocker, artefacts):
     monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"] + argv)
     run = mocker.patch("tuxrun.__main__.run", return_value=0)
-    exitcode = main()
-    assert exitcode == 1
+    with pytest.raises(SystemExit) as exc:
+        main()
+    assert exc.value.code == 2
     stdout, stderr = capsys.readouterr()
     assert "usage: tuxrun" in stderr
     assert "tuxrun: error:" in stderr
     run.assert_not_called()
 
 
-def test_command_line_parameters(monkeypatch, mocker):
+def test_command_line_parameters(monkeypatch, mocker, artefacts):
     monkeypatch.setattr(
         "tuxrun.__main__.sys.argv",
         [
             "tuxrun",
             "--device",
-            "qemu-armv5",
+            "fvp-morello-android",
+            "--mcp-fw",
+            "fvp.bin",
+            "--mcp-romfw",
+            "fvp.bin",
+            "--rootfs",
+            "fvp.bin",
+            "--scp-fw",
+            "fvp.bin",
+            "--scp-romfw",
+            "fvp.bin",
+            "--uefi",
+            "fvp.bin",
             "--parameters",
             "USERDATA=http://userdata.tar.xz",
         ],
@@ -319,8 +333,8 @@ def test_list_devices(mocker, monkeypatch, capsys):
         "sys.argv",
         ["tuxrun", "--list-devices"],
     )
-    mocker.patch("argparse.ArgumentParser.exit")
-    main()
+    with pytest.raises(SystemExit):
+        main()
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
     assert "qemu-i386" in stderr
@@ -331,8 +345,8 @@ def test_list_tests(mocker, monkeypatch, capsys):
         "sys.argv",
         ["tuxrun", "--list-tests"],
     )
-    mocker.patch("argparse.ArgumentParser.exit")
-    main()
+    with pytest.raises(SystemExit):
+        main()
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
     assert "ltp-smoke" in stderr
@@ -343,8 +357,8 @@ def test_update_cache(mocker, monkeypatch, capsys):
         "sys.argv",
         ["tuxrun", "--update-cache"],
     )
-    mocker.patch("argparse.ArgumentParser.exit")
-    main()
+    with pytest.raises(SystemExit):
+        main()
     stdout, stderr = capsys.readouterr()
     assert (
         stdout

@@ -4,7 +4,21 @@ job_name: "tuxrun@{{ device }}: {{ tests|default(["boot"], true)|join(", ")}}"
 priority: "medium"
 visibility: "public"
 
-{% block context %}{% endblock %}
+context:
+    arch: "{{ lava_arch }}"
+    machine: "{{ machine }}"
+    cpu: "{{ cpu }}"
+{% if memory %}
+    memory: "{{ memory }}"
+{% endif %}
+{% if guestfs_interface %}
+    guestfs_interface: "{{ guestfs_interface }}"
+{% endif %}
+{% if extra_options %}
+    extra_options: ["{{ '", "'.join(extra_options) }}"]
+{% endif %}
+    no_kvm: true
+    no_network: true
 
 {%- set ns = namespace(timeout=5+3) %}
 {%- for test in tests %}
