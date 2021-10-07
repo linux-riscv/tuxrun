@@ -204,7 +204,7 @@ def test_run_errors(mocker, tmp_path):
     with pytest.raises(Exception) as exc:
         with runtime.run(["hello", "world"]):
             pass
-    assert exc.match("Duplicated mount source")
+    assert exc.match("Duplicated mount source '/hello'")
     popen.assert_not_called()
 
     # Test duplicated destination bindings
@@ -216,5 +216,5 @@ def test_run_errors(mocker, tmp_path):
     with pytest.raises(Exception) as exc:
         with runtime.run(["hello", "world"]):
             pass
-    assert exc.match("Duplicated mount destination")
+    assert exc.match("Duplicated mount destination '/world'")
     popen.assert_not_called()
