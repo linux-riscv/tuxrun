@@ -6,7 +6,7 @@ import subprocess
 import sys
 import tempfile
 
-from typing import Dict
+from typing import Dict, Any
 from tuxrun.devices import Device
 from tuxrun.yaml import yaml_load
 
@@ -16,7 +16,7 @@ from tuxrun.yaml import yaml_load
 ###########
 def get_results(tmpdir: Path) -> Dict:
     required_keys = set(["msg", "lvl", "dt"])
-    res = {}
+    res: Dict[Any, Any] = {}
     data = yaml_load((tmpdir / "logs.yaml").read_text(encoding="utf-8"))
 
     if data is None:

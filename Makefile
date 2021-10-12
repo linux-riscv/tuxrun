@@ -1,27 +1,16 @@
 export PROJECT := tuxrun
+export TUXPKG_MIN_COVERAGE := 95
 
-test: typecheck unit-tests spellcheck stylecheck
+check: typecheck test spellcheck stylecheck
 
-COVERAGE = 94.35
-
-unit-tests:
-	python3 -m pytest \
-		--cov=tuxrun \
-		--cov-report=term-missing \
-		--cov-fail-under=$(COVERAGE) \
-		test
+include $(shell tuxpkg get-makefile)
 
 .PHONY: htmlcov tags
 
 htmlcov:
 	python3 -m pytest --cov=tuxrun --cov-report=html
 
-stylecheck:
-	black --check --diff .
-	flake8 .
-
-typecheck:
-	mypy tuxrun
+stylecheck: style flake8
 
 spellcheck:
 	codespell \
@@ -44,9 +33,6 @@ doc-serve:
 flit = flit
 publish-pypi:
 	$(flit) publish
-
-release:
-	flit=true scripts/release $(V)
 
 tags:
 	ctags -R tuxrun/ test/
