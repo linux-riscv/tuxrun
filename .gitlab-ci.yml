@@ -1,6 +1,9 @@
 include:
   - https://gitlab.com/Linaro/tuxpkg/-/raw/main/gitlab-ci-pipeline.yml
 
+variables:
+  TUXPKG_PROJECT: tuxrun
+
 #############
 # templates #
 #############

@@ -8,15 +8,23 @@ Build-Depends: bash-completion,
                flit,
                git,
                python3-all,
+               python3-requests,
+               python3-jinja2,
                python3-pip,
+               python3-yaml,
                python3-pytest,
                python3-pytest-cov,
-               python3-pytest-mock
+               python3-pytest-mock,
 Standards-Version: 4.6.0.1
 Homepage: FIXME
 
 Package: tuxrun
 Architecture: all
-Depends: ${misc:Depends}, python3 (>= 3.6), ${python3:Depends}
+Depends: python3 (>= 3.6),
+         python3-requests,
+         python3-jinja2,
+         python3-yaml,
+         ${misc:Depends},
+         ${python3:Depends},
 Description: <FIXME>
  <FIXME>
