@@ -1,5 +1,5 @@
 Name:      tuxrun
-Version:   0.10.0
+Version:   0.11.0
 Release:   0%{?dist}
 Summary:   FIXME
 License:   FIXME
