@@ -27,6 +27,8 @@ nav:
 - Getting Started: index.md
 - Installing TuxRun:
   - PyPI: install-pypi.md
+  - Debian package: install-deb.md
+  - RPM package: install-rpm.md
   - Run uninstalled: run-uninstalled.md
 - Running:
   - FVP: run-fvp.md
