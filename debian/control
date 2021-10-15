@@ -16,7 +16,7 @@ Build-Depends: bash-completion,
                python3-pytest-cov,
                python3-pytest-mock,
 Standards-Version: 4.6.0.1
-Homepage: FIXME
+Homepage: https://tuxrun.org/
 
 Package: tuxrun
 Architecture: all
@@ -26,5 +26,7 @@ Depends: python3 (>= 3.6),
          python3-yaml,
          ${misc:Depends},
          ${python3:Depends},
-Description: <FIXME>
- <FIXME>
+Description: command line tool for testing Linux with curated test suites
+ TuxRun, is a command line tool for testing Linux on QEMU or FVP, using curated
+ test suites.  TuxRun is a part of TuxSuite, a suite of tools and services to
+ help with Linux kernel development.

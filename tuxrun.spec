@@ -1,9 +1,9 @@
 Name:      tuxrun
 Version:   0.11.0
 Release:   0%{?dist}
-Summary:   FIXME
-License:   FIXME
-URL:       FIXME
+Summary:   command line tool for testing Linux with curated test suites
+License:   MIT
+URL:       https://tuxrun.org/
 Source0:   %{pypi_source}
 
 
@@ -29,7 +29,9 @@ Requires: python3 >= 3.6
 %global debug_package %{nil}
 
 %description
-FIXME
+TuxRun, is a command line tool for testing Linux on QEMU or FVP, using curated
+test suites.  TuxRun is a part of TuxSuite, a suite of tools and services to
+help with Linux kernel development.
 
 %prep
 %setup -q
@@ -64,5 +66,5 @@ ln -sf ../share/%{name}/run %{buildroot}/usr/bin/%{name}
 
 %changelog
 
-* Mon Oct 11 2021 Your Name <your.name@domain.com> - 0.0.0-1
+* Mon Oct 11 2021 Antonio Terceiro <antonio.terceiro@linaro.org> - 0.11.0-1
 - Initial version of the package
