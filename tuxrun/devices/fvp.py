@@ -62,7 +62,9 @@ class FVPMorelloAndroid(FVPDevice):
 
     def validate(self, tests, parameters, **kwargs):
         super().validate(tests=tests, parameters=parameters, **kwargs)
-        userdata_required = [t in tests for t in ["binder", "bionic", "logd", "lldb"]]
+        userdata_required = [
+            t in tests for t in ["binder", "bionic", "compartment", "logd", "lldb"]
+        ]
         if any(userdata_required) and not parameters.get("USERDATA"):
             raise InvalidArgument(
                 "--parameters USERDATA=http://... is "
