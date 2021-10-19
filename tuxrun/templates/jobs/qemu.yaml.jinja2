@@ -14,9 +14,7 @@ context:
 {% if guestfs_interface %}
     guestfs_interface: "{{ guestfs_interface }}"
 {% endif %}
-{% if extra_options %}
-    extra_options: ["{{ '", "'.join(extra_options) }}"]
-{% endif %}
+    extra_options: ["-no-reboot", "{{ '", "'.join(extra_options) }}"]
     no_kvm: true
     no_network: true
 
