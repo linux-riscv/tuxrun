@@ -73,3 +73,15 @@ tuxrun --device qemu-arm64 \
 !!! tip "Command and tests"
     When combining a custom command and tests, the custom command will be ran
     after all the tests.
+
+## TuxMake and TuxBuild
+
+You can run tests against TuxMake or TuxBuild artefacts with `--tuxmake` or `--tuxbuild`:
+
+```shell
+tuxrun --tuxmake ~/.cache/tuxmake/builds/1
+tuxrun --tuxbuild https://builds.tuxbuild.com/<ksuid>/
+```
+
+!!! tip "default device"
+    For some architectures (like ARM), the tuxrun device should be specified with `--device`.

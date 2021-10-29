@@ -15,7 +15,7 @@ from tuxrun import __version__
 from tuxrun.assets import get_rootfs, get_test_definitions, ROOTFS
 from tuxrun.devices import Device
 from tuxrun.tests import Test
-from tuxrun.tuxmake import TuxMakeBuild
+from tuxrun.tuxmake import TuxBuildBuild, TuxMakeBuild
 from tuxrun.utils import TTYProgressIndicator
 
 
@@ -25,6 +25,7 @@ from tuxrun.utils import TTYProgressIndicator
 def filter_options(options):
     keys = [
         "device",
+        "tuxbuild",
         "tuxmake",
         "device_dict",
         "definition",
@@ -60,6 +61,13 @@ def pathnone(string):
     if not path.exists():
         raise argparse.ArgumentTypeError(f"{path} no such file or directory")
     return path.expanduser().resolve()
+
+
+def tuxbuild_url(s):
+    try:
+        return TuxBuildBuild(s.rstrip("/"))
+    except TuxBuildBuild.Invalid as e:
+        raise argparse.ArgumentTypeError(str(e))
 
 
 def tuxmake_directory(s):
@@ -188,6 +196,13 @@ def setup_parser() -> argparse.ArgumentParser:
     artefact("rootfs")
     artefact("scp-fw")
     artefact("scp-romfw")
+    group.add_argument(
+        "--tuxbuild",
+        metavar="URL",
+        default=None,
+        type=tuxbuild_url,
+        help="URL of a TuxBuild build",
+    )
     group.add_argument(
         "--tuxmake",
         metavar="DIRECTORY",
