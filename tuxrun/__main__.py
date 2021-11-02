@@ -110,16 +110,14 @@ def run(options, tmpdir: Path) -> int:
         download(str(options.device_dict), (tmpdir / "device.yaml"))
         download(str(options.definition), (tmpdir / "definition.yaml"))
 
-    args = [
-        "lava-run",
-        "--device",
-        str(tmpdir / "device.yaml"),
-        "--job-id",
-        "1",
-        "--output-dir",
-        "output",
-        str(tmpdir / "definition.yaml"),
-    ]
+    # Render the dispatcher.yaml
+    (tmpdir / "dispatcher").mkdir()
+    dispatcher = templates.dispatchers.get_template("dispatcher.yaml.jinja2").render(
+        prefix=tmpdir.name
+    )
+    LOG.debug("dispatcher config")
+    LOG.debug(dispatcher)
+    (tmpdir / "dispatcher.yaml").write_text(dispatcher, encoding="utf-8")
 
     # Use a container runtime
     runtime = Runtime.select(options.runtime)()
@@ -143,20 +141,6 @@ def run(options, tmpdir: Path) -> int:
         if urlparse(path).scheme == "file":
             runtime.bind(path[7:], ro=True)
 
-    if options.device and options.device.startswith("fvp-") and runtime.container:
-        runtime.bind(f"{tmpdir}/dispatcher")
-        (tmpdir / "dispatcher").mkdir()
-        dispatcher = templates.dispatchers.get_template(
-            "dispatcher.yaml.jinja2"
-        ).render(prefix=f"{tmpdir}/dispatcher/")
-        LOG.debug("dispatcher config")
-        LOG.debug(dispatcher)
-
-        (tmpdir / "dispatcher.yaml").write_text(dispatcher, encoding="utf-8")
-        # Add dispatcher.yaml to the command line arguments
-        args.insert(-1, "--dispatcher")
-        args.insert(-1, str(tmpdir / "dispatcher.yaml"))
-
     # Forward the signal to the runtime
     def handler(*_):
         runtime.kill()
@@ -171,7 +155,23 @@ def run(options, tmpdir: Path) -> int:
     # start the pre_run command
     if options.device and options.device.startswith("fvp-"):
         LOG.debug("Pre run command")
+        runtime.bind(tmpdir / "dispatcher" / "tmp", "/var/lib/lava/dispatcher/tmp")
+        (tmpdir / "dispatcher" / "tmp").mkdir()
         runtime.pre_run(tmpdir)
+
+    # Build the lava-run arguments list
+    args = [
+        "lava-run",
+        "--device",
+        str(tmpdir / "device.yaml"),
+        "--dispatcher",
+        str(tmpdir / "dispatcher.yaml"),
+        "--job-id",
+        "1",
+        "--output-dir",
+        "output",
+        str(tmpdir / "definition.yaml"),
+    ]
 
     results = Results()
     # Start the writer (stderr or log-file)

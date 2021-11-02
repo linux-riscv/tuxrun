@@ -107,9 +107,9 @@ def test_kill_podman_raise(mocker):
     assert len(runtime.__sub_procs__) == 0
 
 
-def test_pre_run_docker():
+def test_pre_run_docker(tmp_path):
     runtime = Runtime.select("docker")()
-    runtime.pre_run(None)
+    runtime.pre_run(tmp_path)
     assert runtime.__bindings__[-1] == (
         "/var/run/docker.sock",
         "/var/run/docker.sock",

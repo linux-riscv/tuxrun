@@ -31,6 +31,12 @@ dispatchers = jinja2.Environment(
     loader=jinja2.FileSystemLoader(str(BASE / "dispatchers")),
 )
 
+wrappers = jinja2.Environment(
+    autoescape=False,
+    trim_blocks=True,
+    loader=jinja2.FileSystemLoader(str(BASE / "wrappers")),
+)
+
 
 def tests_list():
     names = []
