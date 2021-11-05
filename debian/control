@@ -1,5 +1,5 @@
 Source: tuxrun
-Maintainer: Your Name <your.name@yourdomain.com>
+Maintainer: Antonio Terceiro <antonio.terceiro@linaro.org>
 Section: python
 Priority: optional
 Build-Depends: bash-completion,
