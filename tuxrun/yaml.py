@@ -7,16 +7,15 @@
 
 import yaml
 
+FullLoader = None
+for loader in ["CFullLoader", "CLoader", "FullLoader", "Loader"]:
+    if hasattr(yaml, loader):
+        if loader != "CFullLoader":
+            print("Warning: using python yaml loader")
+        FullLoader = getattr(yaml, loader)
+        break
 
-try:
-    from yaml import CFullLoader as FullLoader  # type: ignore
-except ImportError:  # pragma: no cover
-    try:
-        from yaml import FullLoader  # type: ignore
-    except ImportError:
-        from yaml import Loader as FullLoader  # type: ignore
-
-    print("Warning: using python yaml loader")
+assert FullLoader is not None
 
 
 def yaml_load(data):
