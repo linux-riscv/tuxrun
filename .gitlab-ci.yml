@@ -54,7 +54,7 @@ integration:
   image: $CI_REGISTRY/linaro/tuxrun/ci-integration
   stage: test
   script:
-  - PYTHONPATH=. python3 test/integration.py --runtime null --device $DEVICE --tests $TEST
+  - PYTHONPATH=. python3 test/integration.py --device $DEVICE --tests $TEST
   parallel:
     matrix:
     - DEVICE:
