@@ -103,8 +103,6 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
 
 
 FVP_MORELLO_ARGS = [
-    "--device",
-    "fvp-morello-android",
     "--mcp-fw",
     "fvp.bin",
     "--mcp-romfw",
@@ -132,9 +130,20 @@ FVP_MORELLO_ARGS = [
         ["--definition", "definition.yaml"],
         ["--device", "fvp-morello-android", "--mcp-fw", "fvp.bin"],
         ["--device", "fvp-morello-android", "--test", "multicore"],
-        [*FVP_MORELLO_ARGS, "--tests", "bionic"],
-        [*FVP_MORELLO_ARGS, "--tests", "lldb"],
+        ["--device", "fvp-morello-android", *FVP_MORELLO_ARGS, "--tests", "bionic"],
+        ["--device", "fvp-morello-android", *FVP_MORELLO_ARGS, "--tests", "lldb"],
+        ["--device", "fvp-morello-busybox", *FVP_MORELLO_ARGS, "--tests", "lldb"],
         [
+            "--device",
+            "fvp-morello-busybox",
+            *FVP_MORELLO_ARGS,
+            "--kernel",
+            "https://storage.tuxboot.com/i386/bzImage",
+        ],
+        ["--device", "fvp-morello-ubuntu", *FVP_MORELLO_ARGS],
+        [
+            "--device",
+            "fvp-morello-android",
             *FVP_MORELLO_ARGS,
             "--tests",
             "lldb",
