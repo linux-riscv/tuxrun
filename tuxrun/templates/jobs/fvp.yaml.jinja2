@@ -6,7 +6,7 @@ visibility: public
 
 {% block context %}{% endblock %}
 
-{%- set ns = namespace(timeout=5+20) %}
+{%- set ns = namespace(timeout=5+boot_timeout) %}
 {%- for test in tests %}
   {%- set ns.timeout = ns.timeout + timeouts[test] %}
 {%- endfor %}
@@ -47,7 +47,7 @@ actions:
     image: "/opt/model/FVP_Morello/models/Linux64_GCC-6.4/FVP_Morello"
     version_string: "Fast Models [^\\n]+"
     timeout:
-      minutes: 20
+      minutes: {{ boot_timeout }}
     console_string: "terminal_uart_ap: Listening for serial connection on port (?P<PORT>\\d+)"
     feedbacks:
     - "terminal_(?P<NAME>uart0): Listening for serial connection on port (?P<PORT>\\d+)"
@@ -84,6 +84,13 @@ actions:
 {% for prompt in prompts %}
     - "{{ prompt }}"
 {% endfor %}
+{% if auto_login %}
+    auto_login:
+      login_prompt: "{{ auto_login.login_prompt}}"
+      username: "{{ auto_login.username }}"
+      password_prompt: "{{ auto_login.password_prompt }}"
+      password: "{{ auto_login.password }}"
+{% endif %}
 
 {% if support_tests %}
 {% for test in tests %}
