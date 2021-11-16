@@ -41,10 +41,10 @@ actions:
     timeout:
       minutes: 3
     auto_login:
-      login_prompt: 'tuxtest login:'
+      login_prompt: '(.*)login:'
       username: root
     prompts:
-    - 'root@tuxtest:'
+    - 'root@(.*):[/~]#'
 - test:
     timeout:
       minutes: 2
