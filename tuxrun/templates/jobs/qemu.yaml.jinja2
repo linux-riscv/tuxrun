@@ -77,10 +77,10 @@ actions:
     timeout:
       minutes: 3
     auto_login:
-      login_prompt: 'tuxtest login:'
+      login_prompt: '(.*)login:'
       username: root
     prompts:
-    - 'root@tuxtest:'
+    - 'root@(.*):[/~]#'
 {% for test in tests %}
 {% include "tests/" + test + ".yaml.jinja2" %}
 {% endfor %}
