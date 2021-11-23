@@ -53,9 +53,11 @@ class FVPDevice(Device):
             raise InvalidArgument("Invalid option for this fvp device: --rootfs")
 
     def definition(self, **kwargs):
+        kwargs = kwargs.copy()
+
         # Options that can *not* be updated
-        kwargs["prompts"] = self.prompts
-        kwargs["auto_login"] = self.auto_login
+        kwargs["prompts"] = self.prompts.copy()
+        kwargs["auto_login"] = self.auto_login.copy()
         kwargs["support_tests"] = self.support_tests
 
         kwargs["rootfs"] = self.rootfs if self.rootfs else kwargs.get("rootfs")

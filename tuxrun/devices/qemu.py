@@ -67,6 +67,8 @@ class QemuDevice(Device):
             raise InvalidArgument("argument --dtb is only valid for qemu-armv5 device")
 
     def definition(self, **kwargs):
+        kwargs = kwargs.copy()
+
         # Options that can *not* be updated
         kwargs["arch"] = self.arch
         kwargs["lava_arch"] = self.lava_arch
@@ -74,9 +76,9 @@ class QemuDevice(Device):
         kwargs["cpu"] = self.cpu
         kwargs["memory"] = self.memory
         kwargs["guestfs_interface"] = self.guestfs_interface
-        kwargs["extra_options"] = self.extra_options
+        kwargs["extra_options"] = self.extra_options.copy()
         if kwargs["tests"]:
-            kwargs["extra_options"].extend(self.extra_options_tests)
+            kwargs["extra_options"].extend(self.extra_options_tests.copy())
         kwargs["console"] = self.console
         kwargs["rootfs_dev"] = self.rootfs_dev
         kwargs["rootfs_arg"] = self.rootfs_arg
