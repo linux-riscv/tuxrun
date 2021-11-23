@@ -155,8 +155,10 @@ class DockerRuntime(ContainerRuntime):
 
     def pre_run(self, tmpdir):
         # Render and bind the docker wrapper
-        wrap = wrappers.get_template("docker.jinja2").render(
-            runtime="docker", volume=str(tmpdir / "dispatcher" / "tmp")
+        wrap = (
+            wrappers()
+            .get_template("docker.jinja2")
+            .render(runtime="docker", volume=str(tmpdir / "dispatcher" / "tmp"))
         )
         LOG.debug("docker wrapper")
         LOG.debug(wrap)
@@ -174,8 +176,10 @@ class PodmanRuntime(ContainerRuntime):
 
     def pre_run(self, tmpdir):
         # Render and bind the docker wrapper
-        wrap = wrappers.get_template("docker.jinja2").render(
-            runtime="podman", volume=str(tmpdir / "dispatcher" / "tmp")
+        wrap = (
+            wrappers()
+            .get_template("docker.jinja2")
+            .render(runtime="podman", volume=str(tmpdir / "dispatcher" / "tmp"))
         )
         LOG.debug("docker wrapper")
         LOG.debug(wrap)

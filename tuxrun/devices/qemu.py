@@ -7,9 +7,9 @@
 
 from typing import List
 
+from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-import tuxrun.templates as templates
 
 
 def notnone(value, fallback):
@@ -97,10 +97,10 @@ class QemuDevice(Device):
         kwargs["kernel_compression"] = kernel_compression
 
         # render the template
-        return templates.jobs.get_template("qemu.yaml.jinja2").render(**kwargs)
+        return templates.jobs().get_template("qemu.yaml.jinja2").render(**kwargs)
 
     def device_dict(self, context):
-        return templates.devices.get_template("qemu.yaml.jinja2").render(**context)
+        return templates.devices().get_template("qemu.yaml.jinja2").render(**context)
 
 
 class QemuArm64(QemuDevice):

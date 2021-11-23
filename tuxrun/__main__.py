@@ -17,6 +17,7 @@ import sys
 import tempfile
 from urllib.parse import urlparse
 
+from tuxrun import templates
 from tuxrun.argparse import filter_options, pathurlnone, setup_parser
 from tuxrun.assets import get_rootfs, get_test_definitions
 from tuxrun.devices import Device
@@ -24,7 +25,6 @@ from tuxrun.exceptions import InvalidArgument
 from tuxrun.requests import requests_get
 from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
-import tuxrun.templates as templates
 from tuxrun.utils import TTYProgressIndicator
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
@@ -112,8 +112,10 @@ def run(options, tmpdir: Path) -> int:
 
     # Render the dispatcher.yaml
     (tmpdir / "dispatcher").mkdir()
-    dispatcher = templates.dispatchers.get_template("dispatcher.yaml.jinja2").render(
-        prefix=tmpdir.name
+    dispatcher = (
+        templates.dispatchers()
+        .get_template("dispatcher.yaml.jinja2")
+        .render(prefix=tmpdir.name)
     )
     LOG.debug("dispatcher config")
     LOG.debug(dispatcher)
