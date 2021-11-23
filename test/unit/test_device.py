@@ -20,6 +20,17 @@ def test_select():
         Device.select("Hello")
 
 
+FVP_MORELLO_ANDROID = {
+    "tests": [],
+    "mcp_fw": "mcp_fw.bin",
+    "mcp_romfw": "mcp_romfw.bin",
+    "rootfs": "android-nano.img.xz",
+    "scp_fw": "scp_fw.bin",
+    "scp_romfw": "scp_romfw.bin",
+    "uefi": "uefi.bin",
+}
+
+
 @pytest.mark.parametrize(
     "device,args,filename",
     [
@@ -31,12 +42,12 @@ def test_select():
         (
             "qemu-arm64",
             {
-                "tests": ["ltp-smoke"],
+                "tests": ["ltp-fcntl-locktests"],
                 "tux_boot_args": "",
                 "overlays": [],
                 "test_definitions": "testdef.tar.zst",
             },
-            "qemu-arm64-ltp-smoke.yaml",
+            "qemu-arm64-ltp-fcntl-locktests.yaml",
         ),
         (
             "qemu-armv5",
@@ -46,17 +57,27 @@ def test_select():
         (
             "qemu-armv5",
             {
-                "tests": ["ltp-nptl"],
+                "tests": ["ltp-fs_bind"],
                 "tux_boot_args": "",
                 "overlays": [],
                 "test_definitions": "testdef.tar.zst",
             },
-            "qemu-armv5-ltp-nptl.yaml",
+            "qemu-armv5-ltp-fs_bind.yaml",
         ),
         (
             "qemu-armv7",
             {"tests": [], "tux_boot_args": "", "overlays": []},
             "qemu-armv7.yaml",
+        ),
+        (
+            "qemu-armv7",
+            {
+                "tests": ["ltp-fs_perms_simple", "ltp-fsx", "ltp-nptl"],
+                "tux_boot_args": "",
+                "overlays": [],
+                "test_definitions": "testdef.tar.zst",
+            },
+            "qemu-armv7-ltp.yaml",
         ),
         (
             "qemu-armv7",
@@ -67,6 +88,16 @@ def test_select():
             "qemu-i386",
             {"tests": [], "tux_boot_args": "", "overlays": []},
             "qemu-i386.yaml",
+        ),
+        (
+            "qemu-i386",
+            {
+                "tests": ["kunit"],
+                "tux_boot_args": "",
+                "overlays": [],
+                "test_definitions": "testdef.tar.zst",
+            },
+            "qemu-i386-kunit.yaml",
         ),
         (
             "qemu-i386",
@@ -125,16 +156,80 @@ def test_select():
         ),
         (
             "fvp-morello-android",
-            {
-                "tests": [],
-                "mcp_fw": "mcp_fw.bin",
-                "mcp_romfw": "mcp_romfw.bin",
-                "rootfs": "android-nano.img.xz",
-                "scp_fw": "scp_fw.bin",
-                "scp_romfw": "scp_romfw.bin",
-                "uefi": "uefi.bin",
-            },
+            FVP_MORELLO_ANDROID,
             "fvp-morello-android.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["binder"],
+                "parameters": {"USERDATA": "userdata.tar.xz"},
+            },
+            "fvp-morello-android-binder.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["bionic"],
+                "parameters": {"USERDATA": "userdata.tar.xz"},
+            },
+            "fvp-morello-android-bionic.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["compartment"],
+                "parameters": {"USERDATA": "userdata.tar.xz"},
+            },
+            "fvp-morello-android-compartment.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["device-tree"],
+                "parameters": {},
+            },
+            "fvp-morello-android-device-tree.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["dvfs"],
+                "parameters": {},
+            },
+            "fvp-morello-android-dvfs.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["lldb"],
+                "parameters": {"LLDB_URL": "lldb.tar.xz", "TC_URL": "toolchain.tar.xz"},
+            },
+            "fvp-morello-android-lldb.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["logd"],
+                "parameters": {"USERDATA": "userdata.tar.xz"},
+            },
+            "fvp-morello-android-logd.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["multicore"],
+                "parameters": {},
+            },
+            "fvp-morello-android-multicore.yaml",
         ),
         (
             "fvp-morello-busybox",
