@@ -7,9 +7,9 @@
 
 from typing import Dict, List, Optional
 
+from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-import tuxrun.templates as templates
 
 
 class FVPDevice(Device):
@@ -61,10 +61,10 @@ class FVPDevice(Device):
         kwargs["rootfs"] = self.rootfs if self.rootfs else kwargs.get("rootfs")
         kwargs["boot_timeout"] = self.boot_timeout
         # render the template
-        return templates.jobs.get_template("fvp.yaml.jinja2").render(**kwargs)
+        return templates.jobs().get_template("fvp.yaml.jinja2").render(**kwargs)
 
     def device_dict(self, context):
-        return templates.devices.get_template("fvp.yaml.jinja2").render(**context)
+        return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
 
 
 class FVPMorelloAndroid(FVPDevice):
