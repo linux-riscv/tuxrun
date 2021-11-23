@@ -4,7 +4,7 @@ RUNTIME ?= "podman"
 
 build: fvp fvp-morello
 
-fvp: docker Dockerfile
+fvp: Dockerfile
 	$(RUNTIME) build --tag tuxrun:fvp .
 
 fvp-morello: morello/Dockerfile

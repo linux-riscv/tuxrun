@@ -13,7 +13,10 @@ import signal
 import subprocess
 import time
 
+from tuxrun.templates import wrappers
 
+
+BASE = (Path(__file__) / "..").resolve()
 LOG = logging.getLogger("tuxrun")
 
 
@@ -42,7 +45,7 @@ class Runtime:
     def bind(self, src, dst=None, ro=False):
         if dst is None:
             dst = src
-        self.__bindings__.append((src, dst, ro))
+        self.__bindings__.append((str(src), dst, ro))
 
     def image(self, image):
         self.__image__ = image
@@ -151,6 +154,17 @@ class DockerRuntime(ContainerRuntime):
     prefix = ["docker", "run", "--rm", "--hostname", "tuxrun"]
 
     def pre_run(self, tmpdir):
+        # Render and bind the docker wrapper
+        wrap = wrappers.get_template("docker.jinja2").render(
+            runtime="docker", volume=str(tmpdir / "dispatcher" / "tmp")
+        )
+        LOG.debug("docker wrapper")
+        LOG.debug(wrap)
+        (tmpdir / "docker").write_text(wrap, encoding="utf-8")
+        (tmpdir / "docker").chmod(0o755)
+        self.bind(str(tmpdir / "docker"), "/usr/local/bin/docker", True)
+
+        # Bind the docker socket
         self.bind("/var/run/docker.sock")
 
 
@@ -159,8 +173,20 @@ class PodmanRuntime(ContainerRuntime):
     prefix = ["podman", "run", "--rm", "--quiet", "--hostname", "tuxrun"]
 
     def pre_run(self, tmpdir):
+        # Render and bind the docker wrapper
+        wrap = wrappers.get_template("docker.jinja2").render(
+            runtime="podman", volume=str(tmpdir / "dispatcher" / "tmp")
+        )
+        LOG.debug("docker wrapper")
+        LOG.debug(wrap)
+        (tmpdir / "docker").write_text(wrap, encoding="utf-8")
+        (tmpdir / "docker").chmod(0o755)
+        self.bind(str(tmpdir / "docker"), "/usr/local/bin/docker", True)
+
+        # Start podman system service and bind the socket
         socket = tmpdir / "podman.sock"
         self.bind(socket, "/run/podman/podman.sock")
+
         args = [
             self.binary,
             "system",

@@ -1,2 +1,0 @@
-#!/bin/sh
-exec podman --remote --url unix://run/podman/podman.sock "$@"

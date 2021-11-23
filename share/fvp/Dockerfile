@@ -13,6 +13,4 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY docker /usr/bin/docker
-
 ENTRYPOINT ["/root/entrypoint.sh"]
