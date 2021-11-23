@@ -85,6 +85,16 @@ class FVPMorelloAndroid(FVPDevice):
                 "--parameters USERDATA=http://... is "
                 "mantadory for fvp-morello-android test"
             )
+        if "libjpeg-turbo" in tests and not parameters.get("SYSTEM_URL"):
+            raise InvalidArgument(
+                "--parameters SYSTEM_URL=http://... is "
+                "mantadory for fvp-morello-android libjpeg-turbo test"
+            )
+        if "libjpeg-turbo" in tests and not parameters.get("LIBJPEG_TURBO_URL"):
+            raise InvalidArgument(
+                "--parameters LIBJPEG_TURBO_URL=http://... is "
+                "mantadory for fvp-morello-android libjpeg-turbo test"
+            )
         if "lldb" in tests and not parameters.get("LLDB_URL"):
             raise InvalidArgument(
                 "--parameters LLDB_URL=http://... is "
