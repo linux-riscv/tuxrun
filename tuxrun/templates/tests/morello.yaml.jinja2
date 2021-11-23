@@ -1,5 +1,3 @@
-{% set timeout = 30 %}
-
 - test:
     timeout:
       minutes: {{ timeout }}
@@ -9,9 +7,11 @@
     definitions:
     - repository: https://git.morello-project.org/morello/morello-ci-pipelines.git
       from: git
-      path: lava/test-definitions/lldb/testdef.yaml
-      name: lldb
+      path: lava/test-definitions/{{ test_def_name }}/testdef.yaml
+      name: {{ name }}
+{% if parameters %}
       parameters:
-        LLDB_TESTS_URL: "{{ parameters.LLDB_URL }}"
-        TC_URL: "{{ parameters.TC_URL }}"
-
+{% for key in parameters.keys()|sort %}
+        {{ key }}: "{{ parameters.get(key) }}"
+{% endfor %}
+{% endif %}

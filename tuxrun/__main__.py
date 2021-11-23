@@ -25,6 +25,7 @@ from tuxrun.exceptions import InvalidArgument
 from tuxrun.requests import requests_get
 from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
+from tuxrun.tests import Test
 from tuxrun.utils import TTYProgressIndicator
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
@@ -71,8 +72,7 @@ def run(options, tmpdir: Path) -> int:
 
         command = " ".join([shlex.quote(s) for s in options.command])
 
-        device = Device.select(options.device)()
-        definition = device.definition(
+        definition = options.device.definition(
             bios=options.bios,
             command=command,
             device=options.device,
@@ -87,7 +87,7 @@ def run(options, tmpdir: Path) -> int:
             scp_romfw=options.scp_romfw,
             tests=options.tests,
             test_definitions=test_definitions,
-            timeouts=templates.timeouts(),
+            tests_timeout=sum(t.timeout for t in options.tests),
             tmpdir=tmpdir,
             tux_boot_args=options.boot_args.replace('"', ""),
             uefi=options.uefi,
@@ -97,7 +97,7 @@ def run(options, tmpdir: Path) -> int:
         LOG.debug(definition)
 
         context = yaml_load(definition).get("context", {})
-        device_dict = device.device_dict(context)
+        device_dict = options.device.device_dict(context)
         LOG.debug("device dictionary")
         LOG.debug(device_dict)
 
@@ -155,7 +155,7 @@ def run(options, tmpdir: Path) -> int:
     signal.signal(signal.SIGUSR2, handler)
 
     # start the pre_run command
-    if options.device and options.device.startswith("fvp-"):
+    if options.device and options.device.name.startswith("fvp-"):
         LOG.debug("Pre run command")
         runtime.bind(tmpdir / "dispatcher" / "tmp", "/var/lib/lava/dispatcher/tmp")
         (tmpdir / "dispatcher" / "tmp").mkdir()
@@ -250,7 +250,9 @@ def main() -> int:
             options.tests.append("command")
 
         try:
-            Device.select(options.device)().validate(**filter_options(options))
+            options.device = Device.select(options.device)()
+            options.tests = [Test.select(t)() for t in options.tests]
+            options.device.validate(**filter_options(options))
         except InvalidArgument as exc:
             parser.error(str(exc))
 

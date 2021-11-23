@@ -77,7 +77,6 @@ actions:
     prompts:
     - "console:/ "
 
-
 - test:
     timeout:
       minutes: 30
@@ -90,5 +89,5 @@ actions:
       path: lava/test-definitions/libpng/testdef.yaml
       name: libpng
       parameters:
-        SYSTEM_URL: "system.tar.xz"
         PNG_URL: "png.tar.xz"
+        SYSTEM_URL: "system.tar.xz"

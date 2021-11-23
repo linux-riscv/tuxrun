@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 from tuxrun import __version__
 from tuxrun.assets import get_rootfs, get_test_definitions, ROOTFS
 from tuxrun.devices import Device
-import tuxrun.templates as templates
+from tuxrun.tests import Test
 from tuxrun.tuxmake import TuxMakeBuild
 from tuxrun.utils import TTYProgressIndicator
 
@@ -90,7 +90,7 @@ class ListTestsAction(argparse.Action):
         super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        parser._print_message("\n".join(templates.tests_list()) + "\n", sys.stderr)
+        parser._print_message("\n".join(Test.list()) + "\n", sys.stderr)
         parser.exit()
 
 
@@ -214,7 +214,7 @@ def setup_parser() -> argparse.ArgumentParser:
         default=[],
         metavar="T",
         help="test suites",
-        choices=templates.tests_list(),
+        choices=Test.list(),
     )
     group.add_argument(
         "command",
