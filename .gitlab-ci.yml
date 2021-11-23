@@ -53,6 +53,8 @@ integration:
   extends: .job
   image: $CI_REGISTRY_IMAGE/ci-integration
   stage: test
+  cache:
+    paths: [.cache/tuxrun]
   script:
   - PYTHONPATH=. python3 test/integration.py --device $DEVICE --tests $TEST
   parallel:
