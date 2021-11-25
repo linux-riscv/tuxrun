@@ -1,0 +1,16 @@
+{% set timeout = 30 %}
+
+- test:
+    timeout:
+      minutes: {{ timeout }}
+    docker:
+      image: git.morello-project.org:5050/morello/morello-ci-containers/morello-android-platform-tools
+      network_from: "{{ tmpdir.name }}"
+    definitions:
+    - repository: https://git.morello-project.org/morello/morello-ci-pipelines.git
+      from: git
+      path: lava/test-definitions/libjpeg-turbo/testdef.yaml
+      name: libjpeg-turbo
+      parameters:
+        SYSTEM_URL: "{{ parameters.SYSTEM_URL }}"
+        LIBJPEG_TURBO_URL: "{{ parameters.LIBJPEG_TURBO_URL }}"

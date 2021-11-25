@@ -80,10 +80,24 @@ class FVPMorelloAndroid(FVPDevice):
         userdata_required = [
             t in tests for t in ["binder", "bionic", "compartment", "logd"]
         ]
+        system_required = [
+            t in tests
+            for t in ["libjpeg-turbo", "libpng", "libpdfium", "zlib", "boringssl"]
+        ]
         if any(userdata_required) and not parameters.get("USERDATA"):
             raise InvalidArgument(
                 "--parameters USERDATA=http://... is "
                 "mantadory for fvp-morello-android test"
+            )
+        if any(system_required) and not parameters.get("SYSTEM_URL"):
+            raise InvalidArgument(
+                "--parameters SYSTEM_URL=http://... is "
+                f"mantadory for fvp-morello-android {system_required} test"
+            )
+        if "libjpeg-turbo" in tests and not parameters.get("LIBJPEG_TURBO_URL"):
+            raise InvalidArgument(
+                "--parameters LIBJPEG_TURBO_URL=http://... is "
+                "mantadory for fvp-morello-android libjpeg-turbo test"
             )
         if "lldb" in tests and not parameters.get("LLDB_URL"):
             raise InvalidArgument(
@@ -94,6 +108,16 @@ class FVPMorelloAndroid(FVPDevice):
             raise InvalidArgument(
                 "--parameters TC_URL=http://... is "
                 "mantadory for fvp-morello-android lldb test"
+            )
+        if "libpng" in tests and not parameters.get("PNG_URL"):
+            raise InvalidArgument(
+                "--parameters PNG_URL=http://... is "
+                "mantadory for fvp-morello-android libpng test"
+            )
+        if "libpdfium" in tests and not parameters.get("PDFIUM_URL"):
+            raise InvalidArgument(
+                "--parameters PDFIUM_URL=http://... is "
+                "mantadory for fvp-morello-android libpdfium test"
             )
 
 
