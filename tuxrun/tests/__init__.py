@@ -22,6 +22,10 @@ class Test:
     name: str = ""
     timeout: int = 0
 
+    def __init__(self, timeout):
+        if timeout:
+            self.timeout = timeout
+
     @classmethod
     def select(cls, name):
         for subclass in subclasses(cls):

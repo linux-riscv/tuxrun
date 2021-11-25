@@ -27,6 +27,7 @@ def filter_options(options):
         "device",
         "tuxbuild",
         "tuxmake",
+        "timeouts",
         "device_dict",
         "definition",
         "runtime",
@@ -107,6 +108,21 @@ class KeyValueAction(argparse.Action):
         for value in values:
             key, value = value.split("=")
             getattr(namespace, self.dest)[key] = value
+
+
+class KeyValueIntAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        KEYS = ["deploy", "boot"] + Test.list()
+        for value in values:
+            key, value = value.split("=")
+            if key not in KEYS:
+                raise argparse.ArgumentError(self, f"Invalid timeout '{key}'")
+            try:
+                getattr(namespace, self.dest)[key] = int(value)
+            except ValueError:
+                raise argparse.ArgumentError(
+                    self, f"Invalid value for {key} timeout: '{value}'"
+                )
 
 
 class UpdateCacheAction(argparse.Action):
@@ -240,6 +256,15 @@ def setup_parser() -> argparse.ArgumentParser:
     group = parser.add_argument_group("run options")
     group.add_argument(
         "--boot-args", default="", metavar="ARGS", help="extend boot arguments"
+    )
+    group.add_argument(
+        "--timeouts",
+        metavar="K=V",
+        default={},
+        type=str,
+        help="timouts in minutes as action=duration",
+        action=KeyValueIntAction,
+        nargs="+",
     )
 
     group = parser.add_argument_group("configuration files")

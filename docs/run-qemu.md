@@ -74,6 +74,22 @@ tuxrun --device qemu-arm64 \
     When combining a custom command and tests, the custom command will be ran
     after all the tests.
 
+## Timeouts
+
+You can override the default timeouts with:
+
+```shell
+tuxrun --device qemu-armv5 \
+       --tests ltp-smoke
+       --timeouts deploy=10 boot=12 ltp-smoke=32
+```
+
+This will set the timeouts to:
+
+* `deploy`: 10 minutes
+* `boot`: 12 minutes
+* `ltp-smoke`: 32 minutes
+
 ## TuxMake and TuxBuild
 
 You can run tests against TuxMake or TuxBuild artefacts with `--tuxmake` or `--tuxbuild`:
