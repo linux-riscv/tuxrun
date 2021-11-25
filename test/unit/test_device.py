@@ -110,6 +110,16 @@ FVP_MORELLO_ANDROID = {
             "qemu-mips32.yaml",
         ),
         (
+            "qemu-mips32",
+            {
+                "tests": ["command"],
+                "tux_boot_args": "",
+                "overlays": [],
+                "command": "cat /proc/cpuinfo",
+            },
+            "qemu-mips32-command.yaml",
+        ),
+        (
             "qemu-mips32el",
             {"tests": [], "tux_boot_args": "", "overlays": []},
             "qemu-mips32el.yaml",
