@@ -191,6 +191,15 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
+                "tests": ["boringssl"],
+                "parameters": {"SYSTEM_URL": "system.tar.xz"},
+            },
+            "fvp-morello-android-boringssl.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
                 "tests": ["compartment"],
                 "parameters": {"USERDATA": "userdata.tar.xz"},
             },
@@ -218,6 +227,39 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
+                "tests": ["libjpeg-turbo"],
+                "parameters": {
+                    "SYSTEM_URL": "system.tar.xz",
+                    "LIBJPEG_TURBO_URL": "libjpeg.tar.xz",
+                },
+            },
+            "fvp-morello-android-libjpeg-turbo.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["libpdfium"],
+                "parameters": {
+                    "SYSTEM_URL": "system.tar.xz",
+                    "PDFIUM_URL": "pdfium.tar.xz",
+                },
+            },
+            "fvp-morello-android-libpdfium.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["libpng"],
+                "parameters": {"SYSTEM_URL": "system.tar.xz", "PNG_URL": "png.tar.xz"},
+            },
+            "fvp-morello-android-libpng.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
                 "tests": ["lldb"],
                 "parameters": {"LLDB_URL": "lldb.tar.xz", "TC_URL": "toolchain.tar.xz"},
             },
@@ -240,6 +282,15 @@ FVP_MORELLO_ANDROID = {
                 "parameters": {},
             },
             "fvp-morello-android-multicore.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
+                "tests": ["zlib"],
+                "parameters": {"SYSTEM_URL": "system.tar.xz"},
+            },
+            "fvp-morello-android-zlib.yaml",
         ),
         (
             "fvp-morello-busybox",
