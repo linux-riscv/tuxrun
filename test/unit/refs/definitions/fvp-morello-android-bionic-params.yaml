@@ -89,7 +89,8 @@ actions:
       path: lava/test-definitions/bionic/testdef.yaml
       name: bionic
       parameters:
-        GTEST_FILTER: "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove"
+        BIONIC_TEST_TYPE: "dynamic"
+        GTEST_FILTER: "hello"
         TEST_PATHS: "nativetest64 nativetestc64"
-        TEST_TYPE: "static"
+        TEST_TYPE: "dynamic"
         USERDATA_URL: "userdata.tar.xz"

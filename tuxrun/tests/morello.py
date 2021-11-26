@@ -54,10 +54,19 @@ class MorelloBinder(MorelloAndroidTest):
 class MorelloBionic(MorelloAndroidTest):
     name = "bionic"
     timeout = 1000
-    parameters = ["USERDATA"]
+    parameters = ["BIONIC_TEST_TYPE", "GTEST_FILTER", "USERDATA"]
+
+    def validate(self, device, parameters, **kwargs):
+        super().validate(device=device, parameters=parameters, **kwargs)
+        if parameters.get("BIONIC_TEST_TYPE", "static") not in ["dynamic", "static"]:
+            raise InvalidArgument("Invalid value for --parameters BIONIC_TEST_TYPE")
 
     def render(self, parameters, **kwargs):
         parameters["TEST_PATHS"] = "nativetest64 nativetestc64"
+        parameters["TEST_TYPE"] = parameters.get(
+            "BIONIC_TEST_TYPE",
+            "static",
+        )
         parameters["GTEST_FILTER"] = parameters.get(
             "GTEST_FILTER",
             "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove",
