@@ -91,4 +91,5 @@ actions:
       parameters:
         GTEST_FILTER: "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove"
         TEST_PATHS: "nativetest64 nativetestc64"
+        TEST_TYPE: "static"
         USERDATA_URL: "userdata.tar.xz"

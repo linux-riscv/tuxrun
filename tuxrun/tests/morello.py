@@ -58,6 +58,10 @@ class MorelloBionic(MorelloAndroidTest):
 
     def render(self, parameters, **kwargs):
         parameters["TEST_PATHS"] = "nativetest64 nativetestc64"
+        parameters["TEST_TYPE"] = parameters.get(
+            "BIONIC_TEST_TYPE",
+            "static",
+        )
         parameters["GTEST_FILTER"] = parameters.get(
             "GTEST_FILTER",
             "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove",
