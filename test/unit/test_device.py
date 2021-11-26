@@ -200,6 +200,19 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
+                "tests": [Test.select("bionic")()],
+                "parameters": {
+                    "BIONIC_TEST_TYPE": "dynamic",
+                    "GTEST_FILTER": "hello",
+                    "USERDATA": "userdata.tar.xz",
+                },
+            },
+            "fvp-morello-android-bionic-params.yaml",
+        ),
+        (
+            "fvp-morello-android",
+            {
+                **FVP_MORELLO_ANDROID,
                 "tests": [Test.select("boringssl")()],
                 "parameters": {"SYSTEM_URL": "system.tar.xz"},
             },
