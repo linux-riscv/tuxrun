@@ -66,6 +66,8 @@ class Writer(ContextDecorator):
                 ns = f" <{COLORS['feedback']}{data['ns']}{COLORS['end']}> "
             timestamp = data["dt"].split(".")[0]
 
+            if level == "input" and msg[-1] == "\n":
+                msg = msg[0:-1] + "⏎"
             sys.stdout.write(
                 f"{COLORS['dt']}{timestamp}{COLORS['end']}{ns}{COLORS[level]}{msg}{COLORS['end']}\n"
             )
