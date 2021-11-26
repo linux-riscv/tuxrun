@@ -39,7 +39,7 @@ class TuxMakeBuild:
             self.modules = (
                 self.location / metadata["results"]["artifacts"]["modules"][0]
             )
-        except KeyError:
+        except (IndexError, KeyError):
             self.modules = None
         try:
             self.target_arch = metadata["build"]["target_arch"]
