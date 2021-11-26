@@ -77,7 +77,6 @@ actions:
     prompts:
     - "console:/ "
 
-
 - test:
     timeout:
       minutes: 420

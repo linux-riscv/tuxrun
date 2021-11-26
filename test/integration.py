@@ -8,6 +8,7 @@ import tempfile
 
 from typing import Dict, Any
 from tuxrun.devices import Device
+from tuxrun.tests import Test
 from tuxrun.yaml import yaml_load
 
 
@@ -86,6 +87,140 @@ def run(device, test, runtime, debug):
     if test:
         args.extend(["--tests", test])
 
+    if device == "fvp-morello-android":
+        args.extend(
+            [
+                "--mcp-fw",
+                "https://storage.tuxboot.com/fvp-morello-android/mcp_fw.bin",
+                "--mcp-romfw",
+                "https://storage.tuxboot.com/fvp-morello-android/mcp_romfw.bin",
+                "--rootfs",
+                "https://storage.tuxboot.com/fvp-morello-android/android-nano.img.xz",
+                "--scp-fw",
+                "https://storage.tuxboot.com/fvp-morello-android/scp_fw.bin",
+                "--scp-romfw",
+                "https://storage.tuxboot.com/fvp-morello-android/scp_romfw.bin",
+                "--uefi",
+                "https://storage.tuxboot.com/fvp-morello-busybox/uefi.bin",
+                "--image",
+                "tuxrun:fvp",
+            ]
+        )
+        if test == "binder":
+            args.extend(
+                [
+                    "--parameters",
+                    "USERDATA=https://storage.tuxboot.com/fvp-morello-android/userdata.tar.xz",
+                ]
+            )
+        elif test == "bionic":
+            args.extend(
+                [
+                    "--parameters",
+                    "USERDATA=https://storage.tuxboot.com/fvp-morello-android/userdata.tar.xz",
+                ]
+            )
+        elif test == "boringssl":
+            args.extend(
+                [
+                    "--parameters",
+                    "SYSTEM_URL=https://storage.tuxboot.com/fvp-morello-android/system.tar.xz",
+                ]
+            )
+        elif test == "compartment":
+            args.extend(
+                [
+                    "--parameters",
+                    "USERDATA=https://storage.tuxboot.com/fvp-morello-android/userdata.tar.xz",
+                ]
+            )
+        elif test == "libjpeg-turbo":
+            args.extend(
+                [
+                    "--parameters",
+                    "LIBJPEG_TURBO_URL=https://storage.tuxboot.com/fvp-morello-android/libjpeg-turbo.tar.xz",
+                    "--parameters",
+                    "SYSTEM_URL=https://storage.tuxboot.com/fvp-morello-android/system.tar.xz",
+                ]
+            )
+        elif test == "libpng":
+            args.extend(
+                [
+                    "--parameters",
+                    "PNG_URL=https://storage.tuxboot.com/fvp-morello-android/png-testfiles.tar.xz",
+                    "--parameters",
+                    "SYSTEM_URL=https://storage.tuxboot.com/fvp-morello-android/system.tar.xz",
+                ]
+            )
+        elif test == "libpdfium":
+            args.extend(
+                [
+                    "--parameters",
+                    "PDFIUM_URL=https://storage.tuxboot.com/fvp-morello-android/pdfium-testfiles.tar.xz",
+                    "--parameters",
+                    "SYSTEM_URL=https://storage.tuxboot.com/fvp-morello-android/system.tar.xz",
+                ]
+            )
+        elif test == "lldb":
+            args.extend(
+                [
+                    "--parameters",
+                    "LLDB_URL=https://storage.tuxboot.com/fvp-morello-android/lldb_tests.tar.xz",
+                    "--parameters",
+                    "TC_URL=https://storage.tuxboot.com/fvp-morello-android/morello-clang.tar.xz",
+                ]
+            )
+        elif test == "logd":
+            args.extend(
+                [
+                    "--parameters",
+                    "USERDATA=https://storage.tuxboot.com/fvp-morello-android/userdata.tar.xz",
+                ]
+            )
+        elif test == "zlib":
+            args.extend(
+                [
+                    "--parameters",
+                    "SYSTEM_URL=https://storage.tuxboot.com/fvp-morello-android/system.tar.xz",
+                ]
+            )
+    elif device == "fvp-morello-busybox":
+        args.extend(
+            [
+                "--mcp-fw",
+                "https://storage.tuxboot.com/fvp-morello-busybox/mcp_fw.bin",
+                "--mcp-romfw",
+                "https://storage.tuxboot.com/fvp-morello-busybox/mcp_romfw.bin",
+                "--rootfs",
+                "https://storage.tuxboot.com/fvp-morello-busybox/busybox.img.xz",
+                "--scp-fw",
+                "https://storage.tuxboot.com/fvp-morello-busybox/scp_fw.bin",
+                "--scp-romfw",
+                "https://storage.tuxboot.com/fvp-morello-busybox/scp_romfw.bin",
+                "--uefi",
+                "https://storage.tuxboot.com/fvp-morello-busybox/uefi.bin",
+                "--image",
+                "tuxrun:fvp",
+            ]
+        )
+    elif device == "fvp-morello-ubuntu":
+        args.extend(
+            [
+                "--mcp-fw",
+                "https://storage.tuxboot.com/fvp-morello-ubuntu/mcp_fw.bin",
+                "--mcp-romfw",
+                "https://storage.tuxboot.com/fvp-morello-ubuntu/mcp_romfw.bin",
+                "--scp-fw",
+                "https://storage.tuxboot.com/fvp-morello-ubuntu/scp_fw.bin",
+                "--scp-romfw",
+                "https://storage.tuxboot.com/fvp-morello-ubuntu/scp_romfw.bin",
+                "--uefi",
+                "https://storage.tuxboot.com/fvp-morello-ubuntu/uefi.bin",
+                "--image",
+                "tuxrun:fvp",
+            ]
+        )
+
     try:
         ret = subprocess.call(args)
         if ret != 0:
@@ -117,20 +252,11 @@ def run(device, test, runtime, debug):
 # Entrypoint #
 ##############
 def main():
-    devices = [d for d in Device.list() if d.startswith("qemu-")]
     parser = argparse.ArgumentParser(description="Integration tests")
-    parser.add_argument("--devices", default=devices, nargs="+", help="devices")
+    parser.add_argument("--devices", nargs="+", choices=Device.list(), help="device")
     parser.add_argument(
         "--tests",
-        default=[
-            "boot",
-            "ltp-fcntl-locktests",
-            "ltp-fs_bind",
-            "ltp-fs_perms_simple",
-            "ltp-fsx",
-            "ltp-nptl",
-            "ltp-smoke",
-        ],
+        default=["boot"],
         nargs="+",
         help="tests",
     )
@@ -144,7 +270,10 @@ def main():
     options = parser.parse_args()
 
     for device in options.devices:
-        for test in options.tests:
+        tests = options.tests.copy()
+        if tests == ["all"]:
+            tests = ["boot"] + Test.list(device=device)
+        for test in tests:
             print(f"=> {device} x {test}")
             if run(
                 device, "" if test == "boot" else test, options.runtime, options.debug

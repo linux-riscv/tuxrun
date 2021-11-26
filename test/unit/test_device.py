@@ -6,7 +6,7 @@ import pytest
 from tuxrun.devices import Device
 from tuxrun.devices.qemu import QemuArmv5
 from tuxrun.devices.fvp import FVPMorelloAndroid
-import tuxrun.templates as templates
+from tuxrun.tests import Test
 
 
 BASE = (Path(__file__) / "..").resolve()
@@ -42,7 +42,8 @@ FVP_MORELLO_ANDROID = {
         (
             "qemu-arm64",
             {
-                "tests": ["ltp-fcntl-locktests"],
+                "command": "",
+                "tests": [Test.select("ltp-fcntl-locktests")()],
                 "tux_boot_args": "",
                 "overlays": [],
                 "test_definitions": "testdef.tar.zst",
@@ -57,7 +58,8 @@ FVP_MORELLO_ANDROID = {
         (
             "qemu-armv5",
             {
-                "tests": ["ltp-fs_bind"],
+                "command": "",
+                "tests": [Test.select("ltp-fs_bind")()],
                 "tux_boot_args": "",
                 "overlays": [],
                 "test_definitions": "testdef.tar.zst",
@@ -72,7 +74,12 @@ FVP_MORELLO_ANDROID = {
         (
             "qemu-armv7",
             {
-                "tests": ["ltp-fs_perms_simple", "ltp-fsx", "ltp-nptl"],
+                "command": "",
+                "tests": [
+                    Test.select("ltp-fs_perms_simple")(),
+                    Test.select("ltp-fsx")(),
+                    Test.select("ltp-nptl")(),
+                ],
                 "tux_boot_args": "",
                 "overlays": [],
                 "test_definitions": "testdef.tar.zst",
@@ -92,7 +99,8 @@ FVP_MORELLO_ANDROID = {
         (
             "qemu-i386",
             {
-                "tests": ["kunit"],
+                "command": "",
+                "tests": [Test.select("kunit")()],
                 "tux_boot_args": "",
                 "overlays": [],
                 "test_definitions": "testdef.tar.zst",
@@ -112,10 +120,11 @@ FVP_MORELLO_ANDROID = {
         (
             "qemu-mips32",
             {
-                "tests": ["command"],
+                "tests": [Test.select("command")()],
                 "tux_boot_args": "",
                 "overlays": [],
                 "command": "cat /proc/cpuinfo",
+                "test_definitions": "testdef.tar.zst",
             },
             "qemu-mips32-command.yaml",
         ),
@@ -173,7 +182,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["binder"],
+                "tests": [Test.select("binder")()],
                 "parameters": {"USERDATA": "userdata.tar.xz"},
             },
             "fvp-morello-android-binder.yaml",
@@ -182,7 +191,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["bionic"],
+                "tests": [Test.select("bionic")()],
                 "parameters": {"USERDATA": "userdata.tar.xz"},
             },
             "fvp-morello-android-bionic.yaml",
@@ -191,7 +200,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["boringssl"],
+                "tests": [Test.select("boringssl")()],
                 "parameters": {"SYSTEM_URL": "system.tar.xz"},
             },
             "fvp-morello-android-boringssl.yaml",
@@ -200,7 +209,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["compartment"],
+                "tests": [Test.select("compartment")()],
                 "parameters": {"USERDATA": "userdata.tar.xz"},
             },
             "fvp-morello-android-compartment.yaml",
@@ -209,7 +218,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["device-tree"],
+                "tests": [Test.select("device-tree")()],
                 "parameters": {},
             },
             "fvp-morello-android-device-tree.yaml",
@@ -218,7 +227,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["dvfs"],
+                "tests": [Test.select("dvfs")()],
                 "parameters": {},
             },
             "fvp-morello-android-dvfs.yaml",
@@ -227,7 +236,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["libjpeg-turbo"],
+                "tests": [Test.select("libjpeg-turbo")()],
                 "parameters": {
                     "SYSTEM_URL": "system.tar.xz",
                     "LIBJPEG_TURBO_URL": "libjpeg.tar.xz",
@@ -239,7 +248,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["libpdfium"],
+                "tests": [Test.select("libpdfium")()],
                 "parameters": {
                     "SYSTEM_URL": "system.tar.xz",
                     "PDFIUM_URL": "pdfium.tar.xz",
@@ -251,7 +260,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["libpng"],
+                "tests": [Test.select("libpng")()],
                 "parameters": {"SYSTEM_URL": "system.tar.xz", "PNG_URL": "png.tar.xz"},
             },
             "fvp-morello-android-libpng.yaml",
@@ -260,7 +269,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["lldb"],
+                "tests": [Test.select("lldb")()],
                 "parameters": {"LLDB_URL": "lldb.tar.xz", "TC_URL": "toolchain.tar.xz"},
             },
             "fvp-morello-android-lldb.yaml",
@@ -269,7 +278,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["logd"],
+                "tests": [Test.select("logd")()],
                 "parameters": {"USERDATA": "userdata.tar.xz"},
             },
             "fvp-morello-android-logd.yaml",
@@ -278,7 +287,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["multicore"],
+                "tests": [Test.select("multicore")()],
                 "parameters": {},
             },
             "fvp-morello-android-multicore.yaml",
@@ -287,7 +296,7 @@ FVP_MORELLO_ANDROID = {
             "fvp-morello-android",
             {
                 **FVP_MORELLO_ANDROID,
-                "tests": ["zlib"],
+                "tests": [Test.select("zlib")()],
                 "parameters": {"SYSTEM_URL": "system.tar.xz"},
             },
             "fvp-morello-android-zlib.yaml",
@@ -334,17 +343,21 @@ FVP_MORELLO_ANDROID = {
 )
 def test_definition(device, args, filename):
     if os.environ.get("TUXRUN_RENDER"):
+        obj = Device.select(device)()
         (BASE / "refs" / "definitions" / filename).write_text(
             Device.select(device)().definition(
-                device=device,
-                timeouts=templates.timeouts(),
+                device=obj,
+                container=None,
+                tests_timeout=sum(t.timeout for t in args["tests"]),
                 tmpdir=Path("/tmp/tuxrun-ci"),
                 **args
             )
         )
+    obj = Device.select(device)()
     assert Device.select(device)().definition(
-        device=device,
-        timeouts=templates.timeouts(),
+        device=obj,
+        container=None,
+        tests_timeout=sum(t.timeout for t in args["tests"]),
         tmpdir=Path("/tmp/tuxrun-ci"),
         **args
     ) == (BASE / "refs" / "definitions" / filename).read_text(encoding="utf-8")

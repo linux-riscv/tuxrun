@@ -77,7 +77,6 @@ actions:
     prompts:
     - "console:/ "
 
-
 - test:
     timeout:
       minutes: 1000
@@ -90,6 +89,6 @@ actions:
       path: lava/test-definitions/bionic/testdef.yaml
       name: bionic
       parameters:
-        USERDATA_URL: "userdata.tar.xz"
-        TEST_PATHS: "nativetest64 nativetestc64"
         GTEST_FILTER: "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove"
+        TEST_PATHS: "nativetest64 nativetestc64"
+        USERDATA_URL: "userdata.tar.xz"

@@ -77,7 +77,6 @@ actions:
     prompts:
     - "console:/ "
 
-
 - test:
     timeout:
       minutes: 30
@@ -90,5 +89,5 @@ actions:
       path: lava/test-definitions/libpdfium/testdef.yaml
       name: libpdfium
       parameters:
-        SYSTEM_URL: "system.tar.xz"
         PDFIUM_URL: "pdfium.tar.xz"
+        SYSTEM_URL: "system.tar.xz"

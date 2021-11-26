@@ -27,7 +27,7 @@ class Device:
     def list(cls):
         return sorted([s.name for s in subclasses(cls) if s.name])
 
-    def validate(self, options):
+    def validate(self, **kwargs):
         raise NotImplementedError()  # pragma: no cover
 
     def definition(self, **kwargs):

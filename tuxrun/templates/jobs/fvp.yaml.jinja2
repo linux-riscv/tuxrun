@@ -1,19 +1,16 @@
 device_type: "fvp"
 
-job_name: "tuxrun@{{ device }}"
+job_name: "tuxrun@{{ device.name }}"
 priority: medium
 visibility: public
 
 {% block context %}{% endblock %}
 
-{%- set ns = namespace(timeout=5+boot_timeout) %}
-{%- for test in tests %}
-  {%- set ns.timeout = ns.timeout + timeouts[test] %}
-{%- endfor %}
+{%- set deploy_timeout = 5 %}
 
 timeouts:
   job:
-    minutes: {{ ns.timeout }}
+    minutes: {{ deploy_timeout + boot_timeout + tests_timeout }}
   action:
     minutes: 10
   connection:
@@ -23,7 +20,7 @@ actions:
 - deploy:
     to: fvp
     timeout:
-      minutes: 5
+      minutes: {{ deploy_timeout }}
     images:
       scp_romfw:
         url: "{{ scp_romfw }}"
@@ -90,10 +87,4 @@ actions:
       username: "{{ auto_login.username }}"
       password_prompt: "{{ auto_login.password_prompt }}"
       password: "{{ auto_login.password }}"
-{% endif %}
-
-{% if support_tests %}
-{% for test in tests %}
-{% include "tests/" + test + ".yaml.jinja2" %}
-{% endfor %}
 {% endif %}

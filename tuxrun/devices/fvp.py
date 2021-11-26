@@ -52,6 +52,9 @@ class FVPDevice(Device):
         if self.rootfs and rootfs:
             raise InvalidArgument("Invalid option for this fvp device: --rootfs")
 
+        for test in tests:
+            test.validate(device=self, parameters=parameters, **kwargs)
+
     def definition(self, **kwargs):
         kwargs = kwargs.copy()
 
@@ -62,8 +65,20 @@ class FVPDevice(Device):
 
         kwargs["rootfs"] = self.rootfs if self.rootfs else kwargs.get("rootfs")
         kwargs["boot_timeout"] = self.boot_timeout
+
         # render the template
-        return templates.jobs().get_template("fvp.yaml.jinja2").render(**kwargs)
+        tests = [
+            t.render(
+                tmpdir=kwargs["tmpdir"],
+                parameters=kwargs["parameters"],
+            )
+            for t in kwargs["tests"]
+        ]
+        return (
+            templates.jobs().get_template("fvp.yaml.jinja2").render(**kwargs)
+            + "\n"
+            + "".join(tests)
+        )
 
     def device_dict(self, context):
         return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
@@ -74,51 +89,6 @@ class FVPMorelloAndroid(FVPDevice):
 
     prompts = ["console:/ "]
     support_tests = True
-
-    def validate(self, tests, parameters, **kwargs):
-        super().validate(tests=tests, parameters=parameters, **kwargs)
-        userdata_required = [
-            t in tests for t in ["binder", "bionic", "compartment", "logd"]
-        ]
-        system_required = [
-            t in tests
-            for t in ["libjpeg-turbo", "libpng", "libpdfium", "zlib", "boringssl"]
-        ]
-        if any(userdata_required) and not parameters.get("USERDATA"):
-            raise InvalidArgument(
-                "--parameters USERDATA=http://... is "
-                "mantadory for fvp-morello-android test"
-            )
-        if any(system_required) and not parameters.get("SYSTEM_URL"):
-            raise InvalidArgument(
-                "--parameters SYSTEM_URL=http://... is "
-                f"mantadory for fvp-morello-android {system_required} test"
-            )
-        if "libjpeg-turbo" in tests and not parameters.get("LIBJPEG_TURBO_URL"):
-            raise InvalidArgument(
-                "--parameters LIBJPEG_TURBO_URL=http://... is "
-                "mantadory for fvp-morello-android libjpeg-turbo test"
-            )
-        if "lldb" in tests and not parameters.get("LLDB_URL"):
-            raise InvalidArgument(
-                "--parameters LLDB_URL=http://... is "
-                "mantadory for fvp-morello-android lldb test"
-            )
-        if "lldb" in tests and not parameters.get("TC_URL"):
-            raise InvalidArgument(
-                "--parameters TC_URL=http://... is "
-                "mantadory for fvp-morello-android lldb test"
-            )
-        if "libpng" in tests and not parameters.get("PNG_URL"):
-            raise InvalidArgument(
-                "--parameters PNG_URL=http://... is "
-                "mantadory for fvp-morello-android libpng test"
-            )
-        if "libpdfium" in tests and not parameters.get("PDFIUM_URL"):
-            raise InvalidArgument(
-                "--parameters PDFIUM_URL=http://... is "
-                "mantadory for fvp-morello-android libpdfium test"
-            )
 
 
 class FVPMorelloBusybox(FVPDevice):

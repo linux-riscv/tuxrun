@@ -1,6 +1,10 @@
 device_type: "qemu"
 
-job_name: "tuxrun@{{ device }}: {{ tests|default(["boot"], true)|join(", ")}}"
+{% if tests %}
+job_name: "tuxrun@{{ device.name }}: {{ tests|map(attribute="name")|join(", ")}}"
+{% else %}
+job_name: "tuxrun@{{ device.name }}: boot"
+{% endif %}
 priority: "medium"
 visibility: "public"
 
@@ -18,15 +22,13 @@ context:
     no_kvm: true
     no_network: true
 
-{%- set ns = namespace(timeout=5+3) %}
-{%- for test in tests %}
-  {%- set ns.timeout = ns.timeout + timeouts[test] %}
-{%- endfor %}
+{%- set deploy_timeout = 5 %}
+{%- set boot_timeout = 3 %}
 
 {% block timeouts %}
 timeouts:
   job:
-    minutes: {{ ns.timeout }}
+    minutes: {{ deploy_timeout + boot_timeout + tests_timeout }}
   action:
    minutes: 5
   actions:
@@ -38,7 +40,7 @@ actions:
 - deploy:
     to: tmpfs
     timeout:
-      minutes: 5
+      minutes: {{ deploy_timeout }}
     os: oe
     images:
       kernel:
@@ -75,12 +77,9 @@ actions:
 - boot:
     method: qemu
     timeout:
-      minutes: 3
+      minutes: {{ boot_timeout }}
     auto_login:
       login_prompt: '(.*)login:'
       username: root
     prompts:
     - 'root@(.*):[/~]#'
-{% for test in tests %}
-{% include "tests/" + test + ".yaml.jinja2" %}
-{% endfor %}

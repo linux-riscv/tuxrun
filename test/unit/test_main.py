@@ -23,7 +23,7 @@ def artefacts(tmp_path):
     touch(tmp_path, "stuff.tar.gz")
     touch(tmp_path, "morestuff.tar.gz")
     touch(tmp_path, "fvp.bin")
-    touch(tmp_path, "foo.tar.gz")
+    touch(tmp_path, "foo.tar.xz")
     return tmp_path
 
 
@@ -304,7 +304,7 @@ def test_tuxmake_directory(monkeypatch, tmp_path, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/bzImage"
-    assert options.device == "qemu-x86_64"
+    assert options.device.name == "qemu-x86_64"
 
 
 def test_no_modules(monkeypatch, tmp_path, run):
@@ -344,13 +344,13 @@ def test_modules(monkeypatch, lava_run_call, lava_run, artefacts):
             "tuxrun",
             "--kernel=bzImage",
             "--device=qemu-x86_64",
-            "--modules=foo.tar.gz",
+            "--modules=foo.tar.xz",
         ],
     )
     assert main() == 0
     lava_run_call.assert_called()
     args = lava_run_call.call_args[0][0]
-    assert f"{artefacts}/foo.tar.gz:{artefacts}/foo.tar.gz:ro" in args
+    assert f"{artefacts}/foo.tar.xz:{artefacts}/foo.tar.xz:ro" in args
 
 
 def test_overlays(monkeypatch, lava_run_call, lava_run, artefacts):
@@ -379,7 +379,8 @@ def test_custom_commands(monkeypatch, run):
     main()
     run.assert_called()
     options = run.call_args[0][0]
-    assert "command" in options.tests
+    assert len(options.tests) == 1
+    assert options.tests[0].name == "command"
     assert options.command == ["cat", "/etc/hostname"]
 
 

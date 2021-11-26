@@ -77,7 +77,6 @@ actions:
     prompts:
     - "console:/ "
 
-
 - test:
     timeout:
       minutes: 30
@@ -90,5 +89,5 @@ actions:
       path: lava/test-definitions/libjpeg-turbo/testdef.yaml
       name: libjpeg-turbo
       parameters:
-        SYSTEM_URL: "system.tar.xz"
         LIBJPEG_TURBO_URL: "libjpeg.tar.xz"
+        SYSTEM_URL: "system.tar.xz"

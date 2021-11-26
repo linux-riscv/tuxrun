@@ -40,10 +40,10 @@ class QemuDevice(Device):
 
     def validate(
         self,
-        dtb,
         bios,
         boot_args,
         command,
+        dtb,
         kernel,
         modules,
         overlays,
@@ -63,8 +63,15 @@ class QemuDevice(Device):
             raise InvalidArgument(
                 "argument --bios is only valid for qemu-riscv64 device"
             )
+        if boot_args and '"' in boot_args:
+            raise InvalidArgument('argument --boot-args should not contains "')
         if dtb and self.name != "qemu-armv5":
             raise InvalidArgument("argument --dtb is only valid for qemu-armv5 device")
+        if modules and not modules.endswith(".tar.xz"):
+            raise InvalidArgument("argument --modules should be a .tar.xz")
+
+        for test in tests:
+            test.validate(device=self, **kwargs)
 
     def definition(self, **kwargs):
         kwargs = kwargs.copy()
@@ -99,7 +106,19 @@ class QemuDevice(Device):
         kwargs["kernel_compression"] = kernel_compression
 
         # render the template
-        return templates.jobs().get_template("qemu.yaml.jinja2").render(**kwargs)
+        tests = [
+            t.render(
+                arch=kwargs["arch"],
+                command=kwargs["command"],
+                test_definitions=kwargs["test_definitions"],
+            )
+            for t in kwargs["tests"]
+        ]
+        return (
+            templates.jobs().get_template("qemu.yaml.jinja2").render(**kwargs)
+            + "\n"
+            + "".join(tests)
+        )
 
     def device_dict(self, context):
         return templates.devices().get_template("qemu.yaml.jinja2").render(**context)
