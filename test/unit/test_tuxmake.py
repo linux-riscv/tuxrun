@@ -1,8 +1,8 @@
 import copy
 import json
 import pytest
-from tuxrun.tuxmake import TuxMakeBuild
-from tuxrun.tuxmake import InvalidTuxMakeBuild
+from tuxrun.tuxmake import TuxBuildBuild, TuxMakeBuild
+from tuxrun.tuxmake import InvalidTuxBuild
 
 
 metadata = {
@@ -47,10 +47,10 @@ def tuxmake_build(directory):
 
 class TestTuxMakeBuild:
     def test_kernel(self, tuxmake_build, directory):
-        assert tuxmake_build.kernel == directory / "bzImage"
+        assert tuxmake_build.kernel == f"file://{directory / 'bzImage'}"
 
     def test_modules(self, tuxmake_build, directory):
-        assert tuxmake_build.modules == directory / "modules.tar.xz"
+        assert tuxmake_build.modules == f"file://{directory / 'modules.tar.xz'}"
 
     def test_target_arch(self, tuxmake_build):
         assert tuxmake_build.target_arch == "arm64"
@@ -70,19 +70,43 @@ class TestTuxMakeBuild:
         assert tuxmake_build.modules is None
 
     def test_no_metadata(self, tmp_path):
-        with pytest.raises(InvalidTuxMakeBuild):
+        with pytest.raises(InvalidTuxBuild):
             TuxMakeBuild(tmp_path)
 
     def test_no_directory(self, tmp_path):
         f = tmp_path / "somefile"
         f.touch()
-        with pytest.raises(InvalidTuxMakeBuild):
+        with pytest.raises(InvalidTuxBuild):
             TuxMakeBuild(f)
 
     def test_invalid_metadata(self, directory_with_invalid_metadata):
-        with pytest.raises(InvalidTuxMakeBuild):
+        with pytest.raises(InvalidTuxBuild):
             TuxMakeBuild(directory_with_invalid_metadata)
 
     def test_empty_metadata(self, directory_with_empty_metadata):
-        with pytest.raises(InvalidTuxMakeBuild):
+        with pytest.raises(InvalidTuxBuild):
             TuxMakeBuild(directory_with_empty_metadata)
+
+
+@pytest.fixture
+def url(get, mocker):
+    get.side_effect = [mocker.Mock(status_code=200, text=json.dumps(metadata))]
+    return "https://example.com"
+
+
+@pytest.fixture
+def tuxbuild_build(url):
+    return TuxBuildBuild(url)
+
+
+class TestTuxBuildBuild:
+    def test_kernel(self, tuxbuild_build):
+        assert tuxbuild_build.kernel == "https://example.com/bzImage"
+
+    def test_modules(self, tuxbuild_build):
+        assert tuxbuild_build.modules == "https://example.com/modules.tar.xz"
+
+    def test_http_error(self, get, mocker):
+        get.side_effect = [mocker.Mock(status_code=404)]
+        with pytest.raises(InvalidTuxBuild):
+            TuxBuildBuild(url)

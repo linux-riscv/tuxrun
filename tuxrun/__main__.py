@@ -211,6 +211,7 @@ def main() -> int:
         or options.overlays
         or options.partition
         or options.rootfs
+        or options.tuxbuild
         or options.tuxmake
         or options.tests
         or options.boot_args
@@ -225,32 +226,33 @@ def main() -> int:
         )
 
     if first_group:
-        if options.tuxmake:
-            tuxmake = options.tuxmake
+        if options.tuxbuild or options.tuxmake:
+            tux = options.tuxbuild if options.tuxbuild else options.tuxmake
             if not options.kernel:
-                options.kernel = f"file://{tuxmake.kernel}"
-            if not options.modules and tuxmake.modules:
-                options.modules = f"file://{tuxmake.modules}"
+                options.kernel = tux.kernel
+            if not options.modules and tux.modules:
+                options.modules = tux.modules
             if not options.device:
-                options.device = f"qemu-{tuxmake.target_arch}"
+                options.device = f"qemu-{tux.target_arch}"
 
         if not options.device:
             parser.error("argument --device is required")
-
-        if options.device.startswith("qemu-"):
-            options.rootfs = pathurlnone(
-                get_rootfs(
-                    options.device,
-                    options.rootfs,
-                    TTYProgressIndicator("Downloading root filesystem"),
-                )
-            )
 
         if options.command:
             options.tests.append("command")
 
         try:
             options.device = Device.select(options.device)()
+            # Download only after the device has been found
+            if options.device.name.startswith("qemu-"):
+                options.rootfs = pathurlnone(
+                    get_rootfs(
+                        options.device.name,
+                        options.rootfs,
+                        TTYProgressIndicator("Downloading root filesystem"),
+                    )
+                )
+
             options.tests = [Test.select(t)() for t in options.tests]
             options.device.validate(**filter_options(options))
         except InvalidArgument as exc:
