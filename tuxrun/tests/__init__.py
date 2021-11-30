@@ -32,7 +32,7 @@ class Test:
 
             if subclass.name == name:
                 return subclass
-        raise NotImplementedError(f"Unknown test {name}")
+        raise InvalidArgument(f"Unknown test {name}")
 
     @classmethod
     def list(cls):
