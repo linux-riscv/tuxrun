@@ -5,6 +5,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+from tuxrun.exceptions import InvalidArgument
+
 
 def subclasses(cls):
     return set(cls.__subclasses__()).union(
@@ -21,7 +23,7 @@ class Device:
 
             if subclass.name == name:
                 return subclass
-        raise NotImplementedError(f"Unknown device {name}")
+        raise InvalidArgument(f"Unknown device {name}")
 
     @classmethod
     def list(cls):

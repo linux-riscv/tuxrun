@@ -6,6 +6,7 @@ import pytest
 from tuxrun.devices import Device
 from tuxrun.devices.qemu import QemuArmv5
 from tuxrun.devices.fvp import FVPMorelloAndroid
+from tuxrun.exceptions import InvalidArgument
 from tuxrun.tests import Test
 
 
@@ -16,7 +17,7 @@ def test_select():
     assert Device.select("qemu-armv5") == QemuArmv5
     assert Device.select("fvp-morello-android") == FVPMorelloAndroid
 
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(InvalidArgument):
         Device.select("Hello")
 
 
