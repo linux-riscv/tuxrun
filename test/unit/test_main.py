@@ -444,3 +444,25 @@ def test_save_results_json(tuxrun_args, lava_run, mocker, tmp_path):
     tuxrun_args += [f"--results={json}"]
     main()
     assert json.read_text().strip() == "{}"
+
+
+def test_timeouts(monkeypatch, run):
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=qemu-x86_64",
+            "--tests",
+            "ltp-smoke",
+            "--timeouts",
+            "boot=1",
+            "ltp-smoke=12",
+        ],
+    )
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert len(options.tests) == 1
+    assert options.tests[0].name == "ltp-smoke"
+    assert options.tests[0].timeout == 12
+    assert options.timeouts == {"boot": 1, "ltp-smoke": 12}

@@ -88,6 +88,7 @@ def run(options, tmpdir: Path) -> int:
             tests=options.tests,
             test_definitions=test_definitions,
             tests_timeout=sum(t.timeout for t in options.tests),
+            timeouts=options.timeouts,
             tmpdir=tmpdir,
             tux_boot_args=options.boot_args.replace('"', ""),
             uefi=options.uefi,
@@ -253,7 +254,9 @@ def main() -> int:
                     )
                 )
 
-            options.tests = [Test.select(t)() for t in options.tests]
+            options.tests = [
+                Test.select(t)(options.timeouts.get(t)) for t in options.tests
+            ]
             options.device.validate(**filter_options(options))
         except InvalidArgument as exc:
             parser.error(str(exc))

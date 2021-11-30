@@ -22,8 +22,8 @@ context:
     no_kvm: true
     no_network: true
 
-{%- set deploy_timeout = 5 %}
-{%- set boot_timeout = 3 %}
+{%- set deploy_timeout = timeouts.deploy|default(5) %}
+{%- set boot_timeout = timeouts.boot|default(3) %}
 
 {% block timeouts %}
 timeouts:
