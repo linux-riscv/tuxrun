@@ -155,13 +155,6 @@ def setup_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--version", action="version", version=f"%(prog)s, {__version__}"
     )
-    parser.add_argument(
-        "--device",
-        default=None,
-        metavar="NAME",
-        help="Device type",
-        choices=Device.list(),
-    )
 
     group = parser.add_argument_group("listing")
     group.add_argument(
@@ -238,7 +231,6 @@ def setup_parser() -> argparse.ArgumentParser:
         action=KeyValueAction,
         nargs="+",
     )
-
     group.add_argument(
         "--tests",
         nargs="+",
@@ -254,6 +246,13 @@ def setup_parser() -> argparse.ArgumentParser:
     )
 
     group = parser.add_argument_group("run options")
+    group.add_argument(
+        "--device",
+        default=None,
+        metavar="NAME",
+        help="Device type",
+        choices=Device.list(),
+    )
     group.add_argument(
         "--boot-args", default="", metavar="ARGS", help="extend boot arguments"
     )
