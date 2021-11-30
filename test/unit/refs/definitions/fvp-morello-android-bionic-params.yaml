@@ -89,7 +89,6 @@ actions:
       path: lava/test-definitions/bionic/testdef.yaml
       name: bionic
       parameters:
-        BIONIC_TEST_TYPE: "dynamic"
         GTEST_FILTER: "hello"
         TEST_PATHS: "nativetest64 nativetestc64"
         TEST_TYPE: "dynamic"
