@@ -14,7 +14,7 @@ from tuxrun.tests import Test
 class MorelloTest(Test):
     template = "morello.yaml.jinja2"
     test_def_name: Optional[str] = None
-    required_parameters: List[str] = []
+    parameters: List[str] = []
 
     def validate(self, device, parameters, **kwargs):
         super().validate(device=device, parameters=parameters, **kwargs)
