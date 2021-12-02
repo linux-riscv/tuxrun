@@ -53,7 +53,7 @@ actions:
     timeout:
       minutes: 15
     definitions:
-    - repository: testdef.tar.zst
+    - repository: file://testdef.tar.zst
       from: url
       compression: zstd
       path: automated/linux/ltp/ltp.yaml

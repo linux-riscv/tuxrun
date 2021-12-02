@@ -20,17 +20,17 @@ actions:
       minutes: 5
     images:
       scp_romfw:
-        url: "scp_romfw.bin"
+        url: "/DATA/scp_romfw.bin"
       scp_fw:
-        url: "scp_fw.bin"
+        url: "/DATA/scp_fw.bin"
       mcp_romfw:
-        url: "mcp_romfw.bin"
+        url: "/DATA/mcp_romfw.bin"
       mcp_fw:
-        url: "mcp_fw.bin"
+        url: "/DATA/mcp_fw.bin"
       uefi:
-        url: "uefi.bin"
+        url: "/DATA/uefi.bin"
       rootfs:
-        url: "core-image-minimal-morello-fvp.wic"
+        url: "/DATA/core-image-minimal-morello-fvp.wic"
         compression: xz
 - boot:
     method: fvp

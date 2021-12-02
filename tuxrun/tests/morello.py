@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from tuxrun.exceptions import InvalidArgument
 from tuxrun.tests import Test
@@ -15,8 +15,13 @@ class MorelloTest(Test):
     template = "morello.yaml.jinja2"
     test_def_name: Optional[str] = None
     parameters: List[str] = []
+    optional_parameters: Dict[str, str] = {}
 
     def validate(self, device, parameters, **kwargs):
+        for key, value in self.optional_parameters.items():
+            if key not in parameters:
+                parameters[key] = value
+
         super().validate(device=device, parameters=parameters, **kwargs)
         missing = set(self.parameters) - set(parameters.keys())
         if missing:
@@ -33,7 +38,11 @@ class MorelloTest(Test):
         )
 
         # remap some parameters
-        MAPPINGS = {"LLDB_URL": "LLDB_TESTS_URL", "USERDATA": "USERDATA_URL"}
+        MAPPINGS = {
+            "BIONIC_TEST_TYPE": "TEST_TYPE",
+            "LLDB_URL": "LLDB_TESTS_URL",
+            "USERDATA": "USERDATA_URL",
+        }
         for key, value in MAPPINGS.items():
             if key in kwargs["parameters"]:
                 kwargs["parameters"][value] = kwargs["parameters"].pop(key)
@@ -55,31 +64,19 @@ class MorelloBionic(MorelloAndroidTest):
     name = "bionic"
     timeout = 1000
     parameters = ["BIONIC_TEST_TYPE", "GTEST_FILTER", "USERDATA"]
+    optional_parameters = {
+        "BIONIC_TEST_TYPE": "static",
+        "GTEST_FILTER": "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove",
+    }
 
     def validate(self, device, parameters, **kwargs):
-        if parameters.get("BIONIC_TEST_TYPE") is None:
-            parameters["BIONIC_TEST_TYPE"] = "static"
-        if parameters["BIONIC_TEST_TYPE"] not in ["dynamic", "static"]:
-            raise InvalidArgument("Invalid value for --parameters BIONIC_TEST_TYPE")
-
-        if parameters.get("GTEST_FILTER") is None:
-            parameters["GTEST_FILTER"] = (
-                "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove",
-            )
-
         super().validate(device=device, parameters=parameters, **kwargs)
+
+        if parameters.get("BIONIC_TEST_TYPE", "static") not in ["dynamic", "static"]:
+            raise InvalidArgument("Invalid value for --parameters BIONIC_TEST_TYPE")
 
     def render(self, parameters, **kwargs):
         parameters["TEST_PATHS"] = "nativetest64 nativetestc64"
-        parameters["TEST_TYPE"] = parameters.pop(
-            "BIONIC_TEST_TYPE",
-            "static",
-        )
-        parameters["GTEST_FILTER"] = parameters.get(
-            "GTEST_FILTER",
-            "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove",
-        )
-
         return super().render(parameters=parameters, **kwargs)
 
 
