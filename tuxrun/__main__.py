@@ -176,7 +176,7 @@ def run(options, tmpdir: Path) -> int:
         str(tmpdir / "definition.yaml"),
     ]
 
-    results = Results()
+    results = Results(options.tests)
     # Start the writer (stderr or log-file)
     with Writer(options.log_file) as writer:
         # Start the runtime
