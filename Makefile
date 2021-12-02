@@ -1,5 +1,5 @@
 export PROJECT := tuxrun
-export TUXPKG_MIN_COVERAGE := 95
+export TUXPKG_MIN_COVERAGE := 97
 
 check: typecheck test spellcheck stylecheck
 
