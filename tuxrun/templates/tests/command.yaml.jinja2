@@ -5,11 +5,11 @@
     - repository:
         metadata:
           format: lava-test test definition 1.0
-          name: tuxrun-command
+          name: command
           description: "Run command"
         run:
           steps:
-          - "{{ command }}"
+          - "lava-test-case command --shell {{ command }}"
       from: inline
-      path: tuxrun-command
-      name: tuxrun-command
+      path: command
+      name: command

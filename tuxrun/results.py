@@ -7,16 +7,20 @@
 
 import logging
 import yaml
+import re
 
 from tuxrun.yaml import yaml_load
 
 
 LOG = logging.getLogger("tuxrun")
+PATTERN = re.compile(r"^(\d+_)")
 
 
 class Results:
-    def __init__(self):
+    def __init__(self, tests):
         self.__data__ = {}
+        self.__post_processed = False
+        self.__tests__ = set(["lava"] + [t.name for t in tests])
         self.__ret__ = 0
 
     def parse(self, line):
@@ -36,15 +40,25 @@ class Results:
             LOG.debug(line)
             return
 
-        definition = test.pop("definition")
-        case = test.pop("case")
+        definition = re.sub(PATTERN, "", test.pop("definition"))
+        case = re.sub(PATTERN, "", test.pop("case"))
         self.__data__.setdefault(definition, {})[case] = test
         if test["result"] == "fail":
             self.__ret__ = 1
 
+    def __post_process(self):
+        if self.__post_processed:
+            return
+        self.__post_processed = True
+
+        if self.__tests__ != set(self.__data__.keys()):
+            self.__ret__ = 2
+
     @property
     def data(self):
+        self.__post_process()
         return self.__data__
 
     def ret(self):
+        self.__post_process()
         return self.__ret__

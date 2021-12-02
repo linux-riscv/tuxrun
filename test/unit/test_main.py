@@ -69,6 +69,7 @@ def lava_run_call(mocker):
 
 @pytest.fixture
 def lava_run(lava_run_call, mocker):
+    mocker.patch("tuxrun.results.Results.ret", return_value=0)
     proc = lava_run_call.return_value
     proc.wait.return_value = 0
     proc.communicate.return_value = (mocker.MagicMock(), mocker.MagicMock())
@@ -138,6 +139,15 @@ FVP_MORELLO_ARGS = [
             "bionic",
             "--parameters",
             "USERDATA=userdata.tar.xz",
+        ],
+        [
+            "--device",
+            "fvp-morello-android",
+            *FVP_MORELLO_ARGS,
+            "--tests",
+            "bionic",
+            "--parameters",
+            "BIONIC_TEST_TYPE=invalid",
         ],
         ["--device", "fvp-morello-android", *FVP_MORELLO_ARGS, "--tests", "lldb"],
         [

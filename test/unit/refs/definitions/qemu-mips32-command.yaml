@@ -51,11 +51,11 @@ actions:
     - repository:
         metadata:
           format: lava-test test definition 1.0
-          name: tuxrun-command
+          name: command
           description: "Run command"
         run:
           steps:
-          - "cat /proc/cpuinfo"
+          - "lava-test-case command --shell cat /proc/cpuinfo"
       from: inline
-      path: tuxrun-command
-      name: tuxrun-command
+      path: command
+      name: command
