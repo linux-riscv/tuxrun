@@ -92,4 +92,3 @@ actions:
         GTEST_FILTER: "hello"
         TEST_PATHS: "nativetest64 nativetestc64"
         TEST_TYPE: "dynamic"
-        USERDATA_URL: "userdata.tar.xz"

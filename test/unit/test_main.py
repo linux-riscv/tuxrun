@@ -130,7 +130,15 @@ FVP_MORELLO_ARGS = [
         ["--definition", "definition.yaml"],
         ["--device", "fvp-morello-android", "--mcp-fw", "fvp.bin"],
         ["--device", "fvp-morello-android", "--test", "multicore"],
-        ["--device", "fvp-morello-android", *FVP_MORELLO_ARGS, "--tests", "bionic"],
+        [
+            "--device",
+            "fvp-morello-android",
+            *FVP_MORELLO_ARGS,
+            "--tests",
+            "bionic",
+            "--parameters",
+            "USERDATA=userdata.tar.xz",
+        ],
         ["--device", "fvp-morello-android", *FVP_MORELLO_ARGS, "--tests", "lldb"],
         [
             "--device",
