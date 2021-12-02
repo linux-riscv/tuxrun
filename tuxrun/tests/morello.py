@@ -57,13 +57,12 @@ class MorelloAndroidTest(MorelloTest):
 class MorelloBinder(MorelloAndroidTest):
     name = "binder"
     timeout = 34
-    parameters = ["USERDATA"]
 
 
 class MorelloBionic(MorelloAndroidTest):
     name = "bionic"
     timeout = 1000
-    parameters = ["BIONIC_TEST_TYPE", "GTEST_FILTER", "USERDATA"]
+    parameters = ["BIONIC_TEST_TYPE", "GTEST_FILTER"]
     optional_parameters = {
         "BIONIC_TEST_TYPE": "static",
         "GTEST_FILTER": "string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove",

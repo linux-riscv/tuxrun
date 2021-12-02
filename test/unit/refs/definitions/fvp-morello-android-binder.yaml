@@ -88,5 +88,3 @@ actions:
       from: git
       path: lava/test-definitions/binder/testdef.yaml
       name: binder
-      parameters:
-        USERDATA_URL: "userdata.tar.xz"

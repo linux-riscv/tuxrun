@@ -10,22 +10,22 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 ## FVP devices
 
-Device              | Tests        | Parameters                                 |
---------------------|--------------|--------------------------------------------|
-fvp-morello-android | binder       | USERDATA                                   |
-fvp-morello-android | bionic       | USERDATA, GTEST_FILTER\* BIONIC_TEST_TYPE\*|
-fvp-morello-android | boringssl    | SYSTEM_URL                                 |
-fvp-morello-android | compartment  | USERDATA                                   |
-fvp-morello-android | device-tree  |                                            |
-fvp-morello-android | dvfs         |                                            |
-fvp-morello-android | libjpeg-turbo| LIBJPEG_TURBO_URL, SYSTEM_URL              |
-fvp-morello-android | libpng       | PNG_URL, SYSTEM_URL                        |
-fvp-morello-android | libpdfium    | PDFIUM_URL, SYSTEM_URL                     |
-fvp-morello-android | lldb         | LLDB_URL, TC_URL                           |
-fvp-morello-android | logd         | USERDATA                                   |
-fvp-morello-android | multicore    |                                            |
-fvp-morello-android | zlib         | SYSTEM_URL                                 |
-fvp-morello-oe      | fwts         |                                            |
+Device              | Tests        | Parameters                       |
+--------------------|--------------|----------------------------------|
+fvp-morello-android | binder       |                                  |
+fvp-morello-android | bionic       | GTEST_FILTER\* BIONIC_TEST_TYPE\*|
+fvp-morello-android | boringssl    | SYSTEM_URL                       |
+fvp-morello-android | compartment  | USERDATA                         |
+fvp-morello-android | device-tree  |                                  |
+fvp-morello-android | dvfs         |                                  |
+fvp-morello-android | libjpeg-turbo| LIBJPEG_TURBO_URL, SYSTEM_URL    |
+fvp-morello-android | libpng       | PNG_URL, SYSTEM_URL              |
+fvp-morello-android | libpdfium    | PDFIUM_URL, SYSTEM_URL           |
+fvp-morello-android | lldb         | LLDB_URL, TC_URL                 |
+fvp-morello-android | logd         | USERDATA                         |
+fvp-morello-android | multicore    |                                  |
+fvp-morello-android | zlib         | SYSTEM_URL                       |
+fvp-morello-oe      | fwts         |                                  |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters USERDATA=http://.../userdata.tar.xz`
