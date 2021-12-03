@@ -61,5 +61,5 @@ class TuxMakeBuild(TuxBuild):
             )
 
         (self.target_arch, self.kernel, self.modules) = TuxBuild.parse(
-            f"file://{directory}", metadata_file.read_text(encoding="utf-8")
+            f"file://{self.location}", metadata_file.read_text(encoding="utf-8")
         )
