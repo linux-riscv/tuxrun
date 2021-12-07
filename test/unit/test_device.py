@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 
@@ -24,6 +25,7 @@ def test_select():
 ARTEFACTS = [
     "bzImage.gz",
     "zImage.xz",
+    "modules.tar.xz",
     "mcp_fw.bin",
     "mcp_romfw.bin",
     "android-nano.img.xz",
@@ -49,12 +51,20 @@ FVP_MORELLO_ANDROID = [
     "uefi.bin",
 ]
 
+metadata = {
+    "results": {
+        "artifacts": {"kernel": ["bzImage.gz"], "modules": ["modules.tar.xz"]},
+    },
+    "build": {"target_arch": "arm64"},
+}
+
 
 @pytest.fixture
 def artefacts(tmp_path):
     os.chdir(tmp_path)
     for art in ARTEFACTS:
         (tmp_path / art).touch()
+    (tmp_path / "metadata.json").write_text(json.dumps(metadata), encoding="utf-8")
     return tmp_path
 
 
@@ -394,6 +404,10 @@ def artefacts(tmp_path):
                 "uefi.bin",
             ],
             "fvp-morello-ubuntu.yaml",
+        ),
+        (
+            ["--tuxmake", "."],
+            "tuxmake.yaml",
         ),
     ],
 )
