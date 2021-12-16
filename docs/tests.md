@@ -14,6 +14,7 @@ Device              | Tests        | Parameters                       |
 --------------------|--------------|----------------------------------|
 fvp-morello-android | binder       |                                  |
 fvp-morello-android | bionic       | GTEST_FILTER\* BIONIC_TEST_TYPE\*|
+fvp-morello-android | boottest     |                                  |
 fvp-morello-android | boringssl    | SYSTEM_URL                       |
 fvp-morello-android | compartment  | USERDATA                         |
 fvp-morello-android | device-tree  |                                  |
