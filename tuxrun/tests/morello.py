@@ -133,6 +133,11 @@ class MorelloLLDB(MorelloAndroidTest):
     parameters = ["LLDB_URL", "TC_URL"]
 
 
+class MorelloAndroidBoot(MorelloAndroidTest):
+    name = "boottest"
+    timeout = 150
+
+
 class MorelloLOGD(MorelloAndroidTest):
     name = "logd"
     timeout = 420
