@@ -172,7 +172,7 @@ class DockerRuntime(ContainerRuntime):
 
 class PodmanRuntime(ContainerRuntime):
     binary = "podman"
-    prefix = ["podman", "run", "--rm", "--quiet", "--hostname", "tuxrun"]
+    prefix = ["podman", "run", "--rm", "--hostname", "tuxrun"]
 
     def pre_run(self, tmpdir):
         # Render and bind the docker wrapper
