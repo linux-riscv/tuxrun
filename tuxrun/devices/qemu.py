@@ -327,6 +327,26 @@ class QemuRiscV64(QemuDevice):
     rootfs = "https://storage.tuxboot.com/riscv64/rootfs.ext4.zst"
 
 
+class QemuS390(QemuDevice):
+    name = "qemu-s390"
+
+    arch = "s390"
+    lava_arch = "s390x"
+    machine = "s390-ccw-virtio"
+    cpu = "max,zpci=on"
+
+    extra_options = ["-smp 2"]
+
+    console = "ttyS0"
+    rootfs_dev = "/dev/vda net.ifnames=0"
+    rootfs_arg = (
+        "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk,drive=hd0"
+    )
+
+    kernel = "https://storage.tuxboot.com/s390/bzImage"
+    rootfs = "https://storage.tuxboot.com/s390/rootfs.ext4.zst"
+
+
 class QemuSPARC64(QemuDevice):
     name = "qemu-sparc64"
 

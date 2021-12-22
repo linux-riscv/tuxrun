@@ -185,6 +185,11 @@ actions:
 {% elif arch == 'riscv64' %}
           - -cpu {{ cpu|default('rv64') }}
           - -machine {{ machine|default('virt') }}
+{% elif arch == 's390x' %}
+{% if cpu %}
+          - -cpu {{ cpu|default('max') }}
+{% endif %}
+          - -machine {{ machine|default('s390-ccw-virtio') }}
 {% elif arch == 'sparc' %}
 {% if cpu %}
           - -cpu {{ cpu }}

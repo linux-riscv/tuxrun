@@ -67,6 +67,7 @@ integration:
       - qemu-ppc32
       - qemu-ppc64
       - qemu-ppc64le
+      - qemu-s390
       - qemu-sparc64
       - qemu-x86_64
       TEST:

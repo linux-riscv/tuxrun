@@ -450,6 +450,7 @@ def test_update_cache(mocker, monkeypatch, capsys):
   * qemu-ppc64
   * qemu-ppc64le
   * qemu-riscv64
+  * qemu-s390
   * qemu-sparc64
   * qemu-x86_64
 * Test definitions
