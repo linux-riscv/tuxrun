@@ -80,8 +80,10 @@ def run(options, tmpdir: Path) -> int:
             device=options.device,
             dtb=options.dtb,
             kernel=options.kernel,
+            ap_romfw=options.ap_romfw,
             mcp_fw=options.mcp_fw,
             mcp_romfw=options.mcp_romfw,
+            fip=options.fip,
             overlays=overlays,
             rootfs=options.rootfs,
             rootfs_partition=options.partition,
@@ -93,7 +95,6 @@ def run(options, tmpdir: Path) -> int:
             timeouts=options.timeouts,
             tmpdir=tmpdir,
             tux_boot_args=options.boot_args.replace('"', ""),
-            uefi=options.uefi,
             parameters=options.parameters,
         )
         LOG.debug("job definition")
@@ -139,7 +140,8 @@ def run(options, tmpdir: Path) -> int:
         options.rootfs,
         options.scp_fw,
         options.scp_romfw,
-        options.uefi,
+        options.ap_romfw,
+        options.fip,
     ] + extra_assets:
         if not path:
             continue

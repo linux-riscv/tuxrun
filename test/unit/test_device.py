@@ -26,6 +26,7 @@ ARTEFACTS = [
     "bzImage.gz",
     "zImage.xz",
     "modules.tar.xz",
+    "tf-bl1.bin",
     "mcp_fw.bin",
     "mcp_romfw.bin",
     "android-nano.img.xz",
@@ -33,10 +34,12 @@ ARTEFACTS = [
     "core-image-minimal-morello-fvp.wic",
     "scp_fw.bin",
     "scp_romfw.bin",
-    "uefi.bin",
+    "fip.bin",
 ]
 
 FVP_MORELLO_ANDROID = [
+    "--ap-romfw",
+    "tf-bl1.bin",
     "--mcp-fw",
     "mcp_fw.bin",
     "--mcp-romfw",
@@ -47,8 +50,8 @@ FVP_MORELLO_ANDROID = [
     "scp_fw.bin",
     "--scp-romfw",
     "scp_romfw.bin",
-    "--uefi",
-    "uefi.bin",
+    "--fip",
+    "fip.bin",
 ]
 
 metadata = {
@@ -397,6 +400,8 @@ def artefacts(tmp_path):
             [
                 "--device",
                 "fvp-morello-busybox",
+                "--ap-romfw",
+                "tf-bl1.bin",
                 "--mcp-fw",
                 "mcp_fw.bin",
                 "--mcp-romfw",
@@ -407,8 +412,8 @@ def artefacts(tmp_path):
                 "scp_fw.bin",
                 "--scp-romfw",
                 "scp_romfw.bin",
-                "--uefi",
-                "uefi.bin",
+                "--fip",
+                "fip.bin",
             ],
             "fvp-morello-busybox.yaml",
         ),
@@ -416,6 +421,8 @@ def artefacts(tmp_path):
             [
                 "--device",
                 "fvp-morello-oe",
+                "--ap-romfw",
+                "tf-bl1.bin",
                 "--mcp-fw",
                 "mcp_fw.bin",
                 "--mcp-romfw",
@@ -426,8 +433,8 @@ def artefacts(tmp_path):
                 "scp_fw.bin",
                 "--scp-romfw",
                 "scp_romfw.bin",
-                "--uefi",
-                "uefi.bin",
+                "--fip",
+                "fip.bin",
             ],
             "fvp-morello-oe.yaml",
         ),
@@ -435,6 +442,8 @@ def artefacts(tmp_path):
             [
                 "--device",
                 "fvp-morello-ubuntu",
+                "--ap-romfw",
+                "tf-bl1.bin",
                 "--mcp-fw",
                 "mcp_fw.bin",
                 "--mcp-romfw",
@@ -443,8 +452,8 @@ def artefacts(tmp_path):
                 "scp_fw.bin",
                 "--scp-romfw",
                 "scp_romfw.bin",
-                "--uefi",
-                "uefi.bin",
+                "--fip",
+                "fip.bin",
             ],
             "fvp-morello-ubuntu.yaml",
         ),

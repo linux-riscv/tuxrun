@@ -202,6 +202,7 @@ def setup_parser() -> argparse.ArgumentParser:
         type=int,
         help="rootfs partition number",
     )
+    artefact("ap-romfw")
     artefact("rootfs")
     artefact("scp-fw")
     artefact("scp-romfw")
@@ -219,7 +220,7 @@ def setup_parser() -> argparse.ArgumentParser:
         type=tuxmake_directory,
         help="directory containing a TuxMake build",
     )
-    artefact("uefi")
+    artefact("fip")
 
     group = parser.add_argument_group("test parameters")
     group.add_argument(

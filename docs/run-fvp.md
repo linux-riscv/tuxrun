@@ -64,12 +64,13 @@ In order to run a simple boot test on **fvp-morello-busybox**:
     ```shell
     tuxrun --image tuxrun:fvp \
            --device fvp-morello-buxybox \
+           --ap-romfw https://example.com/fvp/morello/tf-bl1.bin \
            --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
            --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
            --rootfs https://example.com/fvp/morello/rootfs.img.xz \
            --scp-fw https://example.com/fvp/morello/scp_fw.bin \
            --scp-romfw https://example.com/fvp/morello/scp_romfw.bin \
-           --uefi https://example.com/fvp/morello/uefi.bin
+           --fip https://example.com/fvp/morello/fip.bin
     ```
 
 === "docker"
@@ -77,12 +78,13 @@ In order to run a simple boot test on **fvp-morello-busybox**:
     ```shell
     tuxrun --runtime docker \
            --device fvp-morello-buxybox \
+           --ap-romfw https://example.com/fvp/morello/tf-bl1.bin \
            --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
            --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
            --rootfs https://example.com/fvp/morello/rootfs.img.xz \
            --scp-fw https://example.com/fvp/morello/scp_fw.bin \
            --scp-romfw https://example.com/fvp/morello/scp_romfw.bin \
-           --uefi https://example.com/fvp/morello/uefi.bin
+           --fip https://example.com/fvp/morello/fip.bin
     ```
 
 
@@ -95,12 +97,13 @@ In order to run an Android test on **fvp-morello-android**:
     ```shell
     tuxrun --image tuxrun:fvp \
            --device fvp-morello-android \
+           --ap-romfw https://example.com/fvp/morello/tf-bl1.bin \
            --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
            --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
            --rootfs https://example.com/fvp/morello/rootfs.img.xz \
            --scp-fw https://example.com/fvp/morello/scp_fw.bin \
            --scp-romfw https://example.com/fvp/morello/scp_romfw.bin \
-           --uefi https://example.com/fvp/morello/uefi.bin \
+           --fip https://example.com/fvp/morello/fip.bin \
            --parameters USERDATA=https://example.com/fvp/morello/userdata.tar.xz \
            --tests binder
     ```
@@ -110,12 +113,13 @@ In order to run an Android test on **fvp-morello-android**:
     ```shell
     tuxrun --runtime docker \
            --device fvp-morello-android \
+           --ap-romfw https://example.com/fvp/morello/tf-bl1.bin \
            --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
            --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
            --rootfs https://example.com/fvp/morello/rootfs.img.xz \
            --scp-fw https://example.com/fvp/morello/scp_fw.bin \
            --scp-romfw https://example.com/fvp/morello/scp_romfw.bin \
-           --uefi https://example.com/fvp/morello/uefi.bin \
+           --fip https://example.com/fvp/morello/fip.bin \
            --parameters USERDATA=https://example.com/fvp/morello/userdata.tar.xz \
            --tests binder
     ```

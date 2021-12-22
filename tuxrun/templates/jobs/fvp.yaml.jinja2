@@ -22,6 +22,8 @@ actions:
     timeout:
       minutes: {{ deploy_timeout }}
     images:
+      ap_romfw:
+        url: "{{ ap_romfw }}"
       scp_romfw:
         url: "{{ scp_romfw }}"
       scp_fw:
@@ -30,8 +32,8 @@ actions:
         url: "{{ mcp_romfw }}"
       mcp_fw:
         url: "{{ mcp_fw }}"
-      uefi:
-        url: "{{ uefi }}"
+      fip:
+        url: "{{ fip }}"
       rootfs:
         url: "{{ rootfs }}"
         compression: xz
@@ -61,7 +63,6 @@ actions:
     - "-C Morello_Top.soc.mcp_qspi_loader.fname={MCP_FW}"
     - "-C css.scp.armcortexm7ct.INITVTOR=0x0"
     - "-C css.mcp.armcortexm7ct.INITVTOR=0x0"
-    - "--data {UEFI}@0x14200000"
     - "-C board.virtioblockdevice.image_path={ROOTFS}"
     - "-C css.pl011_uart_ap.out_file=uart0.log"
     - "-C css.scp.pl011_uart_scp.out_file=scp.log"
@@ -78,6 +79,8 @@ actions:
     - "-C board.virtio_net.hostbridge.userNetworking=1"
     - "-C board.virtio_net.hostbridge.userNetPorts=\"5555=5555\""
     - "-C disable_visualisation=true"
+    - "-C css.trustedBootROMloader.fname={AP_ROMFW}"
+    - "-C board.ap_qspi_loader.fname={FIP}"
     prompts:
 {% for prompt in prompts %}
     - "{{ prompt }}"

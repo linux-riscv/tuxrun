@@ -104,6 +104,8 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
 
 
 FVP_MORELLO_ARGS = [
+    "--ap-romfw",
+    "fvp.bin",
     "--mcp-fw",
     "fvp.bin",
     "--mcp-romfw",
@@ -114,7 +116,7 @@ FVP_MORELLO_ARGS = [
     "fvp.bin",
     "--scp-romfw",
     "fvp.bin",
-    "--uefi",
+    "--fip",
     "fvp.bin",
 ]
 
@@ -235,6 +237,8 @@ def test_command_line_parameters(monkeypatch, mocker, artefacts):
             "tuxrun",
             "--device",
             "fvp-morello-android",
+            "--ap-romfw",
+            "fvp.bin",
             "--mcp-fw",
             "fvp.bin",
             "--mcp-romfw",
@@ -245,7 +249,7 @@ def test_command_line_parameters(monkeypatch, mocker, artefacts):
             "fvp.bin",
             "--scp-romfw",
             "fvp.bin",
-            "--uefi",
+            "--fip",
             "fvp.bin",
             "--parameters",
             "USERDATA=http://userdata.tar.xz",
