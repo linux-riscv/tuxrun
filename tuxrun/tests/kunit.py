@@ -12,6 +12,7 @@ class KUnit(Test):
     device = "qemu-*"
     name = "kunit"
     timeout = 20
+    need_test_definition = True
 
     def render(self, **kwargs):
         kwargs["name"] = self.name

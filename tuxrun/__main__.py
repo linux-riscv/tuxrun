@@ -65,10 +65,13 @@ def run(options, tmpdir: Path) -> int:
             overlays.append((name, item))
             extra_assets.append(item)
 
-        test_definitions = "file://" + get_test_definitions(
-            TTYProgressIndicator("Downloading test definitions")
-        )
-        extra_assets.append(test_definitions)
+        # Add test definitions only when needed
+        test_definitions = None
+        if any(t.need_test_definition for t in options.tests):
+            test_definitions = "file://" + get_test_definitions(
+                TTYProgressIndicator("Downloading test definitions")
+            )
+            extra_assets.append(test_definitions)
 
         command = " ".join([shlex.quote(s) for s in options.command])
 

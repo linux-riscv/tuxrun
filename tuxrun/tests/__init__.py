@@ -21,6 +21,7 @@ class Test:
     device: str = ""
     name: str = ""
     timeout: int = 0
+    need_test_definition: bool = False
 
     def __init__(self, timeout):
         if timeout:
