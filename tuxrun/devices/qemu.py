@@ -232,7 +232,7 @@ class QemuMips64(QemuDevice):
     machine = "malta"
 
     console = "ttyS0"
-    rootfs_dev = "/dev/hda"
+    rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
     kernel = "https://storage.tuxboot.com/mips64/vmlinux"
@@ -247,7 +247,7 @@ class QemuMips64EL(QemuDevice):
     machine = "malta"
 
     console = "ttyS0"
-    rootfs_dev = "/dev/hda"
+    rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
     kernel = "https://storage.tuxboot.com/mips64el/vmlinux"
