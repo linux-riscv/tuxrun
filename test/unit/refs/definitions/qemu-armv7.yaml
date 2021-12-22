@@ -8,7 +8,6 @@ context:
     arch: "arm"
     machine: "virt,gic-version=3"
     cpu: "cortex-a15"
-    guestfs_interface: "none"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true

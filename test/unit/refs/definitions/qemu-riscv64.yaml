@@ -8,7 +8,6 @@ context:
     arch: "riscv64"
     machine: "virt"
     cpu: "rv64"
-    guestfs_interface: "virtio"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true

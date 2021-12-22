@@ -35,6 +35,8 @@ actions:
         url: "https://storage.tuxboot.com/mips32/rootfs.ext4.zst"
         compression: zstd
         format: ext4
+        overlays:
+          lava: true
 - boot:
     method: qemu
     timeout:

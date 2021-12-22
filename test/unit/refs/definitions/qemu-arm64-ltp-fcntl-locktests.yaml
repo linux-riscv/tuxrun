@@ -8,7 +8,6 @@ context:
     arch: "arm64"
     machine: "virt,gic-version=3"
     cpu: "cortex-a57"
-    guestfs_interface: "virtio"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
@@ -36,6 +35,8 @@ actions:
         url: "https://storage.tuxboot.com/arm64/rootfs.ext4.zst"
         compression: zstd
         format: ext4
+        overlays:
+          lava: true
 - boot:
     method: qemu
     timeout:

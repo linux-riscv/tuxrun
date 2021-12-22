@@ -9,7 +9,6 @@ context:
     machine: "versatilepb"
     cpu: "arm926"
     memory: "256M"
-    guestfs_interface: "scsi"
     extra_options: ["-no-reboot", ""]
     no_kvm: true
     no_network: true
@@ -40,6 +39,8 @@ actions:
         url: "https://storage.tuxboot.com/armv5/rootfs.ext4.zst"
         compression: zstd
         format: ext4
+        overlays:
+          lava: true
 - boot:
     method: qemu
     timeout:

@@ -15,9 +15,6 @@ context:
 {% if memory %}
     memory: "{{ memory }}"
 {% endif %}
-{% if guestfs_interface %}
-    guestfs_interface: "{{ guestfs_interface }}"
-{% endif %}
     extra_options: ["-no-reboot", "{{ '", "'.join(extra_options) }}"]
     no_kvm: true
     no_network: true
@@ -66,6 +63,9 @@ actions:
         format: ext4
 {% if overlays %}
         overlays:
+{% if tests %}
+          lava: true
+{% endif %}
 {% for name, overlay in overlays %}
           {{ name }}:
             url: "{{ overlay }}"
@@ -73,6 +73,9 @@ actions:
             format: tar
             compression: xz
 {% endfor %}
+{% elif tests %}
+        overlays:
+          lava: true
 {% endif %}
 - boot:
     method: qemu

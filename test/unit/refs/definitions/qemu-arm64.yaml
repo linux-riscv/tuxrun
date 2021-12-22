@@ -8,7 +8,6 @@ context:
     arch: "arm64"
     machine: "virt,gic-version=3"
     cpu: "cortex-a57"
-    guestfs_interface: "virtio"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
