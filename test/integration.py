@@ -100,8 +100,8 @@ def run(device, test, runtime, debug):
                 "https://storage.tuxboot.com/fvp-morello-android/scp_fw.bin",
                 "--scp-romfw",
                 "https://storage.tuxboot.com/fvp-morello-android/scp_romfw.bin",
-                "--uefi",
-                "https://storage.tuxboot.com/fvp-morello-busybox/uefi.bin",
+                "--fip",
+                "https://storage.tuxboot.com/fvp-morello-busybox/fip.bin",
                 "--image",
                 "tuxrun:fvp",
             ]
@@ -197,8 +197,8 @@ def run(device, test, runtime, debug):
                 "https://storage.tuxboot.com/fvp-morello-busybox/scp_fw.bin",
                 "--scp-romfw",
                 "https://storage.tuxboot.com/fvp-morello-busybox/scp_romfw.bin",
-                "--uefi",
-                "https://storage.tuxboot.com/fvp-morello-busybox/uefi.bin",
+                "--fip",
+                "https://storage.tuxboot.com/fvp-morello-busybox/fip.bin",
                 "--image",
                 "tuxrun:fvp",
             ]
@@ -214,8 +214,8 @@ def run(device, test, runtime, debug):
                 "https://storage.tuxboot.com/fvp-morello-ubuntu/scp_fw.bin",
                 "--scp-romfw",
                 "https://storage.tuxboot.com/fvp-morello-ubuntu/scp_romfw.bin",
-                "--uefi",
-                "https://storage.tuxboot.com/fvp-morello-ubuntu/uefi.bin",
+                "--fip",
+                "https://storage.tuxboot.com/fvp-morello-ubuntu/fip.bin",
                 "--image",
                 "tuxrun:fvp",
             ]

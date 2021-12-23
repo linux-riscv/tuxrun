@@ -19,6 +19,8 @@ actions:
     timeout:
       minutes: 5
     images:
+      ap_romfw:
+        url: "/DATA/tf-bl1.bin"
       scp_romfw:
         url: "/DATA/scp_romfw.bin"
       scp_fw:
@@ -27,8 +29,8 @@ actions:
         url: "/DATA/mcp_romfw.bin"
       mcp_fw:
         url: "/DATA/mcp_fw.bin"
-      uefi:
-        url: "/DATA/uefi.bin"
+      fip:
+        url: "/DATA/fip.bin"
       rootfs:
         url: "https://storage.tuxboot.com/fvp-morello-ubuntu/ubuntu.satadisk.xz"
         compression: xz
@@ -58,7 +60,6 @@ actions:
     - "-C Morello_Top.soc.mcp_qspi_loader.fname={MCP_FW}"
     - "-C css.scp.armcortexm7ct.INITVTOR=0x0"
     - "-C css.mcp.armcortexm7ct.INITVTOR=0x0"
-    - "--data {UEFI}@0x14200000"
     - "-C board.virtioblockdevice.image_path={ROOTFS}"
     - "-C css.pl011_uart_ap.out_file=uart0.log"
     - "-C css.scp.pl011_uart_scp.out_file=scp.log"
@@ -75,6 +76,8 @@ actions:
     - "-C board.virtio_net.hostbridge.userNetworking=1"
     - "-C board.virtio_net.hostbridge.userNetPorts=\"5555=5555\""
     - "-C disable_visualisation=true"
+    - "-C css.trustedBootROMloader.fname={AP_ROMFW}"
+    - "-C board.ap_qspi_loader.fname={FIP}"
     prompts:
     - "morello@morello-server:"
     auto_login:

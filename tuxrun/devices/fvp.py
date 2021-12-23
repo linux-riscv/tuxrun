@@ -13,7 +13,15 @@ from tuxrun.exceptions import InvalidArgument
 
 
 class FVPDevice(Device):
-    mandatory = ["mcp_fw", "mcp_romfw", "rootfs", "scp_fw", "scp_romfw", "uefi"]
+    mandatory = [
+        "ap_romfw",
+        "mcp_fw",
+        "mcp_romfw",
+        "rootfs",
+        "scp_fw",
+        "scp_romfw",
+        "fip",
+    ]
 
     prompts: List[str] = []
     auto_login: Dict[str, str] = {}
@@ -23,6 +31,7 @@ class FVPDevice(Device):
 
     def validate(
         self,
+        ap_romfw,
         mcp_fw,
         mcp_romfw,
         rootfs,
@@ -30,7 +39,7 @@ class FVPDevice(Device):
         scp_romfw,
         parameters,
         tests,
-        uefi,
+        fip,
         **kwargs,
     ):
         invalid_args = ["--" + k.replace("_", "-") for k in kwargs if kwargs[k]]
@@ -108,7 +117,7 @@ class FVPMorelloOE(FVPDevice):
 class FVPMorelloUbuntu(FVPDevice):
     name = "fvp-morello-ubuntu"
 
-    mandatory = ["mcp_fw", "mcp_romfw", "scp_fw", "scp_romfw", "uefi"]
+    mandatory = ["ap_romfw", "mcp_fw", "mcp_romfw", "scp_fw", "scp_romfw", "fip"]
 
     prompts = ["morello@morello-server:"]
     auto_login = {
