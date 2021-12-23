@@ -15,7 +15,6 @@ stylecheck: style flake8
 spellcheck:
 	codespell \
 		--check-filenames \
-		-L hda \
 		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov,*.jinja2'
 
 integration:
