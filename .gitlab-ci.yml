@@ -60,8 +60,6 @@ integration:
   parallel:
     matrix:
     - DEVICE:
-      - qemu-armv5
-      - qemu-armv7
       - qemu-arm64
       - qemu-i386
       - qemu-mips64
@@ -75,8 +73,10 @@ integration:
       - ltp-fcntl-locktests ltp-fsx ltp-fs_perms_simple ltp-smoke
       - ltp-fs_bind
       - ltp-nptl
-    # FIXME ltp-nptl takes forever on qemu-mips32(el) and qemu-riscv64; ignore that jobs for now
+    # FIXME ltp-nptl takes forever on some qemus; ignore that jobs for now
     - DEVICE:
+      - qemu-armv5
+      - qemu-armv7
       - qemu-mips32
       - qemu-mips32el
       - qemu-riscv64
