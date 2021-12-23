@@ -21,6 +21,7 @@ class Test:
     device: str = ""
     name: str = ""
     timeout: int = 0
+    need_test_definition: bool = False
 
     def __init__(self, timeout):
         if timeout:
@@ -35,8 +36,14 @@ class Test:
         raise InvalidArgument(f"Unknown test {name}")
 
     @classmethod
-    def list(cls):
-        return sorted([s.name for s in subclasses(cls) if s.name])
+    def list(cls, device=None):
+        if device is None:
+            return sorted(s.name for s in subclasses(cls) if s.name)
+        return sorted(
+            s.name
+            for s in subclasses(cls)
+            if s.name and fnmatch.fnmatch(device, s.device)
+        )
 
     def validate(self, device=device, **kwargs):
         if not fnmatch.fnmatch(device.name, self.device):

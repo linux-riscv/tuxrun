@@ -23,7 +23,9 @@ class Device:
 
             if subclass.name == name:
                 return subclass
-        raise InvalidArgument(f"Unknown device {name}")
+        raise InvalidArgument(
+            f"Unknown device {name}. Available: {', '.join(cls.list())}"
+        )
 
     @classmethod
     def list(cls):

@@ -107,6 +107,7 @@ class MorelloFWTS(MorelloTest):
     timeout = 120
     device = "fvp-morello-oe"
     template = "fwts.yaml.jinja2"
+    need_test_definition = True
 
 
 class MorelloLibJPEGTurbo(MorelloAndroidTest):

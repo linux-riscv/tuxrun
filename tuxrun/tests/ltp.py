@@ -11,6 +11,7 @@ from tuxrun.tests import Test
 class LTPTest(Test):
     device = "qemu-*"
     cmdfile: str = ""
+    need_test_definition = True
 
     def render(self, **kwargs):
         kwargs["name"] = self.name
