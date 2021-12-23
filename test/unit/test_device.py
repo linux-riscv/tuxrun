@@ -122,12 +122,47 @@ def artefacts(tmp_path):
             "qemu-i386-kunit.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-i386",
+                "--tests",
+                "kunit",
+                "--overlay",
+                "http://example.com/overlay1.tar.xz",
+                "--overlay",
+                "http://example.com/overlay2.tar.xz",
+            ],
+            "qemu-i386-kunit-overlays.yaml",
+        ),
+        (
             ["--device", "qemu-i386", "--kernel", "bzImage.gz"],
             "qemu-i386-kernel-gz.yaml",
         ),
         (
             ["--device", "qemu-mips32"],
             "qemu-mips32.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-mips32",
+                "--modules",
+                "https://example.com/modules.tar.xz",
+            ],
+            "qemu-mips32-modules.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-mips32",
+                "--modules",
+                "https://example.com/modules.tar.xz",
+                "--overlay",
+                "http://example.com/overlay2.tar.xz",
+                "--tests",
+                "kunit",
+            ],
+            "qemu-mips32-modules-overlays-kunit.yaml",
         ),
         (
             ["--device", "qemu-mips32", "--", "cat", "/proc/cpuinfo"],

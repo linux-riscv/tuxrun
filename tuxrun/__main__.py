@@ -60,9 +60,8 @@ def run(options, tmpdir: Path) -> int:
         if options.modules:
             overlays.append(("modules", options.modules))
             extra_assets.append(options.modules)
-        for item in options.overlays:
-            name = str(hash(item)).replace("-", "n")
-            overlays.append((name, item))
+        for (index, item) in enumerate(options.overlays):
+            overlays.append((f"overlay-{index:02}", item))
             extra_assets.append(item)
 
         # Add test definitions only when needed
