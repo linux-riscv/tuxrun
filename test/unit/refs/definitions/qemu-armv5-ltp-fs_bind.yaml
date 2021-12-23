@@ -14,7 +14,7 @@ context:
     no_network: true
 timeouts:
   job:
-    minutes: 23
+    minutes: 33
   action:
    minutes: 5
   actions:
@@ -52,7 +52,7 @@ actions:
     - 'root@(.*):[/~]#'
 - test:
     timeout:
-      minutes: 15
+      minutes: 25
     definitions:
     - repository: file://testdef.tar.zst
       from: url

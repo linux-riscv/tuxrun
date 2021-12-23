@@ -35,7 +35,7 @@ class LTPFcntlLockTests(LTPTest):
 
 class LTPFSBind(LTPTest):
     name = "ltp-fs_bind"
-    timeout = 15
+    timeout = 25
 
 
 class LTPFSPermsSimple(LTPTest):
