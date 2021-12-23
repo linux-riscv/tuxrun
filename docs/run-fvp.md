@@ -123,7 +123,3 @@ In order to run an Android test on **fvp-morello-android**:
            --parameters USERDATA=https://example.com/fvp/morello/userdata.tar.xz \
            --tests binder
     ```
-
-!!! tip "Android boot test"
-    When running an Android boot test, **--parameters USERDATA=https://** is
-    not needed (and won't be used).
