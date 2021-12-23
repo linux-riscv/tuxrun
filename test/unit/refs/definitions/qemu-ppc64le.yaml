@@ -8,7 +8,6 @@ context:
     arch: "ppc64le"
     machine: "pseries"
     cpu: "POWER8"
-    guestfs_interface: "scsi,index=1"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true

@@ -25,9 +25,7 @@ class QemuDevice(Device):
     cpu: str = ""
     memory: str = ""
 
-    guestfs_interface: str = ""
     extra_options: List[str] = []
-    extra_options_tests: List[str] = []
 
     console: str = ""
     rootfs_dev: str = ""
@@ -82,10 +80,7 @@ class QemuDevice(Device):
         kwargs["machine"] = self.machine
         kwargs["cpu"] = self.cpu
         kwargs["memory"] = self.memory
-        kwargs["guestfs_interface"] = self.guestfs_interface
         kwargs["extra_options"] = self.extra_options.copy()
-        if kwargs["tests"]:
-            kwargs["extra_options"].extend(self.extra_options_tests.copy())
         kwargs["console"] = self.console
         kwargs["rootfs_dev"] = self.rootfs_dev
         kwargs["rootfs_arg"] = self.rootfs_arg
@@ -132,7 +127,6 @@ class QemuArm64(QemuDevice):
     machine = "virt,gic-version=3"
     cpu = "cortex-a57"
 
-    guestfs_interface = "virtio"
     extra_options = ["-smp 2"]
 
     console = "ttyAMA0"
@@ -151,7 +145,6 @@ class QemuArmv5(QemuDevice):
     machine = "versatilepb"
     cpu = "arm926"
 
-    guestfs_interface = "scsi"
     memory = "256M"
 
     console = "ttyAMA0"
@@ -171,9 +164,7 @@ class QemuArmv7(QemuDevice):
     machine = "virt,gic-version=3"
     cpu = "cortex-a15"
 
-    guestfs_interface = "none"
     extra_options = ["-smp 2"]
-    extra_options_tests = ["-device virtio-blk-device,drive=lavatest"]
 
     console = "ttyAMA0"
     rootfs_dev = "/dev/vda"
@@ -241,7 +232,7 @@ class QemuMips64(QemuDevice):
     machine = "malta"
 
     console = "ttyS0"
-    rootfs_dev = "/dev/hda"
+    rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
     kernel = "https://storage.tuxboot.com/mips64/vmlinux"
@@ -256,7 +247,7 @@ class QemuMips64EL(QemuDevice):
     machine = "malta"
 
     console = "ttyS0"
-    rootfs_dev = "/dev/hda"
+    rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
     kernel = "https://storage.tuxboot.com/mips64el/vmlinux"
@@ -270,8 +261,6 @@ class QemuPPC32(QemuDevice):
     lava_arch = "ppc"
     machine = "ppce500"
     cpu = "e500mc"
-
-    guestfs_interface = "virtio"
 
     console = "ttyS0"
     rootfs_dev = "/dev/vda"
@@ -289,7 +278,6 @@ class QemuPPC64(QemuDevice):
     machine = "pseries"
     cpu = "POWER8"
 
-    guestfs_interface = "scsi,index=1"
     extra_options = ["-smp 2"]
 
     console = "hvc0"
@@ -308,7 +296,6 @@ class QemuPPC64LE(QemuDevice):
     machine = "pseries"
     cpu = "POWER8"
 
-    guestfs_interface = "scsi,index=1"
     extra_options = ["-smp 2"]
 
     console = "hvc0"
@@ -327,7 +314,6 @@ class QemuRiscV64(QemuDevice):
     machine = "virt"
     cpu = "rv64"
 
-    guestfs_interface = "virtio"
     extra_options = ["-smp 2"]
 
     console = "ttyS0"

@@ -8,7 +8,6 @@ context:
     arch: "ppc"
     machine: "ppce500"
     cpu: "e500mc"
-    guestfs_interface: "virtio"
     extra_options: ["-no-reboot", ""]
     no_kvm: true
     no_network: true

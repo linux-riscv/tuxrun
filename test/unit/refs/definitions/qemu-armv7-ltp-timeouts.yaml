@@ -8,8 +8,7 @@ context:
     arch: "arm"
     machine: "virt,gic-version=3"
     cpu: "cortex-a15"
-    guestfs_interface: "none"
-    extra_options: ["-no-reboot", "-smp 2", "-device virtio-blk-device,drive=lavatest"]
+    extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
 timeouts:
@@ -36,6 +35,8 @@ actions:
         url: "https://storage.tuxboot.com/armv7/rootfs.ext4.zst"
         compression: zstd
         format: ext4
+        overlays:
+          lava: true
 - boot:
     method: qemu
     timeout:
