@@ -50,7 +50,7 @@ class QemuDevice(Device):
         tests,
         **kwargs,
     ):
-        invalid_args = ["--" + k.replace("_", "-") for k in kwargs if kwargs[k]]
+        invalid_args = ["--" + k.replace("_", "-") for (k, v) in kwargs.items() if v]
 
         if len(invalid_args) > 0:
             raise InvalidArgument(

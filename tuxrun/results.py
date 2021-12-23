@@ -6,8 +6,9 @@
 # SPDX-License-Identifier: MIT
 
 import logging
-import yaml
 import re
+
+import yaml
 
 from tuxrun.yaml import yaml_load
 
