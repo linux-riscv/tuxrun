@@ -33,5 +33,6 @@ qemu-ppc32    | 32-bit PowerPC      | ppce500     | e500mc           | uImage
 qemu-ppc64    | 64-bit PowerPC      | pSeries     | Power8           | vmlinux
 qemu-ppc64le  | 64-bit PowerPC (EL) | pSeries     | Power8           | vmlinux
 qemu-riscv64  | 64-bit RISC-V       | virt        | rv64             | Image
+qemu-s390     | 64-bit s390         | max,zpci=on | s390-ccw-virtio  | bzImage
 qemu-sparc64  | 64-bit Sparc        | sun4u       | UltraSPARC II    | vmlinux
 qemu-x86_64   | 64-bit X86          | q35         | Nehalem          | bzImage

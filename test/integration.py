@@ -47,7 +47,7 @@ def get_simple_results(res: Dict) -> Dict:
         if name == "lava":
             continue
         key = "_".join(name.split("_")[1:])
-        if all([res[name][case]["result"] in ["skip", "pass"] for case in res[name]]):
+        if all(res[name][case]["result"] in ["skip", "pass"] for case in res[name]):
             results[key] = "pass"
         else:
             results[key] = "fail"
@@ -65,7 +65,7 @@ def get_job_result(results: Dict, simple_results: Dict) -> str:
             return "fail"
         return "error"
 
-    if all([v == "pass" for (k, v) in simple_results.items()]):
+    if all(v == "pass" for (k, v) in simple_results.items()):
         return "pass"
     return "fail"
 

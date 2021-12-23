@@ -1,20 +1,19 @@
 device_type: "qemu"
 
-job_name: "tuxrun@qemu-armv5: ltp-fs_bind"
+job_name: "tuxrun@qemu-s390: ltp-smoke"
 priority: "medium"
 visibility: "public"
 
 context:
-    arch: "arm"
-    machine: "versatilepb"
-    cpu: "arm926"
-    memory: "256M"
-    extra_options: ["-no-reboot", ""]
+    arch: "s390x"
+    machine: "s390-ccw-virtio"
+    cpu: "max,zpci=on"
+    extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
 timeouts:
   job:
-    minutes: 33
+    minutes: 10
   action:
    minutes: 5
   actions:
@@ -29,14 +28,11 @@ actions:
     os: oe
     images:
       kernel:
-        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog"'
-        url: "https://storage.tuxboot.com/armv5/zImage"
-      dtb:
-        image_arg: "-dtb {dtb}"
-        url: "https://storage.tuxboot.com/armv5/versatile-pb.dtb"
+        image_arg: '-kernel {kernel} -append "console=ttyS0,115200 rootwait root=/dev/vda net.ifnames=0 debug verbose console_msg_format=syslog"'
+        url: "https://storage.tuxboot.com/s390/bzImage"
       rootfs:
-        image_arg: "-drive file={rootfs},if=scsi,format=raw"
-        url: "https://storage.tuxboot.com/armv5/rootfs.ext4.zst"
+        image_arg: "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk,drive=hd0"
+        url: "https://storage.tuxboot.com/s390/rootfs.ext4.zst"
         compression: zstd
         format: ext4
         overlays:
@@ -52,7 +48,7 @@ actions:
     - 'root@(.*):[/~]#'
 - test:
     timeout:
-      minutes: 25
+      minutes: 2
     definitions:
     - repository: file://testdef.tar.zst
       from: url
@@ -60,10 +56,10 @@ actions:
       path: automated/linux/ltp/ltp.yaml
       parameters:
         SKIP_INSTALL: 'true'
-        TST_CMDFILES: 'fs_bind'
-        SKIPFILE: '/tuxtest/skipfiles/armv5/ltp-fs_bind'
+        TST_CMDFILES: 'smoketest'
+        SKIPFILE: '/tuxtest/skipfiles/s390/ltp-smoke'
         ENVIRONMENT: 'production'
         TIMEOUT_MULTIPLIER: '3'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/usr/lib/ltp-testsuite/'
-      name: ltp-fs_bind
+      name: ltp-smoke

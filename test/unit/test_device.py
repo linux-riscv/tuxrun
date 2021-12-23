@@ -193,6 +193,14 @@ def artefacts(tmp_path):
             "qemu-ppc64le.yaml",
         ),
         (
+            ["--device", "qemu-s390"],
+            "qemu-s390.yaml",
+        ),
+        (
+            ["--device", "qemu-s390", "--tests", "ltp-smoke"],
+            "qemu-s390-ltp-smoke.yaml",
+        ),
+        (
             ["--device", "qemu-riscv64"],
             "qemu-riscv64.yaml",
         ),
