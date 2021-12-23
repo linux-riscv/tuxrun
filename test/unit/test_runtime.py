@@ -29,7 +29,6 @@ def test_cmd_podman():
         "podman",
         "run",
         "--rm",
-        "--quiet",
         "--hostname",
         "tuxrun",
         "-v",

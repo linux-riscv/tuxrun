@@ -47,13 +47,13 @@ class Writer(ContextDecorator):
         try:
             data = yaml_load(line)
         except yaml.YAMLError:
-            LOG.debug(line)
+            sys.stdout.write(line + "\n")
             return
         if not data or not isinstance(data, dict):
-            LOG.debug(line)
+            sys.stdout.write(line + "\n")
             return
         if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
-            LOG.debug(line)
+            sys.stdout.write(line + "\n")
             return
 
         if self.file is not None:

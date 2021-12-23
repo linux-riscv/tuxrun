@@ -25,6 +25,9 @@ def main():
     runtime = "/usr/bin/podman"
 {% endif %}
 
+    if not Path(runtime).exists():
+        sys.stderr.write(f"Missing runtime '{runtime}'\n")
+        return 1
     if sys.argv[1] == "run":
         args.append("run")
         skip = False
