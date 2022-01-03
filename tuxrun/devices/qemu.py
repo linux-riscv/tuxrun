@@ -54,7 +54,7 @@ class QemuDevice(Device):
 
         if len(invalid_args) > 0:
             raise InvalidArgument(
-                f"Invalid option(s) for qemu devices: {', '.join(invalid_args)}"
+                f"Invalid option(s) for qemu devices: {', '.join(sorted(invalid_args))}"
             )
 
         if bios and self.name != "qemu-riscv64":
