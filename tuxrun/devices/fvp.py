@@ -45,14 +45,16 @@ class FVPDevice(Device):
         invalid_args = ["--" + k.replace("_", "-") for k in kwargs if kwargs[k]]
         if len(invalid_args) > 0:
             raise InvalidArgument(
-                f"Invalid option(s) for fvp devices: {', '.join(invalid_args)}"
+                f"Invalid option(s) for fvp devices: {', '.join(sorted(invalid_args))}"
             )
 
         args = locals()
-        missing_args = ["--" + k for k in self.mandatory if not args[k]]
+        missing_args = [
+            "--" + k.replace("_", "-") for k in self.mandatory if not args[k]
+        ]
         if len(missing_args) > 0:
             raise InvalidArgument(
-                f"Missing option(s) for fvp devices: {', '.join(missing_args)}"
+                f"Missing option(s) for fvp devices: {', '.join(sorted(missing_args))}"
             )
 
         if tests and not self.support_tests:
