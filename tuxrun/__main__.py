@@ -94,7 +94,9 @@ def run(options, tmpdir: Path) -> int:
             tests_timeout=sum(t.timeout for t in options.tests),
             timeouts=options.timeouts,
             tmpdir=tmpdir,
-            tux_boot_args=options.boot_args.replace('"', ""),
+            tux_boot_args=options.boot_args.replace('"', "")
+            if options.boot_args
+            else None,
             parameters=options.parameters,
         )
         LOG.debug("job definition")

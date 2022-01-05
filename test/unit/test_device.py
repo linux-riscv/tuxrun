@@ -142,6 +142,10 @@ def artefacts(tmp_path):
             "qemu-i386-kernel-gz.yaml",
         ),
         (
+            ["--device", "qemu-i386", "--boot-args", "bla blo"],
+            "qemu-i386-boot-args.yaml",
+        ),
+        (
             ["--device", "qemu-mips32"],
             "qemu-mips32.yaml",
         ),

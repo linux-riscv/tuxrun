@@ -126,6 +126,7 @@ FVP_MORELLO_ARGS = [
     [
         [],
         ["--device", "qemu-armv7", "--device-dict", "device.yaml"],
+        ["--device", "qemu-armv7", "--boot-args", 'bla"bl'],
         ["--device", "qemu-armv7", "--dtb", "arm.dtb"],
         ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],

@@ -255,7 +255,7 @@ def setup_parser() -> argparse.ArgumentParser:
         choices=Device.list(),
     )
     group.add_argument(
-        "--boot-args", default="", metavar="ARGS", help="extend boot arguments"
+        "--boot-args", default=None, metavar="ARGS", help="extend boot arguments"
     )
     group.add_argument(
         "--timeouts",
