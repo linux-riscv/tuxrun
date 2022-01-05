@@ -54,7 +54,7 @@ ROOTFS = {
 }
 
 
-TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2021.04.tar.zst"
+TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2022.01.tar.zst"
 
 
 def get_rootfs(
