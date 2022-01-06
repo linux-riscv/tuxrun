@@ -220,6 +220,24 @@ def artefacts(tmp_path):
             "qemu-x86_64.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-x86_64",
+                "--rootfs",
+                "https://example.com/rootfs.ext4.zst",
+            ],
+            "qemu-x86_64-rootfs-zst.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-x86_64",
+                "--rootfs",
+                "https://example.com/rootfs.ext4.gz",
+            ],
+            "qemu-x86_64-rootfs-gz.yaml",
+        ),
+        (
             ["--device", "fvp-morello-android", *FVP_MORELLO_ANDROID],
             "fvp-morello-android.yaml",
         ),

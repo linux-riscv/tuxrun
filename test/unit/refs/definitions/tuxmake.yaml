@@ -39,7 +39,7 @@ actions:
         overlays:
           modules:
             url: "/DATA/modules.tar.xz"
-            path: /
+            path: "/"
             format: tar
             compression: xz
 - boot:

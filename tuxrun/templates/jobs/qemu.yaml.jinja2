@@ -59,17 +59,17 @@ actions:
       rootfs:
         image_arg: "{{ rootfs_arg }}"
         url: "{{ rootfs }}"
-        compression: zstd
+        compression: {{ rootfs_compression }}
         format: ext4
 {% if overlays %}
         overlays:
 {% if tests %}
           lava: true
 {% endif %}
-{% for name, overlay in overlays %}
+{% for name, overlay, dst in overlays %}
           {{ name }}:
             url: "{{ overlay }}"
-            path: /
+            path: "{{ dst }}"
             format: tar
             compression: xz
 {% endfor %}

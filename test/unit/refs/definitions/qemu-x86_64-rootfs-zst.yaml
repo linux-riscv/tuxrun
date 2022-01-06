@@ -1,14 +1,14 @@
 device_type: "qemu"
 
-job_name: "tuxrun@qemu-mips32: boot"
+job_name: "tuxrun@qemu-x86_64: boot"
 priority: "medium"
 visibility: "public"
 
 context:
-    arch: "mips"
-    machine: "malta"
-    cpu: "mips32r6-generic"
-    extra_options: ["-no-reboot", ""]
+    arch: "x86_64"
+    machine: "q35"
+    cpu: "Nehalem"
+    extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
 timeouts:
@@ -29,18 +29,12 @@ actions:
     images:
       kernel:
         image_arg: '-kernel {kernel} -append "console=ttyS0,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog"'
-        url: "https://storage.tuxboot.com/mips32/vmlinux"
+        url: "https://storage.tuxboot.com/x86_64/bzImage"
       rootfs:
         image_arg: "-drive file={rootfs},if=ide,format=raw"
-        url: "https://storage.tuxboot.com/mips32/rootfs.ext4.zst"
+        url: "https://example.com/rootfs.ext4.zst"
         compression: zstd
         format: ext4
-        overlays:
-          modules:
-            url: "https://example.com/modules.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
 - boot:
     method: qemu
     timeout:

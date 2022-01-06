@@ -100,6 +100,11 @@ class QemuDevice(Device):
             kernel_compression = "xz"
         kwargs["kernel_compression"] = kernel_compression
 
+        rootfs_compression = "zstd"
+        if kwargs["rootfs"].endswith(".gz"):
+            rootfs_compression = "gz"
+        kwargs["rootfs_compression"] = rootfs_compression
+
         # render the template
         tests = [
             t.render(
