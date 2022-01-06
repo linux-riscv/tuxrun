@@ -66,10 +66,10 @@ actions:
 {% if tests %}
           lava: true
 {% endif %}
-{% for name, overlay in overlays %}
+{% for name, overlay, dst in overlays %}
           {{ name }}:
             url: "{{ overlay }}"
-            path: /
+            path: "{{ dst }}"
             format: tar
             compression: xz
 {% endfor %}

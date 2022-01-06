@@ -38,7 +38,7 @@ actions:
         overlays:
           modules:
             url: "https://example.com/modules.tar.xz"
-            path: /
+            path: "/"
             format: tar
             compression: xz
 - boot:

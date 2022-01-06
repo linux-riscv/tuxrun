@@ -58,10 +58,10 @@ def run(options, tmpdir: Path) -> int:
     if options.device:
         overlays = []
         if options.modules:
-            overlays.append(("modules", options.modules))
+            overlays.append(("modules", options.modules, "/"))
             extra_assets.append(options.modules)
         for (index, item) in enumerate(options.overlays):
-            overlays.append((f"overlay-{index:02}", item))
+            overlays.append((f"overlay-{index:02}", item, "/"))
             extra_assets.append(item)
 
         # Add test definitions only when needed

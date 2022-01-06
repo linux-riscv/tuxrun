@@ -39,12 +39,12 @@ actions:
           lava: true
           overlay-00:
             url: "http://example.com/overlay1.tar.xz"
-            path: /
+            path: "/"
             format: tar
             compression: xz
           overlay-01:
             url: "http://example.com/overlay2.tar.xz"
-            path: /
+            path: "/"
             format: tar
             compression: xz
 - boot:
