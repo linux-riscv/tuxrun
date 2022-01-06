@@ -59,7 +59,7 @@ actions:
       rootfs:
         image_arg: "{{ rootfs_arg }}"
         url: "{{ rootfs }}"
-        compression: zstd
+        compression: {{ rootfs_compression }}
         format: ext4
 {% if overlays %}
         overlays:
