@@ -48,6 +48,7 @@ class QemuDevice(Device):
         kernel,
         modules,
         overlays,
+        parameters,
         partition,
         rootfs,
         tests,
@@ -72,7 +73,7 @@ class QemuDevice(Device):
             raise InvalidArgument("argument --modules should be a .tar.xz")
 
         for test in tests:
-            test.validate(device=self, **kwargs)
+            test.validate(device=self, parameters=parameters, **kwargs)
 
     def definition(self, **kwargs):
         kwargs = kwargs.copy()
@@ -119,6 +120,9 @@ class QemuDevice(Device):
             t.render(
                 arch=kwargs["arch"],
                 command=kwargs["command"],
+                device=kwargs["device"],
+                overlays=kwargs["overlays"],
+                parameters=kwargs["parameters"],
                 test_definitions=kwargs["test_definitions"],
             )
             for t in kwargs["tests"]
