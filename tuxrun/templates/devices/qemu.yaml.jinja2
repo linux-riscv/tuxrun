@@ -190,6 +190,11 @@ actions:
           - -cpu {{ cpu|default('max') }}
 {% endif %}
           - -machine {{ machine|default('s390-ccw-virtio') }}
+{% elif arch == 'sh4' %}
+{% if cpu %}
+          - -cpu {{ cpu|default('max') }}
+{% endif %}
+          - -machine {{ machine|default('r2d') }}
 {% elif arch == 'sparc' %}
 {% if cpu %}
           - -cpu {{ cpu }}

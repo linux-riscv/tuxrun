@@ -30,6 +30,7 @@ KERNELS = {
     "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/vmlinux",
     "qemu-riscv64": "https://storage.tuxboot.com/riscv64/Image",
     "qemu-s390": "https://storage.tuxboot.com/s390/bzImage",
+    "qemu-sh4": "https://storage.tuxboot.com/sh4/zImage",
     "qemu-sparc64": "https://storage.tuxboot.com/sparc64/vmlinux",
     "qemu-x86_64": "https://storage.tuxboot.com/x86_64/bzImage",
 }
@@ -49,6 +50,7 @@ ROOTFS = {
     "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/rootfs.ext4.zst",
     "qemu-riscv64": "https://storage.tuxboot.com/riscv64/rootfs.ext4.zst",
     "qemu-s390": "https://storage.tuxboot.com/s390/rootfs.ext4.zst",
+    "qemu-sh4": "https://storage.tuxboot.com/sh4/rootfs.ext4.zst",
     "qemu-sparc64": "https://storage.tuxboot.com/sparc64/rootfs.ext4.zst",
     "qemu-x86_64": "https://storage.tuxboot.com/x86_64/rootfs.ext4.zst",
 }
