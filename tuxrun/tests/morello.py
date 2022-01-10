@@ -26,9 +26,6 @@ class MorelloTest(Test):
         missing = set(self.parameters) - set(parameters.keys())
         if missing:
             raise InvalidArgument(f"Missing --parameters {', '.join(sorted(missing))}")
-        invalid = set(parameters.keys()) - set(self.parameters)
-        if invalid:
-            raise InvalidArgument(f"Invalid --parameters {', '.join(sorted(invalid))}")
 
     def render(self, **kwargs):
         kwargs["name"] = self.name
