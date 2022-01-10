@@ -103,6 +103,29 @@ def artefacts(tmp_path):
                 "--device",
                 "qemu-armv7",
                 "--tests",
+                "kselftest-ipc",
+                "--parameters",
+                "KSELFTEST=https://example.com/kselftest.tar.xz",
+            ],
+            "qemu-armv7-kselftest-ipc.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-armv7",
+                "--tests",
+                "kselftest-ipc",
+                "--parameters",
+                "CPUPOWER=https://example.com/cpupower.tar.xz",
+                "KSELFTEST=https://example.com/kselftest.tar.xz",
+            ],
+            "qemu-armv7-kselftest-ipc.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-armv7",
+                "--tests",
                 "ltp-fs_perms_simple",
                 "ltp-fsx",
                 "ltp-nptl",
@@ -144,6 +167,18 @@ def artefacts(tmp_path):
         (
             ["--device", "qemu-i386", "--boot-args", "bla blo"],
             "qemu-i386-boot-args.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-i386",
+                "--tests",
+                "kselftest-ipc",
+                "--parameters",
+                "CPUPOWER=https://example.com/cpupower.tar.xz",
+                "KSELFTEST=https://example.com/kselftest.tar.xz",
+            ],
+            "qemu-i386-kselftest-ipc.yaml",
         ),
         (
             ["--device", "qemu-mips32"],

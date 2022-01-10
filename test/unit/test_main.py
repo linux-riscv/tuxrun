@@ -217,6 +217,20 @@ FVP_MORELLO_ARGS = [
             "--parameters",
             "PDF_URL=http://example.com/pdfium-testfiles.tar.xz",
         ],
+        [
+            "--device",
+            "fvp-morello-android",
+            *FVP_MORELLO_ARGS,
+            "--tests",
+            "ltp-smoke",
+        ],
+        [
+            "--device",
+            "fvp-morello-android",
+            *FVP_MORELLO_ARGS,
+            "--tests",
+            "kselftest",
+        ],
     ],
 )
 def test_command_line_errors(argv, capsys, monkeypatch, mocker, artefacts):

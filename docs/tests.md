@@ -40,16 +40,29 @@ fvp-morello-oe      | fwts         |                                  |
 
 ## QEMU devices
 
-Device  | Tests               |
---------|---------------------|
-qemu-\* | command             |
-qemu-\* | kunit\*             |
-qemu-\* | ltp-fcntl-locktests |
-qemu-\* | ltp-fs_bind         |
-qemu-\* | ltp-fs_perms_simple |
-qemu-\* | ltp-fsx             |
-qemu-\* | ltp-nptl            |
-qemu-\* | ltp-smoke           |
+Device  | Tests               | Parameters           |
+--------|---------------------|----------------------|
+qemu-\* | command             |                      |
+qemu-\* | kselftest-gpio      | CPUPOWER\* KSELFTEST |
+qemu-\* | kselftest-ipc       | CPUPOWER\* KSELFTEST |
+qemu-\* | kselftest-ir        | CPUPOWER\* KSELFTEST |
+qemu-\* | kselftest-kcmp      | CPUPOWER\* KSELFTEST |
+qemu-\* | kselftest-kexec     | CPUPOWER\* KSELFTEST |
+qemu-\* | kselftest-rseq      | CPUPOWER\* KSELFTEST |
+qemu-\* | kselftest-rtc       | CPUPOWER\* KSELFTEST |
+qemu-\* | kunit\*             |                      |
+qemu-\* | ltp-fcntl-locktests |                      |
+qemu-\* | ltp-fs_bind         |                      |
+qemu-\* | ltp-fs_perms_simple |                      |
+qemu-\* | ltp-fsx             |                      |
+qemu-\* | ltp-nptl            |                      |
+qemu-\* | ltp-smoke           |                      |
+
+!!! tip "Passing parameters"
+    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftes.tar.xz`
+
+!!! warning "CPUPOWER"
+    Parameter CPUPOWER is only used by *qemu-i386* and *qemu-x86_64*.
 
 !!! warning "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
