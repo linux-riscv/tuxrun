@@ -26,6 +26,7 @@ class QemuDevice(Device):
     memory: str = ""
 
     extra_options: List[str] = []
+    extra_boot_args: str = ""
 
     console: str = ""
     rootfs_dev: str = ""
@@ -35,6 +36,8 @@ class QemuDevice(Device):
     bios: str = ""
     kernel: str = ""
     rootfs: str = ""
+
+    test_character_delay: int = 0
 
     def validate(
         self,
@@ -90,6 +93,12 @@ class QemuDevice(Device):
         kwargs["dtb"] = notnone(kwargs.get("dtb"), self.dtb)
         kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
         kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
+        if self.extra_boot_args:
+            if kwargs["tux_boot_args"]:
+                kwargs["tux_boot_args"] = kwargs.get("tux_boot_args") + " "
+            else:
+                kwargs["tux_boot_args"] = ""
+            kwargs["tux_boot_args"] += self.extra_boot_args
 
         # Computed values
         kernel = kwargs.get("kernel")
@@ -121,6 +130,8 @@ class QemuDevice(Device):
         )
 
     def device_dict(self, context):
+        if self.test_character_delay:
+            context["test_character_delay"] = self.test_character_delay
         return templates.devices().get_template("qemu.yaml.jinja2").render(**context)
 
 
@@ -350,6 +361,26 @@ class QemuS390(QemuDevice):
 
     kernel = "https://storage.tuxboot.com/s390/bzImage"
     rootfs = "https://storage.tuxboot.com/s390/rootfs.ext4.zst"
+
+
+class QemuSh4(QemuDevice):
+    name = "qemu-sh4"
+
+    arch = "sh4"
+    lava_arch = "sh4"
+    machine = "r2d"
+    cpu = "sh7785"
+
+    extra_boot_args = "noiotrap"
+
+    console = "ttySC1"
+    rootfs_dev = "/dev/sda"
+    rootfs_arg = "-drive file={rootfs},if=ide,format=raw -serial null -serial stdio"
+
+    kernel = "https://storage.tuxboot.com/sh4/zImage"
+    rootfs = "https://storage.tuxboot.com/sh4/rootfs.ext4.zst"
+
+    test_character_delay = 5
 
 
 class QemuSPARC64(QemuDevice):
