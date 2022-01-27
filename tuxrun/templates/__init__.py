@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-from functools import cache
+from functools import lru_cache
 from pathlib import Path
 
 import jinja2
@@ -14,7 +14,7 @@ import jinja2
 BASE = (Path(__file__) / "..").resolve()
 
 
-@cache
+@lru_cache(maxsize=None)
 def jobs():
     return jinja2.Environment(
         autoescape=False,
@@ -24,7 +24,7 @@ def jobs():
     )
 
 
-@cache
+@lru_cache(maxsize=None)
 def devices():
     return jinja2.Environment(
         autoescape=False,
@@ -33,7 +33,7 @@ def devices():
     )
 
 
-@cache
+@lru_cache(maxsize=None)
 def dispatchers():
     return jinja2.Environment(
         autoescape=False,
@@ -42,7 +42,7 @@ def dispatchers():
     )
 
 
-@cache
+@lru_cache(maxsize=None)
 def tests():
     return jinja2.Environment(
         autoescape=False,
@@ -51,7 +51,7 @@ def tests():
     )
 
 
-@cache
+@lru_cache(maxsize=None)
 def wrappers():
     return jinja2.Environment(
         autoescape=False,
