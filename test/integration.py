@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import argparse
+import fnmatch
 from pathlib import Path
 import shutil
 import subprocess
@@ -253,7 +254,7 @@ def run(device, test, runtime, debug):
 ##############
 def main():
     parser = argparse.ArgumentParser(description="Integration tests")
-    parser.add_argument("--devices", nargs="+", choices=Device.list(), help="device")
+    parser.add_argument("--devices", nargs="+", required=True, help="device")
     parser.add_argument(
         "--tests",
         default=["boot"],
@@ -268,6 +269,10 @@ def main():
         help="Runtime",
     )
     options = parser.parse_args()
+
+    if len(options.devices) == 1 and "*" in options.devices[0]:
+        pat = options.devices[0]
+        options.devices = [d for d in Device.list() if fnmatch.fnmatch(d, pat)]
 
     for device in options.devices:
         tests = options.tests.copy()

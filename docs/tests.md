@@ -20,8 +20,8 @@ fvp-morello-android | compartment  | USERDATA                         |
 fvp-morello-android | device-tree  |                                  |
 fvp-morello-android | dvfs         |                                  |
 fvp-morello-android | libjpeg-turbo| LIBJPEG_TURBO_URL, SYSTEM_URL    |
-fvp-morello-android | libpng       | PNG_URL, SYSTEM_URL              |
 fvp-morello-android | libpdfium    | PDFIUM_URL, SYSTEM_URL           |
+fvp-morello-android | libpng       | PNG_URL, SYSTEM_URL              |
 fvp-morello-android | lldb         | LLDB_URL, TC_URL                 |
 fvp-morello-android | logd         | USERDATA                         |
 fvp-morello-android | multicore    |                                  |
