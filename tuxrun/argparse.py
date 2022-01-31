@@ -16,7 +16,7 @@ from tuxrun.assets import get_rootfs, get_test_definitions, ROOTFS
 from tuxrun.devices import Device
 from tuxrun.tests import Test
 from tuxrun.tuxmake import TuxBuildBuild, TuxMakeBuild
-from tuxrun.utils import TTYProgressIndicator
+from tuxrun.utils import ProgressIndicator
 
 
 ###########
@@ -137,11 +137,11 @@ class UpdateCacheAction(argparse.Action):
         for device in [d for d in Device.list() if d in ROOTFS]:
             print(f"  * {device}")
             get_rootfs(
-                device, progress=TTYProgressIndicator("Downloading root filesystem")
+                device, progress=ProgressIndicator.get("Downloading root filesystem")
             )
         print("* Test definitions")
         get_test_definitions(
-            progress=TTYProgressIndicator("Downloading test definitions")
+            progress=ProgressIndicator.get("Downloading test definitions")
         )
         parser.exit()
 

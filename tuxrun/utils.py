@@ -22,6 +22,13 @@ class ProgressIndicator(ABC):
         This method should display to the user that the process has finished
         """
 
+    @classmethod
+    def get(cls, name: str) -> "ProgressIndicator":
+        if sys.stderr.isatty():
+            return TTYProgressIndicator(name)
+        else:
+            return NoProgressIndicator()
+
 
 class NoProgressIndicator(ProgressIndicator):
     def progress(self, percent):

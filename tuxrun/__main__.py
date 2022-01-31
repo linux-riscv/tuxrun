@@ -26,7 +26,7 @@ from tuxrun.requests import requests_get
 from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
 from tuxrun.tests import Test
-from tuxrun.utils import TTYProgressIndicator
+from tuxrun.utils import ProgressIndicator
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
 
@@ -68,7 +68,7 @@ def run(options, tmpdir: Path) -> int:
         test_definitions = None
         if any(t.need_test_definition for t in options.tests):
             test_definitions = "file://" + get_test_definitions(
-                TTYProgressIndicator("Downloading test definitions")
+                ProgressIndicator.get("Downloading test definitions")
             )
             extra_assets.append(test_definitions)
 
@@ -256,7 +256,7 @@ def main() -> int:
                     get_rootfs(
                         options.device.name,
                         options.rootfs,
-                        TTYProgressIndicator("Downloading root filesystem"),
+                        ProgressIndicator.get("Downloading root filesystem"),
                     )
                 )
 
