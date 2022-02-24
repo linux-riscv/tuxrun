@@ -177,8 +177,8 @@ class QemuArmv5(QemuDevice):
     memory = "256M"
 
     console = "ttyAMA0"
-    rootfs_dev = "/dev/sda"
-    rootfs_arg = "-drive file={rootfs},if=scsi,format=raw"
+    rootfs_dev = "/dev/vda"
+    rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-pci,drive=hd0"
 
     dtb = "https://storage.tuxboot.com/armv5/versatile-pb.dtb"
     kernel = "https://storage.tuxboot.com/armv5/zImage"
