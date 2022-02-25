@@ -157,6 +157,24 @@ class QemuArm64(QemuDevice):
     rootfs = "https://storage.tuxboot.com/arm64/rootfs.ext4.zst"
 
 
+class QemuArm64be(QemuDevice):
+    name = "qemu-arm64be"
+
+    arch = "arm64be"
+    lava_arch = "arm64"
+    machine = "virt,gic-version=3"
+    cpu = "cortex-a57"
+
+    extra_options = ["-smp 2"]
+
+    console = "ttyAMA0"
+    rootfs_dev = "/dev/vda"
+    rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
+
+    kernel = "https://storage.tuxboot.com/arm64be/Image"
+    rootfs = "https://storage.tuxboot.com/arm64be/rootfs.ext4.zst"
+
+
 class QemuArmv5(QemuDevice):
     name = "qemu-armv5"
 
