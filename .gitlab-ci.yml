@@ -61,6 +61,7 @@ integration:
     matrix:
     - DEVICE:
       - qemu-arm64
+      - qemu-arm64be
       - qemu-mips64
       - qemu-mips64el
       - qemu-ppc32
@@ -77,6 +78,7 @@ integration:
     - DEVICE:
       - qemu-armv5
       - qemu-armv7
+      - qemu-armv7be
       - qemu-i386
       - qemu-mips32
       - qemu-mips32el
