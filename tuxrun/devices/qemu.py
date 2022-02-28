@@ -145,7 +145,7 @@ class QemuArm64(QemuDevice):
     arch = "arm64"
     lava_arch = "arm64"
     machine = "virt,gic-version=3"
-    cpu = "cortex-a57"
+    cpu = "max,pauth-impdef=on"
 
     extra_options = ["-smp 2"]
 
