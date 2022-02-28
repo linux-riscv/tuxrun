@@ -22,6 +22,7 @@ fvp-morello-ubuntu  | Morello 0.11.27 | Ubuntu  |
 Device        | Description         | Machine     | CPU              | Kernel
 --------------|---------------------|-------------|------------------|--------
 qemu-arm64    | 64-bit ARMv8        | virt        | Cortex-A57       | Image
+qemu-arm64be  | 64-bit ARMv8 (BE)   | virt        | Cortex-A57       | Image
 qemu-armv5    | 32-bit ARM          | versatilepb | arm926           | zImage
 qemu-armv7    | 32-bit ARM          | virt        | Cortex-A15       | zImage
 qemu-armv7be  | 32-bit ARM (BE)     | virt        | Cortex-A15       | zImage
