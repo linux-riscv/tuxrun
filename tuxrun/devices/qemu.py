@@ -194,6 +194,15 @@ class QemuArmv7(QemuDevice):
     rootfs = "https://storage.tuxboot.com/armv7/rootfs.ext4.zst"
 
 
+class QemuArmv7BE(QemuArmv7):
+    name = "qemu-armv7be"
+
+    arch = "armv7be"
+
+    kernel = "https://storage.tuxboot.com/armv7be/zImage"
+    rootfs = "https://storage.tuxboot.com/armv7be/rootfs.ext4.zst"
+
+
 class Qemui386(QemuDevice):
     name = "qemu-i386"
 

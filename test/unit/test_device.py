@@ -140,6 +140,10 @@ def artefacts(tmp_path):
             "qemu-armv7-kernel-xz.yaml",
         ),
         (
+            ["--device", "qemu-armv7be"],
+            "qemu-armv7be.yaml",
+        ),
+        (
             ["--device", "qemu-i386"],
             "qemu-i386.yaml",
         ),
