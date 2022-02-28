@@ -19,7 +19,9 @@ from tuxrun.xdg import get_cache_dir
 KERNELS = {
     "qemu-armv5": "https://storage.tuxboot.com/armv5/zImage",
     "qemu-armv7": "https://storage.tuxboot.com/armv7/zImage",
+    "qemu-armv7be": "https://storage.tuxboot.com/armv7be/zImage",
     "qemu-arm64": "https://storage.tuxboot.com/arm64/Image",
+    "qemu-arm64be": "https://storage.tuxboot.com/arm64be/Image",
     "qemu-i386": "https://storage.tuxboot.com/i386/bzImage",
     "qemu-mips32": "https://storage.tuxboot.com/mips32/vmlinux",
     "qemu-mips32el": "https://storage.tuxboot.com/mips32el/vmlinux",
@@ -39,7 +41,9 @@ KERNELS = {
 ROOTFS = {
     "qemu-armv5": "https://storage.tuxboot.com/armv5/rootfs.ext4.zst",
     "qemu-armv7": "https://storage.tuxboot.com/armv7/rootfs.ext4.zst",
+    "qemu-armv7be": "https://storage.tuxboot.com/armv7be/rootfs.ext4.zst",
     "qemu-arm64": "https://storage.tuxboot.com/arm64/rootfs.ext4.zst",
+    "qemu-arm64be": "https://storage.tuxboot.com/arm64be/rootfs.ext4.zst",
     "qemu-i386": "https://storage.tuxboot.com/i386/rootfs.ext4.zst",
     "qemu-mips32el": "https://storage.tuxboot.com/mips32el/rootfs.ext4.zst",
     "qemu-mips32": "https://storage.tuxboot.com/mips32/rootfs.ext4.zst",

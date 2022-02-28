@@ -145,7 +145,7 @@ class QemuArm64(QemuDevice):
     arch = "arm64"
     lava_arch = "arm64"
     machine = "virt,gic-version=3"
-    cpu = "cortex-a57"
+    cpu = "max,pauth-impdef=on"
 
     extra_options = ["-smp 2"]
 
@@ -155,6 +155,15 @@ class QemuArm64(QemuDevice):
 
     kernel = "https://storage.tuxboot.com/arm64/Image"
     rootfs = "https://storage.tuxboot.com/arm64/rootfs.ext4.zst"
+
+
+class QemuArm64BE(QemuArm64):
+    name = "qemu-arm64be"
+
+    arch = "arm64be"
+
+    kernel = "https://storage.tuxboot.com/arm64be/Image"
+    rootfs = "https://storage.tuxboot.com/arm64be/rootfs.ext4.zst"
 
 
 class QemuArmv5(QemuDevice):
@@ -192,6 +201,15 @@ class QemuArmv7(QemuDevice):
 
     kernel = "https://storage.tuxboot.com/armv7/zImage"
     rootfs = "https://storage.tuxboot.com/armv7/rootfs.ext4.zst"
+
+
+class QemuArmv7BE(QemuArmv7):
+    name = "qemu-armv7be"
+
+    arch = "armv7be"
+
+    kernel = "https://storage.tuxboot.com/armv7be/zImage"
+    rootfs = "https://storage.tuxboot.com/armv7be/rootfs.ext4.zst"
 
 
 class Qemui386(QemuDevice):

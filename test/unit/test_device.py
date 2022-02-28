@@ -87,6 +87,10 @@ def artefacts(tmp_path):
             "qemu-arm64-ltp-fcntl-locktests.yaml",
         ),
         (
+            ["--device", "qemu-arm64be"],
+            "qemu-arm64be.yaml",
+        ),
+        (
             ["--device", "qemu-armv5"],
             "qemu-armv5.yaml",
         ),
@@ -138,6 +142,10 @@ def artefacts(tmp_path):
         (
             ["--device", "qemu-armv7", "--kernel", "zImage.xz"],
             "qemu-armv7-kernel-xz.yaml",
+        ),
+        (
+            ["--device", "qemu-armv7be"],
+            "qemu-armv7be.yaml",
         ),
         (
             ["--device", "qemu-i386"],
