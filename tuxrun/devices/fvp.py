@@ -106,7 +106,7 @@ class FVPMorelloBusybox(FVPDevice):
     name = "fvp-morello-busybox"
 
     prompts = ["/ # "]
-    support_tests = False
+    support_tests = True
 
 
 class FVPMorelloOE(FVPDevice):
