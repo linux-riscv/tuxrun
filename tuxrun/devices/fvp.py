@@ -82,6 +82,7 @@ class FVPDevice(Device):
             t.render(
                 tmpdir=kwargs["tmpdir"],
                 parameters=kwargs["parameters"],
+                prompts=kwargs["prompts"],
             )
             for t in kwargs["tests"]
         ]
