@@ -82,6 +82,7 @@ class FVPDevice(Device):
             t.render(
                 tmpdir=kwargs["tmpdir"],
                 parameters=kwargs["parameters"],
+                prompts=kwargs["prompts"],
             )
             for t in kwargs["tests"]
         ]
@@ -106,7 +107,7 @@ class FVPMorelloBusybox(FVPDevice):
     name = "fvp-morello-busybox"
 
     prompts = ["/ # "]
-    support_tests = False
+    support_tests = True
 
 
 class FVPMorelloOE(FVPDevice):

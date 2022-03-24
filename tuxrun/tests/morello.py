@@ -51,6 +51,13 @@ class MorelloAndroidTest(MorelloTest):
     device = "fvp-morello-android"
 
 
+class MorelloBusyBoxPureCap(MorelloTest):
+    device = "fvp-morello-busybox"
+    template = "morello-busybox-purecap.yaml.jinja2"
+    name = "purecap"
+    timeout = 5
+
+
 class MorelloBinder(MorelloAndroidTest):
     name = "binder"
     timeout = 34
