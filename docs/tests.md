@@ -26,6 +26,7 @@ fvp-morello-android | lldb         | LLDB_URL, TC_URL                 |
 fvp-morello-android | logd         | USERDATA                         |
 fvp-morello-android | multicore    |                                  |
 fvp-morello-android | zlib         | SYSTEM_URL                       |
+fvp-morello-busybox | purecap      |                                  |
 fvp-morello-oe      | fwts         |                                  |
 
 !!! tip "Passing parameters"
