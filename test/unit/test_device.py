@@ -35,6 +35,7 @@ ARTEFACTS = [
     "scp_fw.bin",
     "scp_romfw.bin",
     "fip.bin",
+    "ubuntu.satadisk.xz",
 ]
 
 FVP_MORELLO_ANDROID = [
@@ -287,6 +288,19 @@ def artefacts(tmp_path):
                 "https://example.com/rootfs.ext4.gz",
             ],
             "qemu-x86_64-rootfs-gz.yaml",
+        ),
+        (
+            [
+                "--device",
+                "fvp-aemva",
+                "--bl1",
+                "tf-bl1.bin",
+                "--fip",
+                "fip.bin",
+                "--rootfs",
+                "https://example.com/rootfs.ext4.zst",
+            ],
+            "fvp-aemva.yaml",
         ),
         (
             ["--device", "fvp-morello-android", *FVP_MORELLO_ANDROID],

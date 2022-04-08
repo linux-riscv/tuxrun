@@ -76,6 +76,7 @@ def run(options, tmpdir: Path) -> int:
 
         definition = options.device.definition(
             bios=options.bios,
+            bl1=options.bl1,
             command=command,
             device=options.device,
             dtb=options.dtb,
@@ -134,16 +135,17 @@ def run(options, tmpdir: Path) -> int:
 
     runtime.bind(tmpdir)
     for path in [
+        options.ap_romfw,
         options.bios,
+        options.bl1,
         options.dtb,
+        options.fip,
         options.kernel,
         options.mcp_fw,
         options.mcp_romfw,
         options.rootfs,
         options.scp_fw,
         options.scp_romfw,
-        options.ap_romfw,
-        options.fip,
     ] + extra_assets:
         if not path:
             continue

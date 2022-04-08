@@ -181,6 +181,7 @@ def setup_parser() -> argparse.ArgumentParser:
         )
 
     artefact("bios")
+    artefact("bl1")
     artefact("dtb")
     artefact("kernel")
     artefact("mcp-fw")

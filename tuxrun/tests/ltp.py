@@ -9,7 +9,7 @@ from tuxrun.tests import Test
 
 
 class LTPTest(Test):
-    devices = ["qemu-*"]
+    devices = ["qemu-*", "fvp-aemva"]
     cmdfile: str = ""
     need_test_definition = True
 
