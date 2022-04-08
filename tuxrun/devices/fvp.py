@@ -13,6 +13,11 @@ from tuxrun.exceptions import InvalidArgument
 
 
 class FVPDevice(Device):
+    def device_dict(self, context):
+        return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
+
+
+class MorelloFVPDevice(FVPDevice):
     mandatory = [
         "ap_romfw",
         "mcp_fw",
@@ -87,37 +92,34 @@ class FVPDevice(Device):
             for t in kwargs["tests"]
         ]
         return (
-            templates.jobs().get_template("fvp.yaml.jinja2").render(**kwargs)
+            templates.jobs().get_template("fvp-morello.yaml.jinja2").render(**kwargs)
             + "\n"
             + "".join(tests)
         )
 
-    def device_dict(self, context):
-        return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
 
-
-class FVPMorelloAndroid(FVPDevice):
+class FVPMorelloAndroid(MorelloFVPDevice):
     name = "fvp-morello-android"
 
     prompts = ["console:/ "]
     support_tests = True
 
 
-class FVPMorelloBusybox(FVPDevice):
+class FVPMorelloBusybox(MorelloFVPDevice):
     name = "fvp-morello-busybox"
 
     prompts = ["/ # "]
     support_tests = True
 
 
-class FVPMorelloOE(FVPDevice):
+class FVPMorelloOE(MorelloFVPDevice):
     name = "fvp-morello-oe"
 
     prompts = ["root@morello-fvp:~# "]
     support_tests = True
 
 
-class FVPMorelloUbuntu(FVPDevice):
+class FVPMorelloUbuntu(MorelloFVPDevice):
     name = "fvp-morello-ubuntu"
 
     mandatory = ["ap_romfw", "mcp_fw", "mcp_romfw", "scp_fw", "scp_romfw", "fip"]
