@@ -37,7 +37,7 @@ actions:
 - boot:
     method: fvp
     docker:
-      name: "fvp:morello-0.11.27"
+      name: "fvp:morello-0.11.33"
       local: true
       container_name: "tuxrun-ci"
     image: "/opt/model/FVP_Morello/models/Linux64_GCC-6.4/FVP_Morello"
