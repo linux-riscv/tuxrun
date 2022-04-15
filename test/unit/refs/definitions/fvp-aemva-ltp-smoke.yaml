@@ -7,7 +7,7 @@ visibility: public
 
 timeouts:
   job:
-    minutes: 15
+    minutes: 17
   action:
     minutes: 10
   connection:
@@ -29,6 +29,8 @@ actions:
         url: "https://example.com/rootfs.ext4.zst"
         compression: zstd
         format: ext4
+        overlays:
+          lava: true
       fip:
         url: "/DATA/fip.bin"
 - boot:
@@ -89,3 +91,20 @@ actions:
       username: root
     prompts:
     - 'root@(.*):[/~]#'
+- test:
+    timeout:
+      minutes: 2
+    definitions:
+    - repository: file://testdef.tar.zst
+      from: url
+      compression: zstd
+      path: automated/linux/ltp/ltp.yaml
+      parameters:
+        SKIP_INSTALL: 'true'
+        TST_CMDFILES: 'smoketest'
+        SKIPFILE: '/tuxtest/skipfiles//ltp-smoke'
+        ENVIRONMENT: 'production'
+        TIMEOUT_MULTIPLIER: '3'
+        LTP_TMPDIR: '/scratch'
+        LTP_INSTALL_PATH: '/usr/lib/ltp-testsuite/'
+      name: ltp-smoke

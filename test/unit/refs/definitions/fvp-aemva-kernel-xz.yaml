@@ -24,7 +24,8 @@ actions:
       dtb:
         url: "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
       kernel:
-        url: "https://storage.tuxboot.com/fvp-aemva/Image"
+        url: "/DATA/zImage.xz"
+        compression: xz
       rootfs:
         url: "https://example.com/rootfs.ext4.zst"
         compression: zstd
