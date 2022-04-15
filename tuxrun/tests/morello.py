@@ -48,11 +48,11 @@ class MorelloTest(Test):
 
 
 class MorelloAndroidTest(MorelloTest):
-    device = "fvp-morello-android"
+    devices = ["fvp-morello-android"]
 
 
 class MorelloBusyBoxPureCap(MorelloTest):
-    device = "fvp-morello-busybox"
+    devices = ["fvp-morello-busybox"]
     template = "morello-busybox-purecap.yaml.jinja2"
     name = "purecap"
     timeout = 5
@@ -109,7 +109,7 @@ class MorelloDvfs(MorelloAndroidTest):
 class MorelloFWTS(MorelloTest):
     name = "fwts"
     timeout = 120
-    device = "fvp-morello-oe"
+    devices = ["fvp-morello-oe"]
     template = "fwts.yaml.jinja2"
     need_test_definition = True
 

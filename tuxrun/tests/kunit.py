@@ -9,7 +9,7 @@ from tuxrun.tests import Test
 
 
 class KUnit(Test):
-    device = "qemu-*"
+    devices = ["qemu-*"]
     name = "kunit"
     timeout = 20
     need_test_definition = True
