@@ -272,7 +272,7 @@ def main():
 
     if len(options.devices) == 1 and "*" in options.devices[0]:
         pat = options.devices[0]
-        options.devices = [d for d in Device.list() if fnmatch.fnmatch(d, pat)]
+        options.devices = [d.name for d in Device.list() if fnmatch.fnmatch(d, pat)]
 
     for device in options.devices:
         tests = options.tests.copy()

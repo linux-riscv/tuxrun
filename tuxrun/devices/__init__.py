@@ -15,7 +15,9 @@ def subclasses(cls):
 
 
 class Device:
-    name = ""
+    name: str = ""
+    flag_use_pre_run_cmd: bool = False
+    flag_cache_rootfs: bool = False
 
     @classmethod
     def select(cls, name):
@@ -24,12 +26,12 @@ class Device:
             if subclass.name == name:
                 return subclass
         raise InvalidArgument(
-            f"Unknown device {name}. Available: {', '.join(cls.list())}"
+            f"Unknown device {name}. Available: {', '.join([c.name for c in cls.list()])}"
         )
 
     @classmethod
     def list(cls):
-        return sorted([s.name for s in subclasses(cls) if s.name])
+        return sorted([s for s in subclasses(cls) if s.name], key=lambda d: d.name)
 
     def validate(self, **kwargs):
         raise NotImplementedError()  # pragma: no cover

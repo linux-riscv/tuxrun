@@ -164,7 +164,7 @@ def run(options, tmpdir: Path) -> int:
     signal.signal(signal.SIGUSR2, handler)
 
     # start the pre_run command
-    if options.device and options.device.name.startswith("fvp-"):
+    if options.device and options.device.flag_use_pre_run_cmd:
         LOG.debug("Pre run command")
         runtime.bind(tmpdir / "dispatcher" / "tmp", "/var/lib/lava/dispatcher/tmp")
         (tmpdir / "dispatcher" / "tmp").mkdir()
@@ -253,10 +253,10 @@ def main() -> int:
         try:
             options.device = Device.select(options.device)()
             # Download only after the device has been found
-            if options.device.name.startswith("qemu-"):
+            if options.device.flag_cache_rootfs:
                 options.rootfs = pathurlnone(
                     get_rootfs(
-                        options.device.name,
+                        options.device,
                         options.rootfs,
                         ProgressIndicator.get("Downloading root filesystem"),
                     )

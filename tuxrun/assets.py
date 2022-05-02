@@ -16,57 +16,13 @@ from tuxrun.utils import ProgressIndicator, NoProgressIndicator
 from tuxrun.xdg import get_cache_dir
 
 
-KERNELS = {
-    "qemu-armv5": "https://storage.tuxboot.com/armv5/zImage",
-    "qemu-armv7": "https://storage.tuxboot.com/armv7/zImage",
-    "qemu-armv7be": "https://storage.tuxboot.com/armv7be/zImage",
-    "qemu-arm64": "https://storage.tuxboot.com/arm64/Image",
-    "qemu-arm64be": "https://storage.tuxboot.com/arm64be/Image",
-    "qemu-i386": "https://storage.tuxboot.com/i386/bzImage",
-    "qemu-mips32": "https://storage.tuxboot.com/mips32/vmlinux",
-    "qemu-mips32el": "https://storage.tuxboot.com/mips32el/vmlinux",
-    "qemu-mips64": "https://storage.tuxboot.com/mips64/vmlinux",
-    "qemu-mips64el": "https://storage.tuxboot.com/mips64el/vmlinux",
-    "qemu-ppc32": "https://storage.tuxboot.com/ppc32/uImage",
-    "qemu-ppc64": "https://storage.tuxboot.com/ppc64/vmlinux",
-    "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/vmlinux",
-    "qemu-riscv64": "https://storage.tuxboot.com/riscv64/Image",
-    "qemu-s390": "https://storage.tuxboot.com/s390/bzImage",
-    "qemu-sh4": "https://storage.tuxboot.com/sh4/zImage",
-    "qemu-sparc64": "https://storage.tuxboot.com/sparc64/vmlinux",
-    "qemu-x86_64": "https://storage.tuxboot.com/x86_64/bzImage",
-}
-
-
-ROOTFS = {
-    "qemu-armv5": "https://storage.tuxboot.com/armv5/rootfs.ext4.zst",
-    "qemu-armv7": "https://storage.tuxboot.com/armv7/rootfs.ext4.zst",
-    "qemu-armv7be": "https://storage.tuxboot.com/armv7be/rootfs.ext4.zst",
-    "qemu-arm64": "https://storage.tuxboot.com/arm64/rootfs.ext4.zst",
-    "qemu-arm64be": "https://storage.tuxboot.com/arm64be/rootfs.ext4.zst",
-    "qemu-i386": "https://storage.tuxboot.com/i386/rootfs.ext4.zst",
-    "qemu-mips32el": "https://storage.tuxboot.com/mips32el/rootfs.ext4.zst",
-    "qemu-mips32": "https://storage.tuxboot.com/mips32/rootfs.ext4.zst",
-    "qemu-mips64el": "https://storage.tuxboot.com/mips64el/rootfs.ext4.zst",
-    "qemu-mips64": "https://storage.tuxboot.com/mips64/rootfs.ext4.zst",
-    "qemu-ppc32": "https://storage.tuxboot.com/ppc32/rootfs.ext4.zst",
-    "qemu-ppc64": "https://storage.tuxboot.com/ppc64/rootfs.ext4.zst",
-    "qemu-ppc64le": "https://storage.tuxboot.com/ppc64le/rootfs.ext4.zst",
-    "qemu-riscv64": "https://storage.tuxboot.com/riscv64/rootfs.ext4.zst",
-    "qemu-s390": "https://storage.tuxboot.com/s390/rootfs.ext4.zst",
-    "qemu-sh4": "https://storage.tuxboot.com/sh4/rootfs.ext4.zst",
-    "qemu-sparc64": "https://storage.tuxboot.com/sparc64/rootfs.ext4.zst",
-    "qemu-x86_64": "https://storage.tuxboot.com/x86_64/rootfs.ext4.zst",
-}
-
-
 TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2022.01.tar.zst"
 
 
 def get_rootfs(
     device, rootfs: str = None, progress: ProgressIndicator = NoProgressIndicator()
 ) -> str:
-    return __download_and_cache__(rootfs or ROOTFS[device], progress)
+    return __download_and_cache__(rootfs or device.rootfs, progress)
 
 
 def get_test_definitions(progress: ProgressIndicator = NoProgressIndicator()):

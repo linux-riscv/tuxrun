@@ -12,7 +12,7 @@ import sys
 from urllib.parse import urlparse
 
 from tuxrun import __version__
-from tuxrun.assets import get_rootfs, get_test_definitions, ROOTFS
+from tuxrun.assets import get_rootfs, get_test_definitions
 from tuxrun.devices import Device
 from tuxrun.tests import Test
 from tuxrun.tuxmake import TuxBuildBuild, TuxMakeBuild
@@ -88,7 +88,9 @@ class ListDevicesAction(argparse.Action):
         super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        parser._print_message("\n".join(Device.list()) + "\n", sys.stderr)
+        parser._print_message(
+            "\n".join([d.name for d in Device.list()]) + "\n", sys.stderr
+        )
         parser.exit()
 
 
@@ -134,8 +136,8 @@ class UpdateCacheAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         print("Updating local cache:")
         print("* Rootfs:")
-        for device in [d for d in Device.list() if d in ROOTFS]:
-            print(f"  * {device}")
+        for device in [d for d in Device.list() if d.flag_cache_rootfs]:
+            print(f"  * {device.name}")
             get_rootfs(
                 device, progress=ProgressIndicator.get("Downloading root filesystem")
             )
@@ -180,6 +182,7 @@ def setup_parser() -> argparse.ArgumentParser:
             help=f"{name} URL",
         )
 
+    artefact("ap-romfw")
     artefact("bios")
     artefact("bl1")
     artefact("dtb")
@@ -203,7 +206,6 @@ def setup_parser() -> argparse.ArgumentParser:
         type=int,
         help="rootfs partition number",
     )
-    artefact("ap-romfw")
     artefact("rootfs")
     artefact("scp-fw")
     artefact("scp-romfw")
@@ -253,7 +255,7 @@ def setup_parser() -> argparse.ArgumentParser:
         default=None,
         metavar="NAME",
         help="Device type",
-        choices=Device.list(),
+        choices=[d.name for d in Device.list()],
     )
     group.add_argument(
         "--boot-args", default=None, metavar="ARGS", help="extend boot arguments"

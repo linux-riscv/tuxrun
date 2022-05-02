@@ -470,6 +470,7 @@ def test_update_cache(mocker, monkeypatch, capsys):
         stdout
         == """Updating local cache:
 * Rootfs:
+  * fvp-aemva
   * qemu-arm64
   * qemu-arm64be
   * qemu-armv5

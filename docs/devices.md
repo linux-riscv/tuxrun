@@ -12,7 +12,7 @@ TuxRun supports many architectures for both FVP and QEMU.
 
 Device              | FVP version         |OS       |
 --------------------|---------------------|---------|
-fvp-aemva           | RevC AEMvA 11.17.21 | Ubuntu  |
+fvp-aemva           | RevC AEMvA 11.17.21 |         |
 fvp-morello-android | Morello 0.11.33     | Android |
 fvp-morello-busybox | Morello 0.11.33     | Busybox |
 fvp-morello-oe      | Morello 0.11.33     | OE      |
