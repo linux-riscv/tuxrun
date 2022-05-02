@@ -10,12 +10,7 @@ from typing import List
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-
-
-def notnone(value, fallback):
-    if value is None:
-        return fallback
-    return value
+from tuxrun.utils import notnone
 
 
 class QemuDevice(Device):

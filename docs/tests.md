@@ -8,7 +8,39 @@ TuxRun support some tests, each tests is supported on some but not all architect
     tuxrun --list-tests
     ```
 
-## FVP devices
+## FVP AEMvA device
+
+Device    | Tests               | Parameters |
+----------|---------------------|------------|
+fvp-aemva | command             |            |
+fvp-aemva | kselftest-gpio      |  KSELFTEST |
+fvp-aemva | kselftest-ipc       |  KSELFTEST |
+fvp-aemva | kselftest-ir        |  KSELFTEST |
+fvp-aemva | kselftest-kcmp      |  KSELFTEST |
+fvp-aemva | kselftest-kexec     |  KSELFTEST |
+fvp-aemva | kselftest-rseq      |  KSELFTEST |
+fvp-aemva | kselftest-rtc       |  KSELFTEST |
+fvp-aemva | kunit\*             |            |
+fvp-aemva | ltp-fcntl-locktests |            |
+fvp-aemva | ltp-fs_bind         |            |
+fvp-aemva | ltp-fs_perms_simple |            |
+fvp-aemva | ltp-fsx             |            |
+fvp-aemva | ltp-nptl            |            |
+fvp-aemva | ltp-smoke           |            |
+
+!!! tip "Passing parameters"
+    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftes.tar.xz`
+
+!!! warning "KUnit config"
+    In order to run KUnit tests, the kernel should be compiled with
+    ```
+    CONFIG_KUNIT=m
+    CONFIG_KUNIT_ALL_TESTS=m
+    ```
+    The **modules.tar.xz** should be given with `--modules https://.../modules.tar.xz`.
+
+
+## FVP Modello devices
 
 Device              | Tests        | Parameters                       |
 --------------------|--------------|----------------------------------|

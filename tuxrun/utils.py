@@ -47,3 +47,9 @@ class TTYProgressIndicator(ProgressIndicator):
 
     def finish(self) -> None:
         sys.stderr.write("\n")
+
+
+def notnone(value, fallback):
+    if value is None:
+        return fallback
+    return value

@@ -10,9 +10,91 @@ from typing import Dict, List, Optional
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
+from tuxrun.utils import notnone
 
 
 class FVPDevice(Device):
+    def device_dict(self, context):
+        return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
+
+
+class AEMvAFVPDevice(FVPDevice):
+    name = "fvp-aemva"
+
+    bl1 = "https://storage.tuxboot.com/fvp-aemva/tf-bl1.bin"
+    dtb = "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
+    fip = "https://storage.tuxboot.com/fvp-aemva/fip-uboot.bin"
+    kernel = "https://storage.tuxboot.com/fvp-aemva/Image"
+    rootfs = "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
+
+    def validate(
+        self,
+        bl1,
+        command,
+        dtb,
+        fip,
+        kernel,
+        rootfs,
+        parameters,
+        modules,
+        tests,
+        **kwargs,
+    ):
+        invalid_args = ["--" + k.replace("_", "-") for k in kwargs if kwargs[k]]
+        if len(invalid_args) > 0:
+            raise InvalidArgument(
+                f"Invalid option(s) for fvp devices: {', '.join(sorted(invalid_args))}"
+            )
+
+        if modules and not modules.endswith(".tar.xz"):
+            raise InvalidArgument("argument --modules should be a .tar.xz")
+
+        for test in tests:
+            test.validate(device=self, parameters=parameters, **kwargs)
+
+    def definition(self, **kwargs):
+        kwargs = kwargs.copy()
+
+        # Options that can be updated
+        kwargs["bl1"] = notnone(kwargs.get("bl1"), self.bl1)
+        kwargs["dtb"] = notnone(kwargs.get("dtb"), self.dtb)
+        kwargs["fip"] = notnone(kwargs.get("fip"), self.fip)
+        kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
+        kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
+
+        # Computed values
+        kernel = kwargs.get("kernel")
+        kernel_compression = ""
+        if kernel.endswith(".gz"):
+            kernel_compression = "gz"
+        if kernel.endswith(".xz"):
+            kernel_compression = "xz"
+        kwargs["kernel_compression"] = kernel_compression
+
+        rootfs_compression = "zstd"
+        if kwargs["rootfs"].endswith(".gz"):
+            rootfs_compression = "gz"
+        kwargs["rootfs_compression"] = rootfs_compression
+
+        # render the template
+        tests = [
+            t.render(
+                command=kwargs["command"],
+                tmpdir=kwargs["tmpdir"],
+                overlays=kwargs["overlays"],
+                parameters=kwargs["parameters"],
+                test_definitions=kwargs["test_definitions"],
+            )
+            for t in kwargs["tests"]
+        ]
+        return (
+            templates.jobs().get_template("fvp-aemva.yaml.jinja2").render(**kwargs)
+            + "\n"
+            + "".join(tests)
+        )
+
+
+class MorelloFVPDevice(FVPDevice):
     mandatory = [
         "ap_romfw",
         "mcp_fw",
@@ -45,7 +127,7 @@ class FVPDevice(Device):
         invalid_args = ["--" + k.replace("_", "-") for k in kwargs if kwargs[k]]
         if len(invalid_args) > 0:
             raise InvalidArgument(
-                f"Invalid option(s) for fvp devices: {', '.join(sorted(invalid_args))}"
+                f"Invalid option(s) for fvp-morello devices: {', '.join(sorted(invalid_args))}"
             )
 
         args = locals()
@@ -87,37 +169,34 @@ class FVPDevice(Device):
             for t in kwargs["tests"]
         ]
         return (
-            templates.jobs().get_template("fvp.yaml.jinja2").render(**kwargs)
+            templates.jobs().get_template("fvp-morello.yaml.jinja2").render(**kwargs)
             + "\n"
             + "".join(tests)
         )
 
-    def device_dict(self, context):
-        return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
 
-
-class FVPMorelloAndroid(FVPDevice):
+class FVPMorelloAndroid(MorelloFVPDevice):
     name = "fvp-morello-android"
 
     prompts = ["console:/ "]
     support_tests = True
 
 
-class FVPMorelloBusybox(FVPDevice):
+class FVPMorelloBusybox(MorelloFVPDevice):
     name = "fvp-morello-busybox"
 
     prompts = ["/ # "]
     support_tests = True
 
 
-class FVPMorelloOE(FVPDevice):
+class FVPMorelloOE(MorelloFVPDevice):
     name = "fvp-morello-oe"
 
     prompts = ["root@morello-fvp:~# "]
     support_tests = True
 
 
-class FVPMorelloUbuntu(FVPDevice):
+class FVPMorelloUbuntu(MorelloFVPDevice):
     name = "fvp-morello-ubuntu"
 
     mandatory = ["ap_romfw", "mcp_fw", "mcp_romfw", "scp_fw", "scp_romfw", "fip"]

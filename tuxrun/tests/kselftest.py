@@ -10,7 +10,7 @@ from tuxrun.tests import Test
 
 
 class KSelfTest(Test):
-    device = "qemu-*"
+    devices = ["qemu-*", "fvp-aemva"]
     cmdfile: str = ""
     need_test_definition = True
 

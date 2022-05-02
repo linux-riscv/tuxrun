@@ -24,6 +24,7 @@ def artefacts(tmp_path):
     touch(tmp_path, "morestuff.tar.gz")
     touch(tmp_path, "fvp.bin")
     touch(tmp_path, "foo.tar.xz")
+    touch(tmp_path, "modules.tar")
     return tmp_path
 
 
@@ -129,9 +130,12 @@ FVP_MORELLO_ARGS = [
         ["--device", "qemu-armv7", "--boot-args", 'bla"bl'],
         ["--device", "qemu-armv7", "--dtb", "arm.dtb"],
         ["--device", "qemu-arm64", "--bios", "bios.bin"],
+        ["--device", "qemu-arm64", "--modules", "modules.tar"],
         ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
         ["--device-dict", "device.yaml"],
         ["--definition", "definition.yaml"],
+        ["--device", "fvp-aemva", "--mcp-fw", "fvp.bin"],
+        ["--device", "fvp-aemva", "--modules", "modules.tar"],
         ["--device", "fvp-morello-android", "--mcp-fw", "fvp.bin"],
         ["--device", "fvp-morello-android", "--test", "multicore"],
         [
@@ -163,6 +167,24 @@ FVP_MORELLO_ARGS = [
             "https://storage.tuxboot.com/i386/bzImage",
         ],
         ["--device", "fvp-morello-ubuntu", *FVP_MORELLO_ARGS],
+        [
+            "--device",
+            "fvp-morello-ubuntu",
+            "--ap-romfw",
+            "fvp.bin",
+            "--mcp-fw",
+            "fvp.bin",
+            "--mcp-romfw",
+            "fvp.bin",
+            "--scp-fw",
+            "fvp.bin",
+            "--scp-romfw",
+            "fvp.bin",
+            "--fip",
+            "fvp.bin",
+            "--tests",
+            "lldb",
+        ],
         [
             "--device",
             "fvp-morello-android",

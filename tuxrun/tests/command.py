@@ -9,7 +9,7 @@ from tuxrun.tests import Test
 
 
 class Command(Test):
-    device = "qemu-*"
+    devices = ["qemu-*", "fvp-aemva"]
     name = "command"
     timeout = 2
 

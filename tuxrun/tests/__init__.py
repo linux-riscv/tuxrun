@@ -6,6 +6,7 @@
 # SPDX-License-Identifier: MIT
 
 import fnmatch
+from typing import List
 
 from tuxrun import templates
 from tuxrun.exceptions import InvalidArgument
@@ -18,7 +19,7 @@ def subclasses(cls):
 
 
 class Test:
-    device: str = ""
+    devices: List[str] = []
     name: str = ""
     timeout: int = 0
     need_test_definition: bool = False
@@ -40,13 +41,13 @@ class Test:
         if device is None:
             return sorted(s.name for s in subclasses(cls) if s.name)
         return sorted(
-            s.name
-            for s in subclasses(cls)
-            if s.name and fnmatch.fnmatch(device, s.device)
+            t.name
+            for t in subclasses(cls)
+            if t.name and any([fnmatch.fnmatch(device, pat) for pat in t.devices])
         )
 
-    def validate(self, device=device, **kwargs):
-        if not fnmatch.fnmatch(device.name, self.device):
+    def validate(self, device, **kwargs):
+        if not any([fnmatch.fnmatch(device.name, pat) for pat in self.devices]):
             raise InvalidArgument(
                 f"Test '{self.name}' not supported on device '{device.name}'"
             )
