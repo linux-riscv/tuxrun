@@ -253,10 +253,10 @@ def main() -> int:
         try:
             options.device = Device.select(options.device)()
             # Download only after the device has been found
-            if options.device.name.startswith("qemu-"):
+            if options.device.flag_cache_rootfs:
                 options.rootfs = pathurlnone(
                     get_rootfs(
-                        options.device.name,
+                        options.device,
                         options.rootfs,
                         ProgressIndicator.get("Downloading root filesystem"),
                     )

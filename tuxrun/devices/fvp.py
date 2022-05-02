@@ -23,6 +23,8 @@ class FVPDevice(Device):
 class AEMvAFVPDevice(FVPDevice):
     name = "fvp-aemva"
 
+    flag_cache_rootfs = True
+
     bl1 = "https://storage.tuxboot.com/fvp-aemva/tf-bl1.bin"
     dtb = "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
     fip = "https://storage.tuxboot.com/fvp-aemva/fip-uboot.bin"

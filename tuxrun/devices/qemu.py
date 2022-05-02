@@ -14,6 +14,8 @@ from tuxrun.utils import notnone
 
 
 class QemuDevice(Device):
+    flag_cache_rootfs = True
+
     arch: str = ""
     lava_arch: str = ""
     machine: str = ""
