@@ -15,7 +15,8 @@ def subclasses(cls):
 
 
 class Device:
-    name = ""
+    name: str = ""
+    flag_use_pre_run_cmd: bool = False
 
     @classmethod
     def select(cls, name):

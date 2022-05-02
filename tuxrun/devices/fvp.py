@@ -14,6 +14,8 @@ from tuxrun.utils import notnone
 
 
 class FVPDevice(Device):
+    flag_use_pre_run_cmd = True
+
     def device_dict(self, context):
         return templates.devices().get_template("fvp.yaml.jinja2").render(**context)
 
