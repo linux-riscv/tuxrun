@@ -276,6 +276,11 @@ def main() -> int:
         if not options.definition:
             parser.error("argument --definition is required")
 
+    if options.tests:
+        tests = [t.name for t in options.tests]
+        if sorted(list(set(tests))) != sorted(tests):
+            parser.error("each test should appears only once")
+
     # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
     LOG.debug(f"temporary directory: '{tmpdir}'")
