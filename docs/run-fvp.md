@@ -1,6 +1,6 @@
 # Running under FVP
 
-TuxRun allows to run linux kernel under FVP for Morello.
+TuxRun allows to run linux kernel under FVP for Morello and AEMvA.
 
 !!! note "Supported devices"
     See the [architecture matrix](devices.md#fvp-devices) for the supported devices.
