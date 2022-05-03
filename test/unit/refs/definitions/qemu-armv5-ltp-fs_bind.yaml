@@ -65,5 +65,5 @@ actions:
         ENVIRONMENT: 'production'
         TIMEOUT_MULTIPLIER: '3'
         LTP_TMPDIR: '/scratch'
-        LTP_INSTALL_PATH: '/usr/lib/ltp-testsuite/'
+        LTP_INSTALL_PATH: '/opt/ltp/'
       name: ltp-fs_bind
