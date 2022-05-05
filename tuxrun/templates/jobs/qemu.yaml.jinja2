@@ -43,8 +43,8 @@ actions:
       kernel:
         image_arg: '-kernel {kernel} -append "console={{ console }},115200 rootwait root={{ rootfs_dev }}{{ rootfs_partition|default("", true) }} debug verbose console_msg_format=syslog{% if tux_boot_args %} {{ tux_boot_args }}{% endif %}"'
         url: "{{ kernel }}"
-{% if kernel_compression %}
-        compression: {{ kernel_compression }}
+{% if compression(kernel)[1] %}
+        compression: {{ compression(kernel)[1] }}
 {% endif %}
 {% if bios %}
       bios:
@@ -59,7 +59,7 @@ actions:
       rootfs:
         image_arg: "{{ rootfs_arg }}"
         url: "{{ rootfs }}"
-        compression: {{ rootfs_compression }}
+        compression: {{ compression(rootfs)[1] }}
         format: ext4
 {% if overlays %}
         overlays:
@@ -71,7 +71,7 @@ actions:
             url: "{{ overlay }}"
             path: "{{ dst }}"
             format: tar
-            compression: xz
+            compression: {{ compression(overlay)[1] }}
 {% endfor %}
 {% elif tests %}
         overlays:
