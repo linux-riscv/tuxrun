@@ -100,6 +100,7 @@ class MorelloFVPDevice(FVPDevice):
     prompts: List[str] = []
     auto_login: Dict[str, str] = {}
     boot_timeout = 20
+    kernel_start_message: Optional[str] = None
     support_tests = False
     rootfs: Optional[str] = None
 
@@ -146,6 +147,7 @@ class MorelloFVPDevice(FVPDevice):
         # Options that can *not* be updated
         kwargs["prompts"] = self.prompts.copy()
         kwargs["auto_login"] = self.auto_login.copy()
+        kwargs["kernel_start_message"] = self.kernel_start_message
         kwargs["support_tests"] = self.support_tests
 
         kwargs["rootfs"] = self.rootfs if self.rootfs else kwargs.get("rootfs")
@@ -179,6 +181,14 @@ class FVPMorelloBusybox(MorelloFVPDevice):
 
     prompts = ["/ # "]
     support_tests = True
+
+
+class FVPMorelloBaremetal(MorelloFVPDevice):
+    name = "fvp-morello-baremetal"
+
+    mandatory = ["ap_romfw", "mcp_fw", "mcp_romfw", "scp_fw", "scp_romfw", "fip"]
+    prompts = ["hello"]
+    kernel_start_message = "Booting Trusted Firmware"
 
 
 class FVPMorelloOE(MorelloFVPDevice):
