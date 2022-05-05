@@ -207,6 +207,15 @@ def artefacts(tmp_path):
                 "--device",
                 "qemu-mips32",
                 "--modules",
+                "https://example.com/modules.tgz",
+            ],
+            "qemu-mips32-modules-tgz.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-mips32",
+                "--modules",
                 "https://example.com/modules.tar.xz",
                 "--overlay",
                 "http://example.com/overlay2.tar.xz",
@@ -331,6 +340,32 @@ def artefacts(tmp_path):
                 "https://example.com/rootfs.ext4.zst",
             ],
             "fvp-aemva.yaml",
+        ),
+        (
+            [
+                "--device",
+                "fvp-aemva",
+                "--bl1",
+                "tf-bl1.bin",
+                "--fip",
+                "fip.bin",
+                "--modules",
+                "https://example.com/modules.tar.xz",
+            ],
+            "fvp-aemva-modules.yaml",
+        ),
+        (
+            [
+                "--device",
+                "fvp-aemva",
+                "--bl1",
+                "tf-bl1.bin",
+                "--fip",
+                "fip.bin",
+                "--modules",
+                "https://example.com/modules.tar.gz",
+            ],
+            "fvp-aemva-modules-tar-gz.yaml",
         ),
         (
             ["--device", "fvp-morello-android", *FVP_MORELLO_ANDROID],

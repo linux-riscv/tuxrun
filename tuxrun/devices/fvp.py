@@ -10,7 +10,7 @@ from typing import Dict, List, Optional
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-from tuxrun.utils import notnone
+from tuxrun.utils import compression, notnone
 
 
 class FVPDevice(Device):
@@ -50,8 +50,10 @@ class AEMvAFVPDevice(FVPDevice):
                 f"Invalid option(s) for fvp devices: {', '.join(sorted(invalid_args))}"
             )
 
-        if modules and not modules.endswith(".tar.xz"):
-            raise InvalidArgument("argument --modules should be a .tar.xz")
+        if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
+            raise InvalidArgument(
+                "argument --modules should be a .tar.gz, tar.xz or .tgz"
+            )
 
         for test in tests:
             test.validate(device=self, parameters=parameters, **kwargs)
@@ -65,20 +67,6 @@ class AEMvAFVPDevice(FVPDevice):
         kwargs["fip"] = notnone(kwargs.get("fip"), self.fip)
         kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
         kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
-
-        # Computed values
-        kernel = kwargs.get("kernel")
-        kernel_compression = ""
-        if kernel.endswith(".gz"):
-            kernel_compression = "gz"
-        if kernel.endswith(".xz"):
-            kernel_compression = "xz"
-        kwargs["kernel_compression"] = kernel_compression
-
-        rootfs_compression = "zstd"
-        if kwargs["rootfs"].endswith(".gz"):
-            rootfs_compression = "gz"
-        kwargs["rootfs_compression"] = rootfs_compression
 
         # render the template
         tests = [

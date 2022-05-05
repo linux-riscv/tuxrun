@@ -49,6 +49,23 @@ class TTYProgressIndicator(ProgressIndicator):
         sys.stderr.write("\n")
 
 
+COMPRESSIONS = {
+    ".tar.xz": ("tar", "xz"),
+    ".tar.gz": ("tar", "gz"),
+    ".tgz": ("tar", "gz"),
+    ".gz": (None, "gz"),
+    ".xz": (None, "xz"),
+    ".zst": (None, "zstd"),
+}
+
+
+def compression(path):
+    for (ext, ret) in COMPRESSIONS.items():
+        if path.endswith(ext):
+            return ret
+    return (None, None)
+
+
 def notnone(value, fallback):
     if value is None:
         return fallback

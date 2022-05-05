@@ -10,7 +10,7 @@ from typing import List
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-from tuxrun.utils import notnone
+from tuxrun.utils import compression, notnone
 
 
 class QemuDevice(Device):
@@ -66,8 +66,10 @@ class QemuDevice(Device):
             raise InvalidArgument('argument --boot-args should not contains "')
         if dtb and self.name != "qemu-armv5":
             raise InvalidArgument("argument --dtb is only valid for qemu-armv5 device")
-        if modules and not modules.endswith(".tar.xz"):
-            raise InvalidArgument("argument --modules should be a .tar.xz")
+        if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
+            raise InvalidArgument(
+                "argument --modules should be a .tar.gz, tar.xz or .tgz"
+            )
 
         for test in tests:
             test.validate(device=self, parameters=parameters, **kwargs)
@@ -97,20 +99,6 @@ class QemuDevice(Device):
             else:
                 kwargs["tux_boot_args"] = ""
             kwargs["tux_boot_args"] += self.extra_boot_args
-
-        # Computed values
-        kernel = kwargs.get("kernel")
-        kernel_compression = ""
-        if kernel.endswith(".gz"):
-            kernel_compression = "gz"
-        if kernel.endswith(".xz"):
-            kernel_compression = "xz"
-        kwargs["kernel_compression"] = kernel_compression
-
-        rootfs_compression = "zstd"
-        if kwargs["rootfs"].endswith(".gz"):
-            rootfs_compression = "gz"
-        kwargs["rootfs_compression"] = rootfs_compression
 
         # render the template
         tests = [
