@@ -106,7 +106,7 @@ class TestTuxBuildBuild:
     def test_modules(self, tuxbuild_build):
         assert tuxbuild_build.modules == "https://example.com/modules.tar.xz"
 
-    def test_http_error(self, get, mocker):
+    def test_http_error(self, get, mocker, url):
         get.side_effect = [mocker.Mock(status_code=404)]
         with pytest.raises(InvalidTuxBuild):
             TuxBuildBuild(url)

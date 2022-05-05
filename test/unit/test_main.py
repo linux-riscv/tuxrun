@@ -1,3 +1,4 @@
+import json
 import pytest
 import os
 import yaml
@@ -336,6 +337,53 @@ def test_exit_status_matches_results(tuxrun_args, lava_run, mocker):
     assert main() == 1
 
 
+def test_tuxbuild(get, monkeypatch, mocker, run):
+    data = json.dumps(
+        {
+            "results": {
+                "artifacts": {"kernel": ["bzImage"], "modules": ["modules.tar.xz"]},
+            },
+            "build": {"target_arch": "x86_64"},
+        }
+    )
+    mocker.patch("tuxrun.__main__.get_rootfs", return_value="https://example.com")
+    get.side_effect = [mocker.Mock(status_code=200, text=data)]
+    monkeypatch.setattr("sys.argv", ["tuxrun", "--tuxbuild", "https://example.com"])
+
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.kernel == "https://example.com/bzImage"
+    assert options.modules == "https://example.com/modules.tar.xz"
+    assert options.device.name == "qemu-x86_64"
+    assert options.dtb is None
+
+
+def test_tuxbuild_armv5(get, monkeypatch, mocker, run):
+    data = json.dumps(
+        {
+            "results": {
+                "artifacts": {"kernel": ["bzImage"], "modules": ["modules.tar.xz"]},
+            },
+            "build": {"target_arch": "arm"},
+        }
+    )
+    mocker.patch("tuxrun.__main__.get_rootfs", return_value="https://example.com")
+    get.side_effect = [mocker.Mock(status_code=200, text=data)]
+    monkeypatch.setattr(
+        "sys.argv",
+        ["tuxrun", "--tuxbuild", "https://example.com", "--device", "qemu-armv5"],
+    )
+
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.kernel == "https://example.com/bzImage"
+    assert options.modules == "https://example.com/modules.tar.xz"
+    assert options.device.name == "qemu-armv5"
+    assert options.dtb == "https://example.com/dtbs/versatile-pb.dtb"
+
+
 def test_tuxmake_directory(monkeypatch, tmp_path, run):
     tuxmake_build = tmp_path / "build"
     tuxmake_build.mkdir()
@@ -355,7 +403,46 @@ def test_tuxmake_directory(monkeypatch, tmp_path, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/bzImage"
+    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
     assert options.device.name == "qemu-x86_64"
+    assert options.dtb is None
+
+
+def test_tuxmake_directory_armv5(monkeypatch, tmp_path, run):
+    tuxmake_build = tmp_path / "build"
+    tuxmake_build.mkdir()
+    (tuxmake_build / "metadata.json").write_text(
+        """
+        {
+            "results": {
+                "artifacts": {"kernel": ["zImage"], "modules": ["modules.tar.xz"]}
+            },
+            "build": {"target_arch": "arm"}
+        }
+        """
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        ["tuxrun", "--tuxmake", str(tuxmake_build), "--device", "qemu-armv5"],
+    )
+
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.kernel == f"file://{tuxmake_build}/zImage"
+    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.device.name == "qemu-armv5"
+    assert options.dtb is None
+
+    (tuxmake_build / "dtbs").mkdir()
+    (tuxmake_build / "dtbs" / "versatile-pb.dtb").write_text("")
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.kernel == f"file://{tuxmake_build}/zImage"
+    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.device.name == "qemu-armv5"
+    assert options.dtb == f"file://{tuxmake_build}/dtbs/versatile-pb.dtb"
 
 
 def test_no_modules(monkeypatch, tmp_path, run):
