@@ -42,6 +42,7 @@ class TuxBuild:
 
 class TuxBuildBuild(TuxBuild):
     def __init__(self, url):
+        self.url = url
         ret = requests_get(f"{url}/metadata.json")
         if ret.status_code != 200:
             raise self.Invalid(f"{url}/metadata.json is missing")
@@ -52,6 +53,7 @@ class TuxBuildBuild(TuxBuild):
 class TuxMakeBuild(TuxBuild):
     def __init__(self, directory):
         self.location = Path(directory).resolve()
+        self.url = f"file://{self.location}"
         metadata_file = self.location / "metadata.json"
         if not self.location.is_dir():
             raise self.Invalid(f"{directory} is not a directory")

@@ -243,6 +243,12 @@ def main() -> int:
                 options.modules = tux.modules
             if not options.device:
                 options.device = f"qemu-{tux.target_arch}"
+            elif options.device == "qemu-armv5":
+                if options.tuxbuild:
+                    options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
+                elif options.tuxmake:
+                    if (tux.location / "dtbs" / "versatile-pb.dtb").exists():
+                        options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
 
         if not options.device:
             parser.error("argument --device is required")
