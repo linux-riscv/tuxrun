@@ -23,13 +23,43 @@ class LTPTest(Test):
         return self._render("ltp.yaml.jinja2", **kwargs)
 
 
+class LTPCapBounds(LTPTest):
+    name = "ltp-cap_bounds"
+    timeout = 2
+
+
+class LTPCommands(LTPTest):
+    name = "ltp-commands"
+    timeout = 10
+
+
+class LTPContainers(LTPTest):
+    name = "ltp-containers"
+    timeout = 2
+
+
 class LTPController(LTPTest):
     name = "ltp-controllers"
     timeout = 90
 
 
+class LTPCrypto(LTPTest):
+    name = "ltp-crypto"
+    timeout = 10
+
+
+class LTPCVE(LTPTest):
+    name = "ltp-cve"
+    timeout = 60
+
+
 class LTPFcntlLockTests(LTPTest):
     name = "ltp-fcntl-locktests"
+    timeout = 2
+
+
+class LTPFileCaps(LTPTest):
+    name = "ltp-filecaps"
     timeout = 2
 
 
@@ -48,12 +78,67 @@ class LTPFSX(LTPTest):
     timeout = 1
 
 
+class LTPFS(LTPTest):
+    name = "ltp-fs"
+    timeout = 45
+
+
+class LTPHugetlb(LTPTest):
+    name = "ltp-hugetlb"
+    timeout = 2
+
+
+class LTPIO(LTPTest):
+    name = "ltp-io"
+    timeout = 2
+
+
+class LTPIPC(LTPTest):
+    name = "ltp-ipc"
+    timeout = 2
+
+
+class LTPMath(LTPTest):
+    name = "ltp-math"
+    timeout = 2
+
+
+class LTPMM(LTPTest):
+    name = "ltp-mm"
+    timeout = 20
+
+
 class LTPNPTL(LTPTest):
     name = "ltp-nptl"
     timeout = 15
 
 
+class LTPPTY(LTPTest):
+    name = "ltp-pty"
+    timeout = 2
+
+
+class LTPSched(LTPTest):
+    name = "ltp-sched"
+    timeout = 10
+
+
+class LTPSecurebits(LTPTest):
+    name = "ltp-securebits"
+    timeout = 2
+
+
 class LTPSmoke(LTPTest):
     name = "ltp-smoke"
     cmdfile = "smoketest"
+    timeout = 2
+
+
+class LTPSyscalls(LTPTest):
+    name = "ltp-syscalls"
+    timeout = 60
+
+
+class LTPTracing(LTPTest):
+    name = "ltp-tracing"
     timeout = 2
