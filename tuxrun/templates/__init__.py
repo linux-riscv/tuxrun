@@ -52,6 +52,7 @@ def tests():
         autoescape=False,
         trim_blocks=True,
         loader=jinja2.FileSystemLoader(str(BASE / "tests")),
+        undefined=jinja2.StrictUndefined,
     )
 
 
