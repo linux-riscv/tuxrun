@@ -29,6 +29,7 @@ fvp-aemva | ltp-fs_perms_simple |            |
 fvp-aemva | ltp-fsx             |            |
 fvp-aemva | ltp-nptl            |            |
 fvp-aemva | ltp-smoke           |            |
+fvp-aemva | perf                |            |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -117,6 +118,7 @@ qemu-\* | ltp-fs_perms_simple |                      |
 qemu-\* | ltp-fsx             |                      |
 qemu-\* | ltp-nptl            |                      |
 qemu-\* | ltp-smoke           |                      |
+qemu-\* | perf                |                      |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
