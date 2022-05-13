@@ -10,6 +10,8 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 ## FVP AEMvA device
 
+The following tests are supported by the default root filesystem.
+
 Device    | Tests               | Parameters |
 ----------|---------------------|------------|
 fvp-aemva | command             |            |
@@ -27,6 +29,29 @@ fvp-aemva | ltp-fs_perms_simple |            |
 fvp-aemva | ltp-fsx             |            |
 fvp-aemva | ltp-nptl            |            |
 fvp-aemva | ltp-smoke           |            |
+
+The following tests are not supported by the default root filesystem. You should
+provide a custom root filesystem.
+
+Device    | Tests               |
+----------|---------------------|
+fvp-aemva | ltp-cap_bounds      |
+fvp-aemva | ltp-commands        |
+fvp-aemva | ltp-containers      |
+fvp-aemva | ltp-crypto          |
+fvp-aemva | ltp-cve             |
+fvp-aemva | ltp-filecaps        |
+fvp-aemva | ltp-fs              |
+fvp-aemva | ltp-hugetlb         |
+fvp-aemva | ltp-io              |
+fvp-aemva | ltp-ipc             |
+fvp-aemva | ltp-math            |
+fvp-aemva | ltp-mm              |
+fvp-aemva | ltp-pty             |
+fvp-aemva | ltp-sched           |
+fvp-aemva | ltp-securebits      |
+fvp-aemva | ltp-syscalls        |
+fvp-aemva | ltp-tracing         |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftes.tar.xz`
@@ -73,6 +98,8 @@ fvp-morello-oe      | fwts         |                                  |
 
 ## QEMU devices
 
+The following tests are supported by the default root filesystem.
+
 Device  | Tests               | Parameters           |
 --------|---------------------|----------------------|
 qemu-\* | command             |                      |
@@ -90,6 +117,29 @@ qemu-\* | ltp-fs_perms_simple |                      |
 qemu-\* | ltp-fsx             |                      |
 qemu-\* | ltp-nptl            |                      |
 qemu-\* | ltp-smoke           |                      |
+
+The following tests are not supported by the default root filesystem. You should
+provide a custom root filesystem.
+
+Device  | Tests               |
+--------|---------------------|
+qemu-\* | ltp-cap_bounds      |
+qemu-\* | ltp-commands        |
+qemu-\* | ltp-containers      |
+qemu-\* | ltp-crypto          |
+qemu-\* | ltp-cve             |
+qemu-\* | ltp-filecaps        |
+qemu-\* | ltp-fs              |
+qemu-\* | ltp-hugetlb         |
+qemu-\* | ltp-io              |
+qemu-\* | ltp-ipc             |
+qemu-\* | ltp-math            |
+qemu-\* | ltp-mm              |
+qemu-\* | ltp-pty             |
+qemu-\* | ltp-sched           |
+qemu-\* | ltp-securebits      |
+qemu-\* | ltp-syscalls        |
+qemu-\* | ltp-tracing         |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftes.tar.xz`
