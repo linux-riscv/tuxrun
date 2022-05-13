@@ -157,6 +157,10 @@ def artefacts(tmp_path):
             "qemu-i386-kunit.yaml",
         ),
         (
+            ["--device", "qemu-i386", "--tests", "perf"],
+            "qemu-i386-perf.yaml",
+        ),
+        (
             [
                 "--device",
                 "qemu-i386",
