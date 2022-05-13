@@ -102,7 +102,7 @@ actions:
       parameters:
         SKIP_INSTALL: 'true'
         TST_CMDFILES: 'smoketest'
-        SKIPFILE: '/tuxtest/skipfiles//ltp-smoke'
+        SKIPFILE: '/tuxtest/skipfiles/arm64/ltp-smoke'
         ENVIRONMENT: 'production'
         TIMEOUT_MULTIPLIER: '3'
         LTP_TMPDIR: '/scratch'

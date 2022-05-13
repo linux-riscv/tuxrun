@@ -71,6 +71,7 @@ class AEMvAFVPDevice(FVPDevice):
         # render the template
         tests = [
             t.render(
+                arch="arm64",
                 command=kwargs["command"],
                 tmpdir=kwargs["tmpdir"],
                 overlays=kwargs["overlays"],
