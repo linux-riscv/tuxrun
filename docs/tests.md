@@ -30,6 +30,7 @@ fvp-aemva | ltp-fsx             |            |
 fvp-aemva | ltp-nptl            |            |
 fvp-aemva | ltp-smoke           |            |
 fvp-aemva | perf                |            |
+fvp-aemva | rcutorture          |            |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -119,6 +120,7 @@ qemu-\* | ltp-fsx             |                      |
 qemu-\* | ltp-nptl            |                      |
 qemu-\* | ltp-smoke           |                      |
 qemu-\* | perf                |                      |
+qemu-\* | rcutorture          |                      |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.

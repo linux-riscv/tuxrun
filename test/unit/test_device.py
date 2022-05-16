@@ -178,6 +178,10 @@ def artefacts(tmp_path):
             "qemu-i386-perf.yaml",
         ),
         (
+            ["--device", "qemu-i386", "--tests", "rcutorture"],
+            "qemu-i386-rcutorture.yaml",
+        ),
+        (
             [
                 "--device",
                 "qemu-i386",
