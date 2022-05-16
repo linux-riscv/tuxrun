@@ -242,6 +242,7 @@ def setup_parser() -> argparse.ArgumentParser:
         metavar="T",
         help="test suites",
         choices=Test.list(),
+        action="extend",
     )
     group.add_argument(
         "command",
