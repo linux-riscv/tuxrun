@@ -60,6 +60,12 @@ class KSelftestKcmp(KSelfTest):
     timeout = 5
 
 
+class KSelftestKvm(KSelfTest):
+    name = "kselftest-kvm"
+    cmdfile = "kvm"
+    timeout = 15
+
+
 class KSelftestKexec(KSelfTest):
     name = "kselftest-kexec"
     cmdfile = "kexec"

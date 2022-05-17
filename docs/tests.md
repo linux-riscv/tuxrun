@@ -15,7 +15,7 @@ The following tests are supported by the default root filesystem.
 Device    | Tests                                                             | Parameters |
 ----------|-------------------------------------------------------------------|------------|
 fvp-aemva | command                                                           |            |
-fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, rseq, rtc)                 |  KSELFTEST |
+fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            |  KSELFTEST |
 fvp-aemva | kunit\*                                                           |            |
 fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) |            |
 fvp-aemva | perf                                                              |            |
@@ -84,7 +84,7 @@ The following tests are supported by the default root filesystem.
 Device  | Tests                                                             | Parameters         |
 --------|-------------------------------------------------------------------|--------------------|
 qemu-\* | command                                                           |                    |
-qemu-\* | kselftest-(gpio, ipc, ir, kcmp, kexec, rseq, rtc)            | CPUPOWER KSELFTEST |
+qemu-\* | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | CPUPOWER KSELFTEST |
 qemu-\* | kunit\*                                                           |                    |
 qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) |                    |
 qemu-\* | perf                                                              |                    |
