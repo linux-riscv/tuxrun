@@ -530,8 +530,8 @@ def test_list_devices(mocker, monkeypatch, capsys):
     with pytest.raises(SystemExit):
         main()
     stdout, stderr = capsys.readouterr()
-    assert stdout == ""
-    assert "qemu-i386" in stderr
+    assert stderr == ""
+    assert "qemu-i386" in stdout
 
 
 def test_list_tests(mocker, monkeypatch, capsys):
@@ -542,8 +542,8 @@ def test_list_tests(mocker, monkeypatch, capsys):
     with pytest.raises(SystemExit):
         main()
     stdout, stderr = capsys.readouterr()
-    assert stdout == ""
-    assert "ltp-smoke" in stderr
+    assert stderr == ""
+    assert "ltp-smoke" in stdout
 
 
 def test_update_cache(mocker, monkeypatch, capsys):
