@@ -27,6 +27,7 @@ provide a custom root filesystem.
 
 Device    | Tests                                                                                                                                         |
 ----------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+fvp-aemva | libhugtlbfs                                                                                                                                   |
 fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing)      |
 
 !!! tip "Passing parameters"
@@ -96,6 +97,7 @@ provide a custom root filesystem.
 
 Device  | Tests                                                                                                                                    |
 --------|------------------------------------------------------------------------------------------------------------------------------------------|
+qemu-\* | libhugtlbfs                                                                                                                              |
 qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) |
 
 !!! tip "Passing parameters"
