@@ -5,7 +5,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-from tuxrun.exceptions import InvalidArgument
 from tuxrun.tests import Test
 
 
@@ -14,18 +13,6 @@ class KSelfTest(Test):
     cmdfile: str = ""
     need_test_definition = True
 
-    def validate(self, device, parameters, **kwargs):
-        super().validate(device=device, parameters=parameters, **kwargs)
-
-        # CPUPOWER is only for x86_64 and i386
-        required = ["KSELFTEST"]
-        if device in ["qemu-i386", "qemu-x86_64"]:
-            required = ["CPUPOWER", "KSELFTEST"]
-
-        missing = set(required) - set(parameters.keys())
-        if missing:
-            raise InvalidArgument(f"Missing --parameters {', '.join(sorted(missing))}")
-
     def render(self, **kwargs):
         kwargs["name"] = self.name
         kwargs["timeout"] = self.timeout
@@ -33,13 +20,18 @@ class KSelfTest(Test):
             self.cmdfile if self.cmdfile else self.name.replace("ltp-", "")
         )
 
-        if kwargs["device"].name in ["qemu-i386", "qemu-x86_64"]:
+        if "CPUPOWER" in kwargs["parameters"]:
             kwargs["overlays"].append(
                 ("cpupower", kwargs["parameters"]["CPUPOWER"], "/")
             )
-        kwargs["overlays"].append(
-            ("kselftest", kwargs["parameters"]["KSELFTEST"], "/opt/kselftest_intree/")
-        )
+        if "KSELFTEST" in kwargs["parameters"]:
+            kwargs["overlays"].append(
+                (
+                    "kselftest",
+                    kwargs["parameters"]["KSELFTEST"],
+                    "/opt/kselftests/default-in-kernel/",
+                )
+            )
 
         return self._render("kselftest.yaml.jinja2", **kwargs)
 
@@ -66,6 +58,12 @@ class KSelftestKcmp(KSelfTest):
     name = "kselftest-kcmp"
     cmdfile = "kcmp"
     timeout = 5
+
+
+class KSelftestKvm(KSelfTest):
+    name = "kselftest-kvm"
+    cmdfile = "kvm"
+    timeout = 15
 
 
 class KSelftestKexec(KSelfTest):

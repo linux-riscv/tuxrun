@@ -1,6 +1,6 @@
 device_type: "qemu"
 
-job_name: "tuxrun@qemu-i386: kselftest-ipc"
+job_name: "tuxrun@qemu-i386: rcutorture"
 priority: "medium"
 visibility: "public"
 
@@ -13,7 +13,7 @@ context:
     no_network: true
 timeouts:
   job:
-    minutes: 13
+    minutes: 23
   action:
    minutes: 5
   actions:
@@ -37,16 +37,6 @@ actions:
         format: ext4
         overlays:
           lava: true
-          cpupower:
-            url: "https://example.com/cpupower.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
-          kselftest:
-            url: "https://example.com/kselftest.tar.xz"
-            path: "/opt/kselftests/default-in-kernel/"
-            format: tar
-            compression: xz
 - boot:
     method: qemu
     timeout:
@@ -58,15 +48,12 @@ actions:
     - 'root@(.*):[/~]#'
 - test:
     timeout:
-      minutes: 5
+      minutes: 15
     definitions:
     - repository: file://testdef.tar.zst
       from: url
       compression: zstd
-      path: automated/linux/kselftest/kselftest.yaml
+      path: automated/linux/rcutorture/rcutorture.yaml
+      name: rcutorture
       parameters:
-        TST_CMDFILES: "ipc"
-        KSELFTEST_PATH: "/opt/kselftests/default-in-kernel"
-        SKIPFILE: "skipfile-lkft.yaml"
-        ENVIRONMENT: "production"
-      name: kselftest-ipc
+        SKIP_INSTALL: 'true'

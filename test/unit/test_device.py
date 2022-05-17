@@ -124,7 +124,7 @@ def artefacts(tmp_path):
                 "CPUPOWER=https://example.com/cpupower.tar.xz",
                 "KSELFTEST=https://example.com/kselftest.tar.xz",
             ],
-            "qemu-armv7-kselftest-ipc.yaml",
+            "qemu-armv7-kselftest-ipc-cpupower.yaml",
         ),
         (
             [
@@ -176,6 +176,14 @@ def artefacts(tmp_path):
         (
             ["--device", "qemu-i386", "--tests", "perf"],
             "qemu-i386-perf.yaml",
+        ),
+        (
+            ["--device", "qemu-i386", "--tests", "rcutorture"],
+            "qemu-i386-rcutorture.yaml",
+        ),
+        (
+            ["--device", "qemu-i386", "--tests", "v4l2"],
+            "qemu-i386-v4l2.yaml",
         ),
         (
             [

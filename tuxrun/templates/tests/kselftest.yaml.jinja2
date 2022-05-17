@@ -8,7 +8,7 @@
       path: automated/linux/kselftest/kselftest.yaml
       parameters:
         TST_CMDFILES: "{{ cmdfile }}"
-        KSELFTEST_PATH: "/opt/kselftest_intree"
+        KSELFTEST_PATH: "/opt/kselftests/default-in-kernel"
         SKIPFILE: "skipfile-lkft.yaml"
         ENVIRONMENT: "production"
       name: {{ name }}
