@@ -174,6 +174,10 @@ def artefacts(tmp_path):
             "qemu-i386-kunit.yaml",
         ),
         (
+            ["--device", "qemu-i386", "--tests", "libgpiod"],
+            "qemu-i386-libgpiod.yaml",
+        ),
+        (
             ["--device", "qemu-i386", "--tests", "libhugetlbfs"],
             "qemu-i386-libhugetlbfs.yaml",
         ),
