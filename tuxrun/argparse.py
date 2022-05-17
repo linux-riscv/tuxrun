@@ -89,7 +89,7 @@ class ListDevicesAction(argparse.Action):
 
     def __call__(self, parser, namespace, values, option_string=None):
         parser._print_message(
-            "\n".join([d.name for d in Device.list()]) + "\n", sys.stderr
+            "\n".join([d.name for d in Device.list()]) + "\n", sys.stdout
         )
         parser.exit()
 
@@ -101,7 +101,7 @@ class ListTestsAction(argparse.Action):
         super().__init__(option_strings, dest=dest, default=default, nargs=0, help=help)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        parser._print_message("\n".join(Test.list()) + "\n", sys.stderr)
+        parser._print_message("\n".join(Test.list()) + "\n", sys.stdout)
         parser.exit()
 
 
