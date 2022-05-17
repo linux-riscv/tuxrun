@@ -59,6 +59,7 @@ class Test:
 import tuxrun.tests.command  # noqa: E402
 import tuxrun.tests.kselftest  # noqa: E402
 import tuxrun.tests.kunit  # noqa: E402
+import tuxrun.tests.libhugetlbfs  # noqa: E402
 import tuxrun.tests.ltp  # noqa: E402
 import tuxrun.tests.morello  # noqa: E402,F401
 import tuxrun.tests.perf  # noqa: E402,F401
