@@ -39,7 +39,7 @@ actions:
           lava: true
           kselftest:
             url: "https://example.com/kselftest.tar.xz"
-            path: "/opt/kselftest_intree/"
+            path: "/opt/kselftests/default-in-kernel/"
             format: tar
             compression: xz
 - boot:
@@ -61,7 +61,7 @@ actions:
       path: automated/linux/kselftest/kselftest.yaml
       parameters:
         TST_CMDFILES: "ipc"
-        KSELFTEST_PATH: "/opt/kselftest_intree"
+        KSELFTEST_PATH: "/opt/kselftests/default-in-kernel"
         SKIPFILE: "skipfile-lkft.yaml"
         ENVIRONMENT: "production"
       name: kselftest-ipc
