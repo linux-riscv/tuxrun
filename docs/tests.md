@@ -12,52 +12,30 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 The following tests are supported by the default root filesystem.
 
-Device    | Tests               | Parameters |
-----------|---------------------|------------|
-fvp-aemva | command             |            |
-fvp-aemva | kselftest-gpio      |  KSELFTEST |
-fvp-aemva | kselftest-ipc       |  KSELFTEST |
-fvp-aemva | kselftest-ir        |  KSELFTEST |
-fvp-aemva | kselftest-kcmp      |  KSELFTEST |
-fvp-aemva | kselftest-kexec     |  KSELFTEST |
-fvp-aemva | kselftest-rseq      |  KSELFTEST |
-fvp-aemva | kselftest-rtc       |  KSELFTEST |
-fvp-aemva | kunit\*             |            |
-fvp-aemva | ltp-fcntl-locktests |            |
-fvp-aemva | ltp-fs_bind         |            |
-fvp-aemva | ltp-fs_perms_simple |            |
-fvp-aemva | ltp-fsx             |            |
-fvp-aemva | ltp-nptl            |            |
-fvp-aemva | ltp-smoke           |            |
-fvp-aemva | perf                |            |
-fvp-aemva | rcutorture          |            |
-fvp-aemva | v4l2                |            |
+Device    | Tests                                                             | Parameters |
+----------|-------------------------------------------------------------------|------------|
+fvp-aemva | command                                                           |            |
+fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, rseq, rtc)                 |  KSELFTEST |
+fvp-aemva | kunit\*                                                           |            |
+fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) |            |
+fvp-aemva | perf                                                              |            |
+fvp-aemva | rcutorture                                                        |            |
+fvp-aemva | v4l2                                                              |            |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device    | Tests               |
-----------|---------------------|
-fvp-aemva | ltp-cap_bounds      |
-fvp-aemva | ltp-commands        |
-fvp-aemva | ltp-containers      |
-fvp-aemva | ltp-crypto          |
-fvp-aemva | ltp-cve             |
-fvp-aemva | ltp-filecaps        |
-fvp-aemva | ltp-fs              |
-fvp-aemva | ltp-hugetlb         |
-fvp-aemva | ltp-io              |
-fvp-aemva | ltp-ipc             |
-fvp-aemva | ltp-math            |
-fvp-aemva | ltp-mm              |
-fvp-aemva | ltp-pty             |
-fvp-aemva | ltp-sched           |
-fvp-aemva | ltp-securebits      |
-fvp-aemva | ltp-syscalls        |
-fvp-aemva | ltp-tracing         |
+Device    | Tests                                                                                                                                         |
+----------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing)      |
 
 !!! tip "Passing parameters"
-    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftes.tar.xz`
+    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
+
+!!! info "kselftest parameters"
+    The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
+    is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
+    parameter is not required.
 
 !!! warning "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
@@ -103,55 +81,30 @@ fvp-morello-oe      | fwts         |                                  |
 
 The following tests are supported by the default root filesystem.
 
-Device  | Tests               | Parameters           |
---------|---------------------|----------------------|
-qemu-\* | command             |                      |
-qemu-\* | kselftest-gpio      | CPUPOWER\* KSELFTEST |
-qemu-\* | kselftest-ipc       | CPUPOWER\* KSELFTEST |
-qemu-\* | kselftest-ir        | CPUPOWER\* KSELFTEST |
-qemu-\* | kselftest-kcmp      | CPUPOWER\* KSELFTEST |
-qemu-\* | kselftest-kexec     | CPUPOWER\* KSELFTEST |
-qemu-\* | kselftest-rseq      | CPUPOWER\* KSELFTEST |
-qemu-\* | kselftest-rtc       | CPUPOWER\* KSELFTEST |
-qemu-\* | kunit\*             |                      |
-qemu-\* | ltp-fcntl-locktests |                      |
-qemu-\* | ltp-fs_bind         |                      |
-qemu-\* | ltp-fs_perms_simple |                      |
-qemu-\* | ltp-fsx             |                      |
-qemu-\* | ltp-nptl            |                      |
-qemu-\* | ltp-smoke           |                      |
-qemu-\* | perf                |                      |
-qemu-\* | rcutorture          |                      |
-qemu-\* | v4l2                |                      |
+Device  | Tests                                                             | Parameters         |
+--------|-------------------------------------------------------------------|--------------------|
+qemu-\* | command                                                           |                    |
+qemu-\* | kselftest-(gpio, ipc, ir, kcmp, kexec, rseq, rtc)            | CPUPOWER KSELFTEST |
+qemu-\* | kunit\*                                                           |                    |
+qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) |                    |
+qemu-\* | perf                                                              |                    |
+qemu-\* | rcutorture                                                        |                    |
+qemu-\* | v4l2                                                              |                    |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device  | Tests               |
---------|---------------------|
-qemu-\* | ltp-cap_bounds      |
-qemu-\* | ltp-commands        |
-qemu-\* | ltp-containers      |
-qemu-\* | ltp-crypto          |
-qemu-\* | ltp-cve             |
-qemu-\* | ltp-filecaps        |
-qemu-\* | ltp-fs              |
-qemu-\* | ltp-hugetlb         |
-qemu-\* | ltp-io              |
-qemu-\* | ltp-ipc             |
-qemu-\* | ltp-math            |
-qemu-\* | ltp-mm              |
-qemu-\* | ltp-pty             |
-qemu-\* | ltp-sched           |
-qemu-\* | ltp-securebits      |
-qemu-\* | ltp-syscalls        |
-qemu-\* | ltp-tracing         |
+Device  | Tests                                                                                                                                    |
+--------|------------------------------------------------------------------------------------------------------------------------------------------|
+qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) |
 
 !!! tip "Passing parameters"
-    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftes.tar.xz`
+    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
 
-!!! warning "CPUPOWER"
-    Parameter CPUPOWER is only used by *qemu-i386* and *qemu-x86_64*.
+!!! info "kselftest parameters"
+    The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
+    is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
+    parameter is not required.
 
 !!! warning "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with

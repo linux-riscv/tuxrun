@@ -124,7 +124,7 @@ def artefacts(tmp_path):
                 "CPUPOWER=https://example.com/cpupower.tar.xz",
                 "KSELFTEST=https://example.com/kselftest.tar.xz",
             ],
-            "qemu-armv7-kselftest-ipc.yaml",
+            "qemu-armv7-kselftest-ipc-cpupower.yaml",
         ),
         (
             [
