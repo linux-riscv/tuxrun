@@ -13,7 +13,7 @@ context:
     no_network: true
 timeouts:
   job:
-    minutes: 13
+    minutes: 25
   action:
    minutes: 5
   actions:
@@ -45,7 +45,7 @@ actions:
 - boot:
     method: qemu
     timeout:
-      minutes: 3
+      minutes: 15
     auto_login:
       login_prompt: '(.*)login:'
       username: root
