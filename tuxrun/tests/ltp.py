@@ -35,7 +35,7 @@ class LTPCommands(LTPTest):
 
 class LTPContainers(LTPTest):
     name = "ltp-containers"
-    timeout = 2
+    timeout = 5
 
 
 class LTPController(LTPTest):
