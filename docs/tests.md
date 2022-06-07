@@ -15,9 +15,9 @@ The following tests are supported by the default root filesystem.
 Device    | Tests                                                             | Parameters |
 ----------|-------------------------------------------------------------------|------------|
 fvp-aemva | command                                                           |            |
-fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            |  KSELFTEST |
+fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | KSELFTEST  |
 fvp-aemva | kunit\*                                                           |            |
-fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) |            |
+fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE   |
 fvp-aemva | perf                                                              |            |
 fvp-aemva | rcutorture                                                        |            |
 fvp-aemva | v4l2                                                              |            |
@@ -25,11 +25,11 @@ fvp-aemva | v4l2                                                              | 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device    | Tests                                                                                                                                         |
-----------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-fvp-aemva | libgpiod                                                                                                                                      |
-fvp-aemva | libhugtlbfs                                                                                                                                   |
-fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing)      |
+Device    | Tests                                                                                                                                         | Parameters |
+----------|-----------------------------------------------------------------------------------------------------------------------------------------------|------------|
+fvp-aemva | libgpiod                                                                                                                                      |            |
+fvp-aemva | libhugtlbfs                                                                                                                                   |            |
+fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing)      | SKIPFILE   |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
@@ -38,6 +38,10 @@ fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hu
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
+
+!! info "ltp parameter"
+    The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
+    present on the root filesystem.
 
 !!! warning "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
@@ -88,7 +92,7 @@ Device  | Tests                                                             | Pa
 qemu-\* | command                                                           |                    |
 qemu-\* | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | CPUPOWER KSELFTEST |
 qemu-\* | kunit\*                                                           |                    |
-qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) |                    |
+qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE           |
 qemu-\* | perf                                                              |                    |
 qemu-\* | rcutorture                                                        |                    |
 qemu-\* | v4l2                                                              |                    |
@@ -96,11 +100,11 @@ qemu-\* | v4l2                                                              |   
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device  | Tests                                                                                                                                    |
---------|------------------------------------------------------------------------------------------------------------------------------------------|
-qemu-\* | libgpiod                                                                                                                                 |
-qemu-\* | libhugtlbfs                                                                                                                              |
-qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) |
+Device  | Tests                                                                                                                                    | Parameters |
+--------|------------------------------------------------------------------------------------------------------------------------------------------|------------|
+qemu-\* | libgpiod                                                                                                                                 |            |
+qemu-\* | libhugtlbfs                                                                                                                              |            |
+qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE   |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
@@ -109,6 +113,10 @@ qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, huge
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
+
+!! info "ltp parameter"
+    The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
+    present on the root filesystem.
 
 !!! warning "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
