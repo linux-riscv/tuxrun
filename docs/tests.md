@@ -68,6 +68,7 @@ fvp-morello-android | libpdfium    | PDFIUM_URL, SYSTEM_URL           |
 fvp-morello-android | libpng       | PNG_URL, SYSTEM_URL              |
 fvp-morello-android | lldb         | LLDB_URL, TC_URL                 |
 fvp-morello-android | logd         | USERDATA                         |
+fvp-morello-android | libpcre      |                                  |
 fvp-morello-android | multicore    |                                  |
 fvp-morello-android | zlib         | SYSTEM_URL                       |
 fvp-morello-busybox | purecap      |                                  |

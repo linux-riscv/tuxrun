@@ -113,6 +113,11 @@ class MorelloDvfs(MorelloAndroidTest):
     timeout = 15
 
 
+class MorelloLibPcre(MorelloAndroidTest):
+    name = "libpcre"
+    timeout = 60
+
+
 class MorelloFWTS(MorelloTest):
     name = "fwts"
     timeout = 120
