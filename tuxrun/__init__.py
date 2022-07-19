@@ -8,4 +8,4 @@
 """
 Command line tool for testing Linux under QEMU
 """
-__version__ = "0.22.0"
+__version__ = "0.22.1"
