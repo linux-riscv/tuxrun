@@ -1,13 +1,13 @@
 device_type: "fvp"
 
-job_name: "tuxrun@fvp-morello-android"
+job_name: "tuxrun@fvp-morello-busybox"
 priority: medium
 visibility: public
 
 
 timeouts:
   job:
-    minutes: 55
+    minutes: 30
   action:
     minutes: 10
   connection:
@@ -32,7 +32,7 @@ actions:
       fip:
         url: "/DATA/fip.bin"
       rootfs:
-        url: "/DATA/android-nano.img.xz"
+        url: "/DATA/busybox.img.xz"
         compression: xz
 - boot:
     method: fvp
@@ -80,19 +80,17 @@ actions:
     - "-C css.trustedBootROMloader.fname={AP_ROMFW}"
     - "-C board.ap_qspi_loader.fname={FIP}"
     prompts:
-    - "console:/ "
-
+    - "/ # "
 - test:
     timeout:
-      minutes: 30
-    docker:
-      image: git.morello-project.org:5050/morello/morello-ci-containers/morello-android-platform-tools
-      network_from: "tuxrun-ci"
-    definitions:
-    - repository: https://git.morello-project.org/morello/morello-ci-pipelines.git
-      from: git
-      path: lava/test-definitions/lldb/testdef.yaml
-      name: lldb
-      parameters:
-        LLDB_TESTS_URL: "lldb.tar.xz"
-        TC_URL: "toolchain.tar.xz"
+      minutes: 5
+    interactive:
+    - name: virtiop9
+      prompts: ["{{ '", "'.join(prompts)}}"]
+      script:
+      - command: "mkdir dummy && mount -t 9p -o trans=virtio,version=9p2000.L FM dummy &
+& cat dummy/environment"
+        name: virtiop9
+        successes:
+        - message: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/ga
+mes:/usr/local/games:/snap/bin"

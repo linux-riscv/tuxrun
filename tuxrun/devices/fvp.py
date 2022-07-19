@@ -182,6 +182,7 @@ class FVPMorelloBusybox(MorelloFVPDevice):
 
     prompts = ["/ # "]
     support_tests = True
+    virtiop9_path = "/etc"
 
 
 class FVPMorelloBaremetal(MorelloFVPDevice):

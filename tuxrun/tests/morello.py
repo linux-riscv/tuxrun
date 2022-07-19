@@ -58,6 +58,13 @@ class MorelloBusyBoxPureCap(MorelloTest):
     timeout = 5
 
 
+class MorelloBusyBoxVirtioP9(MorelloTest):
+    devices = ["fvp-morello-busybox"]
+    template = "morello-busybox-virtio.yaml.jinja2"
+    name = "virtiop9"
+    timeout = 5
+
+
 class MorelloBinder(MorelloAndroidTest):
     name = "binder"
     timeout = 34
