@@ -121,6 +121,18 @@ def artefacts(tmp_path):
                 "--tests",
                 "kselftest-ipc",
                 "--parameters",
+                "KSELFTEST=https://example.com/kselftest.tar.xz",
+                "SKIPFILE=/skipfile.yaml",
+            ],
+            "qemu-armv7-kselftest-ipc-skipfile.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-armv7",
+                "--tests",
+                "kselftest-ipc",
+                "--parameters",
                 "CPUPOWER=https://example.com/cpupower.tar.xz",
                 "KSELFTEST=https://example.com/kselftest.tar.xz",
             ],

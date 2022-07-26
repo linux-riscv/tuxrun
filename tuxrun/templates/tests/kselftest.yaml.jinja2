@@ -9,7 +9,7 @@
       parameters:
         TST_CMDFILES: "{{ cmdfile }}"
         KSELFTEST_PATH: "/opt/kselftests/default-in-kernel"
-        SKIPFILE: "skipfile-lkft.yaml"
+        SKIPFILE: "{{ parameters.get("SKIPFILE", "skipfile-lkft.yaml") }}"
         ENVIRONMENT: "production"
       name: {{ name }}
 
