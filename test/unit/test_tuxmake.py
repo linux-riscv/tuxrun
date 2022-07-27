@@ -59,8 +59,8 @@ class TestTuxMakeBuild:
         metadata1 = copy.deepcopy(metadata)
         del metadata1["results"]["artifacts"]["kernel"]
         directory = build_directory(tmp_path / "build", metadata1)
-        tuxmake_build = TuxMakeBuild(directory)
-        assert tuxmake_build.kernel is None
+        with pytest.raises(TuxMakeBuild.Invalid):
+            TuxMakeBuild(directory)
 
     def test_no_modules(self, tmp_path):
         metadata1 = copy.deepcopy(metadata)

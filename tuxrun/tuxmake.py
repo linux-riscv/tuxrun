@@ -32,10 +32,13 @@ class TuxBuild:
             raise cls.Invalid("{url}/metadata.json is invalid")
 
         kernel = modules = None
-        with contextlib.suppress(KeyError):
+        with contextlib.suppress(IndexError, KeyError):
             kernel = url + "/" + metadata["results"]["artifacts"]["kernel"][0]
         with contextlib.suppress(IndexError, KeyError):
             modules = url + "/" + metadata["results"]["artifacts"]["modules"][0]
+
+        if kernel is None:
+            raise cls.Invalid("Missing kernel in directory")
 
         return (target_arch, kernel, modules)
 

@@ -12,15 +12,15 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 The following tests are supported by the default root filesystem.
 
-Device    | Tests                                                             | Parameters |
-----------|-------------------------------------------------------------------|------------|
-fvp-aemva | command                                                           |            |
-fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | KSELFTEST  |
-fvp-aemva | kunit\*                                                           |            |
-fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE   |
-fvp-aemva | perf                                                              |            |
-fvp-aemva | rcutorture                                                        |            |
-fvp-aemva | v4l2                                                              |            |
+Device    | Tests                                                             | Parameters         |
+----------|-------------------------------------------------------------------|--------------------|
+fvp-aemva | command                                                           |                    |
+fvp-aemva | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | KSELFTEST SKIPFILE |
+fvp-aemva | kunit\*                                                           |                    |
+fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE           |
+fvp-aemva | perf                                                              |                    |
+fvp-aemva | rcutorture                                                        |                    |
+fvp-aemva | v4l2                                                              |                    |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -88,15 +88,15 @@ fvp-morello-oe      | fwts         |                                  |
 
 The following tests are supported by the default root filesystem.
 
-Device  | Tests                                                             | Parameters         |
---------|-------------------------------------------------------------------|--------------------|
-qemu-\* | command                                                           |                    |
-qemu-\* | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | CPUPOWER KSELFTEST |
-qemu-\* | kunit\*                                                           |                    |
-qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE           |
-qemu-\* | perf                                                              |                    |
-qemu-\* | rcutorture                                                        |                    |
-qemu-\* | v4l2                                                              |                    |
+Device  | Tests                                                             | Parameters                  |
+--------|-------------------------------------------------------------------|-----------------------------|
+qemu-\* | command                                                           |                             |
+qemu-\* | kselftest-(gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)            | CPUPOWER KSELFTEST SKIPFILE |
+qemu-\* | kunit\*                                                           |                             |
+qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE                    |
+qemu-\* | perf                                                              |                             |
+qemu-\* | rcutorture                                                        |                             |
+qemu-\* | v4l2                                                              |                             |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
