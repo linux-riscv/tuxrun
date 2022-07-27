@@ -105,7 +105,7 @@ actions:
         TST_CMDFILES: 'smoketest'
         SKIPFILE: '/tuxtest/skipfiles/arm64/ltp-smoke'
         ENVIRONMENT: 'production'
-        TIMEOUT_MULTIPLIER: '3'
+        TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
       name: ltp-smoke

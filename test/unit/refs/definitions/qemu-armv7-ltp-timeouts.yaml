@@ -59,7 +59,7 @@ actions:
         TST_CMDFILES: 'fs_perms_simple'
         SKIPFILE: '/tuxtest/skipfiles/armv7/ltp-fs_perms_simple'
         ENVIRONMENT: 'production'
-        TIMEOUT_MULTIPLIER: '3'
+        TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
       name: ltp-fs_perms_simple
@@ -76,7 +76,7 @@ actions:
         TST_CMDFILES: 'fsx'
         SKIPFILE: '/tuxtest/skipfiles/armv7/ltp-fsx'
         ENVIRONMENT: 'production'
-        TIMEOUT_MULTIPLIER: '3'
+        TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
       name: ltp-fsx
@@ -93,7 +93,7 @@ actions:
         TST_CMDFILES: 'nptl'
         SKIPFILE: '/tuxtest/skipfiles/armv7/ltp-nptl'
         ENVIRONMENT: 'production'
-        TIMEOUT_MULTIPLIER: '3'
+        TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
       name: ltp-nptl
