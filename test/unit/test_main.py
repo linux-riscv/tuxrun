@@ -30,23 +30,13 @@ def artefacts(tmp_path):
 
 
 @pytest.fixture
-def device(tmp_path):
-    return touch(tmp_path, "device.yaml")
-
-
-@pytest.fixture
-def job(tmp_path):
-    return touch(tmp_path, "job.yaml")
-
-
-@pytest.fixture
 def run(mocker):
     return mocker.patch("tuxrun.__main__.run")
 
 
 @pytest.fixture
-def tuxrun_args(monkeypatch, device, job):
-    args = ["tuxrun", "--device-dict", str(device), "--definition", str(job)]
+def tuxrun_args(monkeypatch):
+    args = ["tuxrun", "--device", "qemu-armv5"]
     monkeypatch.setattr("sys.argv", args)
     return args
 
@@ -127,14 +117,11 @@ FVP_MORELLO_ARGS = [
     "argv",
     [
         [],
-        ["--device", "qemu-armv7", "--device-dict", "device.yaml"],
         ["--device", "qemu-armv7", "--boot-args", 'bla"bl'],
         ["--device", "qemu-armv7", "--dtb", "arm.dtb"],
         ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--device", "qemu-arm64", "--modules", "modules.tar"],
         ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
-        ["--device-dict", "device.yaml"],
-        ["--definition", "definition.yaml"],
         ["--device", "fvp-aemva", "--mcp-fw", "fvp.bin"],
         ["--device", "fvp-aemva", "--modules", "modules.tar"],
         ["--device", "fvp-morello-android", "--mcp-fw", "fvp.bin"],

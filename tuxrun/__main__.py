@@ -55,67 +55,58 @@ def download(src, dst):
 def run(options, tmpdir: Path) -> int:
     # Render the job definition and device dictionary
     extra_assets = []
-    if options.device:
-        overlays = []
-        if options.modules:
-            overlays.append(("modules", options.modules, "/"))
-            extra_assets.append(options.modules)
-        for (index, item) in enumerate(options.overlays):
-            overlays.append((f"overlay-{index:02}", item, "/"))
-            extra_assets.append(item)
+    overlays = []
+    if options.modules:
+        overlays.append(("modules", options.modules, "/"))
+        extra_assets.append(options.modules)
+    for (index, item) in enumerate(options.overlays):
+        overlays.append((f"overlay-{index:02}", item, "/"))
+        extra_assets.append(item)
 
-        # Add test definitions only when needed
-        test_definitions = None
-        if any(t.need_test_definition for t in options.tests):
-            test_definitions = "file://" + get_test_definitions(
-                ProgressIndicator.get("Downloading test definitions")
-            )
-            extra_assets.append(test_definitions)
-
-        command = " ".join([shlex.quote(s) for s in options.command])
-
-        definition = options.device.definition(
-            bios=options.bios,
-            bl1=options.bl1,
-            command=command,
-            device=options.device,
-            dtb=options.dtb,
-            kernel=options.kernel,
-            ap_romfw=options.ap_romfw,
-            mcp_fw=options.mcp_fw,
-            mcp_romfw=options.mcp_romfw,
-            fip=options.fip,
-            overlays=overlays,
-            rootfs=options.rootfs,
-            rootfs_partition=options.partition,
-            scp_fw=options.scp_fw,
-            scp_romfw=options.scp_romfw,
-            tests=options.tests,
-            test_definitions=test_definitions,
-            tests_timeout=sum(t.timeout for t in options.tests),
-            timeouts=options.timeouts,
-            tmpdir=tmpdir,
-            tux_boot_args=options.boot_args.replace('"', "")
-            if options.boot_args
-            else None,
-            parameters=options.parameters,
+    # Add test definitions only when needed
+    test_definitions = None
+    if any(t.need_test_definition for t in options.tests):
+        test_definitions = "file://" + get_test_definitions(
+            ProgressIndicator.get("Downloading test definitions")
         )
-        LOG.debug("job definition")
-        LOG.debug(definition)
+        extra_assets.append(test_definitions)
 
-        context = yaml_load(definition).get("context", {})
-        device_dict = options.device.device_dict(context)
-        LOG.debug("device dictionary")
-        LOG.debug(device_dict)
+    command = " ".join([shlex.quote(s) for s in options.command])
 
-        (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
-        (tmpdir / "device.yaml").write_text(device_dict, encoding="utf-8")
+    definition = options.device.definition(
+        bios=options.bios,
+        bl1=options.bl1,
+        command=command,
+        device=options.device,
+        dtb=options.dtb,
+        kernel=options.kernel,
+        ap_romfw=options.ap_romfw,
+        mcp_fw=options.mcp_fw,
+        mcp_romfw=options.mcp_romfw,
+        fip=options.fip,
+        overlays=overlays,
+        rootfs=options.rootfs,
+        rootfs_partition=options.partition,
+        scp_fw=options.scp_fw,
+        scp_romfw=options.scp_romfw,
+        tests=options.tests,
+        test_definitions=test_definitions,
+        tests_timeout=sum(t.timeout for t in options.tests),
+        timeouts=options.timeouts,
+        tmpdir=tmpdir,
+        tux_boot_args=options.boot_args.replace('"', "") if options.boot_args else None,
+        parameters=options.parameters,
+    )
+    LOG.debug("job definition")
+    LOG.debug(definition)
 
-    # Use the provided ones
-    else:
-        # Download if needed and copy to tmpdir
-        download(str(options.device_dict), (tmpdir / "device.yaml"))
-        download(str(options.definition), (tmpdir / "definition.yaml"))
+    context = yaml_load(definition).get("context", {})
+    device_dict = options.device.device_dict(context)
+    LOG.debug("device dictionary")
+    LOG.debug(device_dict)
+
+    (tmpdir / "definition.yaml").write_text(definition, encoding="utf-8")
+    (tmpdir / "device.yaml").write_text(device_dict, encoding="utf-8")
 
     # Render the dispatcher.yaml
     (tmpdir / "dispatcher").mkdir()
@@ -209,78 +200,43 @@ def main() -> int:
     LOG.addHandler(handler)
     LOG.setLevel(logging.DEBUG if options.debug else logging.INFO)
 
-    # --tuxmake/--device/--kernel/--modules/--tests and
-    # --device-dict/--definition are mutualy exclusive and required
-    first_group = bool(
-        options.device
-        or options.bios
-        or options.dtb
-        or options.kernel
-        or options.modules
-        or options.overlays
-        or options.partition
-        or options.rootfs
-        or options.tuxbuild
-        or options.tuxmake
-        or options.tests
-        or options.boot_args
-        or options.command
-    )
-    second_group = bool(options.device_dict or options.definition)
-    if not first_group and not second_group:
-        parser.error("artefacts or configuration files argument groups are required")
-    if first_group and second_group:
-        parser.error(
-            "artefacts and configuration files argument groups are mutualy exclusive"
-        )
-
-    if first_group:
-        if options.tuxbuild or options.tuxmake:
-            tux = options.tuxbuild if options.tuxbuild else options.tuxmake
-            if not options.kernel:
-                options.kernel = tux.kernel
-            if not options.modules and tux.modules:
-                options.modules = tux.modules
-            if not options.device:
-                options.device = f"qemu-{tux.target_arch}"
-            elif options.device == "qemu-armv5":
-                if options.tuxbuild:
-                    options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
-                elif options.tuxmake:
-                    if (tux.location / "dtbs" / "versatile-pb.dtb").exists():
-                        options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
-
+    if options.tuxbuild or options.tuxmake:
+        tux = options.tuxbuild if options.tuxbuild else options.tuxmake
+        if not options.kernel:
+            options.kernel = tux.kernel
+        if not options.modules and tux.modules:
+            options.modules = tux.modules
         if not options.device:
-            parser.error("argument --device is required")
+            options.device = f"qemu-{tux.target_arch}"
+        elif options.device == "qemu-armv5":
+            if options.tuxbuild:
+                options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
+            elif options.tuxmake:
+                if (tux.location / "dtbs" / "versatile-pb.dtb").exists():
+                    options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
 
-        if options.command:
-            options.tests.append("command")
+    if not options.device:
+        parser.error("argument --device is required")
 
-        try:
-            options.device = Device.select(options.device)()
-            # Download only after the device has been found
-            if options.device.flag_cache_rootfs:
-                options.rootfs = pathurlnone(
-                    get_rootfs(
-                        options.device,
-                        options.rootfs,
-                        ProgressIndicator.get("Downloading root filesystem"),
-                    )
+    if options.command:
+        options.tests.append("command")
+
+    try:
+        options.device = Device.select(options.device)()
+        # Download only after the device has been found
+        if options.device.flag_cache_rootfs:
+            options.rootfs = pathurlnone(
+                get_rootfs(
+                    options.device,
+                    options.rootfs,
+                    ProgressIndicator.get("Downloading root filesystem"),
                 )
+            )
 
-            options.tests = [
-                Test.select(t)(options.timeouts.get(t)) for t in options.tests
-            ]
-            options.device.validate(**filter_options(options))
-        except InvalidArgument as exc:
-            parser.error(str(exc))
-
-    # --device-dict/--definition are mandatory
-    else:
-        if not options.device_dict:
-            parser.error("argument --device-dict is required")
-        if not options.definition:
-            parser.error("argument --definition is required")
+        options.tests = [Test.select(t)(options.timeouts.get(t)) for t in options.tests]
+        options.device.validate(**filter_options(options))
+    except InvalidArgument as exc:
+        parser.error(str(exc))
 
     if options.tests:
         tests = [t.name for t in options.tests]

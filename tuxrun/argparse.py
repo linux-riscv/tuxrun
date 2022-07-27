@@ -28,8 +28,6 @@ def filter_options(options):
         "tuxbuild",
         "tuxmake",
         "timeouts",
-        "device_dict",
-        "definition",
         "runtime",
         "image",
         "log_file",
@@ -269,14 +267,6 @@ def setup_parser() -> argparse.ArgumentParser:
         help="timouts in minutes as action=duration",
         action=KeyValueIntAction,
         nargs="+",
-    )
-
-    group = parser.add_argument_group("configuration files")
-    group.add_argument(
-        "--device-dict", default=None, type=pathnone, help="Device configuration"
-    )
-    group.add_argument(
-        "--definition", default=None, type=pathnone, help="Job definition"
     )
 
     group = parser.add_argument_group("runtime")
