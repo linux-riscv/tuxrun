@@ -100,7 +100,9 @@ def run(options, tmpdir: Path) -> int:
     LOG.debug("job definition")
     LOG.debug(definition)
 
-    context = yaml_load(definition).get("context", {})
+    job_definition = yaml_load(definition)
+    job_timeout = (job_definition["timeouts"]["job"]["minutes"] + 1) * 60
+    context = job_definition.get("context", {})
     device_dict = options.device.device_dict(context)
     LOG.debug("device dictionary")
     LOG.debug(device_dict)
@@ -145,6 +147,7 @@ def run(options, tmpdir: Path) -> int:
 
     # Forward the signal to the runtime
     def handler(*_):
+        LOG.debug("Signal received")
         runtime.kill()
 
     signal.signal(signal.SIGHUP, handler)
@@ -153,6 +156,11 @@ def run(options, tmpdir: Path) -> int:
     signal.signal(signal.SIGTERM, handler)
     signal.signal(signal.SIGUSR1, handler)
     signal.signal(signal.SIGUSR2, handler)
+
+    # Set the overall timeout
+    signal.signal(signal.SIGALRM, handler)
+    LOG.debug("Job timeout %ds", job_timeout)
+    signal.alarm(job_timeout)
 
     # start the pre_run command
     if options.device and options.device.flag_use_pre_run_cmd:
