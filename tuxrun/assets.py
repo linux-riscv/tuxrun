@@ -80,10 +80,9 @@ def __download_and_cache__(
     with cache.open("wb") as data:
         n = 0
         for chunk in response.iter_content(chunk_size=4096):
-            if chunk:
-                n += data.write(chunk)
-                if size:
-                    progress.progress(100 * n / size)
+            n += data.write(chunk)
+            if size:
+                progress.progress(100 * n / size)
 
     if size:
         progress.finish()
