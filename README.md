@@ -34,7 +34,7 @@ or Podman).
 
 # Installing TuxRun
 
-There are several options for installing TuxMake:
+There are several options for installing TuxRun:
 
 - [From PyPI](docs/install-pypi.md)
 - [Run uninstalled](docs/run-uninstalled.md)
