@@ -58,18 +58,19 @@ def test_data():
 
 
 @pytest.mark.parametrize(
-    "name,testsuite,job",
+    "name,testsuite",
     [
-        ("fail-empty", "ltp-smoke", "error"),
-        ("fail-1", "ltp-containers", "fail"),
-        ("fail-2", "ltp-mm", "fail"),
-        ("fail-3", "ltp-syscalls", "fail"),
-        ("fail-4", "libhugetlbfs", "fail"),
-        ("fail-5", "ltp-tracing", "fail"),
-        ("pass-1", "ltp-io", "pass"),
+        ("fail-empty", "ltp-smoke"),
+        ("fail-1", "ltp-containers"),
+        ("fail-2", "ltp-mm"),
+        ("fail-3", "ltp-syscalls"),
+        ("fail-4", "libhugetlbfs"),
+        ("fail-5", "ltp-tracing"),
+        ("fail-6", "ltp-smoke"),
+        ("pass-1", "ltp-io"),
     ],
 )
-def test_results_parsing(name, testsuite, job):
+def test_results_parsing(name, testsuite):
     logs = (BASE / "logs" / (name + ".yaml")).read_text(encoding="utf-8").strip("\n")
 
     results = Results([Test.select(testsuite)])
