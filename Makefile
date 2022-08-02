@@ -15,7 +15,7 @@ stylecheck: style flake8
 spellcheck:
 	codespell \
 		--check-filenames \
-		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov,*.jinja2'
+		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov,*.jinja2,*.yaml'
 
 integration:
 	python3 test/integration.py
