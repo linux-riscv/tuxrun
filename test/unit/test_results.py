@@ -1,5 +1,13 @@
+import json
+import os
+from pathlib import Path
+
+import pytest
+
 from tuxrun.results import Results
 from tuxrun.tests import Test
+
+BASE = (Path(__file__) / "..").resolve()
 
 
 def test_returns_0_by_default():
@@ -47,3 +55,31 @@ def test_data():
     results = Results([])
     results.parse(gen_test("test1", "pass"))
     assert results.data["mytestsuite"]["test1"]["result"] == "pass"
+
+
+@pytest.mark.parametrize(
+    "name,testsuite,job",
+    [
+        ("fail-empty", "ltp-smoke", "error"),
+        ("fail-1", "ltp-containers", "fail"),
+        ("fail-2", "ltp-mm", "fail"),
+        ("fail-3", "ltp-syscalls", "fail"),
+        ("fail-4", "libhugetlbfs", "fail"),
+        ("fail-5", "ltp-tracing", "fail"),
+        ("pass-1", "ltp-io", "pass"),
+    ],
+)
+def test_results_parsing(name, testsuite, job):
+    logs = (BASE / "logs" / (name + ".yaml")).read_text(encoding="utf-8").strip("\n")
+
+    results = Results([Test.select(testsuite)])
+    for line in logs.split("\n"):
+        results.parse(line[2:])
+
+    # Full results
+    if os.environ.get("TUXRUN_RENDER"):
+        (BASE / "results" / (name + ".json")).write_text(
+            json.dumps(results.data), encoding="utf-8"
+        )
+    data = (BASE / "results" / (name + ".json")).read_text(encoding="utf-8")
+    assert results.data == json.loads(data)
