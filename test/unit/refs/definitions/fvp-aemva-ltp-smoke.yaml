@@ -65,8 +65,6 @@ actions:
     - "-C bp.ve_sysregs.mmbSiteDefault=0"
     - "-C bp.ve_sysregs.exit_on_shutdown=1"
     - "-C bp.virtioblockdevice.image_path='{ROOTFS}'"
-    - "-C pci.pcidevice0.bus=0xFF"
-    - "-C pci.pcidevice1.bus=0xFF"
     - "-C cluster0.has_large_system_ext=1"
     - "-C cluster1.has_large_system_ext=1"
     - "-C cluster0.has_16k_granule=1"
