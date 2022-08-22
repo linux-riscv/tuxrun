@@ -40,7 +40,7 @@ actions:
 - boot:
     method: fvp
     docker:
-      name: "fvp:aemva-11.17.21"
+      name: "fvp:aemva-11.18.16"
       local: true
       container_name: "tuxrun-ci"
     image: "/opt/model/FVP_AEMvA/models/Linux64_GCC-9.3/FVP_Base_RevC-2xAEMvA"
