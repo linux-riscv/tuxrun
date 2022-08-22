@@ -35,7 +35,7 @@ actions:
 - boot:
     method: fvp
     docker:
-      name: "fvp:aemva-11.17.21"
+      name: "fvp:aemva-11.18.16"
       local: true
       container_name: "tuxrun-ci"
     image: "/opt/model/FVP_AEMvA/models/Linux64_GCC-9.3/FVP_Base_RevC-2xAEMvA"
@@ -64,8 +64,6 @@ actions:
     - "-C bp.ve_sysregs.mmbSiteDefault=0"
     - "-C bp.ve_sysregs.exit_on_shutdown=1"
     - "-C bp.virtioblockdevice.image_path='{ROOTFS}'"
-    - "-C pci.pcidevice0.bus=0xFF"
-    - "-C pci.pcidevice1.bus=0xFF"
     - "-C cluster0.has_large_system_ext=1"
     - "-C cluster1.has_large_system_ext=1"
     - "-C cluster0.has_16k_granule=1"
