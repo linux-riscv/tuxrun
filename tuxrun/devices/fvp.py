@@ -154,6 +154,13 @@ class MorelloFVPDevice(FVPDevice):
         kwargs["rootfs"] = self.rootfs if self.rootfs else kwargs.get("rootfs")
         kwargs["boot_timeout"] = self.boot_timeout
 
+        # handling virtio_net/smc91x network test
+        kwargs["smc91x_test"] = False
+        for t in kwargs["tests"]:
+            if t.name == "smc91x":
+                kwargs["smc91x_test"] = True
+                break
+
         # render the template
         tests = [
             t.render(
@@ -166,7 +173,7 @@ class MorelloFVPDevice(FVPDevice):
         return (
             templates.jobs().get_template("fvp-morello.yaml.jinja2").render(**kwargs)
             + "\n"
-            + "".join(tests)
+            + "\n".join(tests)
         )
 
 
@@ -183,6 +190,14 @@ class FVPMorelloBusybox(MorelloFVPDevice):
     prompts = ["/ # "]
     support_tests = True
     virtiop9_path = "/etc"
+
+
+# fvp morello for doing network test ( virtio_net and smc91x)
+class FVPMorello(MorelloFVPDevice):
+    name = "fvp-morello"
+
+    prompts = ["/ # "]
+    support_tests = True
 
 
 class FVPMorelloBaremetal(MorelloFVPDevice):

@@ -82,10 +82,16 @@ actions:
     - "-C board.rtc_clk_frequency=32768"
     - "-C num_clusters=2"
     - "-C num_cores=2"
-    - "-C board.virtio_net.enabled=1"
-    - "-C board.virtio_net.transport=legacy"
-    - "-C board.virtio_net.hostbridge.userNetworking=1"
+{% if smc91x_test %}
+    - "-C board.smsc_91c111.enabled=true"
+    - "-C board.hostbridge.userNetworking=true"
+    - "-C board.hostbridge.userNetPorts=\"5555=5555\""
+{% else %}
+    - "-C board.virtio_net.enabled=true"
+    - "-C board.virtio_net.hostbridge.userNetworking=true"
     - "-C board.virtio_net.hostbridge.userNetPorts=\"5555=5555\""
+    - "-C board.virtio_net.transport=legacy"
+{% endif %}
     - "-C disable_visualisation=true"
     - "-C board.virtio_p9.root_path=/etc"
     - "-C css.trustedBootROMloader.fname={AP_ROMFW}"
