@@ -11,6 +11,7 @@ import sys
 import time
 from urllib.parse import urlparse
 
+import requests
 from tuxrun.requests import requests_get
 from tuxrun.utils import ProgressIndicator, NoProgressIndicator
 from tuxrun.xdg import get_cache_dir
@@ -70,19 +71,23 @@ def __download_and_cache__(
         cache_etag = cache_etag_file.read_text()
     else:
         cache_etag = None
-    if cache_etag == etag:
+    if cache_etag == etag and cache.exists():
         response.close()
         return str(cache)
     else:
         cache_etag_file.write_text(etag)
 
     size = int(response.headers.get("Content-Length", "0"))
-    with cache.open("wb") as data:
-        n = 0
-        for chunk in response.iter_content(chunk_size=4096):
-            n += data.write(chunk)
-            if size:
-                progress.progress(100 * n / size)
+    try:
+        with cache.open("wb") as data:
+            n = 0
+            for chunk in response.iter_content(chunk_size=4096):
+                n += data.write(chunk)
+                if size:
+                    progress.progress(100 * n / size)
+    except requests.RequestException as e:
+        print(f"Unable to fetch url '{url}': {e}", file=sys.stderr)
+        raise
 
     if size:
         progress.finish()
