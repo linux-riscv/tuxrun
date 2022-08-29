@@ -70,7 +70,7 @@ def __download_and_cache__(
         cache_etag = cache_etag_file.read_text()
     else:
         cache_etag = None
-    if cache_etag == etag:
+    if cache_etag == etag and cache.exists():
         response.close()
         return str(cache)
     else:
