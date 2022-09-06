@@ -31,6 +31,8 @@ def filter_options(options):
         "runtime",
         "image",
         "log_file",
+        "log_file_html",
+        "log_file_text",
         "results",
         "debug",
     ]
@@ -285,6 +287,12 @@ def setup_parser() -> argparse.ArgumentParser:
 
     group = parser.add_argument_group("output")
     group.add_argument("--log-file", default=None, type=Path, help="Store logs to file")
+    group.add_argument(
+        "--log-file-html", default=None, type=Path, help="Store logs to file as HTML"
+    )
+    group.add_argument(
+        "--log-file-text", default=None, type=Path, help="Store logs to file as text"
+    )
     group.add_argument(
         "--results", default=None, type=Path, help="Save test results to file (JSON)"
     )
