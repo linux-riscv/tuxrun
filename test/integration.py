@@ -82,8 +82,10 @@ def run(device, test, runtime, debug):
         device,
         "--runtime",
         runtime,
-        "--log-file",
+        "--log-file-yaml",
         str(tmpdir / "logs.yaml"),
+        "--log-file",
+        "/dev/null",
     ]
     if test:
         args.extend(["--tests", test])
