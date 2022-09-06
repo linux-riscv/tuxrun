@@ -36,3 +36,4 @@ nav:
 - Features:
   - Devices: devices.md
   - Tests: tests.md
+  - Outputs: outputs.md
