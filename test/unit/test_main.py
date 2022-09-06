@@ -302,7 +302,7 @@ def test_ignores_empty_line_from_lava_run_stdout(tuxrun_args, lava_run):
 
 def test_ignores_empty_line_from_lava_run_logfile(tuxrun_args, lava_run, tmp_path):
     log = tmp_path / "log.yaml"
-    tuxrun_args += ["--log-file", str(log)]
+    tuxrun_args += ["--log-file-yaml", str(log)]
     lava_run.stderr = [
         '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n',
         "",
@@ -322,6 +322,32 @@ def test_exit_status_is_0_on_success(tuxrun_args, lava_run):
 def test_exit_status_matches_results(tuxrun_args, lava_run, mocker):
     mocker.patch("tuxrun.results.Results.ret", return_value=1)
     assert main() == 1
+
+
+def test_save_output(monkeypatch, tmp_path, run):
+    print(tmp_path)
+    monkeypatch.setattr(
+        "sys.argv", ["tuxrun", "--device", "qemu-armv5", "--save-outputs"]
+    )
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert (
+        options.log_file
+        == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "logs"
+    )
+    assert (
+        options.log_file_html
+        == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "logs.html"
+    )
+    assert (
+        options.log_file_text
+        == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "logs.txt"
+    )
+    assert (
+        options.log_file_yaml
+        == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "logs.yaml"
+    )
 
 
 def test_tuxbuild(get, monkeypatch, mocker, run):

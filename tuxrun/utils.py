@@ -8,6 +8,8 @@
 from abc import ABC, abstractmethod
 import sys
 
+from tuxrun import xdg
+
 
 class ProgressIndicator(ABC):
     @abstractmethod
@@ -70,3 +72,21 @@ def notnone(value, fallback):
     if value is None:
         return fallback
     return value
+
+
+def get_new_output_dir():
+    base = xdg.get_cache_dir() / "tests"
+    base.mkdir(parents=True, exist_ok=True)
+    existing = [int(f.name) for f in base.glob("[0-9]*")]
+    if existing:
+        new = max(existing) + 1
+    else:
+        new = 1
+    while True:
+        new_dir = base / str(new)
+        try:
+            new_dir.mkdir()
+            break
+        except FileExistsError:
+            new += 1
+    return new_dir

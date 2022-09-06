@@ -26,7 +26,7 @@ from tuxrun.requests import requests_get
 from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
 from tuxrun.tests import Test
-from tuxrun.utils import ProgressIndicator
+from tuxrun.utils import get_new_output_dir, ProgressIndicator
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
 
@@ -184,9 +184,12 @@ def run(options, tmpdir: Path) -> int:
     ]
 
     results = Results(options.tests)
-    # Start the writer (stderr or log-file)
+    # Start the writer (stdout or log-file)
     with Writer(
-        options.log_file, options.log_file_html, options.log_file_text
+        options.log_file,
+        options.log_file_html,
+        options.log_file_text,
+        options.log_file_yaml,
     ) as writer:
         # Start the runtime
         with runtime.run(args):
@@ -195,7 +198,10 @@ def run(options, tmpdir: Path) -> int:
                 results.parse(line)
     runtime.post_run()
     if options.results:
-        options.results.write_text(json.dumps(results.data))
+        if str(options.results) == "-":
+            sys.stdout.write(json.dumps(results.data) + "\n")
+        else:
+            options.results.write_text(json.dumps(results.data))
     return max([runtime.ret(), results.ret()])
 
 
@@ -224,6 +230,34 @@ def main() -> int:
             elif options.tuxmake:
                 if (tux.location / "dtbs" / "versatile-pb.dtb").exists():
                     options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
+
+    cache_dir = None
+    if options.save_outputs:
+        if any(
+            (
+                o is None
+                for o in [
+                    options.log_file,
+                    options.log_file_html,
+                    options.log_file_text,
+                    options.log_file_yaml,
+                    options.results,
+                ]
+            )
+        ):
+            cache_dir = get_new_output_dir()
+            if options.log_file is None:
+                options.log_file = cache_dir / "logs"
+            if options.log_file_html is None:
+                options.log_file_html = cache_dir / "logs.html"
+            if options.log_file_text is None:
+                options.log_file_text = cache_dir / "logs.txt"
+            if options.log_file_yaml is None:
+                options.log_file_yaml = cache_dir / "logs.yaml"
+            if options.results is None:
+                options.results = cache_dir / "results.json"
+    elif options.log_file is None:
+        options.log_file = "-"
 
     if not options.device:
         parser.error("argument --device is required")
@@ -264,6 +298,8 @@ def main() -> int:
     finally:
         with contextlib.suppress(FileNotFoundError, PermissionError):
             shutil.rmtree(tmpdir)
+        if cache_dir:
+            print(f"TuxRun outputs saved to {cache_dir}")
 
 
 def start():

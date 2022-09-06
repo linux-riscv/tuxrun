@@ -58,10 +58,11 @@ HTML_FOOTER = """</pre>
 
 
 class Writer(ContextDecorator):
-    def __init__(self, log_file, html_file, text_file):
+    def __init__(self, log_file, html_file, text_file, yaml_file):
         self.log_file = log_file
         self.html_file = html_file
         self.text_file = text_file
+        self.yaml_file = yaml_file
 
         self.lineno = 0
         self.kernel_level_pattern = re.compile(r"^\<([0-7])\>")
@@ -77,23 +78,33 @@ class Writer(ContextDecorator):
         }
 
     def __enter__(self):
+        def fopen(p):
+            if str(p) == "-":
+                return sys.stdout
+            return p.open("w")
+
         if self.log_file is not None:
-            self.log_file = self.log_file.open("w")
+            self.log_file = fopen(self.log_file)
         if self.html_file is not None:
-            self.html_file = self.html_file.open("w")
+            self.html_file = fopen(self.html_file)
             self.html_file.write(HTML_HEADER)
         if self.text_file is not None:
-            self.text_file = self.text_file.open("w")
+            self.text_file = fopen(self.text_file)
+        if self.yaml_file is not None:
+            self.yaml_file = fopen(self.yaml_file)
         return self
 
     def __exit__(self, exc_type, exc, exc_tb):
-        if self.log_file is not None:
-            self.log_file.close()
+        def fclose(f):
+            if f is not None and f != sys.stdout:
+                f.close()
+
         if self.html_file is not None:
             self.html_file.write(HTML_FOOTER)
-            self.html_file.close()
-        if self.text_file is not None:
-            self.text_file.close()
+        fclose(self.log_file)
+        fclose(self.text_file)
+        fclose(self.html_file)
+        fclose(self.yaml_file)
 
     def write(self, line):
         line = line.rstrip("\n")
@@ -110,8 +121,6 @@ class Writer(ContextDecorator):
             return
 
         if self.log_file is not None:
-            self.log_file.write("- " + line + "\n")
-        else:
             level = data["lvl"]
             msg = data["msg"]
             ns = " "
@@ -121,9 +130,12 @@ class Writer(ContextDecorator):
 
             if level == "input" and msg[-1] == "\n":
                 msg = msg[0:-1] + "⏎"
-            sys.stdout.write(
+            self.log_file.write(
                 f"{COLORS['dt']}{timestamp}{COLORS['end']}{ns}{COLORS[level]}{msg}{COLORS['end']}\n"
             )
+
+        if self.yaml_file is not None:
+            self.yaml_file.write("- " + line + "\n")
 
         if data["lvl"] in ["target", "feedback"]:
             if self.text_file is not None:
