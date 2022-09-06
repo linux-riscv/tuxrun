@@ -302,7 +302,7 @@ def test_ignores_empty_line_from_lava_run_stdout(tuxrun_args, lava_run):
 
 def test_ignores_empty_line_from_lava_run_logfile(tuxrun_args, lava_run, tmp_path):
     log = tmp_path / "log.yaml"
-    tuxrun_args += ["--log", str(log)]
+    tuxrun_args += ["--log-file", str(log)]
     lava_run.stderr = [
         '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n',
         "",

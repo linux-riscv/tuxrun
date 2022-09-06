@@ -185,7 +185,9 @@ def run(options, tmpdir: Path) -> int:
 
     results = Results(options.tests)
     # Start the writer (stderr or log-file)
-    with Writer(options.log_file) as writer:
+    with Writer(
+        options.log_file, options.log_file_html, options.log_file_text
+    ) as writer:
         # Start the runtime
         with runtime.run(args):
             for line in runtime.lines():
