@@ -60,6 +60,15 @@ tuxrun --device qemu-arm64 \
     Multiple tests can be specified after **--tests**.
     The tests will be executed one by one, in the order specified on the command-line.
 
+## Custom qemu version
+
+You can provide a container with qemu already installed. TuxRun will use qemu from this container:
+
+```shell
+tuxrun --device qemu-armv5 \
+       --qemu-image docker.io/qemu/qemu:latest
+```
+
 ## Custom command
 
 You can run any command **inside** the VM with:
