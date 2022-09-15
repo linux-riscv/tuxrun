@@ -49,8 +49,8 @@ actions:
     - "(?P<NAME>terminal_3): Listening for serial connection on port (?P<PORT>\\d+)"
     arguments:
     - "--plugin /opt/model/FVP_AEMvA/plugins/Linux64_GCC-9.3/ScalableVectorExtension.so"
-    - "--data cluster0.cpu0={DTB}@0x86000000"
-    - "--data cluster0.cpu0={KERNEL}@0x80080000"
+    - "--data cluster0.cpu0={DTB}@0x8E000000"
+    - "--data cluster0.cpu0={KERNEL}@0x80200000"
     - "-C pctl.startup=0.0.0.0"
     - "-C bp.secure_memory=0"
     - "-C cluster0.NUM_CORES=4"
