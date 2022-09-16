@@ -30,6 +30,7 @@ def filter_options(options):
         "timeouts",
         "runtime",
         "image",
+        "qemu_image",
         "save_outputs",
         "log_file",
         "log_file_html",
@@ -285,6 +286,9 @@ def setup_parser() -> argparse.ArgumentParser:
         "--image",
         default="docker.io/lavasoftware/lava-dispatcher:latest",
         help="Image to use",
+    )
+    group.add_argument(
+        "--qemu-image", default=None, help="Use qemu from the given container image"
     )
 
     group = parser.add_argument_group("output")

@@ -92,6 +92,10 @@ def artefacts(tmp_path):
             "qemu-arm64be.yaml",
         ),
         (
+            ["--device", "qemu-arm64be", "--qemu-image", "docker.io/qemu/qemu:latest"],
+            "qemu-arm64be-qemu-image.yaml",
+        ),
+        (
             ["--device", "qemu-armv5"],
             "qemu-armv5.yaml",
         ),

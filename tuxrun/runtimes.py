@@ -104,6 +104,7 @@ class Runtime:
 
 
 class ContainerRuntime(Runtime):
+    bind_guestfs = True
     container = True
 
     def __init__(self):
@@ -114,9 +115,10 @@ class ContainerRuntime(Runtime):
         if Path("/dev/kvm").exists():
             self.bind("/dev/kvm")
         # Bind /var/tmp/.guestfs-$id if available
-        guestfs = Path(f"/var/tmp/.guestfs-{os.getuid()}")
-        if guestfs.exists():
-            self.bind(guestfs, "/var/tmp/.guestfs-0")
+        if self.bind_guestfs:
+            guestfs = Path(f"/var/tmp/.guestfs-{os.getuid()}")
+            if guestfs.exists():
+                self.bind(guestfs, "/var/tmp/.guestfs-0")
 
     def cmd(self, args):
         prefix = self.prefix.copy()
@@ -150,6 +152,9 @@ class ContainerRuntime(Runtime):
 
 
 class DockerRuntime(ContainerRuntime):
+    # Do not bind or libguestfs will fail at runtime
+    # "security: cached appliance /var/tmp/.guestfs-0 is not owned by UID 0"
+    bind_guestfs = False
     binary = "docker"
     prefix = ["docker", "run", "--rm", "--hostname", "tuxrun"]
 

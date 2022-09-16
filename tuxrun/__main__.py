@@ -78,6 +78,7 @@ def run(options, tmpdir: Path) -> int:
         bl1=options.bl1,
         command=command,
         device=options.device,
+        qemu_image=options.qemu_image,
         dtb=options.dtb,
         kernel=options.kernel,
         ap_romfw=options.ap_romfw,
@@ -163,7 +164,7 @@ def run(options, tmpdir: Path) -> int:
     signal.alarm(job_timeout)
 
     # start the pre_run command
-    if options.device and options.device.flag_use_pre_run_cmd:
+    if options.device.flag_use_pre_run_cmd or options.qemu_image:
         LOG.debug("Pre run command")
         runtime.bind(tmpdir / "dispatcher" / "tmp", "/var/lib/lava/dispatcher/tmp")
         (tmpdir / "dispatcher" / "tmp").mkdir()
