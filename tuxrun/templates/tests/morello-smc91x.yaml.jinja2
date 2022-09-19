@@ -2,10 +2,11 @@
     timeout:
       minutes: {{ timeout }}
     interactive:
-    - name: virtio_net
+    - name: smc91x
       prompts: ["{{ '", "'.join(prompts)}}"]
       script:
       - command: "dmesg"
-        name: virtio_net
+        name: smc91x
         successes:
-        - message: "smc91x: not found"
+        - message: 'virtio_net.\[0m: probe of virtio1 failed with error -2'
+

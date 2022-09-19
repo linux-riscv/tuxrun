@@ -65,29 +65,17 @@ class MorelloBusyBoxVirtioP9(MorelloTest):
     timeout = 5
 
 
-class MorelloBusyBoxVirtioNet(MorelloTest):
-    devices = ["fvp-morello"]
-    template = "morello-busybox-virtio_net.yaml.jinja2"
-    name = "virtio_net"
-    timeout = 5
-
-
-class MorelloBusyBoxSmc91x(MorelloTest):
-    devices = ["fvp-morello"]
-    template = "morello-busybox-smc91x.yaml.jinja2"
+class MorelloSmc91x(MorelloTest):
+    devices = ["fvp-morello-android", "fvp-morello-busybox"]
     name = "smc91x"
+    template = "morello-smc91x.yaml.jinja2"
     timeout = 5
 
 
-class MorelloAndroidVirtioNet(MorelloAndroidTest):
-    template = "morello-android-virtio_net.yaml.jinja2"
+class MorelloVirtioNet(MorelloTest):
+    devices = ["fvp-morello-android", "fvp-morello-busybox"]
     name = "virtio_net"
-    timeout = 5
-
-
-class MorelloAndroidSmc91x(MorelloAndroidTest):
-    template = "morello-android-smc91x.yaml.jinja2"
-    name = "smc91x"
+    template = "morello-virtio_net.yaml.jinja2"
     timeout = 5
 
 
