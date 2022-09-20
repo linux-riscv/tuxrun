@@ -25,11 +25,11 @@ fvp-aemva | v4l2                                                              | 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device    | Tests                                                                                                                                         | Parameters |
-----------|-----------------------------------------------------------------------------------------------------------------------------------------------|------------|
-fvp-aemva | libgpiod                                                                                                                                      |            |
-fvp-aemva | libhugtlbfs                                                                                                                                   |            |
-fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing)      | SKIPFILE   |
+Device    | Tests                                                                                                                                                      | Parameters |
+----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+fvp-aemva | libgpiod                                                                                                                                                   |            |
+fvp-aemva | libhugetlbfs                                                                                                                                               |            |
+fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing)      | SKIPFILE   |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
@@ -39,7 +39,7 @@ fvp-aemva | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hu
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
 
-!! info "ltp parameter"
+!!! info "ltp parameter"
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
 
@@ -70,8 +70,13 @@ fvp-morello-android | lldb         | LLDB_URL, TC_URL                 |
 fvp-morello-android | logd         | USERDATA                         |
 fvp-morello-android | libpcre      |                                  |
 fvp-morello-android | multicore    |                                  |
+fvp-morello-android | smc91x       |                                  |
+fvp-morello-android | virtio_net   |                                  |
 fvp-morello-android | zlib         | SYSTEM_URL                       |
 fvp-morello-busybox | purecap      |                                  |
+fvp-morello-busybox | smc91x       |                                  |
+fvp-morello-busybox | virtio_net   |                                  |
+fvp-morello-busybox | virtiop9     |                                  |
 fvp-morello-oe      | fwts         |                                  |
 
 !!! tip "Passing parameters"
@@ -101,11 +106,11 @@ qemu-\* | v4l2                                                              |   
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device  | Tests                                                                                                                                    | Parameters |
---------|------------------------------------------------------------------------------------------------------------------------------------------|------------|
-qemu-\* | libgpiod                                                                                                                                 |            |
-qemu-\* | libhugtlbfs                                                                                                                              |            |
-qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE   |
+Device  | Tests                                                                                                                                                 | Parameters |
+--------|-------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+qemu-\* | libgpiod                                                                                                                                              |            |
+qemu-\* | libhugetlbfs                                                                                                                                          |            |
+qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE   |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
@@ -115,7 +120,7 @@ qemu-\* | ltp-(cap_bounds, commands, containers, crypto, cve, filecaps, fs, huge
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
 
-!! info "ltp parameter"
+!!! info "ltp parameter"
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
 
