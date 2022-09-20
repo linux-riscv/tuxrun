@@ -65,6 +65,20 @@ class MorelloBusyBoxVirtioP9(MorelloTest):
     timeout = 5
 
 
+class MorelloSmc91x(MorelloTest):
+    devices = ["fvp-morello-android", "fvp-morello-busybox"]
+    name = "smc91x"
+    template = "morello-smc91x.yaml.jinja2"
+    timeout = 5
+
+
+class MorelloVirtioNet(MorelloTest):
+    devices = ["fvp-morello-android", "fvp-morello-busybox"]
+    name = "virtio_net"
+    template = "morello-virtio_net.yaml.jinja2"
+    timeout = 5
+
+
 class MorelloBinder(MorelloAndroidTest):
     name = "binder"
     timeout = 34
