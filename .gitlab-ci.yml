@@ -1,7 +1,9 @@
 include:
   - https://gitlab.com/Linaro/tuxpkg/-/raw/main/gitlab-ci-pipeline.yml
+  - template: Security/SAST.gitlab-ci.yml
 
 variables:
+  SAST_EXCLUDED_PATHS: spec, test, tests, tmp, public
   TUXPKG_PROJECT: tuxrun
 
 #############
