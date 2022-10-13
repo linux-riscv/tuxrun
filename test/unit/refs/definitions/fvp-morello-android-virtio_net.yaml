@@ -92,4 +92,4 @@ actions:
       - command: "dmesg"
         name: virtio_net
         successes:
-        - message: 'smc91x.\[0m: not found'
+        - message: 'smc91x.{0,4}: not found'
