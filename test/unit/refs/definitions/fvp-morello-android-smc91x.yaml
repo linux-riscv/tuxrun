@@ -91,4 +91,4 @@ actions:
       - command: "dmesg"
         name: smc91x
         successes:
-        - message: 'virtio_net.\[0m: probe of virtio1 failed with error -2'
+        - message: 'virtio_net.{0,4}: probe of virtio1 failed with error -2'
