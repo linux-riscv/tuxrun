@@ -25,7 +25,7 @@ actions:
       uefi:
         url: "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
       bl1:
-        url: "/DATA/tf-bl1.bin"
+        url: "https://storage.tuxboot.com/fvp-aemva/bl1.bin"
       dtb:
         url: "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
       kernel:
@@ -34,14 +34,8 @@ actions:
         url: "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
         compression: zstd
         format: ext4
-        overlays:
-          modules:
-            url: "https://example.com/modules.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
       fip:
-        url: "/DATA/fip.bin"
+        url: "https://storage.tuxboot.com/fvp-aemva/fip.bin"
 - boot:
     method: fvp
     docker:

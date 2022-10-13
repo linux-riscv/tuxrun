@@ -36,6 +36,7 @@ ARTEFACTS = [
     "scp_romfw.bin",
     "fip.bin",
     "ubuntu.satadisk.xz",
+    "startup.nsh",
 ]
 
 FVP_MORELLO_ANDROID = [
@@ -374,6 +375,8 @@ def artefacts(tmp_path):
                 "zImage.xz",
                 "--rootfs",
                 "https://example.com/rootfs.ext4.zst",
+                "--uefi",
+                "https://example.com/uefi.bin",
             ],
             "fvp-aemva-kernel-xz.yaml",
         ),
@@ -430,6 +433,13 @@ def artefacts(tmp_path):
                 "https://example.com/modules.tar.gz",
             ],
             "fvp-aemva-modules-tar-gz.yaml",
+        ),
+        (
+            [
+                "--device",
+                "fvp-aemva",
+            ],
+            "fvp-aemva-defaults.yaml",
         ),
         (
             ["--device", "fvp-morello-android", *FVP_MORELLO_ANDROID],
@@ -771,3 +781,43 @@ def test_definition(monkeypatch, mocker, tmpdir, artefacts, args, filename):
     assert data == (BASE / "refs" / "definitions" / filename).read_text(
         encoding="utf-8"
     )
+
+
+def test_fvm_aemva_extra_assets(tmpdir):
+    device = Device.select("fvp-aemva")()
+
+    # 1/ default case
+    asset = device.extra_assets(
+        dtb=None,
+        kernel=None,
+        tmpdir=tmpdir,
+    )
+    assert len(asset) == 1
+    assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
+    assert (tmpdir / "startup.nsh").read_text(
+        encoding="utf-8"
+    ) == "Image dtb=fvp-base-revc.dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+
+    # 2/ custom urls
+    asset = device.extra_assets(
+        dtb="file://hello/world/fdt.dtb",
+        kernel="http://example.com/kernel",
+        tmpdir=tmpdir,
+    )
+    assert len(asset) == 1
+    assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
+    assert (tmpdir / "startup.nsh").read_text(
+        encoding="utf-8"
+    ) == "kernel dtb=fdt.dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+
+    # 3/ compression
+    asset = device.extra_assets(
+        dtb="file://tmp/my-dtb",
+        kernel="Image.gz",
+        tmpdir=tmpdir,
+    )
+    assert len(asset) == 1
+    assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
+    assert (tmpdir / "startup.nsh").read_text(
+        encoding="utf-8"
+    ) == "Image dtb=my-dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"

@@ -25,11 +25,12 @@ class AEMvAFVPDevice(FVPDevice):
 
     flag_cache_rootfs = True
 
-    bl1 = "https://storage.tuxboot.com/fvp-aemva/tf-bl1.bin"
+    bl1 = "https://storage.tuxboot.com/fvp-aemva/bl1.bin"
     dtb = "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
-    fip = "https://storage.tuxboot.com/fvp-aemva/fip-uboot.bin"
+    fip = "https://storage.tuxboot.com/fvp-aemva/fip.bin"
     kernel = "https://storage.tuxboot.com/fvp-aemva/Image"
     rootfs = "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
+    uefi = "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
 
     def validate(
         self,
@@ -39,6 +40,7 @@ class AEMvAFVPDevice(FVPDevice):
         fip,
         kernel,
         rootfs,
+        uefi,
         parameters,
         modules,
         tests,
@@ -67,6 +69,7 @@ class AEMvAFVPDevice(FVPDevice):
         kwargs["fip"] = notnone(kwargs.get("fip"), self.fip)
         kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
         kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
+        kwargs["uefi"] = notnone(kwargs.get("uefi"), self.uefi)
 
         # render the template
         tests = [
@@ -85,6 +88,18 @@ class AEMvAFVPDevice(FVPDevice):
             + "\n"
             + "".join(tests)
         )
+
+    def extra_assets(self, tmpdir, dtb, kernel, **kwargs):
+        dtb = notnone(dtb, self.dtb).split("/")[-1]
+        kernel = notnone(kernel, self.kernel).split("/")[-1]
+        # Drop the extension if the kernel is compressed. LAVA will decompress it for us.
+        if compression(kernel)[1]:
+            kernel = kernel[: -1 - len(compression(kernel)[1])]
+        (tmpdir / "startup.nsh").write_text(
+            f"{kernel} dtb={dtb} console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp",
+            encoding="utf-8",
+        )
+        return [f"file://{tmpdir / 'startup.nsh'}"]
 
 
 class MorelloFVPDevice(FVPDevice):

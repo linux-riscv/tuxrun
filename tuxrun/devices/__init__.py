@@ -5,6 +5,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+from typing import Dict, List
+
 from tuxrun.exceptions import InvalidArgument
 
 
@@ -30,17 +32,20 @@ class Device:
         )
 
     @classmethod
-    def list(cls):
+    def list(cls) -> List["Device"]:
         return sorted([s for s in subclasses(cls) if s.name], key=lambda d: d.name)
 
     def validate(self, **kwargs):
         raise NotImplementedError()  # pragma: no cover
 
-    def definition(self, **kwargs):
+    def definition(self, **kwargs) -> str:
         raise NotImplementedError()  # pragma: no cover
 
-    def device_dict(self, context):
+    def device_dict(self, context: Dict) -> str:
         raise NotImplementedError()  # pragma: no cover
+
+    def extra_assets(self, tmpdir, **kwargs) -> List[str]:
+        return []
 
 
 import tuxrun.devices.fvp  # noqa: E402
