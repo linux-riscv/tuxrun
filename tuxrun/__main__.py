@@ -73,31 +73,35 @@ def run(options, tmpdir: Path) -> int:
 
     command = " ".join([shlex.quote(s) for s in options.command])
 
-    definition = options.device.definition(
-        bios=options.bios,
-        bl1=options.bl1,
-        command=command,
-        device=options.device,
-        qemu_image=options.qemu_image,
-        dtb=options.dtb,
-        kernel=options.kernel,
-        ap_romfw=options.ap_romfw,
-        mcp_fw=options.mcp_fw,
-        mcp_romfw=options.mcp_romfw,
-        fip=options.fip,
-        overlays=overlays,
-        rootfs=options.rootfs,
-        rootfs_partition=options.partition,
-        scp_fw=options.scp_fw,
-        scp_romfw=options.scp_romfw,
-        tests=options.tests,
-        test_definitions=test_definitions,
-        tests_timeout=sum(t.timeout for t in options.tests),
-        timeouts=options.timeouts,
-        tmpdir=tmpdir,
-        tux_boot_args=options.boot_args.replace('"', "") if options.boot_args else None,
-        parameters=options.parameters,
-    )
+    def_arguments = {
+        "bios": options.bios,
+        "bl1": options.bl1,
+        "command": command,
+        "device": options.device,
+        "qemu_image": options.qemu_image,
+        "dtb": options.dtb,
+        "kernel": options.kernel,
+        "ap_romfw": options.ap_romfw,
+        "mcp_fw": options.mcp_fw,
+        "mcp_romfw": options.mcp_romfw,
+        "fip": options.fip,
+        "overlays": overlays,
+        "rootfs": options.rootfs,
+        "rootfs_partition": options.partition,
+        "scp_fw": options.scp_fw,
+        "scp_romfw": options.scp_romfw,
+        "tests": options.tests,
+        "test_definitions": test_definitions,
+        "tests_timeout": sum(t.timeout for t in options.tests),
+        "timeouts": options.timeouts,
+        "tmpdir": tmpdir,
+        "tux_boot_args": options.boot_args.replace('"', "")
+        if options.boot_args
+        else None,
+        "parameters": options.parameters,
+        "uefi": options.uefi,
+    }
+    definition = options.device.definition(**def_arguments)
     LOG.debug("job definition")
     LOG.debug(definition)
 
@@ -122,6 +126,9 @@ def run(options, tmpdir: Path) -> int:
     LOG.debug(dispatcher)
     (tmpdir / "dispatcher.yaml").write_text(dispatcher, encoding="utf-8")
 
+    # Add extra assets from device
+    extra_assets.extend(options.device.extra_assets(**def_arguments))
+
     # Use a container runtime
     runtime = Runtime.select(options.runtime)()
     runtime.name(tmpdir.name)
@@ -140,6 +147,7 @@ def run(options, tmpdir: Path) -> int:
         options.rootfs,
         options.scp_fw,
         options.scp_romfw,
+        options.uefi,
     ] + extra_assets:
         if not path:
             continue

@@ -189,6 +189,7 @@ def setup_parser() -> argparse.ArgumentParser:
     artefact("bios")
     artefact("bl1")
     artefact("dtb")
+    artefact("fip")
     artefact("kernel")
     artefact("mcp-fw")
     artefact("mcp-romfw")
@@ -226,7 +227,7 @@ def setup_parser() -> argparse.ArgumentParser:
         type=tuxmake_directory,
         help="directory containing a TuxMake build",
     )
-    artefact("fip")
+    artefact("uefi")
 
     group = parser.add_argument_group("test parameters")
     group.add_argument(
