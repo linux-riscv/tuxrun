@@ -61,6 +61,7 @@ actions:
       minutes: 20
     definitions:
     - repository: file://testdef.tar.zst
+      lava-signal: kmsg
       from: url
       compression: zstd
       path: automated/linux/kunit/kunit.yaml

@@ -61,6 +61,7 @@ actions:
       minutes: 5
     definitions:
     - repository: file://testdef.tar.zst
+      lava-signal: kmsg
       from: url
       compression: zstd
       path: automated/linux/kselftest/kselftest.yaml

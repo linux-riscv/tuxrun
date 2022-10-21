@@ -3,6 +3,7 @@
       minutes: {{ timeout }}
     definitions:
     - repository: {{ test_definitions }}
+      lava-signal: kmsg
       from: url
       compression: zstd
       path: automated/linux/perf/perf.yaml

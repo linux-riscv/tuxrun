@@ -55,6 +55,7 @@ actions:
       minutes: 25
     definitions:
     - repository: file://testdef.tar.zst
+      lava-signal: kmsg
       from: url
       compression: zstd
       path: automated/linux/ltp/ltp.yaml
