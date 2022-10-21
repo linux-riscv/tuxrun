@@ -170,7 +170,7 @@ actions:
     - "-C pci.pci_smmuv3.mmu.root_register_page_offset=131072"
     - "-C pctl.startup=0.0.0.0"
     auto_login:
-      login_prompt: '(.*)login:'
+      login_prompt: 'login:'
       username: root
     prompts:
     - 'root@(.*):[/~]#'
