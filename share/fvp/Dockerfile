@@ -1,4 +1,6 @@
-FROM docker.io/lavasoftware/lava-dispatcher:2022.10
+ARG image="docker.io/lavasoftware/lava-dispatcher:2022.10"
+
+FROM $image
 
 ENV DEBIAN_FRONTEND noninteractive
 
