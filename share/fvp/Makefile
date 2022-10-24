@@ -1,3 +1,4 @@
+LAVA_IMAGE ?= ""
 RUNTIME ?= "podman"
 
 .PHONE: build
@@ -5,7 +6,7 @@ RUNTIME ?= "podman"
 build: fvp fvp-aemva fvp-morello
 
 fvp: Dockerfile
-	$(RUNTIME) build --tag tuxrun:fvp .
+	@if [ "$(LAVA_IMAGE)" = "" ]; then $(RUNTIME) build --tag tuxrun:fvp . ; else $(RUNTIME) build --build-arg image="$(LAVA_IMAGE)" --tag tuxrun:fvp . ;fi
 
 fvp-aemva: aemva/Dockerfile
 	cd aemva && $(RUNTIME) build --tag fvp:aemva-11.18.16 .
