@@ -20,7 +20,7 @@ class QemuDevice(Device):
     lava_arch: str = ""
     machine: str = ""
     cpu: str = ""
-    memory: str = ""
+    memory: str = "4G"
 
     extra_options: List[str] = []
     extra_boot_args: str = ""
@@ -158,7 +158,6 @@ class QemuArmv5(QemuDevice):
     lava_arch = "arm"
     machine = "versatilepb"
     cpu = "arm926"
-
     memory = "256M"
 
     console = "ttyAMA0"
@@ -222,6 +221,7 @@ class QemuMips32(QemuDevice):
     lava_arch = "mips"
     machine = "malta"
     cpu = "mips32r6-generic"
+    memory = "2G"
 
     console = "ttyS0"
     rootfs_dev = "/dev/sda"
@@ -238,6 +238,7 @@ class QemuMips32EL(QemuDevice):
     lava_arch = "mipsel"
     machine = "malta"
     cpu = "mips32r6-generic"
+    memory = "2G"
 
     console = "ttyS0"
     rootfs_dev = "/dev/sda"
@@ -253,6 +254,7 @@ class QemuMips64(QemuDevice):
     arch = "mips64"
     lava_arch = "mips64"
     machine = "malta"
+    memory = "2G"
 
     console = "ttyS0"
     rootfs_dev = "/dev/sda"
@@ -268,6 +270,7 @@ class QemuMips64EL(QemuDevice):
     arch = "mips64el"
     lava_arch = "mips64el"
     machine = "malta"
+    memory = "2G"
 
     console = "ttyS0"
     rootfs_dev = "/dev/sda"

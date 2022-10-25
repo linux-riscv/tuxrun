@@ -8,6 +8,7 @@ context:
     arch: "arm64"
     machine: "virt,gic-version=3"
     cpu: "max,pauth-impdef=on"
+    memory: "4G"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true

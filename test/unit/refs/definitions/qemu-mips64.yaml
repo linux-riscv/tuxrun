@@ -8,6 +8,7 @@ context:
     arch: "mips64"
     machine: "malta"
     cpu: ""
+    memory: "2G"
     extra_options: ["-no-reboot", ""]
     no_kvm: true
     no_network: true
