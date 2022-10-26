@@ -8,6 +8,7 @@ context:
     arch: "i386"
     machine: "q35"
     cpu: "coreduo"
+    memory: "4G"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true

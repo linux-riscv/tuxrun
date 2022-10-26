@@ -8,6 +8,7 @@ context:
     arch: "sh4"
     machine: "r2d"
     cpu: "sh7785"
+    memory: "4G"
     extra_options: ["-no-reboot", ""]
     no_kvm: true
     no_network: true

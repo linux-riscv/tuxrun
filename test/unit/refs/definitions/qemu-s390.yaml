@@ -8,6 +8,7 @@ context:
     arch: "s390x"
     machine: "s390-ccw-virtio"
     cpu: "max,zpci=on"
+    memory: "4G"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true

@@ -8,6 +8,7 @@ context:
     arch: "riscv64"
     machine: "virt"
     cpu: "rv64"
+    memory: "4G"
     extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
