@@ -64,6 +64,8 @@ actions:
         TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
+        SHARD_NUMBER: 1
+        SHARD_INDEX: 1
       name: ltp-fs_perms_simple
 - test:
     timeout:
@@ -82,6 +84,8 @@ actions:
         TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
+        SHARD_NUMBER: 1
+        SHARD_INDEX: 1
       name: ltp-fsx
 - test:
     timeout:
@@ -100,4 +104,6 @@ actions:
         TIMEOUT_MULTIPLIER: '5'
         LTP_TMPDIR: '/scratch'
         LTP_INSTALL_PATH: '/opt/ltp/'
+        SHARD_NUMBER: 1
+        SHARD_INDEX: 1
       name: ltp-nptl
