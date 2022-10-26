@@ -51,6 +51,7 @@ actions:
       minutes: 15
     definitions:
     - repository: file://testdef.tar.zst
+      lava-signal: kmsg
       from: url
       compression: zstd
       path: automated/linux/rcutorture/rcutorture.yaml
