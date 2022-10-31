@@ -191,3 +191,6 @@ actions:
       username: root
     prompts:
     - 'root@(.*):[/~]#'
+{% if tux_custom_prompt %}
+    - '{{ tux_custom_prompt }}'
+{% endif %}

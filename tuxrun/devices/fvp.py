@@ -33,11 +33,13 @@ class AEMvAFVPDevice(FVPDevice):
     uefi = "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
 
     extra_boot_args: str = ""
+    extra_custom_prompt: str = ""
 
     def validate(
         self,
         bl1,
         boot_args,
+        custom_prompt,
         command,
         dtb,
         fip,
@@ -57,6 +59,8 @@ class AEMvAFVPDevice(FVPDevice):
 
         if boot_args and '"' in boot_args:
             raise InvalidArgument('argument --boot-args should not contains "')
+        if custom_prompt and '"' in custom_prompt:
+            raise InvalidArgument('argument --custom-prompt should not contains "')
         if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
             raise InvalidArgument(
                 "argument --modules should be a .tar.gz, tar.xz or .tgz"
@@ -81,6 +85,13 @@ class AEMvAFVPDevice(FVPDevice):
             else:
                 kwargs["tux_boot_args"] = ""
             kwargs["tux_boot_args"] += self.extra_boot_args
+
+        if self.extra_custom_prompt:
+            if kwargs["tux_custom_prompt"]:
+                kwargs["tux_custom_prompt"] = kwargs.get("tux_custom_prompt") + " "
+            else:
+                kwargs["tux_custom_prompt"] = ""
+            kwargs["tux_custom_prompt"] += self.extra_custom_prompt
 
         # render the template
         tests = [
