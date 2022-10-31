@@ -98,6 +98,9 @@ def run(options, tmpdir: Path) -> int:
         "tux_boot_args": options.boot_args.replace('"', "")
         if options.boot_args
         else None,
+        "tux_custom_prompt": options.custom_prompt.replace('"', "")
+        if options.custom_prompt
+        else None,
         "parameters": options.parameters,
         "uefi": options.uefi,
     }

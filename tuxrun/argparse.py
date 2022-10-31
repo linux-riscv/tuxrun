@@ -266,6 +266,9 @@ def setup_parser() -> argparse.ArgumentParser:
         "--boot-args", default=None, metavar="ARGS", help="extend boot arguments"
     )
     group.add_argument(
+        "--custom-prompt", default=None, metavar="ARGS", help="extend prompt to search for"
+    )
+    group.add_argument(
         "--timeouts",
         metavar="K=V",
         default={},
