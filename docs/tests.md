@@ -15,7 +15,7 @@ The following tests are supported by the default root filesystem.
 Device    | Tests                                                             | Parameters                          |
 ----------|-------------------------------------------------------------------|-------------------------------------|
 fvp-aemva | command                                                           |                                     |
-fvp-aemva | kselftest-(arm64 gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)      | KSELFTEST, SKIPFILE                 |
+fvp-aemva | kselftest-(arm64 gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc) | KSELFTEST, SKIPFILE                 |
 fvp-aemva | kunit\*                                                           |                                     |
 fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 fvp-aemva | perf                                                              |                                     |
@@ -102,7 +102,7 @@ The following tests are supported by the default root filesystem.
 Device  | Tests                                                             | Parameters                          |
 --------|-------------------------------------------------------------------|-------------------------------------|
 qemu-\* | command                                                           |                                     |
-qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, rseq, rtc)     | CPUPOWER, KSELFTEST, SKIPFILE       |
+qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc)| CPUPOWER, KSELFTEST, SKIPFILE       |
 qemu-\* | kunit\*                                                           |                                     |
 qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 qemu-\* | perf                                                              |                                     |
