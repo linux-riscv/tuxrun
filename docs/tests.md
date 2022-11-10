@@ -12,15 +12,15 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 The following tests are supported by the default root filesystem.
 
-Device    | Tests                                                             | Parameters                          |
-----------|-------------------------------------------------------------------|-------------------------------------|
-fvp-aemva | command                                                           |                                     |
-fvp-aemva | kselftest-(arm64 gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc) | KSELFTEST, SKIPFILE                 |
-fvp-aemva | kunit\*                                                           |                                     |
-fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
-fvp-aemva | perf                                                              |                                     |
-fvp-aemva | rcutorture                                                        |                                     |
-fvp-aemva | v4l2                                                              |                                     |
+Device    | Tests                                                             | Parameters                                     |
+----------|-------------------------------------------------------------------|------------------------------------------------|
+fvp-aemva | command                                                           |                                                |
+fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc)| KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+fvp-aemva | kunit\*                                                           |                                                |
+fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX            |
+fvp-aemva | perf                                                              |                                                |
+fvp-aemva | rcutorture                                                        |                                                |
+fvp-aemva | v4l2                                                              |                                                |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -43,10 +43,11 @@ fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, fil
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
 
-!!! info "ltp sharding"
-    In order to run ltp with sharding, define `SHARD_NUMBER` to the number of
-    shards and `SHARD_INDEX` to the shard to run. The list of ltp tests will be
-    sharded by`SHARD_NUMBER` and only the `SHARD_INDEX` part will be ran. 
+!!! info "kselftest and ltp sharding"
+    In order to run kselftest and/or ltp with sharding, define `SHARD_NUMBER`
+    to the number of shards and `SHARD_INDEX` to the shard to run. The list of
+    kselftest or ltp tests will be sharded by`SHARD_NUMBER` and only the
+    `SHARD_INDEX` part will be ran.
 
 !!! warning "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
@@ -99,15 +100,15 @@ fvp-morello-oe      | fwts           |                                  |
 
 The following tests are supported by the default root filesystem.
 
-Device  | Tests                                                             | Parameters                          |
---------|-------------------------------------------------------------------|-------------------------------------|
-qemu-\* | command                                                           |                                     |
-qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc)| CPUPOWER, KSELFTEST, SKIPFILE       |
-qemu-\* | kunit\*                                                           |                                     |
-qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
-qemu-\* | perf                                                              |                                     |
-qemu-\* | rcutorture                                                        |                                     |
-qemu-\* | v4l2                                                              |                                     |
+Device  | Tests                                                             | Parameters                                               |
+--------|-------------------------------------------------------------------|----------------------------------------------------------|
+qemu-\* | command                                                           |                                                          |
+qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc)| CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+qemu-\* | kunit\*                                                           |                                                          |
+qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+qemu-\* | perf                                                              |                                                          |
+qemu-\* | rcutorture                                                        |                                                          |
+qemu-\* | v4l2                                                              |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -130,10 +131,11 @@ qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filec
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
 
-!!! info "ltp sharding"
-    In order to run ltp with sharding, define `SHARD_NUMBER` to the number of
-    shards and `SHARD_INDEX` to the shard to run. The list of ltp tests will be
-    sharded by`SHARD_NUMBER` and only the `SHARD_INDEX` part will be ran. 
+!!! info "kselftest and ltp sharding"
+    In order to run kselftest and/or ltp with sharding, define `SHARD_NUMBER`
+    to the number of shards and `SHARD_INDEX` to the shard to run. The list of
+    kselftest or ltp tests will be sharded by`SHARD_NUMBER` and only the
+    `SHARD_INDEX` part will be ran.
 
 !!! info "kselftest-arm64"
     Kselftest-arm64 are tests that can run on a qemu-arm64 machine.
