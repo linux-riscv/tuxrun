@@ -34,6 +34,7 @@ available_architectures:
 - ppc
 - ppc64
 - ppc64le
+- riscv32
 - riscv64
 - sparc
 - sparc64
@@ -92,6 +93,8 @@ actions:
             qemu-system-ppc64
 {% elif arch == 'ppc64le' %}
             qemu-system-ppc64le
+{% elif arch == 'riscv32' %}
+            qemu-system-riscv32
 {% elif arch == 'riscv64' %}
             qemu-system-riscv64
 {% elif arch == 'sparc' %}
@@ -184,6 +187,9 @@ actions:
           - -machine {{ machine|default('pseries') }}
 {% elif arch == 'riscv64' %}
           - -cpu {{ cpu|default('rv64') }}
+          - -machine {{ machine|default('virt') }}
+{% elif arch == 'riscv32' %}
+          - -cpu {{ cpu|default('rv32') }}
           - -machine {{ machine|default('virt') }}
 {% elif arch == 's390x' %}
 {% if cpu %}

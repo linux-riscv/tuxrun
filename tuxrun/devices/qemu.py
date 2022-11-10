@@ -59,9 +59,9 @@ class QemuDevice(Device):
                 f"Invalid option(s) for qemu devices: {', '.join(sorted(invalid_args))}"
             )
 
-        if bios and self.name != "qemu-riscv64":
+        if bios and self.name not in ["qemu-riscv32", "qemu-riscv64"]:
             raise InvalidArgument(
-                "argument --bios is only valid for qemu-riscv64 device"
+                "argument --bios is only valid for qemu-riscv32, qemu-riscv64 device"
             )
         if boot_args and '"' in boot_args:
             raise InvalidArgument('argument --boot-args should not contains "')
@@ -336,6 +336,28 @@ class QemuPPC64LE(QemuDevice):
 
     kernel = "https://storage.tuxboot.com/ppc64le/vmlinux"
     rootfs = "https://storage.tuxboot.com/ppc64le/rootfs.ext4.zst"
+
+
+class QemuRiscV32(QemuDevice):
+    name = "qemu-riscv32"
+
+    arch = "riscv32"
+    lava_arch = "riscv32"
+    machine = "virt"
+    cpu = "rv32"
+    memory = "2G"
+
+    extra_options = ["-smp 2"]
+
+    console = "ttyS0"
+    rootfs_dev = "/dev/vda"
+    rootfs_arg = (
+        "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
+    )
+
+    bios = "https://storage.tuxboot.com/riscv32/fw_jump.elf"
+    kernel = "https://storage.tuxboot.com/riscv32/Image"
+    rootfs = "https://storage.tuxboot.com/riscv32/rootfs.ext4.zst"
 
 
 class QemuRiscV64(QemuDevice):
