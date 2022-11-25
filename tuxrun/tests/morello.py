@@ -51,6 +51,13 @@ class MorelloAndroidTest(MorelloTest):
     devices = ["fvp-morello-android"]
 
 
+class MorelloDebianPureCap(MorelloTest):
+    devices = ["fvp-morello-debian"]
+    template = "morello-debian-purecap.yaml.jinja2"
+    name = "debian-purecap"
+    timeout = 5
+
+
 class MorelloBusyBoxPureCap(MorelloTest):
     devices = ["fvp-morello-busybox"]
     template = "morello-busybox-purecap.yaml.jinja2"
