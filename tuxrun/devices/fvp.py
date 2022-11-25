@@ -200,6 +200,19 @@ class FVPMorelloBusybox(MorelloFVPDevice):
     virtiop9_path = "/etc"
 
 
+class FVPMorelloDebian(MorelloFVPDevice):
+    name = "fvp-morello-debian"
+
+    prompts = ["morello-deb:~#"]
+    support_tests = True
+    auto_login = {
+        "login_prompt": "login:",
+        "username": "root",
+        "password_prompt": "Password:",
+        "password": "morello",
+    }
+
+
 class FVPMorelloBaremetal(MorelloFVPDevice):
     name = "fvp-morello-baremetal"
 
