@@ -91,7 +91,7 @@ actions:
     timeout:
       minutes: 5
     interactive:
-    - name: purecap
+    - name: debian-purecap
       prompts: ["/ #"]
       script:
       - command: "chroot /morello-aarch64/morello/morello-rootfs/ sh"
