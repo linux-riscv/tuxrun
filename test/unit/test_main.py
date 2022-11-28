@@ -118,6 +118,9 @@ FVP_MORELLO_ARGS = [
     [
         [],
         ["--device", "qemu-armv7", "--boot-args", 'bla"bl'],
+        ["--device", "fvp-aemva", "--boot-args", 'bla"bl'],
+        ["--device", "qemu-armv7", "--prompt", 'bla"bl'],
+        ["--device", "fvp-aemva", "--prompt", 'bla"bl'],
         ["--device", "qemu-armv7", "--dtb", "arm.dtb"],
         ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--device", "qemu-arm64", "--modules", "modules.tar"],

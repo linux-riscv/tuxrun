@@ -32,8 +32,6 @@ class AEMvAFVPDevice(FVPDevice):
     rootfs = "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
     uefi = "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
 
-    extra_boot_args: str = ""
-
     def validate(
         self,
         bl1,
@@ -45,6 +43,7 @@ class AEMvAFVPDevice(FVPDevice):
         rootfs,
         uefi,
         parameters,
+        prompt,
         modules,
         tests,
         **kwargs,
@@ -57,6 +56,8 @@ class AEMvAFVPDevice(FVPDevice):
 
         if boot_args and '"' in boot_args:
             raise InvalidArgument('argument --boot-args should not contains "')
+        if prompt and '"' in prompt:
+            raise InvalidArgument('argument --prompt should not contains "')
         if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
             raise InvalidArgument(
                 "argument --modules should be a .tar.gz, tar.xz or .tgz"
@@ -75,12 +76,11 @@ class AEMvAFVPDevice(FVPDevice):
         kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
         kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
         kwargs["uefi"] = notnone(kwargs.get("uefi"), self.uefi)
-        if self.extra_boot_args:
-            if kwargs["tux_boot_args"]:
-                kwargs["tux_boot_args"] = kwargs.get("tux_boot_args") + " "
-            else:
-                kwargs["tux_boot_args"] = ""
-            kwargs["tux_boot_args"] += self.extra_boot_args
+
+        if kwargs["tux_prompt"]:
+            kwargs["tux_prompt"] = [kwargs["tux_prompt"]]
+        else:
+            kwargs["tux_prompt"] = []
 
         # render the template
         tests = [
@@ -94,11 +94,9 @@ class AEMvAFVPDevice(FVPDevice):
             )
             for t in kwargs["tests"]
         ]
-        return (
-            templates.jobs().get_template("fvp-aemva.yaml.jinja2").render(**kwargs)
-            + "\n"
-            + "".join(tests)
-        )
+        return templates.jobs().get_template("fvp-aemva.yaml.jinja2").render(
+            **kwargs
+        ) + "".join(tests)
 
     def extra_assets(self, tmpdir, dtb, kernel, tux_boot_args, **kwargs):
         dtb = notnone(dtb, self.dtb).split("/")[-1]
