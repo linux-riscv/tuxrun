@@ -24,7 +24,6 @@ class QemuDevice(Device):
 
     extra_options: List[str] = []
     extra_boot_args: str = ""
-    extra_prompt: str = ""
 
     console: str = ""
     rootfs_dev: str = ""
@@ -108,8 +107,6 @@ class QemuDevice(Device):
             kwargs["tux_prompt"] = [kwargs["tux_prompt"]]
         else:
             kwargs["tux_prompt"] = []
-        if self.extra_prompt:
-            kwargs["tux_prompt"].append(self.extra_prompt)
 
         # render the template
         tests = [

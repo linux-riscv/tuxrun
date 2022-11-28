@@ -32,9 +32,6 @@ class AEMvAFVPDevice(FVPDevice):
     rootfs = "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
     uefi = "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
 
-    extra_boot_args: str = ""
-    extra_prompt: str = ""
-
     def validate(
         self,
         bl1,
@@ -79,19 +76,11 @@ class AEMvAFVPDevice(FVPDevice):
         kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
         kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
         kwargs["uefi"] = notnone(kwargs.get("uefi"), self.uefi)
-        if self.extra_boot_args:
-            if kwargs["tux_boot_args"]:
-                kwargs["tux_boot_args"] = kwargs.get("tux_boot_args") + " "
-            else:
-                kwargs["tux_boot_args"] = ""
-            kwargs["tux_boot_args"] += self.extra_boot_args
 
         if kwargs["tux_prompt"]:
             kwargs["tux_prompt"] = [kwargs["tux_prompt"]]
         else:
             kwargs["tux_prompt"] = []
-        if self.extra_prompt:
-            kwargs["tux_prompt"].append(self.extra_prompt)
 
         # render the template
         tests = [
