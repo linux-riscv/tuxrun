@@ -71,4 +71,6 @@ actions:
         KSELFTEST_PATH: "/opt/kselftests/default-in-kernel"
         SKIPFILE: "skipfile-lkft.yaml"
         ENVIRONMENT: "production"
+        SHARD_NUMBER: 1
+        SHARD_INDEX: 1
       name: kselftest-ipc
