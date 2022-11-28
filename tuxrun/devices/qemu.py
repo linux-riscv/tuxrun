@@ -24,7 +24,7 @@ class QemuDevice(Device):
 
     extra_options: List[str] = []
     extra_boot_args: str = ""
-    extra_custom_prompt: str = ""
+    extra_prompt: str = ""
 
     console: str = ""
     rootfs_dev: str = ""
@@ -41,7 +41,6 @@ class QemuDevice(Device):
         self,
         bios,
         boot_args,
-        custom_prompt,
         command,
         dtb,
         kernel,
@@ -49,6 +48,7 @@ class QemuDevice(Device):
         overlays,
         parameters,
         partition,
+        prompt,
         rootfs,
         tests,
         **kwargs,
@@ -66,8 +66,8 @@ class QemuDevice(Device):
             )
         if boot_args and '"' in boot_args:
             raise InvalidArgument('argument --boot-args should not contains "')
-        if custom_prompt and '"' in custom_prompt:
-            raise InvalidArgument('argument --custom-prompt should not contains "')
+        if prompt and '"' in prompt:
+            raise InvalidArgument('argument --prompt should not contains "')
         if dtb and self.name != "qemu-armv5":
             raise InvalidArgument("argument --dtb is only valid for qemu-armv5 device")
         if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
@@ -104,12 +104,12 @@ class QemuDevice(Device):
                 kwargs["tux_boot_args"] = ""
             kwargs["tux_boot_args"] += self.extra_boot_args
 
-        if self.extra_custom_prompt:
-            if kwargs["tux_custom_prompt"]:
-                kwargs["tux_custom_prompt"] = kwargs.get("tux_custom_prompt") + " "
-            else:
-                kwargs["tux_custom_prompt"] = ""
-            kwargs["tux_custom_prompt"] += self.extra_custom_prompt
+        if kwargs["tux_prompt"]:
+            kwargs["tux_prompt"] = [kwargs["tux_prompt"]]
+        else:
+            kwargs["tux_prompt"] = []
+        if self.extra_prompt:
+            kwargs["tux_prompt"].append(self.extra_prompt)
 
         # render the template
         tests = [
@@ -123,11 +123,9 @@ class QemuDevice(Device):
             )
             for t in kwargs["tests"]
         ]
-        return (
-            templates.jobs().get_template("qemu.yaml.jinja2").render(**kwargs)
-            + "\n"
-            + "".join(tests)
-        )
+        return templates.jobs().get_template("qemu.yaml.jinja2").render(
+            **kwargs
+        ) + "".join(tests)
 
     def device_dict(self, context):
         if self.test_character_delay:

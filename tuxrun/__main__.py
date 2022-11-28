@@ -86,6 +86,7 @@ def run(options, tmpdir: Path) -> int:
         "mcp_romfw": options.mcp_romfw,
         "fip": options.fip,
         "overlays": overlays,
+        "prompt": options.prompt,
         "rootfs": options.rootfs,
         "rootfs_partition": options.partition,
         "scp_fw": options.scp_fw,
@@ -98,9 +99,7 @@ def run(options, tmpdir: Path) -> int:
         "tux_boot_args": options.boot_args.replace('"', "")
         if options.boot_args
         else None,
-        "tux_custom_prompt": options.custom_prompt.replace('"', "")
-        if options.custom_prompt
-        else None,
+        "tux_prompt": options.prompt,
         "parameters": options.parameters,
         "uefi": options.uefi,
     }

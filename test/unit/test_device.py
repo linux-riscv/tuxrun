@@ -184,6 +184,10 @@ def artefacts(tmp_path):
             "qemu-armv7be.yaml",
         ),
         (
+            ["--device", "qemu-armv7be", "--prompt", "root@tuxrun"],
+            "qemu-armv7be-prompt.yaml",
+        ),
+        (
             ["--device", "qemu-i386"],
             "qemu-i386.yaml",
         ),
@@ -408,6 +412,15 @@ def artefacts(tmp_path):
                 "https://example.com/rootfs.ext4.zst",
             ],
             "fvp-aemva.yaml",
+        ),
+        (
+            [
+                "--device",
+                "fvp-aemva",
+                "--prompt",
+                "root@tuxrun",
+            ],
+            "fvp-aemva-prompt.yaml",
         ),
         (
             [

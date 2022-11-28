@@ -1,17 +1,13 @@
 device_type: "fvp"
 
-job_name: "tuxrun@{{ device.name }}"
+job_name: "tuxrun@fvp-aemva"
 priority: medium
 visibility: public
 
-{% block context %}{% endblock %}
-
-{%- set deploy_timeout = timeouts.deploy|default(5) %}
-{%- set boot_timeout = timeouts.boot|default(10) %}
 
 timeouts:
   job:
-    minutes: {{ deploy_timeout + boot_timeout + tests_timeout }}
+    minutes: 15
   action:
     minutes: 10
   connection:
@@ -21,54 +17,35 @@ actions:
 - deploy:
     to: fvp
     timeout:
-      minutes: {{ deploy_timeout }}
+      minutes: 5
     uniquify: False
     images:
       startup:
-        url: "file://{{ tmpdir }}/startup.nsh"
+        url: "/DATA/startup.nsh"
       uefi:
-        url: "{{ uefi }}"
+        url: "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
       bl1:
-        url: "{{ bl1 }}"
+        url: "https://storage.tuxboot.com/fvp-aemva/bl1.bin"
       dtb:
-        url: "{{ dtb }}"
+        url: "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
       kernel:
-        url: "{{ kernel }}"
-{% if compression(kernel)[1] %}
-        compression: {{ compression(kernel)[1] }}
-{% endif %}
+        url: "https://storage.tuxboot.com/fvp-aemva/Image"
       rootfs:
-        url: "{{ rootfs }}"
-        compression: {{ compression(rootfs)[1] }}
+        url: "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
+        compression: zstd
         format: ext4
-{% if overlays %}
-        overlays:
-{% if tests %}
-          lava: true
-{% endif %}
-{% for name, overlay, dst in overlays %}
-          {{ name }}:
-            url: "{{ overlay }}"
-            path: "{{ dst }}"
-            format: tar
-            compression: {{ compression(overlay)[1] }}
-{% endfor %}
-{% elif tests %}
-        overlays:
-          lava: true
-{% endif %}
       fip:
-        url: "{{ fip }}"
+        url: "https://storage.tuxboot.com/fvp-aemva/fip.bin"
 - boot:
     method: fvp
     docker:
       name: "fvp:aemva-11.18.16"
       local: true
-      container_name: "{{ tmpdir.name }}"
+      container_name: "tuxrun-ci"
     image: "/opt/model/FVP_AEMvA/models/Linux64_GCC-9.3/FVP_Base_RevC-2xAEMvA"
     version_string: "Fast Models [^\\n]+"
     timeout:
-      minutes: {{ boot_timeout }}
+      minutes: 10
     console_string: "terminal_0: Listening for serial connection on port (?P<PORT>\\d+)"
     feedbacks:
     - "(?P<NAME>terminal_1): Listening for serial connection on port (?P<PORT>\\d+)"
@@ -191,5 +168,4 @@ actions:
       username: root
     prompts:
     - 'root@(.*):[/~]#'
-{% for prompt in tux_prompt %}
-    - "{{ prompt }}"{% endfor %}
+    - "root@tuxrun"
