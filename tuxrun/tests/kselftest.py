@@ -36,6 +36,13 @@ class KSelfTest(Test):
         return self._render("kselftest.yaml.jinja2", **kwargs)
 
 
+class KSelftestArm64(KSelfTest):
+    devices = ["qemu-arm64", "fvp-aemva"]
+    name = "kselftest-arm64"
+    cmdfile = "arm64"
+    timeout = 45
+
+
 class KSelftestGpio(KSelfTest):
     name = "kselftest-gpio"
     cmdfile = "gpio"
