@@ -90,6 +90,15 @@ def artefacts(tmp_path):
             "qemu-arm64-ltp-fcntl-locktests.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-arm64",
+                "--tests",
+                "kselftest-arm64",
+            ],
+            "qemu-arm64-kselftest-arm64.yaml",
+        ),
+        (
             ["--device", "qemu-arm64be"],
             "qemu-arm64be.yaml",
         ),
