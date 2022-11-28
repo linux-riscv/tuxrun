@@ -811,11 +811,7 @@ def test_fvm_aemva_extra_assets(tmpdir):
     device = Device.select("fvp-aemva")()
 
     # 1/ default case
-    asset = device.extra_assets(
-        dtb=None,
-        kernel=None,
-        tmpdir=tmpdir,
-    )
+    asset = device.extra_assets(dtb=None, kernel=None, tmpdir=tmpdir, tux_boot_args="")
     assert len(asset) == 1
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
@@ -827,6 +823,7 @@ def test_fvm_aemva_extra_assets(tmpdir):
         dtb="file://hello/world/fdt.dtb",
         kernel="http://example.com/kernel",
         tmpdir=tmpdir,
+        tux_boot_args="",
     )
     assert len(asset) == 1
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
@@ -836,12 +833,20 @@ def test_fvm_aemva_extra_assets(tmpdir):
 
     # 3/ compression
     asset = device.extra_assets(
-        dtb="file://tmp/my-dtb",
-        kernel="Image.gz",
-        tmpdir=tmpdir,
+        dtb="file://tmp/my-dtb", kernel="Image.gz", tmpdir=tmpdir, tux_boot_args=None
     )
     assert len(asset) == 1
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
         encoding="utf-8"
     ) == "Image dtb=my-dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+
+    # 4/ custom boot-args
+    asset = device.extra_assets(
+        dtb=None, kernel=None, tmpdir=tmpdir, tux_boot_args="debug"
+    )
+    assert len(asset) == 1
+    assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
+    assert (tmpdir / "startup.nsh").read_text(
+        encoding="utf-8"
+    ) == "Image dtb=fvp-base-revc.dtb debug console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
