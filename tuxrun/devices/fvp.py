@@ -32,9 +32,12 @@ class AEMvAFVPDevice(FVPDevice):
     rootfs = "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
     uefi = "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
 
+    extra_boot_args: str = ""
+
     def validate(
         self,
         bl1,
+        boot_args,
         command,
         dtb,
         fip,
@@ -52,6 +55,8 @@ class AEMvAFVPDevice(FVPDevice):
                 f"Invalid option(s) for fvp devices: {', '.join(sorted(invalid_args))}"
             )
 
+        if boot_args and '"' in boot_args:
+            raise InvalidArgument('argument --boot-args should not contains "')
         if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
             raise InvalidArgument(
                 "argument --modules should be a .tar.gz, tar.xz or .tgz"
@@ -70,6 +75,12 @@ class AEMvAFVPDevice(FVPDevice):
         kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
         kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
         kwargs["uefi"] = notnone(kwargs.get("uefi"), self.uefi)
+        if self.extra_boot_args:
+            if kwargs["tux_boot_args"]:
+                kwargs["tux_boot_args"] = kwargs.get("tux_boot_args") + " "
+            else:
+                kwargs["tux_boot_args"] = ""
+            kwargs["tux_boot_args"] += self.extra_boot_args
 
         # render the template
         tests = [
@@ -89,14 +100,14 @@ class AEMvAFVPDevice(FVPDevice):
             + "".join(tests)
         )
 
-    def extra_assets(self, tmpdir, dtb, kernel, **kwargs):
+    def extra_assets(self, tmpdir, dtb, kernel, tux_boot_args, **kwargs):
         dtb = notnone(dtb, self.dtb).split("/")[-1]
         kernel = notnone(kernel, self.kernel).split("/")[-1]
         # Drop the extension if the kernel is compressed. LAVA will decompress it for us.
         if compression(kernel)[1]:
             kernel = kernel[: -1 - len(compression(kernel)[1])]
         (tmpdir / "startup.nsh").write_text(
-            f"{kernel} dtb={dtb} console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp",
+            f"{kernel} dtb={dtb} {tux_boot_args + ' ' if tux_boot_args else ''}console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp",
             encoding="utf-8",
         )
         return [f"file://{tmpdir / 'startup.nsh'}"]

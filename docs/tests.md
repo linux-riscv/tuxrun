@@ -59,30 +59,31 @@ fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, fil
 
 ## FVP Modello devices
 
-Device              | Tests        | Parameters                       |
---------------------|--------------|----------------------------------|
-fvp-morello-android | binder       |                                  |
-fvp-morello-android | bionic       | GTEST_FILTER\* BIONIC_TEST_TYPE\*|
-fvp-morello-android | boottest     |                                  |
-fvp-morello-android | boringssl    | SYSTEM_URL                       |
-fvp-morello-android | compartment  | USERDATA                         |
-fvp-morello-android | device-tree  |                                  |
-fvp-morello-android | dvfs         |                                  |
-fvp-morello-android | libjpeg-turbo| LIBJPEG_TURBO_URL, SYSTEM_URL    |
-fvp-morello-android | libpdfium    | PDFIUM_URL, SYSTEM_URL           |
-fvp-morello-android | libpng       | PNG_URL, SYSTEM_URL              |
-fvp-morello-android | lldb         | LLDB_URL, TC_URL                 |
-fvp-morello-android | logd         | USERDATA                         |
-fvp-morello-android | libpcre      |                                  |
-fvp-morello-android | multicore    |                                  |
-fvp-morello-android | smc91x       |                                  |
-fvp-morello-android | virtio_net   |                                  |
-fvp-morello-android | zlib         | SYSTEM_URL                       |
-fvp-morello-busybox | purecap      |                                  |
-fvp-morello-busybox | smc91x       |                                  |
-fvp-morello-busybox | virtio_net   |                                  |
-fvp-morello-busybox | virtiop9     |                                  |
-fvp-morello-oe      | fwts         |                                  |
+Device              | Tests          | Parameters                       |
+--------------------|----------------|----------------------------------|
+fvp-morello-android | binder         |                                  |
+fvp-morello-android | bionic         | GTEST_FILTER\* BIONIC_TEST_TYPE\*|
+fvp-morello-android | boottest       |                                  |
+fvp-morello-android | boringssl      | SYSTEM_URL                       |
+fvp-morello-android | compartment    | USERDATA                         |
+fvp-morello-android | device-tree    |                                  |
+fvp-morello-android | dvfs           |                                  |
+fvp-morello-android | libjpeg-turbo  | LIBJPEG_TURBO_URL, SYSTEM_URL    |
+fvp-morello-android | libpdfium      | PDFIUM_URL, SYSTEM_URL           |
+fvp-morello-android | libpng         | PNG_URL, SYSTEM_URL              |
+fvp-morello-android | lldb           | LLDB_URL, TC_URL                 |
+fvp-morello-android | logd           | USERDATA                         |
+fvp-morello-android | libpcre        |                                  |
+fvp-morello-android | multicore      |                                  |
+fvp-morello-android | smc91x         |                                  |
+fvp-morello-android | virtio_net     |                                  |
+fvp-morello-android | zlib           | SYSTEM_URL                       |
+fvp-morello-busybox | purecap        |                                  |
+fvp-morello-busybox | smc91x         |                                  |
+fvp-morello-busybox | virtio_net     |                                  |
+fvp-morello-busybox | virtiop9       |                                  |
+fvp-morello-debian  | debian-purecap |                                  |
+fvp-morello-oe      | fwts           |                                  |
 
 !!! tip "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters USERDATA=http://.../userdata.tar.xz`
