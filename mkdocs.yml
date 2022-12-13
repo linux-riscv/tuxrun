@@ -12,6 +12,7 @@ theme:
   name: material
   logo: tuxrun.svg
   favicon: tuxrun_icon.svg
+  font: false
 extra_css:
   - style.css
 
