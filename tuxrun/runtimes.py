@@ -114,11 +114,11 @@ class ContainerRuntime(Runtime):
         # Bind /dev/kvm is available
         if Path("/dev/kvm").exists():
             self.bind("/dev/kvm")
-        # Bind /var/tmp/.guestfs-$id if available
+        # Create /var/tmp/.guestfs-$id
         if self.bind_guestfs:
             guestfs = Path(f"/var/tmp/.guestfs-{os.getuid()}")
-            if guestfs.exists():
-                self.bind(guestfs, "/var/tmp/.guestfs-0")
+            guestfs.mkdir(exist_ok=True)
+            self.bind(guestfs, "/var/tmp/.guestfs-0")
 
     def cmd(self, args):
         prefix = self.prefix.copy()
