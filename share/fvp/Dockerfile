@@ -1,4 +1,4 @@
-ARG image="docker.io/lavasoftware/lava-dispatcher:2022.10"
+ARG image="docker.io/lavasoftware/lava-dispatcher:2022.11.1"
 
 FROM $image
 
