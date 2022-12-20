@@ -18,7 +18,7 @@ RUN set -e ;\
     apt install -q=2 --yes --no-install-recommends ${PKG_DEPS} ;\
     # Install the FVP model
     curl --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/fvp.tgz \
-    https://developer.arm.com/-/media/Files/downloads/ecosystem-models/FVP_Base_RevC-2xAEMvA_11.18_16_Linux64.tgz ;\
+    https://developer.arm.com/-/media/Files/downloads/ecosystem-models/FVP_Base_RevC-2xAEMvA_11.20_15_Linux64.tgz ;\
     tar xf /tmp/fvp.tgz -C /tmp ;\
     mkdir -p /opt/model/FVP_AEMvA/ ; \
     cp -R /tmp/Base_RevC_AEMvA_pkg/* /opt/model/FVP_AEMvA/ ;\
