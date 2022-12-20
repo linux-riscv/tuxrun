@@ -9,10 +9,10 @@ fvp: Dockerfile
 	@if [ "$(LAVA_IMAGE)" = "" ]; then $(RUNTIME) build --tag tuxrun:fvp . ; else $(RUNTIME) build --build-arg image="$(LAVA_IMAGE)" --tag tuxrun:fvp . ;fi
 
 fvp-aemva: aemva/Dockerfile
-	cd aemva && $(RUNTIME) build --tag fvp:aemva-11.18.16 .
+	cd aemva && $(RUNTIME) build --tag fvp:aemva-11.20.15 .
 
 fvp-morello: morello/Dockerfile
 	cd morello && $(RUNTIME) build --tag fvp:morello-0.11.34 .
 
 clean:
-	$(RUNTIME) image rm -f tuxrun:fvp fvp:aemva-11.18.16 fvp:morello-0.11.34
+	$(RUNTIME) image rm -f tuxrun:fvp fvp:aemva-11.20.15 fvp:morello-0.11.34
