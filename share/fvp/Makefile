@@ -15,4 +15,4 @@ fvp-morello: morello/Dockerfile
 	cd morello && $(RUNTIME) build --tag fvp:morello-0.11.34 .
 
 clean:
-	$(RUNTIME) image rm tuxrun:fvp fvp:aemva-11.18.16 fvp:morello-0.11.34
+	$(RUNTIME) image rm -f tuxrun:fvp fvp:aemva-11.18.16 fvp:morello-0.11.34
