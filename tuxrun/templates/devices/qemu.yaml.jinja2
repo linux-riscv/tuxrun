@@ -185,6 +185,9 @@ actions:
           - -cpu {{ cpu }}
 {% endif %}
           - -machine {{ machine|default('pseries') }}
+{% elif arch == 'riscv32' %}
+          - -cpu {{ cpu|default('rv32') }}
+          - -machine {{ machine|default('virt') }}
 {% elif arch == 'riscv64' %}
           - -cpu {{ cpu|default('rv64') }}
           - -machine {{ machine|default('virt') }}
