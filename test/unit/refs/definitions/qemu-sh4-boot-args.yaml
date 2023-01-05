@@ -29,7 +29,7 @@ actions:
     os: oe
     images:
       kernel:
-        image_arg: '-kernel {kernel} -append "console=ttySC1,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog hello noiotrap"'
+        image_arg: '-kernel {kernel} -append "console=ttySC1,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog hello noiotrap earlycon"'
         url: "https://storage.tuxboot.com/sh4/zImage"
       rootfs:
         image_arg: "-drive file={rootfs},if=ide,format=raw -serial null -serial stdio"
