@@ -29,7 +29,7 @@ actions:
     os: oe
     images:
       kernel:
-        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200 rootwait root=/dev/vda debug verbose console_msg_format=syslog"'
+        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200 rootwait root=/dev/vda debug verbose console_msg_format=syslog earlycon"'
         url: "/DATA/zImage.xz"
         compression: xz
       rootfs:

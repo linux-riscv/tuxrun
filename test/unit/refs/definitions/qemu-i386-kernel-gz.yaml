@@ -29,7 +29,7 @@ actions:
     os: oe
     images:
       kernel:
-        image_arg: '-kernel {kernel} -append "console=ttyS0,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog"'
+        image_arg: '-kernel {kernel} -append "console=ttyS0,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog earlycon"'
         url: "/DATA/bzImage.gz"
         compression: gz
       rootfs:
