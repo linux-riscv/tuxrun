@@ -340,6 +340,10 @@ def artefacts(tmp_path):
             "qemu-s390-ltp-smoke-skipfile.yaml",
         ),
         (
+            ["--device", "qemu-riscv32"],
+            "qemu-riscv32.yaml",
+        ),
+        (
             ["--device", "qemu-riscv64"],
             "qemu-riscv64.yaml",
         ),

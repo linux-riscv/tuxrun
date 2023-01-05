@@ -589,6 +589,7 @@ def test_update_cache(mocker, monkeypatch, capsys):
   * qemu-ppc32
   * qemu-ppc64
   * qemu-ppc64le
+  * qemu-riscv32
   * qemu-riscv64
   * qemu-s390
   * qemu-sh4
