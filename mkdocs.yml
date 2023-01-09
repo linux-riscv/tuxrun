@@ -20,7 +20,8 @@ markdown_extensions:
 - admonition
 - pymdownx.highlight
 - pymdownx.superfences
-- pymdownx.tabbed
+- pymdownx.tabbed:
+    alternate_style: true
 - toc:
     permalink: true
 
@@ -38,3 +39,4 @@ nav:
   - Devices: devices.md
   - Tests: tests.md
   - Outputs: outputs.md
+- Troubleshooting: troubleshooting.md
