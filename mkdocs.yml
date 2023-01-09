@@ -39,3 +39,4 @@ nav:
   - Devices: devices.md
   - Tests: tests.md
   - Outputs: outputs.md
+- Troubleshooting: troubleshooting.md
