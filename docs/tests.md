@@ -12,15 +12,15 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 The following tests are supported by the default root filesystem.
 
-Device    | Tests                                                              | Parameters                                     |
-----------|--------------------------------------------------------------------|------------------------------------------------|
-fvp-aemva | command                                                            |                                                |
-fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc) | KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
-fvp-aemva | kunit\*                                                            |                                                |
-fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)  | SKIPFILE, SHARD_NUMBER, SHARD_INDEX            |
-fvp-aemva | perf                                                               |                                                |
-fvp-aemva | rcutorture                                                         |                                                |
-fvp-aemva | v4l2                                                               |                                                |
+Device    | Tests                                                                     | Parameters                                     |
+----------|---------------------------------------------------------------------------|------------------------------------------------|
+fvp-aemva | command                                                                   |                                                |
+fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, memfd, net, rseq, rtc) | KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+fvp-aemva | kunit\*                                                                   |                                                |
+fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)         | SKIPFILE, SHARD_NUMBER, SHARD_INDEX            |
+fvp-aemva | perf                                                                      |                                                |
+fvp-aemva | rcutorture                                                                |                                                |
+fvp-aemva | v4l2                                                                      |                                                |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -100,15 +100,15 @@ fvp-morello-oe      | fwts           |                                  |
 
 The following tests are supported by the default root filesystem.
 
-Device  | Tests                                                              | Parameters                                               |
---------|--------------------------------------------------------------------|----------------------------------------------------------|
-qemu-\* | command                                                            |                                                          |
-qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, net, rseq, rtc) | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
-qemu-\* | kunit\*                                                            |                                                          |
-qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)  | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
-qemu-\* | perf                                                               |                                                          |
-qemu-\* | rcutorture                                                         |                                                          |
-qemu-\* | v4l2                                                               |                                                          |
+Device  | Tests                                                                     | Parameters                                               |
+--------|---------------------------------------------------------------------------|----------------------------------------------------------|
+qemu-\* | command                                                                   |                                                          |
+qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, kvm, memfd, net, rseq, rtc) | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+qemu-\* | kunit\*                                                                   |                                                          |
+qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)         | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+qemu-\* | perf                                                                      |                                                          |
+qemu-\* | rcutorture                                                                |                                                          |
+qemu-\* | v4l2                                                                      |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
