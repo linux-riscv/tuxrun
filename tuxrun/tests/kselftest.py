@@ -85,6 +85,12 @@ class KSelftestNet(KSelfTest):
     timeout = 5
 
 
+class KSelftestMemfd(KSelfTest):
+    name = "kselftest-memfd"
+    cmdfile = "memfd"
+    timeout = 5
+
+
 class KSelftestRseq(KSelfTest):
     name = "kselftest-rseq"
     cmdfile = "rseq"
