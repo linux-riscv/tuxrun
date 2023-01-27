@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 # vim: set ts=4
 #
 # Copyright 2021-present Linaro Limited
@@ -245,7 +244,6 @@ def main() -> int:
     cache_dir = None
     if options.save_outputs:
         if any(
-            (
                 o is None
                 for o in [
                     options.log_file,
@@ -254,7 +252,6 @@ def main() -> int:
                     options.log_file_yaml,
                     options.results,
                 ]
-            )
         ):
             cache_dir = get_new_output_dir()
             if options.log_file is None:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: set ts=4
 #
 # Copyright 2021-present Linaro Limited
@@ -37,7 +36,7 @@ class Results:
             return
 
         test = data.get("msg")
-        if not set(["case", "definition"]).issubset(test.keys()):
+        if not {"case", "definition"}.issubset(test.keys()):
             LOG.debug(line)
             return
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: set ts=4
 #
 # Copyright 2021-present Linaro Limited
@@ -116,7 +115,7 @@ class Writer(ContextDecorator):
         if not data or not isinstance(data, dict):
             sys.stdout.write(line + "\n")
             return
-        if not set(["dt", "lvl", "msg"]).issubset(data.keys()):
+        if not {"dt", "lvl", "msg"}.issubset(data.keys()):
             sys.stdout.write(line + "\n")
             return
 
