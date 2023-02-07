@@ -193,6 +193,15 @@ def artefacts(tmp_path):
             "qemu-armv7be.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-armv7be",
+                "--qemu-image",
+                "docker.io/linaro/tuxrun-qemu:latest",
+            ],
+            "qemu-armv7be-qemu-image.yaml",
+        ),
+        (
             ["--device", "qemu-armv7be", "--prompt", "root@tuxrun"],
             "qemu-armv7be-prompt.yaml",
         ),
