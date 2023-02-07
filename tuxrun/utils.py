@@ -61,7 +61,7 @@ COMPRESSIONS = {
 
 
 def compression(path):
-    for (ext, ret) in COMPRESSIONS.items():
+    for ext, ret in COMPRESSIONS.items():
         if path.endswith(ext):
             return ret
     return (None, None)

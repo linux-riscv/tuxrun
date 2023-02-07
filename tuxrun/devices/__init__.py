@@ -23,7 +23,6 @@ class Device:
     @classmethod
     def select(cls, name):
         for subclass in subclasses(cls):
-
             if subclass.name == name:
                 return subclass
         raise InvalidArgument(
