@@ -354,6 +354,7 @@ class QemuRiscV32(QemuDevice):
         "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
     )
 
+    bios = "https://storage.tuxboot.com/riscv32/fw_jump.elf"
     kernel = "https://storage.tuxboot.com/riscv32/Image"
     rootfs = "https://storage.tuxboot.com/riscv32/rootfs.ext4.zst"
 

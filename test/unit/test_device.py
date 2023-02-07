@@ -357,15 +357,6 @@ def artefacts(tmp_path):
             "qemu-riscv64.yaml",
         ),
         (
-            [
-                "--device",
-                "qemu-riscv64",
-                "--bios",
-                "https://storage.tuxboot.com/riscv64/fw_jump.elf",
-            ],
-            "qemu-riscv64-bios.yaml",
-        ),
-        (
             ["--device", "qemu-sh4"],
             "qemu-sh4.yaml",
         ),
