@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: set ts=4
 #
 # Copyright 2021-present Linaro Limited
@@ -62,7 +61,7 @@ COMPRESSIONS = {
 
 
 def compression(path):
-    for (ext, ret) in COMPRESSIONS.items():
+    for ext, ret in COMPRESSIONS.items():
         if path.endswith(ext):
             return ret
     return (None, None)

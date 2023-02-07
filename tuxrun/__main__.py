@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 # vim: set ts=4
 #
 # Copyright 2021-present Linaro Limited
@@ -59,7 +58,7 @@ def run(options, tmpdir: Path) -> int:
     if options.modules:
         overlays.append(("modules", options.modules, "/"))
         extra_assets.append(options.modules)
-    for (index, item) in enumerate(options.overlays):
+    for index, item in enumerate(options.overlays):
         overlays.append((f"overlay-{index:02}", item, "/"))
         extra_assets.append(item)
 
@@ -245,16 +244,14 @@ def main() -> int:
     cache_dir = None
     if options.save_outputs:
         if any(
-            (
-                o is None
-                for o in [
-                    options.log_file,
-                    options.log_file_html,
-                    options.log_file_text,
-                    options.log_file_yaml,
-                    options.results,
-                ]
-            )
+            o is None
+            for o in [
+                options.log_file,
+                options.log_file_html,
+                options.log_file_text,
+                options.log_file_yaml,
+                options.results,
+            ]
         ):
             cache_dir = get_new_output_dir()
             if options.log_file is None:

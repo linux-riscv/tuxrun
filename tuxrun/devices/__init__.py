@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: set ts=4
 #
 # Copyright 2021-present Linaro Limited
@@ -24,7 +23,6 @@ class Device:
     @classmethod
     def select(cls, name):
         for subclass in subclasses(cls):
-
             if subclass.name == name:
                 return subclass
         raise InvalidArgument(
