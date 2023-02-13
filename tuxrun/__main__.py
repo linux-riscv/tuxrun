@@ -70,6 +70,11 @@ def run(options, tmpdir: Path) -> int:
         )
         extra_assets.append(test_definitions)
 
+    # Add extra assets from parameters
+    for k, v in options.parameters.items():
+        if v.startswith("file://"):
+            extra_assets.append(v)
+
     command = " ".join([shlex.quote(s) for s in options.command])
 
     def_arguments = {
