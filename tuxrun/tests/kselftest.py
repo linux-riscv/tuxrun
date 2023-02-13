@@ -234,7 +234,7 @@ class KSelftestLivepatch(KSelfTest):
 
 # Can't run this in LAVA since the intention is to trigger crashes.
 # That will mean that LAVA will always end with a failure.
-#class KSelftestLkdtm(KSelfTest):
+# class KSelftestLkdtm(KSelfTest):
 #    name = "kselftest-lkdtm"
 #    cmdfile = "lkdtm"
 #    timeout = 5
