@@ -211,7 +211,7 @@ class FVPMorelloBusybox(MorelloFVPDevice):
 class FVPMorelloDebian(MorelloFVPDevice):
     name = "fvp-morello-debian"
 
-    prompts = ["morello-deb:~#"]
+    prompts = ["morello-deb:~#", "root@morello:~#"]
     support_tests = True
     auto_login = {
         "login_prompt": "login:",
