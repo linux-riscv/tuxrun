@@ -81,6 +81,7 @@ actions:
     - "-C board.ap_qspi_loader.fname={FIP}"
     prompts:
     - "morello-deb:~#"
+    - "root@morello:~#"
     auto_login:
       login_prompt: "login:"
       username: "root"
