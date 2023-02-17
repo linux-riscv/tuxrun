@@ -440,9 +440,9 @@ class KSelftestSgx(KSelfTest):
     timeout = 5
 
 
-class KSelftestSignaltstack(KSelfTest):
-    name = "kselftest-signaltstack"
-    cmdfile = "signaltstack"
+class KSelftestSigaltstack(KSelfTest):
+    name = "kselftest-sigaltstack"
+    cmdfile = "sigaltstack"
     timeout = 5
 
 
