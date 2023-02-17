@@ -523,9 +523,9 @@ class KSelftestUser(KSelfTest):
     timeout = 5
 
 
-class KSelftestUserEvent(KSelfTest):
-    name = "kselftest-user_event"
-    cmdfile = "user_event"
+class KSelftestUserEvents(KSelfTest):
+    name = "kselftest-user_events"
+    cmdfile = "user_events"
     timeout = 5
 
 
@@ -535,9 +535,9 @@ class KSelftestVDSO(KSelfTest):
     timeout = 5
 
 
-class KSelftestWatchdoc(KSelfTest):
-    name = "kselftest-watchdoc"
-    cmdfile = "watchdoc"
+class KSelftestWatchdog(KSelfTest):
+    name = "kselftest-watchdog"
+    cmdfile = "watchdog"
     timeout = 5
 
 
