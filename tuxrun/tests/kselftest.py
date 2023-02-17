@@ -44,6 +44,7 @@ class KSelftestArm64(KSelfTest):
 
 
 class KSelftestBreakpoints(KSelfTest):
+    devices = ["qemu-arm64", "fvp-aemva", "qemu-x86_64"]
     name = "kselftest-breakpoints"
     cmdfile = "breakpoints"
     timeout = 5
