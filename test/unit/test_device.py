@@ -38,6 +38,7 @@ ARTEFACTS = [
     "fip.bin",
     "ubuntu.satadisk.xz",
     "startup.nsh",
+    "kselftest.tar.xz",
 ]
 
 FVP_MORELLO_ANDROID = [
@@ -809,8 +810,19 @@ def artefacts(tmp_path):
             "fvp-morello-ubuntu.yaml",
         ),
         (
-            ["--tuxmake", "."],
+            ["--tuxmake", ".", "--tests", "kselftest-cgroup"],
             "tuxmake.yaml",
+        ),
+        (
+            [
+                "--tuxmake",
+                ".",
+                "--tests",
+                "kselftest-cgroup",
+                "--parameters",
+                "KSELFTEST=$BUILD/kselftest.tar.xz",
+            ],
+            "tuxmake-parameters.yaml",
         ),
     ],
 )
