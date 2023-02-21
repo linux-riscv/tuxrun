@@ -443,14 +443,6 @@ def test_tuxmake_directory_armv5(monkeypatch, tmp_path, run):
         ["tuxrun", "--tuxmake", str(tuxmake_build), "--device", "qemu-armv5"],
     )
 
-    main()
-    run.assert_called()
-    options = run.call_args[0][0]
-    assert options.kernel == f"file://{tuxmake_build}/zImage"
-    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
-    assert options.device.name == "qemu-armv5"
-    assert options.dtb is None
-
     (tuxmake_build / "dtbs").mkdir()
     (tuxmake_build / "dtbs" / "versatile-pb.dtb").write_text("")
     main()

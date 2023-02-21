@@ -232,19 +232,18 @@ def main() -> int:
     LOG.setLevel(logging.DEBUG if options.debug else logging.INFO)
 
     if options.tuxbuild or options.tuxmake:
-        tux = options.tuxbuild if options.tuxbuild else options.tuxmake
-        if not options.kernel:
-            options.kernel = tux.kernel
-        if not options.modules and tux.modules:
-            options.modules = tux.modules
-        if not options.device:
-            options.device = f"qemu-{tux.target_arch}"
-        elif options.device == "qemu-armv5":
-            if options.tuxbuild:
-                options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
-            elif options.tuxmake:
-                if (tux.location / "dtbs" / "versatile-pb.dtb").exists():
-                    options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
+        tux = options.tuxbuild or options.tuxmake
+        options.kernel = options.kernel or tux.kernel
+        options.modules = options.modules or tux.modules
+        options.device = options.device or f"qemu-{tux.target_arch}"
+        if options.device == "qemu-armv5":
+            options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
+
+        for k in options.parameters:
+            if isinstance(options.parameters[k], str):
+                options.parameters[k] = options.parameters[k].replace(
+                    "$BUILD/", tux.url + "/"
+                )
 
     cache_dir = None
     if options.save_outputs:

@@ -18,42 +18,47 @@ class InvalidTuxBuild(Exception):
 class TuxBuild:
     Invalid = InvalidTuxBuild
 
-    @classmethod
-    def parse(cls, url, data):
+    def __init__(self):
+        self.kernel = None
+        self.modules = None
+        self.target_arch = None
+
+    def parse(self, url, data):
         try:
             metadata = json.loads(data)
         except json.JSONDecodeError as e:
-            raise cls.Invalid(f"Invalid metadata.json: {e}")
+            raise self.Invalid(f"Invalid metadata.json: {e}")
 
         try:
-            target_arch = metadata["build"]["target_arch"]
+            self.target_arch = metadata["build"]["target_arch"]
         except KeyError:
-            raise cls.Invalid("{url}/metadata.json is invalid")
+            raise self.Invalid("{url}/metadata.json is invalid")
 
-        kernel = modules = None
         with contextlib.suppress(IndexError, KeyError):
-            kernel = url + "/" + metadata["results"]["artifacts"]["kernel"][0]
+            self.kernel = url + "/" + metadata["results"]["artifacts"]["kernel"][0]
         with contextlib.suppress(IndexError, KeyError):
-            modules = url + "/" + metadata["results"]["artifacts"]["modules"][0]
+            self.modules = url + "/" + metadata["results"]["artifacts"]["modules"][0]
 
-        if kernel is None:
-            raise cls.Invalid("Missing kernel in directory")
-
-        return (target_arch, kernel, modules)
+        if self.kernel is None:
+            raise self.Invalid("Missing kernel in directory")
 
 
 class TuxBuildBuild(TuxBuild):
     def __init__(self, url):
+        super().__init__()
+
         self.url = url
         ret = requests_get(f"{url}/metadata.json")
         if ret.status_code != 200:
             raise self.Invalid(f"{url}/metadata.json is missing")
 
-        (self.target_arch, self.kernel, self.modules) = TuxBuild.parse(url, ret.text)
+        self.parse(url, ret.text)
 
 
 class TuxMakeBuild(TuxBuild):
     def __init__(self, directory):
+        super().__init__()
+
         self.location = Path(directory).resolve()
         self.url = f"file://{self.location}"
         metadata_file = self.location / "metadata.json"
@@ -64,6 +69,4 @@ class TuxMakeBuild(TuxBuild):
                 f"{directory} is not a valid TuxMake artifacts directory: missing metadata.json"
             )
 
-        (self.target_arch, self.kernel, self.modules) = TuxBuild.parse(
-            f"file://{self.location}", metadata_file.read_text(encoding="utf-8")
-        )
+        self.parse(f"file://{self.location}", metadata_file.read_text(encoding="utf-8"))
