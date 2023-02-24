@@ -250,3 +250,11 @@ class FVPMorelloUbuntu(MorelloFVPDevice):
     }
     boot_timeout = 60
     rootfs = "https://storage.tuxboot.com/fvp-morello-ubuntu/ubuntu.satadisk.xz"
+
+
+class FVPMorelloGrub(MorelloFVPDevice):
+    name = "fvp-morello-grub"
+
+    kernel_start_message = "Press enter to boot the selected OS"
+    prompts = ["highlighted entry will be executed"]
+    support_tests = True
