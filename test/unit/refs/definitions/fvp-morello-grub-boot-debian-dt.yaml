@@ -88,7 +88,7 @@ actions:
     timeout:
       minutes: 30
     interactive:
-    - name: "boot"
+    - name: "boot-debian-dt-login"
       prompts: ["login:"]
       script:
       - command: "\x1b[A\r\n"
@@ -105,7 +105,7 @@ actions:
     timeout:
       minutes: 5
     interactive:
-    - name: uefi-1
+    - name: "boot-debian-dt"
       prompts: ["root@morello:~#"]
       script:
       - command: "morello"
