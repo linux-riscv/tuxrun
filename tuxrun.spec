@@ -1,5 +1,5 @@
 Name:      tuxrun
-Version:   0.35.2
+Version:   0.36.0
 Release:   0%{?dist}
 Summary:   command line tool for testing Linux with curated test suites
 License:   MIT
