@@ -1,0 +1,25 @@
+- test:
+    timeout:
+      minutes: 30
+    interactive:
+    - name: "boot"
+      prompts: ["login:"]
+      script:
+      - command: "\x1b[A\r\n"
+        name: boot-debian-dt
+- test:
+    timeout:
+      minutes: 5
+    interactive:
+    - name: uefi-1
+      prompts: ["Password:"]
+      script:
+      - command: "root"
+- test:
+    timeout:
+      minutes: 5
+    interactive:
+    - name: uefi-1
+      prompts: ["root@morello:~#"]
+      script:
+      - command: "morello"

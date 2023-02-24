@@ -57,6 +57,20 @@ class MorelloDebianPureCap(MorelloTest):
     timeout = 5
 
 
+class MorelloGrubBusyBoxBoot(MorelloTest):
+    devices = ["fvp-morello-grub"]
+    template = "morello-busybox-dt.yaml.jinja2"
+    name = "boot-busybox-dt"
+    timeout = 5
+
+
+class MorelloGrubDebianBoot(MorelloTest):
+    devices = ["fvp-morello-grub"]
+    template = "morello-debian-dt.yaml.jinja2"
+    name = "boot-debian-dt"
+    timeout = 5
+
+
 class MorelloBusyBoxPureCap(MorelloTest):
     devices = ["fvp-morello-busybox"]
     template = "morello-busybox-purecap.yaml.jinja2"
