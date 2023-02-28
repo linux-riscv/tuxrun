@@ -129,6 +129,6 @@ trigger_tuxsuite:
   script:
     - "curl -X POST -F token=$TUXSUITE_PACKAGES_TRIGGER_TOKEN -F ref=master https://gitlab.com/api/v4/projects/13070238/trigger/pipeline"
   only:
-    - master
+    - tags
   needs:
     - pages
