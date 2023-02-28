@@ -118,3 +118,17 @@ pages:
     - tags
   script:
     - cp -r dist/repo public/packages/
+
+# trigger packages.tuxsuite.com on release
+trigger_tuxsuite:
+  stage: .post
+  image: $CI_REGISTRY_IMAGE/ci-integration
+  before_script:
+    - apt update
+    - apt install -y curl
+  script:
+    - "curl -X POST -F token=$TUXSUITE_PACKAGES_TRIGGER_TOKEN -F ref=master https://gitlab.com/api/v4/projects/13070238/trigger/pipeline"
+  only:
+    - master
+  needs:
+    - pages
