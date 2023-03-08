@@ -16,7 +16,7 @@ from tuxrun.utils import ProgressIndicator, NoProgressIndicator
 from tuxrun.xdg import get_cache_dir
 
 
-TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2023.02.tar.zst"
+TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2023.03.tar.zst"
 
 
 def get_rootfs(
