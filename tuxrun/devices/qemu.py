@@ -179,7 +179,7 @@ class QemuArmv7(QemuDevice):
 
     arch = "armv7"
     lava_arch = "arm"
-    machine = "virt,gic-version=3,mte=on"
+    machine = "virt,gic-version=3"
     cpu = "cortex-a15"
 
     extra_options = ["-smp 2"]
