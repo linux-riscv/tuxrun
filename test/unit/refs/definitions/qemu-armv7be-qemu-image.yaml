@@ -6,7 +6,7 @@ visibility: "public"
 
 context:
     arch: "arm"
-    machine: "virt,gic-version=3,mte=on"
+    machine: "virt,gic-version=3"
     cpu: "cortex-a15"
     memory: "4G"
     extra_options: ["-no-reboot", "-smp 2"]
