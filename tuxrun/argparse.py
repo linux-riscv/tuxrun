@@ -118,7 +118,12 @@ class KeyValueIntAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         KEYS = ["deploy", "boot"] + Test.list()
         for value in values:
-            key, value = value.split("=")
+            try:
+                key, value = value.split("=")
+            except ValueError:
+                raise argparse.ArgumentError(
+                    self, f"Invalid format for '{value}' timeout"
+                )
             if key not in KEYS:
                 raise argparse.ArgumentError(self, f"Invalid timeout '{key}'")
             try:
