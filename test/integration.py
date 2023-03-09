@@ -90,7 +90,14 @@ def run(device, test, runtime, debug):
     if test:
         args.extend(["--tests", test])
 
-    if device == "fvp-morello-android":
+    if device == "fvp-aemva":
+        args.extend(
+            [
+                "--image",
+                "tuxrun:fvp",
+            ]
+        )
+    elif device == "fvp-morello-android":
         args.extend(
             [
                 "--mcp-fw",
