@@ -18,7 +18,8 @@ spellcheck:
 		--skip '.git,public,dist,*.sw*,*.pyc,tags,*.json,.coverage,htmlcov,*.jinja2,*.yaml'
 
 integration:
-	python3 test/integration.py
+	python3 test/integration.py --devices "qemu-*" --tests ltp-smoke
+	python3 test/integration.py --devices "fvp-aemva" --tests ltp-smoke
 
 doc: docs/index.md
 	mkdocs build
@@ -35,3 +36,5 @@ publish-pypi:
 
 tags:
 	ctags -R tuxrun/ test/
+
+release: integration
