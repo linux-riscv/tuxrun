@@ -107,14 +107,14 @@ class QemuDevice(Device):
         else:
             kwargs["tux_prompt"] = []
 
-        if "disable-lpa2" in kwargs.get("parameters").keys() and kwargs.get(
+        if "cpu.lpa2" in kwargs.get("parameters").keys() and kwargs.get(
             "parameters"
-        ).get("disable-lpa2"):
+        ).get("cpu.lpa2") in ["off", "on"]:
             if self.name not in ["qemu-arm64", "qemu-arm64be"]:
                 raise InvalidArgument(
-                    "argument disable-lpa2=True is only valid for qemu-arm64 and qemu-arm64be device"
+                    "argument '--parameters cpu.lpa2=on/off' is only valid for qemu-arm64 and qemu-arm64be device"
                 )
-            kwargs["cpu"] += ",lpa2=off"
+            kwargs["cpu"] += f',lpa2={kwargs.get("parameters").get("cpu.lpa2")}'
 
         # render the template
         tests = [
