@@ -619,3 +619,60 @@ def test_timeouts(monkeypatch, run):
     assert options.tests[0].name == "ltp-smoke"
     assert options.tests[0].timeout == 12
     assert options.timeouts == {"boot": 1, "ltp-smoke": 12}
+
+
+# To test the qemu_binary overlay we basically fake up the responses
+# for all the various readelf/ldd/qemu calls on a real system
+
+
+@pytest.fixture
+def tuxrun_args_qemu_overlay(monkeypatch):
+    args = [
+        "tuxrun",
+        "--qemu-binary",
+        "/usr/bin/qemu-system-aarch64",
+        "--device",
+        "qemu-arm64",
+    ]
+    monkeypatch.setattr("sys.argv", args)
+    return args
+
+
+fake_readelf = b"""
+String dump of section '.interp':
+  [     0]  /lib64/ld-linux-x86-64.so.2
+"""
+
+# a real QEMU binary links considerably more libraries
+fake_ldd = b"""
+        linux-vdso.so.1 (0x00007ffe29e5f000)
+        libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f743b834000)
+        libpixman-1.so.0 => /lib/x86_64-linux-gnu/libpixman-1.so.0 (0x00007f743b789000)
+        libepoxy.so.0 => /lib/x86_64-linux-gnu/libepoxy.so.0 (0x00007f743b65a000)
+        libcapstone.so.4 => /lib/x86_64-linux-gnu/libcapstone.so.4 (0x00007f743aff9000)
+        libspice-server.so.1 => /lib/x86_64-linux-gnu/libspice-server.so.1 (0x00007f743aeca000)
+        libdw.so.1 => /lib/x86_64-linux-gnu/libdw.so.1 (0x00007f743ae21000)
+"""
+
+fake_firmware_paths = b"""
+/usr/share/qemu
+/usr/share/seabios
+/usr/lib/ipxe/qemu
+"""
+
+
+@pytest.fixture
+def overlay_subprocess_calls(mocker):
+    def my_outputs(*args, **kwargs):
+        if args[0] == "readelf":
+            return fake_readelf
+        elif args[0] == "ldd":
+            return fake_ldd
+        else:
+            return fake_firmware_paths
+
+    return mocker.patch("subprocess.check_output", new=my_outputs)
+
+
+def test_qemu_overlay(tuxrun_args_qemu_overlay, lava_run, overlay_subprocess_calls):
+    main()

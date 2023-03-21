@@ -9,11 +9,14 @@ import contextlib
 import json
 import logging
 from pathlib import Path
+from os.path import commonprefix
 import shlex
 import shutil
 import signal
 import sys
 import tempfile
+import re
+import subprocess
 from urllib.parse import urlparse
 
 from tuxrun import templates
@@ -24,6 +27,7 @@ from tuxrun.exceptions import InvalidArgument
 from tuxrun.requests import requests_get
 from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
+from tuxrun.templates import wrappers
 from tuxrun.tests import Test
 from tuxrun.utils import get_new_output_dir, ProgressIndicator
 from tuxrun.writer import Writer
@@ -46,6 +50,99 @@ def download(src, dst):
         dst.write_text(ret.text, encoding="utf-8")
     else:
         shutil.copyfile(src, dst)
+
+
+def overlay_qemu(qemu_binary, tmpdir, runtime):
+    """
+    Overlay an external QEMU into the container, taking care to also
+    include the libraries needed and the environment tweaks.
+    """
+
+    # we want to collect a unique set() of paths
+    host_lib_paths = set()
+
+    # work out the loader
+    interp = subprocess.check_output(["readelf", "-p", ".interp", qemu_binary]).decode(
+        "utf-8"
+    )
+
+    search = re.search(r"(\/\S+)", interp)
+    if search and search.group(1):
+        loader = Path(search.group(1)).resolve().absolute()
+        if loader:
+            host_lib_paths.add(loader.parents[0])
+
+    ldd_re = re.compile(r"(?:\S+ \=\> )(\S*) \(:?0x[0-9a-f]+\)")
+    try:
+        ldd_output = subprocess.check_output(["ldd", qemu_binary]).decode("utf-8")
+        for line in ldd_output.split("\n"):
+            search = ldd_re.search(line)
+            if search and search.group(1):
+                lib = Path(search.group(1))
+                if lib.parents[0].absolute():
+                    host_lib_paths.add(lib.parents[0])
+                else:
+                    print(f"skipping {lib.parents[0]}")
+    except subprocess.CalledProcessError:
+        print(f"{qemu_binary} had no associated libraries (static build?)")
+
+    # only unique
+    dest_lib_search = []
+
+    for hl in host_lib_paths:
+        dst_lib = Path("/opt/host/", hl.relative_to("/"))
+        runtime.bind(hl, dst=dst_lib, ro=True)
+        dest_lib_search.append(dst_lib)
+
+    # Also account for firmware
+    firmware = subprocess.check_output([qemu_binary, "-L", "help"]).decode("utf-8")
+    fw_dirs = [
+        Path(p)
+        for p in firmware.split("\n")
+        if Path(p).exists() and Path(p).is_absolute()
+    ]
+
+    # The search path can point to a directory of symlinks to the real
+    # firmware so we need to resolve the path of each file in the
+    # search path to find the real set of directories we need
+    unique_fw_dirs = set()
+    for d in fw_dirs:
+        for f in d.glob("*"):
+            if f.exists() and f.is_file():
+                unique_fw_dirs.add(f.resolve().parent)
+
+    common_prefix = commonprefix([str(p) for p in unique_fw_dirs])
+    dest_fw_search = []
+
+    for p in unique_fw_dirs:
+        fw_path = p.relative_to(common_prefix)
+        cont_fw_path = Path("/opt/host/firmware", fw_path)
+        runtime.bind(p, cont_fw_path, ro=True)
+        dest_fw_search.append(cont_fw_path)
+
+    # write out a wrapper to call QEMU with the appropriate setting
+    # of search_path.
+    search_path = ":".join(map(str, dest_lib_search))
+    fw_paths = " -L ".join(map(str, dest_fw_search))
+    loader = Path("/opt/host/", loader.relative_to("/"))
+    # Render and bind the docker wrapper
+    wrap = (
+        wrappers()
+        .get_template("host-qemu.jinja2")
+        .render(search_path=search_path, loader=loader, fw_paths=fw_paths)
+    )
+    LOG.debug("overlay_qemu wrapper")
+    LOG.debug(wrap)
+    basename = qemu_binary.name
+    (tmpdir / f"{basename}").write_text(wrap, encoding="utf-8")
+    (tmpdir / f"{basename}").chmod(0o755)
+
+    # Substitute the container's binary with host's wrapper
+    runtime.bind(Path(tmpdir, basename), Path("/usr/bin/", basename), ro=True)
+
+    # Finally map QEMU itself where the wrapper can find it
+    dest_path = Path("/opt/host/qemu.real")
+    runtime.bind(qemu_binary, dst=dest_path, ro=True)
 
 
 ##############
@@ -159,6 +256,9 @@ def run(options, tmpdir: Path) -> int:
             continue
         if urlparse(path).scheme == "file":
             runtime.bind(path[7:], ro=True)
+
+    if options.qemu_binary:
+        overlay_qemu(options.qemu_binary, tmpdir, runtime)
 
     # Forward the signal to the runtime
     def handler(*_):

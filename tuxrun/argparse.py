@@ -30,6 +30,7 @@ def filter_options(options):
         "runtime",
         "image",
         "qemu_image",
+        "qemu_binary",
         "save_outputs",
         "log_file",
         "log_file_html",
@@ -297,6 +298,13 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     group.add_argument(
         "--qemu-image", default=None, help="Use qemu from the given container image"
+    )
+
+    group.add_argument(
+        "--qemu-binary",
+        default=None,
+        type=Path,
+        help="Use qemu from the given path",
     )
 
     group = parser.add_argument_group("output")
