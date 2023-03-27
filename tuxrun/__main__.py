@@ -172,12 +172,12 @@ def run(options, tmpdir: Path) -> int:
         if v.startswith("file://"):
             extra_assets.append(v)
 
-    command = " ".join([shlex.quote(s) for s in options.command])
+    commands = " ".join([shlex.quote(s) for s in options.commands])
 
     def_arguments = {
         "bios": options.bios,
         "bl1": options.bl1,
-        "command": command,
+        "commands": commands,
         "device": options.device,
         "qemu_image": options.qemu_image,
         "dtb": options.dtb,
@@ -374,8 +374,8 @@ def main() -> int:
     if not options.device:
         parser.error("argument --device is required")
 
-    if options.command:
-        options.tests.append("command")
+    if options.commands:
+        options.tests.append("commands")
 
     try:
         options.device = Device.select(options.device)()

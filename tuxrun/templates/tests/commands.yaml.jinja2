@@ -5,11 +5,11 @@
     - repository:
         metadata:
           format: lava-test test definition 1.0
-          name: command
-          description: "Run command"
+          name: commands
+          description: "Run commands"
         run:
           steps:
-          - "lava-test-case command --shell {{ command }}"
+          - "lava-test-case command --shell {{ commands }}"
       from: inline
       path: command
-      name: command
+      name: commands
