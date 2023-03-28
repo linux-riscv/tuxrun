@@ -49,7 +49,7 @@ def tuxrun_args_generate(monkeypatch):
         "--device",
         "qemu-i386",
         "--kernel",
-        "https://storage.tuxboot.com/i386/bzImage",
+        "https://storage.tuxboot.com/buildroot/i386/bzImage",
     ]
     monkeypatch.setattr("sys.argv", args)
     return args
@@ -126,7 +126,7 @@ FVP_MORELLO_ARGS = [
         ["--device", "qemu-armv7", "--tests", "kselftest-arm64"],
         ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--device", "qemu-arm64", "--modules", "modules.tar"],
-        ["--kernel", "https://storage.tuxboot.com/i386/bzImage"],
+        ["--kernel", "https://storage.tuxboot.com/buildroot/i386/bzImage"],
         ["--device", "fvp-aemva", "--mcp-fw", "fvp.bin"],
         ["--device", "fvp-aemva", "--modules", "modules.tar"],
         ["--device", "fvp-morello-android", "--mcp-fw", "fvp.bin"],
@@ -157,7 +157,7 @@ FVP_MORELLO_ARGS = [
             "fvp-morello-busybox",
             *FVP_MORELLO_ARGS,
             "--kernel",
-            "https://storage.tuxboot.com/i386/bzImage",
+            "https://storage.tuxboot.com/buildroot/i386/bzImage",
         ],
         ["--device", "fvp-morello-ubuntu", *FVP_MORELLO_ARGS],
         [

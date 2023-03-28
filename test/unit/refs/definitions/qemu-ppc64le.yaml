@@ -30,10 +30,10 @@ actions:
     images:
       kernel:
         image_arg: '-kernel {kernel} -append "console=hvc0,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog earlycon"'
-        url: "https://storage.tuxboot.com/ppc64le/vmlinux"
+        url: "https://storage.tuxboot.com/buildroot/ppc64le/vmlinux"
       rootfs:
         image_arg: "-drive file={rootfs},format=raw,if=scsi,index=0"
-        url: "https://storage.tuxboot.com/ppc64le/rootfs.ext4.zst"
+        url: "https://storage.tuxboot.com/buildroot/ppc64le/rootfs.ext4.zst"
         compression: zstd
         format: ext4
 - boot:

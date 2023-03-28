@@ -2,9 +2,9 @@
 - {"dt": "2022-06-09T11:11:27.010743", "lvl": "info", "msg": "start: 0 validate"}
 - {"dt": "2022-06-09T11:11:27.010919", "lvl": "info", "msg": "Start time: 2022-06-09 11:11:27.010911+00:00 (UTC)"}
 - {"dt": "2022-06-09T11:11:27.012054", "lvl": "debug", "msg": "Validating that file:///home/tuxtest/.cache/tuxrun/assets/https___storage.tuxboot.com_test-definitions_2022.01.tar.zst exists"}
-- {"dt": "2022-06-09T11:11:27.012613", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/fvp-aemva/tf-bl1.bin exists"}
-- {"dt": "2022-06-09T11:11:27.257827", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb exists"}
-- {"dt": "2022-06-09T11:11:27.307397", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/fvp-aemva/fip-uboot.bin exists"}
+- {"dt": "2022-06-09T11:11:27.012613", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/buildroot/fvp-aemva/tf-bl1.bin exists"}
+- {"dt": "2022-06-09T11:11:27.257827", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/buildroot/fvp-aemva/fvp-base-revc.dtb exists"}
+- {"dt": "2022-06-09T11:11:27.307397", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/buildroot/fvp-aemva/fip-uboot.bin exists"}
 - {"dt": "2022-06-09T11:11:27.358487", "lvl": "debug", "msg": "Validating that https://builds.tuxbuild.com/2AKxVParoQle2oSdCqGz4BIaCN6/Image.gz exists"}
 - {"dt": "2022-06-09T11:11:27.416904", "lvl": "debug", "msg": "Validating that file:///home/tuxtest/.cache/tuxrun/assets/https___oebuilds.tuxbuild.com_2AKc2KkmAJMJMX2xKP5h38ekcPA_images_fvp-base_tux-lkft-console-image-fvp-base-20220609080223.rootfs.ext4.gz exists"}
 - {"dt": "2022-06-09T11:11:27.417591", "lvl": "debug", "msg": "Validating that https://builds.tuxbuild.com/2AKxVParoQle2oSdCqGz4BIaCN6/modules.tar.xz exists"}
@@ -110,7 +110,7 @@
 - {"dt": "2022-06-09T11:11:35.265367", "lvl": "debug", "msg": "end: 1.1 lava-overlay (duration 00:00:08) [common]"}
 - {"dt": "2022-06-09T11:11:35.265576", "lvl": "debug", "msg": "start: 1.2 download-retry (timeout 00:04:52) [common]"}
 - {"dt": "2022-06-09T11:11:35.265742", "lvl": "debug", "msg": "start: 1.2.1 http-download (timeout 00:04:52) [common]"}
-- {"dt": "2022-06-09T11:11:35.266008", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/fvp-aemva/tf-bl1.bin"}
+- {"dt": "2022-06-09T11:11:35.266008", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/buildroot/fvp-aemva/tf-bl1.bin"}
 - {"dt": "2022-06-09T11:11:35.266512", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-g06tkwb1-1/fvp-deploy-qcfah1gp/bl1/tf-bl1.bin"}
 - {"dt": "2022-06-09T11:11:35.266886", "lvl": "debug", "msg": "total size: 35957 (0MB)"}
 - {"dt": "2022-06-09T11:11:35.267094", "lvl": "debug", "msg": "No compression specified"}
@@ -122,7 +122,7 @@
 - {"dt": "2022-06-09T11:11:35.372581", "lvl": "debug", "msg": "end: 1.2 download-retry (duration 00:00:00) [common]"}
 - {"dt": "2022-06-09T11:11:35.372749", "lvl": "debug", "msg": "start: 1.3 download-retry (timeout 00:04:52) [common]"}
 - {"dt": "2022-06-09T11:11:35.372912", "lvl": "debug", "msg": "start: 1.3.1 http-download (timeout 00:04:52) [common]"}
-- {"dt": "2022-06-09T11:11:35.373168", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"}
+- {"dt": "2022-06-09T11:11:35.373168", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/buildroot/fvp-aemva/fvp-base-revc.dtb"}
 - {"dt": "2022-06-09T11:11:35.373297", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-g06tkwb1-1/fvp-deploy-qcfah1gp/dtb/fvp-base-revc.dtb"}
 - {"dt": "2022-06-09T11:11:35.373401", "lvl": "debug", "msg": "total size: 10425 (0MB)"}
 - {"dt": "2022-06-09T11:11:35.373528", "lvl": "debug", "msg": "No compression specified"}
@@ -133,7 +133,7 @@
 - {"dt": "2022-06-09T11:11:35.457035", "lvl": "debug", "msg": "end: 1.3 download-retry (duration 00:00:00) [common]"}
 - {"dt": "2022-06-09T11:11:35.457276", "lvl": "debug", "msg": "start: 1.4 download-retry (timeout 00:04:52) [common]"}
 - {"dt": "2022-06-09T11:11:35.457593", "lvl": "debug", "msg": "start: 1.4.1 http-download (timeout 00:04:52) [common]"}
-- {"dt": "2022-06-09T11:11:35.457921", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/fvp-aemva/fip-uboot.bin"}
+- {"dt": "2022-06-09T11:11:35.457921", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/buildroot/fvp-aemva/fip-uboot.bin"}
 - {"dt": "2022-06-09T11:11:35.458123", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-g06tkwb1-1/fvp-deploy-qcfah1gp/fip/fip-uboot.bin"}
 - {"dt": "2022-06-09T11:11:35.458317", "lvl": "debug", "msg": "total size: 646769 (0MB)"}
 - {"dt": "2022-06-09T11:11:35.458509", "lvl": "debug", "msg": "No compression specified"}

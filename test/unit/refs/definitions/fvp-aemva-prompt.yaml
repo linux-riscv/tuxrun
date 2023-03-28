@@ -23,19 +23,19 @@ actions:
       startup:
         url: "/DATA/startup.nsh"
       uefi:
-        url: "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/edk2-flash.img"
       bl1:
-        url: "https://storage.tuxboot.com/fvp-aemva/bl1.bin"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/bl1.bin"
       dtb:
-        url: "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/fvp-base-revc.dtb"
       kernel:
-        url: "https://storage.tuxboot.com/fvp-aemva/Image"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/Image"
       rootfs:
-        url: "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/rootfs.ext4.zst"
         compression: zstd
         format: ext4
       fip:
-        url: "https://storage.tuxboot.com/fvp-aemva/fip.bin"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/fip.bin"
 - boot:
     method: fvp
     docker:

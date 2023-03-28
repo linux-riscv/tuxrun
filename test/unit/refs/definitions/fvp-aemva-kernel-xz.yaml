@@ -27,7 +27,7 @@ actions:
       bl1:
         url: "/DATA/tf-bl1.bin"
       dtb:
-        url: "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
+        url: "https://storage.tuxboot.com/buildroot/fvp-aemva/fvp-base-revc.dtb"
       kernel:
         url: "/DATA/zImage.xz"
         compression: xz
