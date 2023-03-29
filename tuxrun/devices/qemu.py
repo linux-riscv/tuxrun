@@ -39,7 +39,7 @@ class QemuDevice(Device):
         self,
         bios,
         boot_args,
-        command,
+        commands,
         dtb,
         kernel,
         modules,
@@ -120,7 +120,7 @@ class QemuDevice(Device):
         tests = [
             t.render(
                 arch=kwargs["arch"],
-                command=kwargs["command"],
+                commands=kwargs["commands"],
                 device=kwargs["device"],
                 overlays=kwargs["overlays"],
                 parameters=kwargs["parameters"],

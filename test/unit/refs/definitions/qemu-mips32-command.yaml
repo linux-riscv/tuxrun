@@ -1,6 +1,6 @@
 device_type: "qemu"
 
-job_name: "tuxrun@qemu-mips32: command"
+job_name: "tuxrun@qemu-mips32: commands"
 priority: "medium"
 visibility: "public"
 
@@ -54,11 +54,11 @@ actions:
     - repository:
         metadata:
           format: lava-test test definition 1.0
-          name: command
-          description: "Run command"
+          name: commands
+          description: "Run commands"
         run:
           steps:
           - "lava-test-case command --shell cat /proc/cpuinfo"
       from: inline
       path: command
-      name: command
+      name: commands

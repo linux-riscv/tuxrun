@@ -254,9 +254,9 @@ def setup_parser() -> argparse.ArgumentParser:
         action="extend",
     )
     group.add_argument(
-        "command",
+        "commands",
         nargs="*",
-        help="Command to run inside the VM",
+        help="Space separated list of commands to run inside the VM",
     )
 
     group = parser.add_argument_group("run options")

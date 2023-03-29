@@ -7,13 +7,13 @@
 from tuxrun.tests import Test
 
 
-class Command(Test):
+class Commands(Test):
     devices = ["qemu-*", "fvp-aemva"]
-    name = "command"
+    name = "commands"
     timeout = 2
 
     def render(self, **kwargs):
         kwargs["name"] = self.name
         kwargs["timeout"] = self.timeout
 
-        return self._render("command.yaml.jinja2", **kwargs)
+        return self._render("commands.yaml.jinja2", **kwargs)

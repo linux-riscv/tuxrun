@@ -35,7 +35,7 @@ class AEMvAFVPDevice(FVPDevice):
         self,
         bl1,
         boot_args,
-        command,
+        commands,
         dtb,
         fip,
         kernel,
@@ -85,7 +85,7 @@ class AEMvAFVPDevice(FVPDevice):
         tests = [
             t.render(
                 arch="arm64",
-                command=kwargs["command"],
+                commands=kwargs["commands"],
                 tmpdir=kwargs["tmpdir"],
                 overlays=kwargs["overlays"],
                 parameters=kwargs["parameters"],

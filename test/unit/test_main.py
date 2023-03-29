@@ -527,8 +527,8 @@ def test_custom_commands(monkeypatch, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert len(options.tests) == 1
-    assert options.tests[0].name == "command"
-    assert options.command == ["cat", "/etc/hostname"]
+    assert options.tests[0].name == "commands"
+    assert options.commands == ["cat", "/etc/hostname"]
 
 
 def test_list_devices(mocker, monkeypatch, capsys):

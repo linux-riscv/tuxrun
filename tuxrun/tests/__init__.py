@@ -54,7 +54,7 @@ class Test:
         return templates.tests().get_template(filename).render(**kwargs)
 
 
-import tuxrun.tests.command  # noqa: E402
+import tuxrun.tests.commands  # noqa: E402
 import tuxrun.tests.kselftest  # noqa: E402
 import tuxrun.tests.kunit  # noqa: E402
 import tuxrun.tests.libgpiod  # noqa: E402
