@@ -39,6 +39,9 @@ fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, fil
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
 
+!!! info "Running a commands"
+    When running a commands test passing a `--parameters command-name=custom-test-name`
+
 !!! info "ltp parameter"
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
@@ -126,6 +129,9 @@ qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filec
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
+
+!!! info "Running a commands"
+    When running a commands test passing a `--parameters command-name=custom-test-name`
 
 !!! info "ltp parameter"
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile

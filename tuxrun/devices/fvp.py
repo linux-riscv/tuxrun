@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-from tuxrun.utils import compression, notnone
+from tuxrun.utils import compression, notnone, slugify
 
 
 class FVPDevice(Device):
@@ -81,11 +81,16 @@ class AEMvAFVPDevice(FVPDevice):
         else:
             kwargs["tux_prompt"] = []
 
+        kwargs["command_name"] = slugify(
+            kwargs.get("parameters").get("command-name", "command")
+        )
+
         # render the template
         tests = [
             t.render(
                 arch="arm64",
                 commands=kwargs["commands"],
+                command_name=kwargs["command_name"],
                 tmpdir=kwargs["tmpdir"],
                 overlays=kwargs["overlays"],
                 parameters=kwargs["parameters"],
