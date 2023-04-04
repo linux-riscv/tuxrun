@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: MIT
 
 from abc import ABC, abstractmethod
+import re
 import sys
 
 from tuxrun import xdg
@@ -89,3 +90,11 @@ def get_new_output_dir():
         except FileExistsError:
             new += 1
     return new_dir
+
+
+def slugify(s):
+    s = s.lower().strip()
+    s = re.sub(r"[^\w\s-]", "", s)
+    s = re.sub(r"[\s_-]+", "-", s)
+    s = re.sub(r"^-+|-+$", "", s)
+    return s

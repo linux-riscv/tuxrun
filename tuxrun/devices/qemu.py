@@ -9,7 +9,7 @@ from typing import List
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-from tuxrun.utils import compression, notnone
+from tuxrun.utils import compression, notnone, slugify
 
 
 class QemuDevice(Device):
@@ -116,11 +116,16 @@ class QemuDevice(Device):
                 )
             kwargs["cpu"] += f',lpa2={kwargs.get("parameters").get("cpu.lpa2")}'
 
+        kwargs["command_name"] = slugify(
+            kwargs.get("parameters").get("command-name", "command")
+        )
+
         # render the template
         tests = [
             t.render(
                 arch=kwargs["arch"],
                 commands=kwargs["commands"],
+                command_name=kwargs["command_name"],
                 device=kwargs["device"],
                 overlays=kwargs["overlays"],
                 parameters=kwargs["parameters"],
