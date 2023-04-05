@@ -53,6 +53,12 @@ tuxrun --device qemu-arm64 --kernel /path/to/Image
 TuxRun will automatically start qemu-system with the right arguments and the
 right root filesystem.
 
+# Known issues
+
+Known issues when booting on different virtual platforms.
+
+- [From issues](docs/issues.md)
+
 # Examples
 
 Boot test a mipsel kernel at https://mykernel.org/vmlinux:
