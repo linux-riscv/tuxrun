@@ -18,7 +18,7 @@ fvp-aemva | command                                                             
 fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                       | KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 fvp-aemva | kunit\*                                                                   |                                                |
 fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)         | SKIPFILE, SHARD_NUMBER, SHARD_INDEX            |
-fvp-aemva | perf                                                                      |                                                |
+fvp-aemva | perf                                                                      | PERF                                           |
 fvp-aemva | rcutorture                                                                |                                                |
 fvp-aemva | v4l2                                                                      |                                                |
 
@@ -32,7 +32,9 @@ fvp-aemva | libhugetlbfs                                                        
 fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 
 !!! tip "Passing parameters"
-    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
+    In order to pass parameters for kselftest or perf, use
+    `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz` or
+    `tuxrun --parameters PERF=http://.../perf.tar.xz`
 
 !!! info "kselftest parameters"
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
@@ -109,7 +111,7 @@ qemu-\* | command                                                               
 qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                       | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 qemu-\* | kunit\*                                                                   |                                                          |
 qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)         | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
-qemu-\* | perf                                                                      |                                                          |
+qemu-\* | perf                                                                      | PERF                                                     |
 qemu-\* | rcutorture                                                                |                                                          |
 qemu-\* | v4l2                                                                      |                                                          |
 
@@ -123,7 +125,9 @@ qemu-\* | libhugetlbfs                                                          
 qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 
 !!! tip "Passing parameters"
-    In order to pass parameters, use `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz`
+    In order to pass parameters for kselftest or perf, use
+    `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz` or
+    `tuxrun --parameters PERF=http://.../perf.tar.xz`
 
 !!! info "kselftest parameters"
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
