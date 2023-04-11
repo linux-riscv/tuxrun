@@ -313,6 +313,12 @@ class KSelftestNetForwarding(KSelfTest):
     timeout = 10
 
 
+class KSelftestNetHsr(KSelfTest):
+    name = "kselftest-net-hsr"
+    cmdfile = "net.hsr"
+    timeout = 5
+
+
 class KSelftestNetMptcp(KSelfTest):
     name = "kselftest-net-mptcp"
     cmdfile = "net.mptcp"
