@@ -307,6 +307,12 @@ class KSelftestNet(KSelfTest):
     timeout = 5
 
 
+class KSelftestNetMptcp(KSelfTest):
+    name = "kselftest-net-mptcp"
+    cmdfile = "net.mptcp"
+    timeout = 5
+
+
 class KSelftestNetfilter(KSelfTest):
     name = "kselftest-netfilter"
     cmdfile = "netfilter"
