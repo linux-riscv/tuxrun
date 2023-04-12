@@ -53,7 +53,7 @@ Build the container containing the AEMvA FVP model:
     ```
 
 !!! warning "Container tag"
-    The container should be named **fvp:aemva-11.20.15** in order for TuxRun
+    The container should be named **fvp:aemva-11.21.15** in order for TuxRun
     to work.
 
 
