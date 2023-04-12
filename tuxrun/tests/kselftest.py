@@ -307,6 +307,12 @@ class KSelftestNet(KSelfTest):
     timeout = 5
 
 
+class KSelftestNetAf_unix(KSelfTest):
+    name = "kselftest-net-af_unix"
+    cmdfile = "net.af_unix"
+    timeout = 5
+
+
 class KSelftestNetForwarding(KSelfTest):
     name = "kselftest-net-forwarding"
     cmdfile = "net.forwarding"
