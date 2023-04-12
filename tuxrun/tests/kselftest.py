@@ -307,6 +307,30 @@ class KSelftestNet(KSelfTest):
     timeout = 5
 
 
+class KSelftestNetAf_unix(KSelfTest):
+    name = "kselftest-net-af_unix"
+    cmdfile = "net.af_unix"
+    timeout = 5
+
+
+class KSelftestNetForwarding(KSelfTest):
+    name = "kselftest-net-forwarding"
+    cmdfile = "net.forwarding"
+    timeout = 10
+
+
+class KSelftestNetHsr(KSelfTest):
+    name = "kselftest-net-hsr"
+    cmdfile = "net.hsr"
+    timeout = 5
+
+
+class KSelftestNetMptcp(KSelfTest):
+    name = "kselftest-net-mptcp"
+    cmdfile = "net.mptcp"
+    timeout = 5
+
+
 class KSelftestNetfilter(KSelfTest):
     name = "kselftest-netfilter"
     cmdfile = "netfilter"
