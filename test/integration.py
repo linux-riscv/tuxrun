@@ -17,7 +17,7 @@ from tuxrun.yaml import yaml_load
 # Helpers #
 ###########
 def get_results(tmpdir: Path) -> Dict:
-    required_keys = set(["msg", "lvl", "dt"])
+    required_keys = {"msg", "lvl", "dt"}
     res: Dict[Any, Any] = {}
     data = yaml_load((tmpdir / "logs.yaml").read_text(encoding="utf-8"))
 
