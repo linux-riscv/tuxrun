@@ -59,7 +59,9 @@ actions:
       rootfs:
         image_arg: "{{ rootfs_arg }}"
         url: "{{ rootfs }}"
+{% if compression(rootfs)[1] is not none %}
         compression: {{ compression(rootfs)[1] }}
+{% endif %}
         format: ext4
 {% if overlays %}
         overlays:

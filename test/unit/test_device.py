@@ -386,6 +386,15 @@ def artefacts(tmp_path):
                 "--device",
                 "qemu-x86_64",
                 "--rootfs",
+                "https://example.com/rootfs.ext4",
+            ],
+            "qemu-x86_64-rootfs.yaml",
+        ),
+        (
+            [
+                "--device",
+                "qemu-x86_64",
+                "--rootfs",
                 "https://example.com/rootfs.ext4.gz",
             ],
             "qemu-x86_64-rootfs-gz.yaml",
