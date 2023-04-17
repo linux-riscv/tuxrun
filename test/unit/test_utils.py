@@ -1,6 +1,6 @@
 from tuxrun.utils import (
-    ProgressIndicator,
     NoProgressIndicator,
+    ProgressIndicator,
     TTYProgressIndicator,
     notnone,
 )

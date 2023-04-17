@@ -11,7 +11,6 @@ import yaml
 
 from tuxrun.yaml import yaml_load
 
-
 LOG = logging.getLogger("tuxrun")
 PATTERN = re.compile(r"^(\d+_)")
 

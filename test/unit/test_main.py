@@ -1,10 +1,11 @@
 import json
-import pytest
 import os
+
+import pytest
 import yaml
 
 import tuxrun.__main__
-from tuxrun.__main__ import start, main
+from tuxrun.__main__ import main, start
 
 
 def touch(directory, name):

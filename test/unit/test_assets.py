@@ -1,12 +1,12 @@
-from hashlib import sha1
-from pathlib import Path
-import pytest
 import subprocess
 import time
+from hashlib import sha1
+from pathlib import Path
+
+import pytest
 
 from tuxrun.assets import get_rootfs
 from tuxrun.devices import Device
-
 
 seven_hours = 7 * 60 * 60
 

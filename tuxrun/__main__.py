@@ -8,15 +8,15 @@
 import contextlib
 import json
 import logging
-from pathlib import Path
-from os.path import commonprefix
+import re
 import shlex
 import shutil
 import signal
+import subprocess
 import sys
 import tempfile
-import re
-import subprocess
+from os.path import commonprefix
+from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -30,10 +30,9 @@ from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
 from tuxrun.templates import wrappers
 from tuxrun.tests import Test
-from tuxrun.utils import get_new_output_dir, ProgressIndicator
+from tuxrun.utils import ProgressIndicator, get_new_output_dir
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
-
 
 ###########
 # GLobals #

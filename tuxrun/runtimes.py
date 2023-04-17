@@ -7,13 +7,12 @@
 import contextlib
 import logging
 import os
-from pathlib import Path
 import signal
 import subprocess
 import time
+from pathlib import Path
 
 from tuxrun.templates import wrappers
-
 
 BASE = (Path(__file__) / "..").resolve()
 LOG = logging.getLogger("tuxrun")

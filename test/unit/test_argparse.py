@@ -1,9 +1,9 @@
-from argparse import Namespace, ArgumentTypeError
+from argparse import ArgumentTypeError, Namespace
 from pathlib import Path
 
 import pytest
 
-from tuxrun.argparse import filter_options, pathurlnone, pathnone, setup_parser
+from tuxrun.argparse import filter_options, pathnone, pathurlnone, setup_parser
 
 
 def test_filter_options():

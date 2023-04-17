@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 import argparse
 import fnmatch
-from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
+from pathlib import Path
+from typing import Any, Dict
 
-from typing import Dict, Any
 from tuxrun.devices import Device
 from tuxrun.tests import Test
 from tuxrun.yaml import yaml_load
@@ -17,7 +17,7 @@ from tuxrun.yaml import yaml_load
 # Helpers #
 ###########
 def get_results(tmpdir: Path) -> Dict:
-    required_keys = set(["msg", "lvl", "dt"])
+    required_keys = {"msg", "lvl", "dt"}
     res: Dict[Any, Any] = {}
     data = yaml_load((tmpdir / "logs.yaml").read_text(encoding="utf-8"))
 

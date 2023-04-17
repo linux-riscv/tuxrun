@@ -6,8 +6,8 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
-from pathlib import Path
 import sys
+from pathlib import Path
 from urllib.parse import urlparse
 
 from tuxrun import __version__

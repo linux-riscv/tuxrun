@@ -4,15 +4,15 @@
 #
 # SPDX-License-Identifier: MIT
 
-from contextlib import ContextDecorator
 import html
 import logging
 import re
 import sys
+from contextlib import ContextDecorator
+
 import yaml
 
 from tuxrun.yaml import yaml_load
-
 
 COLORS = {
     "exception": "\033[1;31m",

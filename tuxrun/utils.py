@@ -4,9 +4,9 @@
 #
 # SPDX-License-Identifier: MIT
 
-from abc import ABC, abstractmethod
 import re
 import sys
+from abc import ABC, abstractmethod
 
 from tuxrun import xdg
 

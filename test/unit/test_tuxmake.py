@@ -1,9 +1,9 @@
 import copy
 import json
-import pytest
-from tuxrun.tuxmake import TuxBuildBuild, TuxMakeBuild
-from tuxrun.tuxmake import InvalidTuxBuild
 
+import pytest
+
+from tuxrun.tuxmake import InvalidTuxBuild, TuxBuildBuild, TuxMakeBuild
 
 metadata = {
     "results": {

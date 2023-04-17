@@ -11,7 +11,6 @@ import jinja2
 
 from tuxrun.utils import compression
 
-
 BASE = (Path(__file__) / "..").resolve()
 
 
