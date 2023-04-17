@@ -279,7 +279,7 @@ def test_command_line_parameters(monkeypatch, mocker, artefacts):
     run = mocker.patch("tuxrun.__main__.run", return_value=0)
     exitcode = main()
     assert exitcode == 0
-    assert len(run.call_args.args) == 2
+    assert len(run.call_args.args) == 3
     print(run.call_args.parameters)
     assert run.call_args[0][0].parameters == {"USERDATA": "http://userdata.tar.xz"}
 

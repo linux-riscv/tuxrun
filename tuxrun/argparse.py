@@ -37,6 +37,7 @@ def filter_options(options):
         "log_file_text",
         "log_file_yaml",
         "results",
+        "results_hooks",
         "debug",
     ]
     return {k: getattr(options, k) for k in vars(options) if k not in keys}
@@ -323,6 +324,14 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     group.add_argument(
         "--log-file-yaml", default=None, type=Path, help="Store logs to file as YAML"
+    )
+    group.add_argument(
+        "--results-hook",
+        type=str,
+        action="append",
+        dest="results_hooks",
+        metavar="COMMAND",
+        help="Execute COMMAND after the run is finished, if the run is successful. Can be specified multiple times. The command is executed with the run output directory (i.e. where all the artifacts are) as working directory. If any results hook fails, tuxrun exits with a non-zero exit code.",
     )
     group.add_argument(
         "--results", default=None, type=Path, help="Save test results to file (JSON)"
