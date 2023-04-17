@@ -6,10 +6,9 @@ import pytest
 
 from tuxrun.__main__ import main
 from tuxrun.devices import Device
-from tuxrun.devices.qemu import QemuArmv5
 from tuxrun.devices.fvp import FVPMorelloAndroid
+from tuxrun.devices.qemu import QemuArmv5
 from tuxrun.exceptions import InvalidArgument
-
 
 BASE = (Path(__file__) / "..").resolve()
 

@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from tuxrun.xdg import get_cache_dir
 
 

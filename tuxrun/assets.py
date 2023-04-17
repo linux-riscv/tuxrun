@@ -11,10 +11,10 @@ import time
 from urllib.parse import urlparse
 
 import requests
-from tuxrun.requests import requests_get
-from tuxrun.utils import ProgressIndicator, NoProgressIndicator
-from tuxrun.xdg import get_cache_dir
 
+from tuxrun.requests import requests_get
+from tuxrun.utils import NoProgressIndicator, ProgressIndicator
+from tuxrun.xdg import get_cache_dir
 
 TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2023.03.tar.zst"
 
