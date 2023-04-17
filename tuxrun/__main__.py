@@ -17,6 +17,7 @@ import sys
 import tempfile
 import re
 import subprocess
+from typing import Optional
 from urllib.parse import urlparse
 
 from tuxrun import templates
@@ -145,10 +146,23 @@ def overlay_qemu(qemu_binary, tmpdir, runtime):
     runtime.bind(qemu_binary, dst=dest_path, ro=True)
 
 
+def run_hooks(hooks, cwd):
+    if not hooks:
+        return 0
+    for hook in hooks:
+        try:
+            print(hook)
+            subprocess.check_call(["sh", "-c", hook], cwd=str(cwd))
+        except subprocess.CalledProcessError as e:
+            sys.stderr.write(f"hook `{hook}` failed with exit code {e.returncode}\n")
+            return 2
+    return 0
+
+
 ##############
 # Entrypoint #
 ##############
-def run(options, tmpdir: Path) -> int:
+def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
     # Render the job definition and device dictionary
     extra_assets = []
     overlays = []
@@ -317,7 +331,13 @@ def run(options, tmpdir: Path) -> int:
             sys.stdout.write(json.dumps(results.data) + "\n")
         else:
             options.results.write_text(json.dumps(results.data))
-    return max([runtime.ret(), results.ret()])
+
+    # Run results-hooks only if everything was successful
+    if cache_dir:
+        print(f"TuxRun outputs saved to {cache_dir}")
+    return max([runtime.ret(), results.ret()]) or run_hooks(
+        options.results_hooks, cache_dir
+    )
 
 
 def main() -> int:
@@ -346,6 +366,8 @@ def main() -> int:
                 )
 
     cache_dir = None
+    if options.results_hooks:
+        options.save_outputs = True
     if options.save_outputs:
         if any(
             o is None
@@ -403,15 +425,13 @@ def main() -> int:
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
     LOG.debug(f"temporary directory: '{tmpdir}'")
     try:
-        return run(options, tmpdir)
+        return run(options, tmpdir, cache_dir)
     except Exception as exc:
         LOG.error("Raised an exception %s", exc)
         raise
     finally:
         with contextlib.suppress(FileNotFoundError, PermissionError):
             shutil.rmtree(tmpdir)
-        if cache_dir:
-            print(f"TuxRun outputs saved to {cache_dir}")
 
 
 def start():
