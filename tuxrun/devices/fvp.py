@@ -24,12 +24,12 @@ class AEMvAFVPDevice(FVPDevice):
 
     flag_cache_rootfs = True
 
-    bl1 = "https://storage.tuxboot.com/fvp-aemva/bl1.bin"
-    dtb = "https://storage.tuxboot.com/fvp-aemva/fvp-base-revc.dtb"
-    fip = "https://storage.tuxboot.com/fvp-aemva/fip.bin"
-    kernel = "https://storage.tuxboot.com/fvp-aemva/Image"
-    rootfs = "https://storage.tuxboot.com/fvp-aemva/rootfs.ext4.zst"
-    uefi = "https://storage.tuxboot.com/fvp-aemva/edk2-flash.img"
+    bl1 = "https://storage.tuxboot.com/buildroot/fvp-aemva/bl1.bin"
+    dtb = "https://storage.tuxboot.com/buildroot/fvp-aemva/fvp-base-revc.dtb"
+    fip = "https://storage.tuxboot.com/buildroot/fvp-aemva/fip.bin"
+    kernel = "https://storage.tuxboot.com/buildroot/fvp-aemva/Image"
+    rootfs = "https://storage.tuxboot.com/buildroot/fvp-aemva/rootfs.ext4.zst"
+    uefi = "https://storage.tuxboot.com/buildroot/fvp-aemva/edk2-flash.img"
 
     def validate(
         self,

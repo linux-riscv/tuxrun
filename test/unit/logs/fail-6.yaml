@@ -2,9 +2,9 @@
 - {"dt": "2022-08-02T11:47:44.515495", "lvl": "info", "msg": "start: 0 validate"}
 - {"dt": "2022-08-02T11:47:44.515610", "lvl": "info", "msg": "Start time: 2022-08-02 11:47:44.515603+00:00 (UTC)"}
 - {"dt": "2022-08-02T11:47:44.516343", "lvl": "debug", "msg": "Validating that file:///home/ivoire/.cache/tuxrun/assets/https___storage.tuxboot.com_test-definitions_2022.01.tar.zst exists"}
-- {"dt": "2022-08-02T11:47:44.516679", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/armv5/zImage exists"}
-- {"dt": "2022-08-02T11:47:44.784237", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/armv5/versatile-pb.dtb exists"}
-- {"dt": "2022-08-02T11:47:45.236117", "lvl": "debug", "msg": "Validating that file:///home/ivoire/.cache/tuxrun/assets/https___storage.tuxboot.com_armv5_rootfs.ext4.zst exists"}
+- {"dt": "2022-08-02T11:47:44.516679", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/buildroot/armv5/zImage exists"}
+- {"dt": "2022-08-02T11:47:44.784237", "lvl": "debug", "msg": "Validating that https://storage.tuxboot.com/buildroot/armv5/versatile-pb.dtb exists"}
+- {"dt": "2022-08-02T11:47:45.236117", "lvl": "debug", "msg": "Validating that file:///home/ivoire/.cache/tuxrun/assets/https___storage.tuxboot.com_buildroot_armv5_rootfs.ext4.zst exists"}
 - {"dt": "2022-08-02T11:47:45.247469", "lvl": "info", "msg": "qemu-system-arm, installed at version: 1:7.0+dfsg-2~bpo11+2, host architecture: amd64"}
 - {"dt": "2022-08-02T11:47:45.247823", "lvl": "warning", "msg": "Missing image arg for url_repo"}
 - {"dt": "2022-08-02T11:47:45.248071", "lvl": "info", "msg": "validate duration: 0.73"}
@@ -122,7 +122,7 @@
 - {"dt": "2022-08-02T11:47:51.926538", "lvl": "debug", "msg": "end: 1.3 deploy-device-env (duration 00:00:00) [common]"}
 - {"dt": "2022-08-02T11:47:51.926608", "lvl": "debug", "msg": "start: 1.4 download-retry (timeout 00:04:53) [common]"}
 - {"dt": "2022-08-02T11:47:51.926684", "lvl": "debug", "msg": "start: 1.4.1 http-download (timeout 00:04:53) [common]"}
-- {"dt": "2022-08-02T11:47:51.926835", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/armv5/zImage"}
+- {"dt": "2022-08-02T11:47:51.926835", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/buildroot/armv5/zImage"}
 - {"dt": "2022-08-02T11:47:51.926899", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/kernel/zImage"}
 - {"dt": "2022-08-02T11:47:51.926953", "lvl": "debug", "msg": "total size: 3091912 (2MB)"}
 - {"dt": "2022-08-02T11:47:51.927006", "lvl": "debug", "msg": "No compression specified"}
@@ -152,7 +152,7 @@
 - {"dt": "2022-08-02T11:47:54.815757", "lvl": "debug", "msg": "end: 1.4 download-retry (duration 00:00:03) [common]"}
 - {"dt": "2022-08-02T11:47:54.815934", "lvl": "debug", "msg": "start: 1.5 download-retry (timeout 00:04:50) [common]"}
 - {"dt": "2022-08-02T11:47:54.816108", "lvl": "debug", "msg": "start: 1.5.1 http-download (timeout 00:04:50) [common]"}
-- {"dt": "2022-08-02T11:47:54.816379", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/armv5/versatile-pb.dtb"}
+- {"dt": "2022-08-02T11:47:54.816379", "lvl": "info", "msg": "downloading https://storage.tuxboot.com/buildroot/armv5/versatile-pb.dtb"}
 - {"dt": "2022-08-02T11:47:54.816502", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/dtb/versatile-pb.dtb"}
 - {"dt": "2022-08-02T11:47:54.816619", "lvl": "debug", "msg": "total size: 8896 (0MB)"}
 - {"dt": "2022-08-02T11:47:54.816731", "lvl": "debug", "msg": "No compression specified"}
@@ -163,8 +163,8 @@
 - {"dt": "2022-08-02T11:47:55.842906", "lvl": "debug", "msg": "end: 1.5 download-retry (duration 00:00:01) [common]"}
 - {"dt": "2022-08-02T11:47:55.843064", "lvl": "debug", "msg": "start: 1.6 download-retry (timeout 00:04:49) [common]"}
 - {"dt": "2022-08-02T11:47:55.843208", "lvl": "debug", "msg": "start: 1.6.1 file-download (timeout 00:04:49) [common]"}
-- {"dt": "2022-08-02T11:47:55.843460", "lvl": "info", "msg": "downloading file:///home/ivoire/.cache/tuxrun/assets/https___storage.tuxboot.com_armv5_rootfs.ext4.zst"}
-- {"dt": "2022-08-02T11:47:55.843606", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/rootfs/https___storage.tuxboot.com_armv5_rootfs.ext4"}
+- {"dt": "2022-08-02T11:47:55.843460", "lvl": "info", "msg": "downloading file:///home/ivoire/.cache/tuxrun/assets/https___storage.tuxboot.com_buildroot_armv5_rootfs.ext4.zst"}
+- {"dt": "2022-08-02T11:47:55.843606", "lvl": "debug", "msg": "saving as /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/rootfs/https___storage.tuxboot.com_buildroot_armv5_rootfs.ext4"}
 - {"dt": "2022-08-02T11:47:55.843716", "lvl": "debug", "msg": "total size: 42496404 (40MB)"}
 - {"dt": "2022-08-02T11:47:55.843826", "lvl": "info", "msg": "Using unzstd to decompress zstd"}
 - {"dt": "2022-08-02T11:47:55.846635", "lvl": "debug", "msg": "progress   0% (0MB)"}
@@ -192,7 +192,7 @@
 - {"dt": "2022-08-02T11:47:56.642064", "lvl": "debug", "msg": "end: 1.6.1 file-download (duration 00:00:01) [common]"}
 - {"dt": "2022-08-02T11:47:56.642228", "lvl": "results", "msg": {"case": "file-download", "definition": "lava", "duration": "0.80", "extra": {"label": "rootfs", "md5sum": "ae56f847a4e1b5222f2d92accee0bc5b", "sha256sum": "aa0323a14910c2a0cf9c71ad5e848b2bf53fec980690853d2796a274bb801457", "sha512sum": "83cbb5f923e5aef7df88936974230b840d3b2efa85ed1a5a54567e8ad01e4e3b967b62256820141362696d6a76c9654ff0d92497cab0499def53f31276e94ba0", "size": ! "42496404"}, "level": "1.6.1", "namespace": "common", "result": "pass"}}
 - {"dt": "2022-08-02T11:47:56.642570", "lvl": "debug", "msg": "start: 1.6.2 append-overlays (timeout 00:04:49) [common]"}
-- {"dt": "2022-08-02T11:47:56.642716", "lvl": "info", "msg": "Modifying '/var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/rootfs/https___storage.tuxboot.com_armv5_rootfs.ext4'"}
+- {"dt": "2022-08-02T11:47:56.642716", "lvl": "info", "msg": "Modifying '/var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/rootfs/https___storage.tuxboot.com_buildroot_armv5_rootfs.ext4'"}
 - {"dt": "2022-08-02T11:47:59.260481", "lvl": "debug", "msg": "Overlays:"}
 - {"dt": "2022-08-02T11:47:59.261352", "lvl": "debug", "msg": "- rootfs.lava: '/var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/compress-overlay-5y8f8244/overlay-1.1.4.tar.gz' to '/'"}
 - {"dt": "2022-08-02T11:47:59.980479", "lvl": "debug", "msg": "end: 1.6.2 append-overlays (duration 00:00:03) [common]"}
@@ -201,7 +201,7 @@
 - {"dt": "2022-08-02T11:47:59.980984", "lvl": "info", "msg": "start: 2 boot-image-retry (timeout 00:15:00) [common]"}
 - {"dt": "2022-08-02T11:47:59.981073", "lvl": "debug", "msg": "start: 2.1 boot-qemu-image (timeout 00:15:00) [common]"}
 - {"dt": "2022-08-02T11:47:59.981151", "lvl": "debug", "msg": "start: 2.1.1 execute-qemu (timeout 00:15:00) [common]"}
-- {"dt": "2022-08-02T11:47:59.981394", "lvl": "info", "msg": "Boot command: /usr/bin/qemu-system-arm -cpu arm926 -machine versatilepb -nographic -nic none -m 256M -monitor none -no-reboot  -kernel /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/kernel/zImage -append \"console=ttyAMA0,115200 rootwait root=/dev/vda debug verbose console_msg_format=syslog\" -dtb /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/dtb/versatile-pb.dtb -drive file=/var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/rootfs/https___storage.tuxboot.com_armv5_rootfs.ext4,if=none,format=raw,id=hd0 -device virtio-blk-pci,drive=hd0"}
+- {"dt": "2022-08-02T11:47:59.981394", "lvl": "info", "msg": "Boot command: /usr/bin/qemu-system-arm -cpu arm926 -machine versatilepb -nographic -nic none -m 256M -monitor none -no-reboot  -kernel /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/kernel/zImage -append \"console=ttyAMA0,115200 rootwait root=/dev/vda debug verbose console_msg_format=syslog\" -dtb /var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/dtb/versatile-pb.dtb -drive file=/var/lib/lava/dispatcher/tmp/tuxrun-b85jqmk6-1/deployimages-r2whrd1r/rootfs/https___storage.tuxboot.com_buildroot_armv5_rootfs.ext4,if=none,format=raw,id=hd0 -device virtio-blk-pci,drive=hd0"}
 - {"dt": "2022-08-02T11:48:00.065579", "lvl": "debug", "msg": "started a shell command"}
 - {"dt": "2022-08-02T11:48:00.065974", "lvl": "debug", "msg": "end: 2.1.1 execute-qemu (duration 00:00:00) [common]"}
 - {"dt": "2022-08-02T11:48:00.066075", "lvl": "results", "msg": {"case": "execute-qemu", "definition": "lava", "duration": "0.08", "extra": {"host_arch": "amd64", "job_arch": "arm", "qemu_version": "1:7.0+dfsg-2~bpo11+2"}, "level": "2.1.1", "namespace": "common", "result": "pass"}}

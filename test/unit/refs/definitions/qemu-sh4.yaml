@@ -30,10 +30,10 @@ actions:
     images:
       kernel:
         image_arg: '-kernel {kernel} -append "console=ttySC1,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog noiotrap earlycon"'
-        url: "https://storage.tuxboot.com/sh4/zImage"
+        url: "https://storage.tuxboot.com/buildroot/sh4/zImage"
       rootfs:
         image_arg: "-drive file={rootfs},if=ide,format=raw -serial null -serial stdio"
-        url: "https://storage.tuxboot.com/sh4/rootfs.ext4.zst"
+        url: "https://storage.tuxboot.com/buildroot/sh4/rootfs.ext4.zst"
         compression: zstd
         format: ext4
 - boot:

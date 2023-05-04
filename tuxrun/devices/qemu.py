@@ -157,8 +157,8 @@ class QemuArm64(QemuDevice):
     rootfs_dev = "/dev/vda"
     rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
 
-    kernel = "https://storage.tuxboot.com/arm64/Image"
-    rootfs = "https://storage.tuxboot.com/arm64/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/arm64/Image"
+    rootfs = "https://storage.tuxboot.com/buildroot/arm64/rootfs.ext4.zst"
 
 
 class QemuArm64BE(QemuArm64):
@@ -166,8 +166,8 @@ class QemuArm64BE(QemuArm64):
 
     arch = "arm64be"
 
-    kernel = "https://storage.tuxboot.com/arm64be/Image"
-    rootfs = "https://storage.tuxboot.com/arm64be/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/arm64be/Image"
+    rootfs = "https://storage.tuxboot.com/buildroot/arm64be/rootfs.ext4.zst"
 
 
 class QemuArmv5(QemuDevice):
@@ -183,9 +183,9 @@ class QemuArmv5(QemuDevice):
     rootfs_dev = "/dev/vda"
     rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-pci,drive=hd0"
 
-    dtb = "https://storage.tuxboot.com/armv5/versatile-pb.dtb"
-    kernel = "https://storage.tuxboot.com/armv5/zImage"
-    rootfs = "https://storage.tuxboot.com/armv5/rootfs.ext4.zst"
+    dtb = "https://storage.tuxboot.com/buildroot/armv5/versatile-pb.dtb"
+    kernel = "https://storage.tuxboot.com/buildroot/armv5/zImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/armv5/rootfs.ext4.zst"
 
 
 class QemuArmv7(QemuDevice):
@@ -202,8 +202,8 @@ class QemuArmv7(QemuDevice):
     rootfs_dev = "/dev/vda"
     rootfs_arg = "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
 
-    kernel = "https://storage.tuxboot.com/armv7/zImage"
-    rootfs = "https://storage.tuxboot.com/armv7/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/armv7/zImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/armv7/rootfs.ext4.zst"
 
 
 class QemuArmv7BE(QemuArmv7):
@@ -211,8 +211,8 @@ class QemuArmv7BE(QemuArmv7):
 
     arch = "armv7be"
 
-    kernel = "https://storage.tuxboot.com/armv7be/zImage"
-    rootfs = "https://storage.tuxboot.com/armv7be/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/armv7be/zImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/armv7be/rootfs.ext4.zst"
 
 
 class Qemui386(QemuDevice):
@@ -229,8 +229,8 @@ class Qemui386(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/i386/bzImage"
-    rootfs = "https://storage.tuxboot.com/i386/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/i386/bzImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/i386/rootfs.ext4.zst"
 
 
 class QemuMips32(QemuDevice):
@@ -246,8 +246,8 @@ class QemuMips32(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/mips32/vmlinux"
-    rootfs = "https://storage.tuxboot.com/mips32/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/mips32/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/mips32/rootfs.ext4.zst"
 
 
 class QemuMips32EL(QemuDevice):
@@ -263,8 +263,8 @@ class QemuMips32EL(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/mips32el/vmlinux"
-    rootfs = "https://storage.tuxboot.com/mips32el/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/mips32el/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/mips32el/rootfs.ext4.zst"
 
 
 class QemuMips64(QemuDevice):
@@ -279,8 +279,8 @@ class QemuMips64(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/mips64/vmlinux"
-    rootfs = "https://storage.tuxboot.com/mips64/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/mips64/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/mips64/rootfs.ext4.zst"
 
 
 class QemuMips64EL(QemuDevice):
@@ -295,8 +295,8 @@ class QemuMips64EL(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/mips64el/vmlinux"
-    rootfs = "https://storage.tuxboot.com/mips64el/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/mips64el/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/mips64el/rootfs.ext4.zst"
 
 
 class QemuPPC32(QemuDevice):
@@ -311,8 +311,8 @@ class QemuPPC32(QemuDevice):
     rootfs_dev = "/dev/vda"
     rootfs_arg = "-drive file={rootfs},format=raw,if=virtio"
 
-    kernel = "https://storage.tuxboot.com/ppc32/uImage"
-    rootfs = "https://storage.tuxboot.com/ppc32/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/ppc32/uImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/ppc32/rootfs.ext4.zst"
 
 
 class QemuPPC64(QemuDevice):
@@ -329,8 +329,8 @@ class QemuPPC64(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},format=raw,if=scsi,index=0"
 
-    kernel = "https://storage.tuxboot.com/ppc64/vmlinux"
-    rootfs = "https://storage.tuxboot.com/ppc64/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/ppc64/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/ppc64/rootfs.ext4.zst"
 
 
 class QemuPPC64LE(QemuDevice):
@@ -347,8 +347,8 @@ class QemuPPC64LE(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},format=raw,if=scsi,index=0"
 
-    kernel = "https://storage.tuxboot.com/ppc64le/vmlinux"
-    rootfs = "https://storage.tuxboot.com/ppc64le/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/ppc64le/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/ppc64le/rootfs.ext4.zst"
 
 
 class QemuRiscV32(QemuDevice):
@@ -368,9 +368,9 @@ class QemuRiscV32(QemuDevice):
         "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
     )
 
-    bios = "https://storage.tuxboot.com/riscv32/fw_jump.elf"
-    kernel = "https://storage.tuxboot.com/riscv32/Image"
-    rootfs = "https://storage.tuxboot.com/riscv32/rootfs.ext4.zst"
+    bios = "https://storage.tuxboot.com/buildroot/riscv32/fw_jump.elf"
+    kernel = "https://storage.tuxboot.com/buildroot/riscv32/Image"
+    rootfs = "https://storage.tuxboot.com/buildroot/riscv32/rootfs.ext4.zst"
 
 
 class QemuRiscV64(QemuDevice):
@@ -389,8 +389,8 @@ class QemuRiscV64(QemuDevice):
         "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
     )
 
-    kernel = "https://storage.tuxboot.com/riscv64/Image"
-    rootfs = "https://storage.tuxboot.com/riscv64/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/riscv64/Image"
+    rootfs = "https://storage.tuxboot.com/buildroot/riscv64/rootfs.ext4.zst"
 
 
 class QemuS390(QemuDevice):
@@ -409,8 +409,8 @@ class QemuS390(QemuDevice):
         "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk,drive=hd0"
     )
 
-    kernel = "https://storage.tuxboot.com/s390/bzImage"
-    rootfs = "https://storage.tuxboot.com/s390/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/s390/bzImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/s390/rootfs.ext4.zst"
 
 
 class QemuSh4(QemuDevice):
@@ -427,8 +427,8 @@ class QemuSh4(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw -serial null -serial stdio"
 
-    kernel = "https://storage.tuxboot.com/sh4/zImage"
-    rootfs = "https://storage.tuxboot.com/sh4/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/sh4/zImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/sh4/rootfs.ext4.zst"
 
     test_character_delay = 5
 
@@ -444,8 +444,8 @@ class QemuSPARC64(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/sparc64/vmlinux"
-    rootfs = "https://storage.tuxboot.com/sparc64/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/sparc64/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/sparc64/rootfs.ext4.zst"
 
 
 class QemuX86_64(QemuDevice):
@@ -462,5 +462,5 @@ class QemuX86_64(QemuDevice):
     rootfs_dev = "/dev/sda"
     rootfs_arg = "-drive file={rootfs},if=ide,format=raw"
 
-    kernel = "https://storage.tuxboot.com/x86_64/bzImage"
-    rootfs = "https://storage.tuxboot.com/x86_64/rootfs.ext4.zst"
+    kernel = "https://storage.tuxboot.com/buildroot/x86_64/bzImage"
+    rootfs = "https://storage.tuxboot.com/buildroot/x86_64/rootfs.ext4.zst"
