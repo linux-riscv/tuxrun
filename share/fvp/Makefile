@@ -1,7 +1,7 @@
 LAVA_IMAGE ?= ""
 RUNTIME ?= "podman"
 
-aemva_version ?= "11.20_15"
+aemva_version ?= "11.21_15"
 morello_version ?= "0.11_34"
 
 container_aemva_version = $(shell echo $(aemva_version)|sed -e 's|_|.|g')
