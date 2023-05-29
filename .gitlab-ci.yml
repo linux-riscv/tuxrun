@@ -44,7 +44,7 @@ ci-image-integration:
     - export tag="linaro/tuxrun-dispatcher:${CI_COMMIT_TAG}${TAG_APPEND}"
     - export latest="linaro/tuxrun-dispatcher:latest${TAG_APPEND}"
   script:
-    - docker build --pull --tag "${tag}" --tag "${latest}" .
+    - docker build --pull --tag "${tag}" --tag "${latest}" -f Dockerfile.tuxrun-dispatcher .
     - docker push "${tag}"
     - docker push "${latest}"
   variables:
