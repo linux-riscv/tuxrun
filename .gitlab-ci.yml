@@ -68,6 +68,23 @@ docker-arm64:
   only:
     - tags
 
+.docker-master:
+  extends: .docker
+  stage: build
+  variables:
+    IMAGE_NAME: "linaro/tuxrun-dispatcher:master"
+  script:
+    - docker build --pull --tag "${IMAGE_NAME}${TAG_APPEND}" -f Dockerfile.tuxrun-dispatcher .
+    - docker push "${IMAGE_NAME}${TAG_APPEND}"
+  only:
+    - master
+
+docker-master-amd64:
+  extends: .docker-master
+  stage: build
+  variables:
+    TAG_APPEND: -amd64
+
 publish-dockerhub:
   extends: .docker
   stage: deploy
