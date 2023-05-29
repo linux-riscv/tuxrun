@@ -33,6 +33,54 @@ ci-image-integration:
     changes:
     - Dockerfile.ci-integration
 
+###############################
+# tuxrun-dispatcher container #
+###############################
+.docker:
+  image: docker
+  before_script:
+    - docker info
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - export tag="linaro/tuxrun-dispatcher:${CI_COMMIT_TAG}${TAG_APPEND}"
+    - export latest="linaro/tuxrun-dispatcher:latest${TAG_APPEND}"
+  script:
+    - docker build --pull --tag "${tag}" --tag "${latest}" .
+    - docker push "${tag}"
+    - docker push "${latest}"
+  variables:
+    DOCKER_DRIVER: overlay2
+
+docker-amd64:
+  extends: .docker
+  stage: build
+  variables:
+    TAG_APPEND: -amd64
+  only:
+    - tags
+
+docker-arm64:
+  extends: .docker
+  stage: build
+  tags:
+     - arm64-dind
+  variables:
+    TAG_APPEND: -arm64
+  only:
+    - tags
+
+publish-dockerhub:
+  extends: .docker
+  stage: deploy
+  variables:
+    DOCKER_CLI_EXPERIMENTAL: "enabled"
+  script:
+    - docker manifest create "${tag}" "${tag}-amd64" "${tag}-arm64"
+    - docker manifest create "${latest}" "${latest}-amd64" "${latest}-arm64"
+    - docker manifest push "${tag}"
+    - docker manifest push "${latest}"
+  only:
+    - tags
+
 ########
 # test #
 ########
