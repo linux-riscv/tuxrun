@@ -44,7 +44,7 @@ ci-image-integration:
     - export tag="linaro/tuxrun-dispatcher:${CI_COMMIT_TAG}${TAG_APPEND}"
     - export latest="linaro/tuxrun-dispatcher:latest${TAG_APPEND}"
   script:
-    - docker build --pull --tag "${tag}" --tag "${latest}" .
+    - docker build --pull --tag "${tag}" --tag "${latest}" -f Dockerfile.tuxrun-dispatcher .
     - docker push "${tag}"
     - docker push "${latest}"
   variables:
@@ -67,6 +67,23 @@ docker-arm64:
     TAG_APPEND: -arm64
   only:
     - tags
+
+.docker-master:
+  extends: .docker
+  stage: build
+  variables:
+    IMAGE_NAME: "linaro/tuxrun-dispatcher:master"
+  script:
+    - docker build --pull --tag "${IMAGE_NAME}${TAG_APPEND}" -f Dockerfile.tuxrun-dispatcher .
+    - docker push "${IMAGE_NAME}${TAG_APPEND}"
+  only:
+    - master
+
+docker-master-amd64:
+  extends: .docker-master
+  stage: build
+  variables:
+    TAG_APPEND: -amd64
 
 publish-dockerhub:
   extends: .docker
