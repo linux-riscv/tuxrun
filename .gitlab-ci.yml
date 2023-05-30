@@ -115,7 +115,7 @@ publish-master-dockerhub:
   stage: deploy
   variables:
     DOCKER_CLI_EXPERIMENTAL: "enabled"
-    IMAGE_NAME: "lavasoftware/lava-test-plans:master"
+    IMAGE_NAME: "linaro/tuxrun-dispatcher:master"
   script:
     - docker manifest create "${IMAGE_NAME}" "${IMAGE_NAME}-amd64" "${IMAGE_NAME}-arm64"
     - docker manifest push "${IMAGE_NAME}"
