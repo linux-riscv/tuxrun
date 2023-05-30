@@ -36,8 +36,12 @@ ci-image-integration:
 ###############################
 # tuxrun-dispatcher container #
 ###############################
+
 .docker:
-  image: docker
+  image: docker:20.10-dind
+  services:
+  - name: docker:20.10-dind
+  variables:
   before_script:
     - docker info
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
