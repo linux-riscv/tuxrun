@@ -89,6 +89,14 @@ docker-master-amd64:
   variables:
     TAG_APPEND: -amd64
 
+docker-master-arm64:
+  extends: .docker-master
+  stage: build
+  tags:
+     - arm64-dind
+  variables:
+    TAG_APPEND: -arm64
+
 publish-dockerhub:
   extends: .docker
   stage: deploy
@@ -101,6 +109,18 @@ publish-dockerhub:
     - docker manifest push "${latest}"
   only:
     - tags
+
+publish-master-dockerhub:
+  extends: .docker
+  stage: deploy
+  variables:
+    DOCKER_CLI_EXPERIMENTAL: "enabled"
+    IMAGE_NAME: "lavasoftware/lava-test-plans:master"
+  script:
+    - docker manifest create "${IMAGE_NAME}" "${IMAGE_NAME}-amd64" "${IMAGE_NAME}-arm64"
+    - docker manifest push "${IMAGE_NAME}"
+  only:
+    - master
 
 ########
 # test #
