@@ -10,7 +10,7 @@ TuxRun allows to run a linux kernel under QEMU.
 In order to run a simple boot test on arm64:
 
 ```shell
-tuxrun --device qemu-arm64 --kernel http://storage.tuxboot.com/arm64/Image
+tuxrun --device qemu-arm64 --kernel http://storage.tuxboot.com/buildroot/arm64/Image
 ```
 
 !!! tip "Artefact URLs"
@@ -24,7 +24,7 @@ extracted on top of the rootfs.
 
 ```shell
 tuxrun --device qemu-arm64 \
-       --kernel http://storage.tuxboot.com/arm64/Image \
+       --kernel http://storage.tuxboot.com/buildroot/arm64/Image \
        --modules modules.tar.xz
 ```
 
@@ -42,7 +42,7 @@ You can specify custom boot arguments with:
 
 ```shell
 tuxrun --device qemu-arm64 \
-       --kernel http://storage.tuxboot.com/arm64/Image \
+       --kernel http://storage.tuxboot.com/buildroot/arm64/Image \
        --boot-args "initcall_debug"
 ```
 
@@ -52,7 +52,7 @@ You can run a specific test with:
 
 ```shell
 tuxrun --device qemu-arm64 \
-       --kernel http://storage.tuxboot.com/arm64/Image \
+       --kernel http://storage.tuxboot.com/buildroot/arm64/Image \
        --tests ltp-smoke
 ```
 
@@ -75,7 +75,7 @@ You can run any command **inside** the VM with:
 
 ```shell
 tuxrun --device qemu-arm64 \
-       --kernel http://storage.tuxboot.com/arm64/Image \
+       --kernel http://storage.tuxboot.com/buildroot/arm64/Image \
        -- cat /proc/cpuinfo
 ```
 

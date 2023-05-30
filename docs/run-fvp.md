@@ -131,6 +131,24 @@ In order to run a simple boot test on **fvp-morello-busybox**:
                --fip https://example.com/fvp/morello/fip.bin
         ```
 
+## Modules overlay
+
+TuxRun allows to provide a custom **modules.tar.xz** archive that will be
+extracted on top of the rootfs.
+
+```shell
+tuxrun --device fvp-aemva \
+       --kernel https://example.com/Image \
+       --modules modules.tar.xz
+```
+
+!!! warning "Modules format"
+    The modules archive should be a **tar archive**, compressed with **xz**.
+
+!!! tip "Overlays"
+    Any overlay can be applied to the rootfs with the **--overlay** option.
+    This option can be specified multiple times. Each overlay should be a
+    **tar archive** compressed with **xz**.
 
 ## Testing on Android
 
