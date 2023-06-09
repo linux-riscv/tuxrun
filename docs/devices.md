@@ -30,6 +30,7 @@ qemu-armv5    | 32-bit ARM          | versatilepb | arm926           | zImage
 qemu-armv7    | 32-bit ARM          | virt        | Cortex-A15       | zImage
 qemu-armv7be  | 32-bit ARM (BE)     | virt        | Cortex-A15       | zImage
 qemu-i386     | 32-bit X86          | q35         | coreduo          | bzImage
+qemu-m68k     | 32-bit m68k (BE)    | virt        | m68040           | vmlinux
 qemu-mips32   | 32-bit MIPS         | malta       | mips32r6-generic | vmlinux
 qemu-mips32el | 32-bit MIPS (EL)    | malta       | mips32r6-generic | vmlinux
 qemu-mips64   | 64-bit MIPS         | malta       | 20Kc             | vmlinux
