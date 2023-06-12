@@ -233,6 +233,23 @@ class Qemui386(QemuDevice):
     rootfs = "https://storage.tuxboot.com/buildroot/i386/rootfs.ext4.zst"
 
 
+class QemuM68k(QemuDevice):
+    name = "qemu-m68k"
+
+    arch = "m68k"
+    lava_arch = "m68k"
+    machine = "virt"
+    cpu = "m68040"
+    memory = "3G"
+
+    console = "ttyGF0"
+    rootfs_dev = "/dev/vda"
+    rootfs_arg = "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0 -chardev stdio,signal=off,id=char0 -serial chardev:char0"
+
+    kernel = "https://storage.tuxboot.com/buildroot/m68k/vmlinux"
+    rootfs = "https://storage.tuxboot.com/buildroot/m68k/rootfs.ext4.zst"
+
+
 class QemuMips32(QemuDevice):
     name = "qemu-mips32"
 
