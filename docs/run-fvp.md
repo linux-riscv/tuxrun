@@ -150,6 +150,48 @@ tuxrun --device fvp-aemva \
     This option can be specified multiple times. Each overlay should be a
     **tar archive** compressed with **xz**.
 
+!!! tip "Overlay, with custom script(s)"
+```shell
+#!/bin/sh
+
+# Enable the events you want to trace
+echo 1 > /sys/kernel/debug/tracing/events/sched/enable
+# Enable tracer
+echo 1 > /sys/kernel/debug/tracing/tracing_on
+
+# Run whatever userspace tool you want to trace.
+cd /arm64
+./sve_regs
+./sve_vl
+./tpidr2_siginfo
+./za_no_regs
+./zt_no_regs
+./zt_regs
+./pac
+./fp-stress
+
+# Disable tracer
+echo 0 > /sys/kernel/debug/tracing/tracing_on
+
+cat /sys/kernel/debug/tracing/trace
+```
+Tar the cusom-script scripts together
+```shell
+chmod +x *.sh
+tar cJf ../custom-scripts.tar.xz .
+```
+
+Building an ftrace prepared kernel with [tuxmake](https://tuxmake.org/)
+```shell
+cd /to/your/kernel/tree
+tuxmake --runtime podman --target-arch arm64 --toolchain gcc-12 --kconfig defconfig --kconfig-add https://raw.githubusercontent.com/Linaro/meta-lkft/kirkstone/meta/recipes-kernel/linux/files/systemd.config --kconfig-add CONFIG_KFENCE=y --kconfig-add CONFIG_FTRACE=y dtbs dtbs-legacy headers kernel kselftest modules
+```
+
+Running with th custom scripts
+```shell
+tuxrun --runtime docker --device fvp-aemva --boot-args rw --tuxmake /home/anders/.cache/tuxmake/builds/1490 --rootfs https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz --overlay file:///home/anders/.cache/tuxmake/builds/1490/kselftest.tar.xz --overlay file:///home/anders/src/tmp/custom-scripts.tar.xz --timeouts boot=60 --save-outputs --log-file - --timeouts commands=40 -- /custom-script.sh
+```
+
 ## Testing on Android
 
 In order to run an Android test on **fvp-morello-android**:
