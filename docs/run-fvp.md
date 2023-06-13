@@ -135,7 +135,7 @@ tuxrun --device fvp-aemva \
     This option can be specified multiple times. Each overlay should be a
     **tar archive** compressed with **xz**.
 
-> Tip: "Overlay, with custom script(s)"
+## Custom script(s) overlay
 
 ```shell
 #!/bin/sh
