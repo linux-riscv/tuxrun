@@ -70,12 +70,18 @@ tar cJf ../custom-scripts.tar.xz .
 Building an ftrace prepared kernel with [tuxmake](https://tuxmake.org/)
 ```shell
 cd /to/your/kernel/tree
-tuxmake --runtime podman --target-arch arm64 --toolchain gcc-12 --kconfig defconfig --kconfig-add https://raw.githubusercontent.com/Linaro/meta-lkft/kirkstone/meta/recipes-kernel/linux/files/systemd.config --kconfig-add CONFIG_KFENCE=y --kconfig-add CONFIG_FTRACE=y dtbs dtbs-legacy headers kernel kselftest modules
+tuxmake --runtime podman --target-arch arm64 --toolchain gcc-12 --kconfig defconfig \
+        --kconfig-add https://raw.githubusercontent.com/Linaro/meta-lkft/kirkstone/meta/recipes-kernel/linux/files/systemd.config \
+        --kconfig-add CONFIG_KFENCE=y --kconfig-add CONFIG_FTRACE=y dtbs dtbs-legacy headers kernel kselftest modules
 ```
 
 Running with th custom scripts
 ```shell
-tuxrun --runtime docker --device qemu-arm64 --boot-args rw --tuxmake /home/anders/.cache/tuxmake/builds/1490 --rootfs https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz --overlay file:///home/anders/.cache/tuxmake/builds/1490/kselftest.tar.xz --overlay file:///home/anders/src/tmp/custom-scripts.tar.xz --timeouts boot=60 --save-outputs --log-file - --timeouts commands=40 -- /custom-script.sh
+tuxrun --runtime docker --device qemu-arm64 --boot-args rw --tuxmake /home/anders/.cache/tuxmake/builds/1490 \
+       --rootfs https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz \
+       --overlay file:///home/anders/.cache/tuxmake/builds/1490/kselftest.tar.xz \
+       --overlay file:///home/anders/src/tmp/custom-scripts.tar.xz --timeouts boot=60 \
+       --save-outputs --log-file - --timeouts commands=40 -- /custom-script.sh
 ```
 
 ## Boot arguments
