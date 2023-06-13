@@ -9,10 +9,7 @@ container_morello_version = $(shell echo $(morello_version)|sed -e 's|_|.|g')
 
 .PHONE: build
 
-build: fvp fvp-aemva fvp-morello
-
-fvp: Dockerfile
-	@if [ "$(LAVA_IMAGE)" = "" ]; then $(RUNTIME) build --tag tuxrun:fvp . ; else $(RUNTIME) build --build-arg image="$(LAVA_IMAGE)" --tag tuxrun:fvp . ;fi
+build: fvp-aemva fvp-morello
 
 fvp-aemva: aemva/Dockerfile
 	cd aemva && $(RUNTIME) build --build-arg version=$(aemva_version) --tag fvp:aemva-$(container_aemva_version) .

@@ -12,6 +12,7 @@ ENV PKG_DEPS="\
     telnet \
 "
 
+RUN if [ -z $version ]; then echo "FVP version not set!" && exit 1; fi
 RUN set -e ;\
     apt update -q=2 ;\
     apt full-upgrade -q=2 --yes ;\
