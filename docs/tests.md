@@ -2,7 +2,7 @@
 
 TuxRun support some tests, each tests is supported on some but not all architectures.
 
-!!! tip "Listing tests"
+> Tip: "Listing tests"
     You can list the supported tests with:
     ```shell
     tuxrun --list-tests
@@ -31,30 +31,30 @@ fvp-aemva | libgpiod                                                            
 fvp-aemva | libhugetlbfs                                                                                                                                          |                                     |
 fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 
-!!! tip "Passing parameters"
+> Tip: "Passing parameters"
     In order to pass parameters for kselftest or perf, use
     `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz` or
     `tuxrun --parameters PERF=http://.../perf.tar.xz`
 
-!!! info "kselftest parameters"
+> Info: "kselftest parameters"
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
 
-!!! info "Running a commands"
+> Info: "Running a commands"
     When running a commands test passing a `--parameters command-name=custom-test-name`
 
-!!! info "ltp parameter"
+> Info: "ltp parameter"
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
 
-!!! info "kselftest and ltp sharding"
+> Info: "kselftest and ltp sharding"
     In order to run kselftest and/or ltp with sharding, define `SHARD_NUMBER`
     to the number of shards and `SHARD_INDEX` to the shard to run. The list of
     kselftest or ltp tests will be sharded by`SHARD_NUMBER` and only the
     `SHARD_INDEX` part will be ran.
 
-!!! warning "KUnit config"
+> Warning: "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
     ```
     CONFIG_KUNIT=m
@@ -91,10 +91,10 @@ fvp-morello-busybox | virtiop9       |                                  |
 fvp-morello-debian  | debian-purecap |                                  |
 fvp-morello-oe      | fwts           |                                  |
 
-!!! tip "Passing parameters"
+> Tip: "Passing parameters"
     In order to pass parameters, use `tuxrun --parameters USERDATA=http://.../userdata.tar.xz`
 
-!!! tip "Default parameters"
+> Tip: "Default parameters"
     **GTEST_FILTER** is optional and defaults to
     ```
     string_nofortify.*-string_nofortify.strlcat_overread:string_nofortify.bcopy:string_nofortify.memmove
@@ -124,33 +124,33 @@ qemu-\* | libgpiod                                                              
 qemu-\* | libhugetlbfs                                                                                                                                          |                                     |
 qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 
-!!! tip "Passing parameters"
+> Tip: "Passing parameters"
     In order to pass parameters for kselftest or perf, use
     `tuxrun --parameters KSELFTEST=http://.../kselftest.tar.xz` or
     `tuxrun --parameters PERF=http://.../perf.tar.xz`
 
-!!! info "kselftest parameters"
+> Info: "kselftest parameters"
     The `CPUPOWER` and `KSELFTEST` parameters are not mandatory. If kselftest
     is present on the filesystem (in `/opt/kselftests/default-in-kernel/`) then the
     parameter is not required.
 
-!!! info "Running a commands"
+> Info: "Running a commands"
     When running a commands test passing a `--parameters command-name=custom-test-name`
 
-!!! info "ltp parameter"
+> Info: "ltp parameter"
     The `SKIPFILE` parameter is not mandatory but allows to specify a skipfile
     present on the root filesystem.
 
-!!! info "kselftest and ltp sharding"
+> Info: "kselftest and ltp sharding"
     In order to run kselftest and/or ltp with sharding, define `SHARD_NUMBER`
     to the number of shards and `SHARD_INDEX` to the shard to run. The list of
     kselftest or ltp tests will be sharded by`SHARD_NUMBER` and only the
     `SHARD_INDEX` part will be ran.
 
-!!! info "kselftest-arm64"
+> Info: "kselftest-arm64"
     Kselftest-arm64 are tests that can run on a qemu-arm64 machine.
 
-!!! warning "KUnit config"
+> Warning: "KUnit config"
     In order to run KUnit tests, the kernel should be compiled with
     ```
     CONFIG_KUNIT=m
