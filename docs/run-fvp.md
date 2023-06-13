@@ -2,7 +2,7 @@
 
 TuxRun allows to run linux kernel under FVP for Morello and AEMvA.
 
-!!! note "Supported devices"
+> Note: "Supported devices"
     See the [architecture matrix](devices.md#fvp-devices) for the supported devices.
 
 ## Preparing the environment
@@ -37,7 +37,7 @@ cd share/fvp
 make fvp-aemva RUNTIME=docker
 ```
 
-!!! warning "Container tag"
+> Warning: "Container tag"
     The container should be named **fvp:aemva-11.21.15** in order for TuxRun
     to work.
 
@@ -60,7 +60,7 @@ cd share/fvp
 make fvp-morello RUNTIME=docker
 ```
 
-!!! warning "Container tag"
+> Warning: "Container tag"
     The container should be named **fvp:morello-0.11.34** in order for TuxRun
     to work.
 
@@ -68,7 +68,8 @@ make fvp-morello RUNTIME=docker
 
 The command line is really similar to the qemu one:
 
-!!! example
+### Example
+
 === "podman"
 ```shell
 tuxrun --device fvp-aemva \
@@ -88,7 +89,8 @@ tuxrun --runtime docker \
 
 In order to run a simple boot test on **fvp-morello-busybox**:
 
-!!! example
+### Example
+
 === "podman"
 ```shell
 tuxrun --device fvp-morello-buxybox \
@@ -125,15 +127,16 @@ tuxrun --device fvp-aemva \
        --modules modules.tar.xz
 ```
 
-!!! warning "Modules format"
+> Warning: "Modules format"
     The modules archive should be a **tar archive**, compressed with **xz**.
 
-!!! tip "Overlays"
+> Tip: "Overlays"
     Any overlay can be applied to the rootfs with the **--overlay** option.
     This option can be specified multiple times. Each overlay should be a
     **tar archive** compressed with **xz**.
 
-!!! tip "Overlay, with custom script(s)"
+> Tip: "Overlay, with custom script(s)"
+
 ```shell
 #!/bin/sh
 
