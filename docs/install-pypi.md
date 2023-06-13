@@ -1,9 +1,8 @@
 # Installing from PyPI
 
 
-!!! note
-    - TuxRun requires Python 3.6 or newer.
-    - The default runtime is podman, you should install it.
+- TuxRun requires Python 3.6 or newer.
+- The default runtime is podman, you should install it.
 
 To install TuxRun on your system globally:
 
