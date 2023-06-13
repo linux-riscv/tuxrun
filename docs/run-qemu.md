@@ -36,7 +36,8 @@ tuxrun --device qemu-arm64 \
     This option can be specified multiple times. Each overlay should be a
     **tar archive** compressed with **xz**.
 
-!!! tip "Overlay, with custom script(s)"
+## Custom script(s) overlay
+
 ```shell
 #!/bin/sh
 
