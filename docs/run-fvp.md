@@ -9,7 +9,6 @@ TuxRun allows to run linux kernel under FVP for Morello and AEMvA.
 
 In order to use TuxRun with FVP, you have to build container images:
 
-* tuxrun fvp image (only for podman)
 * AEMvA fvp model
 * morello fvp model
 
@@ -19,20 +18,6 @@ Start by cloning the git repository:
 git clone https://gitlab.com/Linaro/tuxrun
 cd tuxrun
 ```
-
-### TuxRun fvp image
-
-Build the TuxRun image
-
-=== "podman"
-    ```shell
-    cd share/fvp
-    make fvp
-    ```
-
-=== "docker"
-    !!! info "Runtime"
-        When using docker runtime, this container is not needed.
 
 ### AEMvA fvp model
 
@@ -86,8 +71,7 @@ The command line is really similar to the qemu one:
 !!! example
     === "podman"
         ```shell
-        tuxrun --image tuxrun:fvp \
-               --device fvp-aemva \
+        tuxrun --device fvp-aemva \
                --kernel https://example.com/Image \
                --dtb https://example.com/fvp-base-revc.dtb
         ```
@@ -107,8 +91,7 @@ In order to run a simple boot test on **fvp-morello-busybox**:
 !!! example
     === "podman"
         ```shell
-        tuxrun --image tuxrun:fvp \
-               --device fvp-morello-buxybox \
+        tuxrun --device fvp-morello-buxybox \
                --ap-romfw https://example.com/fvp/morello/tf-bl1.bin \
                --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
                --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
@@ -157,8 +140,7 @@ In order to run an Android test on **fvp-morello-android**:
 === "podman"
 
     ```shell
-    tuxrun --image tuxrun:fvp \
-           --device fvp-morello-android \
+    tuxrun --device fvp-morello-android \
            --ap-romfw https://example.com/fvp/morello/tf-bl1.bin \
            --mcp-fw https://example.com/fvp/morello/mcp_fw.bin \
            --mcp-romfw https://example.com/fvp/morello/mcp_romfw.bin \
