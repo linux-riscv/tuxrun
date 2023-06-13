@@ -39,6 +39,7 @@ def filter_options(options):
         "results",
         "results_hooks",
         "debug",
+        "lava_definition",
     ]
     return {k: getattr(options, k) for k in vars(options) if k not in keys}
 
@@ -335,6 +336,12 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     group.add_argument(
         "--results", default=None, type=Path, help="Save test results to file (JSON)"
+    )
+    group.add_argument(
+        "--lava-definition",
+        default=False,
+        action="store_true",
+        help="Save the LAVA definition.yaml file",
     )
 
     group = parser.add_argument_group("debugging")
