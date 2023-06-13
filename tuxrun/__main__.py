@@ -331,6 +331,9 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         else:
             options.results.write_text(json.dumps(results.data))
 
+    if options.lava_definition and cache_dir:
+        (cache_dir / "definition.yaml").write_text(definition, encoding="utf-8")
+
     # Run results-hooks only if everything was successful
     if cache_dir:
         print(f"TuxRun outputs saved to {cache_dir}")
@@ -365,6 +368,8 @@ def main() -> int:
                 )
 
     cache_dir = None
+    if options.lava_definition:
+        options.save_outputs = True
     if options.results_hooks:
         options.save_outputs = True
     if options.save_outputs:
