@@ -1,8 +1,7 @@
 # Running TuxRun uninstalled
 
-!!! note
-    - TuxRun requires Python 3.6 or newer.
-    - The default runtime is podman, you should install it.
+- TuxRun requires Python 3.6 or newer.
+- The default runtime is podman, you should install it.
 
 If you don't want to or can't install TuxRun, you can run it directly from the
 source directory. After getting the sources via git or something else, there is
