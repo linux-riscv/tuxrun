@@ -2,7 +2,7 @@
 
 TuxRun allows to run a linux kernel under QEMU.
 
-!!! note "Supported devices"
+> Note: "Supported devices"
     See the [architecture matrix](devices.md#qemu-devices) for the supported devices.
 
 ## Boot testing
@@ -13,7 +13,7 @@ In order to run a simple boot test on arm64:
 tuxrun --device qemu-arm64 --kernel http://storage.tuxboot.com/buildroot/arm64/Image
 ```
 
-!!! tip "Artefact URLs"
+> Tip: "Artefact URLs"
     Artefacts (kernel, dtb, rootfs, ...) can be either local or remote
     (http/https url). TuxRun will automatically download a remote artefacts.
 
@@ -28,15 +28,16 @@ tuxrun --device qemu-arm64 \
        --modules modules.tar.xz
 ```
 
-!!! warning "Modules format"
+> Warning: "Modules format"
     The modules archive should be a **tar archive**, compressed with **xz**.
 
-!!! tip "Overlays"
+> Tip: "Overlays"
     Any overlay can be applied to the rootfs with the **--overlay** option.
     This option can be specified multiple times. Each overlay should be a
     **tar archive** compressed with **xz**.
 
-!!! tip "Overlay, with custom script(s)"
+## Custom script(s) overlay
+
 ```shell
 #!/bin/sh
 
@@ -70,12 +71,18 @@ tar cJf ../custom-scripts.tar.xz .
 Building an ftrace prepared kernel with [tuxmake](https://tuxmake.org/)
 ```shell
 cd /to/your/kernel/tree
-tuxmake --runtime podman --target-arch arm64 --toolchain gcc-12 --kconfig defconfig --kconfig-add https://raw.githubusercontent.com/Linaro/meta-lkft/kirkstone/meta/recipes-kernel/linux/files/systemd.config --kconfig-add CONFIG_KFENCE=y --kconfig-add CONFIG_FTRACE=y dtbs dtbs-legacy headers kernel kselftest modules
+tuxmake --runtime podman --target-arch arm64 --toolchain gcc-12 --kconfig defconfig \
+        --kconfig-add https://raw.githubusercontent.com/Linaro/meta-lkft/kirkstone/meta/recipes-kernel/linux/files/systemd.config \
+        --kconfig-add CONFIG_KFENCE=y --kconfig-add CONFIG_FTRACE=y dtbs dtbs-legacy headers kernel kselftest modules
 ```
 
 Running with th custom scripts
 ```shell
-tuxrun --runtime docker --device qemu-arm64 --boot-args rw --tuxmake /home/anders/.cache/tuxmake/builds/1490 --rootfs https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz --overlay file:///home/anders/.cache/tuxmake/builds/1490/kselftest.tar.xz --overlay file:///home/anders/src/tmp/custom-scripts.tar.xz --timeouts boot=60 --save-outputs --log-file - --timeouts commands=40 -- /custom-script.sh
+tuxrun --runtime docker --device qemu-arm64 --boot-args rw --tuxmake /home/anders/.cache/tuxmake/builds/1490 \
+       --rootfs https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz \
+       --overlay file:///home/anders/.cache/tuxmake/builds/1490/kselftest.tar.xz \
+       --overlay file:///home/anders/src/tmp/custom-scripts.tar.xz --timeouts boot=60 \
+       --save-outputs --log-file - --timeouts commands=40 -- /custom-script.sh
 ```
 
 ## Boot arguments
@@ -98,7 +105,7 @@ tuxrun --device qemu-arm64 \
        --tests ltp-smoke
 ```
 
-!!! tip "Multiple tests"
+> Tip: "Multiple tests"
     Multiple tests can be specified after **--tests**.
     The tests will be executed one by one, in the order specified on the command-line.
 
@@ -121,7 +128,7 @@ tuxrun --device qemu-arm64 \
        -- cat /proc/cpuinfo
 ```
 
-!!! tip "Command and tests"
+> Tip: "Command and tests"
     When combining a custom command and tests, the custom command will be ran
     after all the tests.
 
@@ -150,5 +157,5 @@ tuxrun --tuxmake ~/.cache/tuxmake/builds/1
 tuxrun --tuxbuild https://builds.tuxbuild.com/<ksuid>/
 ```
 
-!!! tip "default device"
+> Tip: "default device"
     For some architectures (like ARM), the tuxrun device should be specified with `--device`.
