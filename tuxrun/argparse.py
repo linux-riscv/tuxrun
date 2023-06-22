@@ -31,6 +31,7 @@ def filter_options(options):
         "image",
         "qemu_image",
         "qemu_binary",
+        "cache_dir",
         "save_outputs",
         "log_file",
         "log_file_html",
@@ -310,6 +311,12 @@ def setup_parser() -> argparse.ArgumentParser:
     )
 
     group = parser.add_argument_group("output")
+    group.add_argument(
+        "--cache-dir",
+        default=None,
+        type=Path,
+        help="Change the cache directory for storing log files, default: XDG_CACHE_DIR",
+    )
     group.add_argument(
         "--save-outputs",
         default=False,
