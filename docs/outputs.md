@@ -41,3 +41,10 @@ You can override specific file path with the corresponding option. To record out
 ```shell
 tuxrun --device qemu-mips32 --save-outputs --log-file -
 ```
+
+Save output into another directory use `--cache-dir /abs/or/rel/path/to/output/dir`.
+The output will be stored in `/abs/or/rel/path/to/output/dir/tests/<test-id>/`.
+
+```shell
+tuxrun --device qemu-mips32 --save-outputs --cache-dir /abs/or/rel/path/to/output/dir --log-file -
+```
