@@ -383,7 +383,7 @@ def main() -> int:
                 options.results,
             ]
         ):
-            cache_dir = get_new_output_dir()
+            cache_dir = get_new_output_dir(options.cache_dir)
             if options.log_file is None:
                 options.log_file = cache_dir / "logs"
             if options.log_file_html is None:

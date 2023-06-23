@@ -6,7 +6,9 @@
 
 import re
 import sys
+import os
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from tuxrun import xdg
 
@@ -74,8 +76,10 @@ def notnone(value, fallback):
     return value
 
 
-def get_new_output_dir():
+def get_new_output_dir(cache_dir):
     base = xdg.get_cache_dir() / "tests"
+    if cache_dir:
+        base = Path(f"{os.path.abspath(cache_dir)}/tests")
     base.mkdir(parents=True, exist_ok=True)
     existing = [int(f.name) for f in base.glob("[0-9]*")]
     if existing:
