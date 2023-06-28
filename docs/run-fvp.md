@@ -175,7 +175,7 @@ tuxmake --runtime podman --target-arch arm64 --toolchain gcc-12 --kconfig defcon
         --kconfig-add CONFIG_KFENCE=y --kconfig-add CONFIG_FTRACE=y dtbs dtbs-legacy headers kernel kselftest modules
 ```
 
-Running with th custom scripts
+Running with the custom scripts
 ```shell
 tuxrun --runtime docker --device fvp-aemva --boot-args rw --tuxmake /home/anders/.cache/tuxmake/builds/1490 \
        --rootfs https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz \
