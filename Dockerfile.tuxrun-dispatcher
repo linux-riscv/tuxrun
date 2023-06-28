@@ -1,19 +1,20 @@
-FROM lavasoftware/lava-dispatcher:2023.03
+FROM hub.lavasoftware.org/lava/lava/amd64/lava-dispatcher:2023.05.1.0092.gf0d4ed1a3
 ARG EXTRA_PACKAGES
-
-ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes gnupg && \
-    echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /" > /etc/apt/sources.list.d/kubic.list && \
-    curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key" | apt-key add - && \
+    echo "deb https://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Testing/ /" > /etc/apt/sources.list.d/kubic.list && \
+    curl -L "https://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Unstable/Release.key" | apt-key add - && \
     apt-get update && \
-    apt-get install --yes podman=100:3.4.2-4 ${EXTRA_PACKAGES} && \
+    apt-get install --yes libgpgme11-dev podman ${EXTRA_PACKAGES} && \
     apt-get purge --yes gnupg && \
     apt-get autoremove --purge --yes && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN podman --version
+
 ENTRYPOINT ["/root/entrypoint.sh"]
+
 
 # vim: ft=dockerfile
