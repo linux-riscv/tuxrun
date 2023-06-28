@@ -82,10 +82,12 @@ class TestGetRootfs:
         r2 = get_rootfs(Device.select("qemu-x86_64"))
         assert r1 == r2
 
-    def test_fails_without_cache_when_download_fails(self, get, response):
+    def test_pass_without_cache_when_download_fails(self, get, response):
         get.side_effect = RuntimeError("BOOM")
-        with pytest.raises(RuntimeError):
+        assert (
             get_rootfs(Device.select("qemu-x86_64"))
+            == "https://storage.tuxboot.com/buildroot/x86_64/rootfs.ext4.zst"
+        )
 
 
 if __name__ == "__main__":

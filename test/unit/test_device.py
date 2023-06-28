@@ -884,7 +884,9 @@ def test_definition(monkeypatch, mocker, tmpdir, artefacts, args, filename):
     monkeypatch.setattr("tuxrun.__main__.sys.argv", ["tuxrun"] + args)
     mocker.patch("tuxrun.__main__.Runtime.select", side_effect=Exception)
     mocker.patch("tuxrun.assets.__download_and_cache__", side_effect=lambda a, b: a)
-    mocker.patch("tuxrun.__main__.get_test_definitions", return_value="testdef.tar.zst")
+    mocker.patch(
+        "tuxrun.__main__.get_test_definitions", return_value="file://testdef.tar.zst"
+    )
     mocker.patch("tempfile.mkdtemp", return_value=tmpdir)
     mocker.patch("shutil.rmtree")
 
