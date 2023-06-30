@@ -4,11 +4,13 @@
 #
 # SPDX-License-Identifier: MIT
 
+import argparse
 import re
 import sys
 import os
 from abc import ABC, abstractmethod
 from pathlib import Path
+from urllib.parse import urlparse
 
 from tuxrun import xdg
 
@@ -102,3 +104,28 @@ def slugify(s):
     s = re.sub(r"[\s_-]+", "-", s)
     s = re.sub(r"^-+|-+$", "", s)
     return s
+
+
+def pathurlnone(string):
+    if string is None:
+        return None
+    url = urlparse(string)
+    if url.scheme in ["http", "https"]:
+        return string
+    if url.scheme not in ["", "file"]:
+        raise argparse.ArgumentTypeError(f"Invalid scheme '{url.scheme}'")
+
+    path = Path(string if url.scheme == "" else url.path)
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} no such file or directory")
+    return f"file://{path.expanduser().resolve()}"
+
+
+def pathnone(string):
+    if string is None:
+        return None
+
+    path = Path(string)
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} no such file or directory")
+    return path.expanduser().resolve()

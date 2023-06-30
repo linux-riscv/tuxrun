@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 import requests
 
 from tuxrun.requests import requests_get
-from tuxrun.utils import NoProgressIndicator, ProgressIndicator
+from tuxrun.utils import NoProgressIndicator, ProgressIndicator, pathurlnone
 from tuxrun.xdg import get_cache_dir
 
 TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2023.06.tar.zst"
@@ -26,7 +26,7 @@ def get_rootfs(
 
 
 def get_test_definitions(progress: ProgressIndicator = NoProgressIndicator()):
-    return __download_and_cache__(TEST_DEFINITIONS, progress)
+    return pathurlnone(__download_and_cache__(TEST_DEFINITIONS, progress))
 
 
 def __download_and_cache__(
@@ -64,7 +64,8 @@ def __download_and_cache__(
         if cache.exists():
             print(e, "Continuing with cached version of the file", file=sys.stderr)
             return str(cache)
-        raise
+        # return url as LAVA will check if it exists and it will show up in the logfile.
+        return url
 
     if cache_etag_file.exists():
         cache_etag = cache_etag_file.read_text()

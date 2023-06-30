@@ -175,7 +175,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
     # Add test definitions only when needed
     test_definitions = None
     if any(t.need_test_definition for t in options.tests):
-        test_definitions = "file://" + get_test_definitions(
+        test_definitions = get_test_definitions(
             ProgressIndicator.get("Downloading test definitions")
         )
         extra_assets.append(test_definitions)

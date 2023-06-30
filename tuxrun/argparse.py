@@ -8,14 +8,13 @@
 import argparse
 import sys
 from pathlib import Path
-from urllib.parse import urlparse
 
 from tuxrun import __version__
 from tuxrun.assets import get_rootfs, get_test_definitions
 from tuxrun.devices import Device
 from tuxrun.tests import Test
 from tuxrun.tuxmake import TuxBuildBuild, TuxMakeBuild
-from tuxrun.utils import ProgressIndicator
+from tuxrun.utils import ProgressIndicator, pathurlnone
 
 
 ###########
@@ -43,31 +42,6 @@ def filter_options(options):
         "lava_definition",
     ]
     return {k: getattr(options, k) for k in vars(options) if k not in keys}
-
-
-def pathurlnone(string):
-    if string is None:
-        return None
-    url = urlparse(string)
-    if url.scheme in ["http", "https"]:
-        return string
-    if url.scheme not in ["", "file"]:
-        raise argparse.ArgumentTypeError(f"Invalid scheme '{url.scheme}'")
-
-    path = Path(string if url.scheme == "" else url.path)
-    if not path.exists():
-        raise argparse.ArgumentTypeError(f"{path} no such file or directory")
-    return f"file://{path.expanduser().resolve()}"
-
-
-def pathnone(string):
-    if string is None:
-        return None
-
-    path = Path(string)
-    if not path.exists():
-        raise argparse.ArgumentTypeError(f"{path} no such file or directory")
-    return path.expanduser().resolve()
 
 
 def tuxbuild_url(s):
