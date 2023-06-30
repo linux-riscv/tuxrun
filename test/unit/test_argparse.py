@@ -1,38 +1,14 @@
-from argparse import ArgumentTypeError, Namespace
-from pathlib import Path
+from argparse import Namespace
 
 import pytest
 
-from tuxrun.argparse import filter_options, pathnone, pathurlnone, setup_parser
+from tuxrun.argparse import filter_options, setup_parser
 
 
 def test_filter_options():
     assert filter_options(Namespace()) == {}
     assert filter_options(Namespace(hello="world")) == {"hello": "world"}
     assert filter_options(Namespace(hello="world", debug=True)) == {"hello": "world"}
-
-
-def test_pathurlnone():
-    assert pathurlnone(None) is None
-    assert pathurlnone("https://example.com/kernel") == "https://example.com/kernel"
-    assert pathurlnone(__file__) == f"file://{Path(__file__).expanduser().resolve()}"
-
-    with pytest.raises(ArgumentTypeError) as exc:
-        pathurlnone("ftp://example.com/kernel")
-    assert exc.match("Invalid scheme 'ftp'")
-
-    with pytest.raises(ArgumentTypeError) as exc:
-        pathurlnone("file:///should-not-exists")
-    assert exc.match("/should-not-exists no such file or directory")
-
-
-def test_pathnone():
-    assert pathnone(None) is None
-    assert pathnone(__file__) == Path(__file__).expanduser().resolve()
-
-    with pytest.raises(ArgumentTypeError) as exc:
-        pathnone("/should-not-exists")
-    assert exc.match("/should-not-exists no such file or directory")
 
 
 def test_timeouts_parser():
