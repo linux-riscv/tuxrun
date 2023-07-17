@@ -1,10 +1,12 @@
-FROM hub.lavasoftware.org/lava/lava/amd64/lava-dispatcher:2023.05.1.0092.gf0d4ed1a3
+FROM lavasoftware/lava-dispatcher:2023.06
 ARG EXTRA_PACKAGES
+ARG PODMAN_VERSION=3
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes gnupg && \
-    echo "deb https://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Testing/ /" > /etc/apt/sources.list.d/kubic.list && \
-    curl -L "https://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Unstable/Release.key" | apt-key add - && \
+    if [ "${PODMAN_VERSION}" = "4" ]; then echo "deb https://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Testing/ /" > /etc/apt/sources.list.d/kubic.list && \
+    curl -L "https://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Unstable/Release.key" | apt-key add -; else echo "deb https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Debian_12/ /" > /etc/apt/sources.list.d/kubic.list && \
+    curl -L "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Debian_12/Release.key" | apt-key add -; fi && \
     apt-get update && \
     apt-get install --yes libgpgme11-dev podman ${EXTRA_PACKAGES} && \
     apt-get purge --yes gnupg && \
