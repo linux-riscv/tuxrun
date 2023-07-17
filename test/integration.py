@@ -90,14 +90,7 @@ def run(device, test, runtime, debug):
     if test:
         args.extend(["--tests", test])
 
-    if device == "fvp-aemva":
-        args.extend(
-            [
-                "--image",
-                "tuxrun:fvp",
-            ]
-        )
-    elif device == "fvp-morello-android":
+    if device == "fvp-morello-android":
         args.extend(
             [
                 "--mcp-fw",
@@ -112,8 +105,6 @@ def run(device, test, runtime, debug):
                 "https://storage.tuxboot.com/fvp-morello-android/scp_romfw.bin",
                 "--fip",
                 "https://storage.tuxboot.com/fvp-morello-busybox/fip.bin",
-                "--image",
-                "tuxrun:fvp",
             ]
         )
         if test == "binder":
@@ -209,8 +200,6 @@ def run(device, test, runtime, debug):
                 "https://storage.tuxboot.com/fvp-morello-busybox/scp_romfw.bin",
                 "--fip",
                 "https://storage.tuxboot.com/fvp-morello-busybox/fip.bin",
-                "--image",
-                "tuxrun:fvp",
             ]
         )
     elif device == "fvp-morello-ubuntu":
@@ -226,8 +215,6 @@ def run(device, test, runtime, debug):
                 "https://storage.tuxboot.com/fvp-morello-ubuntu/scp_romfw.bin",
                 "--fip",
                 "https://storage.tuxboot.com/fvp-morello-ubuntu/fip.bin",
-                "--image",
-                "tuxrun:fvp",
             ]
         )
 
