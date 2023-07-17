@@ -234,6 +234,10 @@ def artefacts(tmp_path):
             "qemu-i386-v4l2.yaml",
         ),
         (
+            ["--device", "qemu-i386", "--tests", "vdso"],
+            "qemu-i386-vdso.yaml",
+        ),
+        (
             [
                 "--device",
                 "qemu-i386",

@@ -21,6 +21,7 @@ fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)   
 fvp-aemva | perf                                                                      | PERF                                           |
 fvp-aemva | rcutorture                                                                |                                                |
 fvp-aemva | v4l2                                                                      |                                                |
+fvp-aemva | vdso                                                                      |                                                |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -114,6 +115,7 @@ qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)     
 qemu-\* | perf                                                                      | PERF                                                     |
 qemu-\* | rcutorture                                                                |                                                          |
 qemu-\* | v4l2                                                                      |                                                          |
+qemu-\* | vdso                                                                      |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
