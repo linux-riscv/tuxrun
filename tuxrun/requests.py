@@ -6,8 +6,8 @@
 
 import requests
 from requests.adapters import HTTPAdapter
-from requests.packages import urllib3
-from requests.packages.urllib3.util.retry import Retry
+from requests.packages import urllib3  # type: ignore
+from requests.packages.urllib3.util.retry import Retry  # type: ignore
 
 timeout = 60
 
