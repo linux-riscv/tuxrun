@@ -89,8 +89,8 @@ docker-arm64:
   script:
     - docker build --pull --tag "${IMAGE_NAME}${TAG_APPEND}" -f Dockerfile.tuxrun-dispatcher .
     - docker push "${IMAGE_NAME}${TAG_APPEND}"
-    - docker build --build-arg="PODMAN_VERSION=4" --pull --tag "${IMAGE_NAME}-${TAG_APPEND}-podman4" -f Dockerfile.tuxrun-dispatcher .
-    - docker push "${IMAGE_NAME}-${TAG_APPEND}-podman4"
+    - docker build --build-arg="PODMAN_VERSION=4" --pull --tag "${IMAGE_NAME}${TAG_APPEND}-podman4" -f Dockerfile.tuxrun-dispatcher .
+    - docker push "${IMAGE_NAME}${TAG_APPEND}-podman4"
   only:
     - master
 
