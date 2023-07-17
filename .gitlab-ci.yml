@@ -57,6 +57,9 @@ ci-image-integration:
     - docker build --pull --tag "${tag}" --tag "${latest}" -f Dockerfile.tuxrun-dispatcher .
     - docker push "${tag}"
     - docker push "${latest}"
+    - docker build --pull --build-arg="PODMAN_VERSION=4" --tag "${tag}-podman4" --tag "${latest}-podman4" -f Dockerfile.tuxrun-dispatcher .
+    - docker push "${tag}-podman4"
+    - docker push "${latest}-podman4"
   variables:
     DOCKER_DRIVER: overlay2
 
