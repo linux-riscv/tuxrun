@@ -18,4 +18,4 @@ fvp-morello: morello/Dockerfile
 	cd morello && $(RUNTIME) build --build-arg version=$(morello_version) --tag fvp:morello-$(container_morello_version) .
 
 clean:
-	$(RUNTIME) image rm tuxrun:fvp fvp:aemva-$(container_aemva_version) fvp:morello-$(container_morello_version)
+	$(RUNTIME) image rm fvp:aemva-$(container_aemva_version) fvp:morello-$(container_morello_version)
