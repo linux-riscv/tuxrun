@@ -6,7 +6,7 @@ visibility: "public"
 
 context:
     arch: "arm64"
-    machine: "virt,gic-version=3,mte=on"
+    machine: "virt,virtualization=on,gic-version=3,mte=on"
     cpu: "max,pauth-impdef=on"
     memory: "4G"
     extra_options: ["-no-reboot", "-smp 2"]
