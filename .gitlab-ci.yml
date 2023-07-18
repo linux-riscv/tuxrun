@@ -147,7 +147,6 @@ stylecheck:
   stage: test
 
 typecheck:
-  allow_failure: true
   extends: .job
   stage: test
 
