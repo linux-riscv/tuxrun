@@ -20,7 +20,7 @@ TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2023.06.tar.zst
 
 
 def get_rootfs(
-    device, rootfs: str = None, progress: ProgressIndicator = NoProgressIndicator()
+    device, rootfs: str = "", progress: ProgressIndicator = NoProgressIndicator()
 ) -> str:
     return __download_and_cache__(rootfs or device.rootfs, progress)
 

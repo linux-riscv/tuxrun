@@ -17,6 +17,7 @@ Device    | Tests                                                               
 fvp-aemva | command                                                                   |                                                |
 fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                       | KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 fvp-aemva | kunit\*                                                                   |                                                |
+fvp-aemva | kvm-unit-tests                                                            |                                                |
 fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)         | SKIPFILE, SHARD_NUMBER, SHARD_INDEX            |
 fvp-aemva | perf                                                                      | PERF                                           |
 fvp-aemva | rcutorture                                                                |                                                |
@@ -111,6 +112,7 @@ Device  | Tests                                                                 
 qemu-\* | command                                                                   |                                                          |
 qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                       | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 qemu-\* | kunit\*                                                                   |                                                          |
+qemu-\* | kvm-unit-tests                                                            |                                                          |
 qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)         | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
 qemu-\* | perf                                                                      | PERF                                                     |
 qemu-\* | rcutorture                                                                |                                                          |
