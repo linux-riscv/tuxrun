@@ -6,6 +6,8 @@
 
 from typing import Dict, List, Optional
 
+import urllib
+import yaml
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
@@ -265,3 +267,23 @@ class FVPMorelloGrub(MorelloFVPDevice):
     kernel_start_message = "Press enter to boot the selected OS"
     prompts = ["highlighted entry will be executed"]
     support_tests = True
+
+
+class FVPLAVA(FVPDevice):
+    name = "fvp-lava"
+
+    def validate(self, job_definition, **kwargs):
+        parsed_url = urllib.parse.urlparse(job_definition)
+        job_definition = urllib.parse.unquote(parsed_url.path)
+        with open(job_definition, "r") as job_file:
+            try:
+                # Load yaml and dump data as string to verify that
+                # lava job definition is valid
+                yaml_data = yaml.dump(yaml.safe_load(job_file))
+                self.job_definition = yaml_data
+            except Exception:
+                raise InvalidArgument("Unable to load LAVA job definition")
+        return
+
+    def definition(self, **kwargs):
+        return self.job_definition

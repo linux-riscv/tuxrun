@@ -172,6 +172,7 @@ def setup_parser() -> argparse.ArgumentParser:
     artefact("bl1")
     artefact("dtb")
     artefact("fip")
+    artefact("job-definition")
     artefact("kernel")
     artefact("mcp-fw")
     artefact("mcp-romfw")
