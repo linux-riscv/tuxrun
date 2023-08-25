@@ -224,6 +224,9 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
     job_definition = yaml_load(definition)
     job_timeout = (job_definition["timeouts"]["job"]["minutes"] + 1) * 60
     context = job_definition.get("context", {})
+    if options.fvp_ubl_license:
+        context["fvp_ubl_license"] = options.fvp_ubl_license
+
     device_dict = options.device.device_dict(context)
     LOG.debug("device dictionary")
     LOG.debug(device_dict)

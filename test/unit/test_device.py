@@ -6,7 +6,7 @@ import pytest
 
 from tuxrun.__main__ import main
 from tuxrun.devices import Device
-from tuxrun.devices.fvp import FVPMorelloAndroid
+from tuxrun.devices.fvp import FVPMorelloAndroid, FVPLAVA
 from tuxrun.devices.qemu import QemuArmv5
 from tuxrun.exceptions import InvalidArgument
 
@@ -16,6 +16,7 @@ BASE = (Path(__file__) / "..").resolve()
 def test_select():
     assert Device.select("qemu-armv5") == QemuArmv5
     assert Device.select("fvp-morello-android") == FVPMorelloAndroid
+    assert Device.select("fvp-lava") == FVPLAVA
 
     with pytest.raises(InvalidArgument):
         Device.select("Hello")
@@ -882,6 +883,17 @@ def artefacts(tmp_path):
             ],
             "tuxmake-parameters.yaml",
         ),
+        (
+            [
+                "--device",
+                "fvp-lava",
+                "--fvp-ubl-license",
+                "test-license-key",
+                "--job-definition",
+                f"{BASE}/refs/definitions/fvp-lava-job-definition.yaml",
+            ],
+            "fvp-lava-job-definition.yaml",
+        ),
     ],
 )
 def test_definition(monkeypatch, mocker, tmpdir, artefacts, args, filename):
@@ -914,7 +926,7 @@ def test_definition(monkeypatch, mocker, tmpdir, artefacts, args, filename):
     )
 
 
-def test_fvm_aemva_extra_assets(tmpdir):
+def test_fvp_aemva_extra_assets(tmpdir):
     device = Device.select("fvp-aemva")()
 
     # 1/ default case
