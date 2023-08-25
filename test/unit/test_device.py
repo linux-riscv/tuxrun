@@ -887,6 +887,8 @@ def artefacts(tmp_path):
             [
                 "--device",
                 "fvp-lava",
+                "--fvp-ubl-license",
+                "test-license-key",
                 "--job-definition",
                 f"{BASE}/refs/definitions/fvp-lava-job-definition.yaml",
             ],

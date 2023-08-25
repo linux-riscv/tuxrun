@@ -211,6 +211,13 @@ def setup_parser() -> argparse.ArgumentParser:
         help="directory containing a TuxMake build",
     )
     artefact("uefi")
+    group.add_argument(
+        "--fvp-ubl-license",
+        default=None,
+        metavar="FVP UBL License",
+        type=str,
+        help="UBL License to be passed to FVP that need User Based License. Applicable to FVP device type only",
+    )
 
     group = parser.add_argument_group("test parameters")
     group.add_argument(
