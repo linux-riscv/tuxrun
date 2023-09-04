@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/lava/lava/amd64/lava-dispatcher:2023.06.dev0068
+FROM lavasoftware/lava-dispatcher:2023.06.dev0079
 ARG EXTRA_PACKAGES
 ARG PODMAN_VERSION=3
 
