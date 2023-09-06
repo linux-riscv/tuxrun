@@ -218,3 +218,9 @@ tuxrun --runtime docker \
        --parameters USERDATA=https://example.com/fvp/morello/userdata.tar.xz \
        --tests binder
 ```
+
+## Running a LAVA job definition
+TuxRun can run a LAVA job definition which is running any tests for FVP as shown below. Any other parameters passed to the cli other than the ones mentioned below will be ignored:
+```shell
+turun --device fvp-lava --job-definition definition.yaml
+```
