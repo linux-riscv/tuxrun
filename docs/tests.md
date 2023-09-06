@@ -65,7 +65,7 @@ fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, fil
     The **modules.tar.xz** should be given with `--modules https://.../modules.tar.xz`.
 
 
-## FVP Modello devices
+## FVP Morello devices
 
 Device              | Tests          | Parameters                       |
 --------------------|----------------|----------------------------------|
