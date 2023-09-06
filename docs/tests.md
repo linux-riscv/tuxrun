@@ -103,6 +103,11 @@ fvp-morello-oe      | fwts           |                                  |
     ```
     **BIONIC_TEST_TYPE** is optional and defaults to `static`. Valid values are `dynamic` and `static`.
 
+
+## FVP LAVA device
+
+The 'fvp-lava' device type has been specifically added to allow users to execute a FVP [LAVA](https://lava.readthedocs.io/en/latest/) Job definition locally using TuxRun. This device type will not ignore any test cases passed from cli and execute all the tests which are in the LAVA Job definition
+
 ## QEMU devices
 
 The following tests are supported by the default root filesystem.
