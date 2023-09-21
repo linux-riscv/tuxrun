@@ -1,5 +1,6 @@
 FROM docker.io/library/ubuntu:focal
 ARG version
+ARG version_sha256
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PKG_DEPS="\
@@ -21,6 +22,7 @@ RUN set -e ;\
     # Install the FVP model
     curl --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/fvp.tgz \
     "https://developer.arm.com/-/media/Files/downloads/ecosystem-models/FVP_Base_RevC-2xAEMvA_${version}_Linux64.tgz" ;\
+    echo "${version_sha256} /tmp/fvp.tgz | sha256sum --check --status" ;\
     tar xf /tmp/fvp.tgz -C /tmp ;\
     mkdir -p /opt/model/FVP_AEMvA/ ; \
     cp -R /tmp/Base_RevC_AEMvA_pkg/* /opt/model/FVP_AEMvA/ ;\

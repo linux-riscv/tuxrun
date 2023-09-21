@@ -1,5 +1,6 @@
 FROM docker.io/library/ubuntu:focal
 ARG version
+ARG version_sha256
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PKG_DEPS="\
@@ -20,6 +21,7 @@ RUN set -e ;\
     # Install Morello FVP
     curl --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/FVP_Morello.tgz \
     "https://developer.arm.com/-/media/Arm%20Developer%20Community/Downloads/OSS/FVP/Morello%20Platform/FVP_Morello_${version}.tgz" ;\
+    echo "${version_sha256} /tmp/fvp.tgz | sha256sum --check --status" ;\
     tar xf /tmp/FVP_Morello.tgz -C /tmp ;\
     /tmp/FVP_Morello.sh \
       --i-agree-to-the-contained-eula \
