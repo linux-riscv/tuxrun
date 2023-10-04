@@ -167,8 +167,20 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
     extra_assets = []
     overlays = []
     if options.modules:
-        overlays.append(("modules", options.modules, "/"))
-        extra_assets.append(options.modules)
+        if len(options.modules) == 1:
+            o_path = "/"
+        elif len(options.modules) == 2:
+            o_path = options.modules[1]
+        else:
+            raise InvalidArgument(
+                "argument --modules takes one or two arguments, first should be a URL/to/modules.tar.xz and second PATH where to extract the tarball."
+            )
+        try:
+            options.modules[0] = pathurlnone(options.modules[0])
+        except argparse.ArgumentError as err:
+            raise (err)
+        overlays.append(("modules", options.modules[0], o_path))
+        extra_assets.append(options.modules[0])
     for index, item in enumerate(options.overlays):
         if len(item) == 1:
             o_path = "/"

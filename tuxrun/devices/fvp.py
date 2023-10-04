@@ -60,7 +60,7 @@ class AEMvAFVPDevice(FVPDevice):
             raise InvalidArgument('argument --boot-args should not contains "')
         if prompt and '"' in prompt:
             raise InvalidArgument('argument --prompt should not contains "')
-        if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
+        if modules and compression(modules[0]) not in [("tar", "gz"), ("tar", "xz")]:
             raise InvalidArgument(
                 "argument --modules should be a .tar.gz, tar.xz or .tgz"
             )
