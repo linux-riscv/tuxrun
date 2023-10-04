@@ -5,6 +5,7 @@
 #
 # SPDX-License-Identifier: MIT
 
+import argparse
 import contextlib
 import json
 import logging
@@ -169,8 +170,20 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         overlays.append(("modules", options.modules, "/"))
         extra_assets.append(options.modules)
     for index, item in enumerate(options.overlays):
-        overlays.append((f"overlay-{index:02}", item, "/"))
-        extra_assets.append(item)
+        if len(item) == 1:
+            o_path = "/"
+        elif len(item) == 2:
+            o_path = item[1]
+        else:
+            raise InvalidArgument(
+                "argument --overlays takes one or two arguments, first should be a URL/to/file.tar.xz and second PATH where to extract the tarball."
+            )
+        try:
+            item[0] = pathurlnone(item[0])
+        except argparse.ArgumentError as err:
+            raise (err)
+        overlays.append((f"overlay-{index:02}", item[0], o_path))
+        extra_assets.append(item[0])
 
     # Add test definitions only when needed
     test_definitions = None
