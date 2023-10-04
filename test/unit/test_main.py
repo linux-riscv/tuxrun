@@ -372,7 +372,7 @@ def test_tuxbuild(get, monkeypatch, mocker, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == "https://example.com/bzImage"
-    assert options.modules == "https://example.com/modules.tar.xz"
+    assert options.modules[0] == "https://example.com/modules.tar.xz"
     assert options.device.name == "qemu-x86_64"
     assert options.dtb is None
 
@@ -397,7 +397,7 @@ def test_tuxbuild_armv5(get, monkeypatch, mocker, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == "https://example.com/bzImage"
-    assert options.modules == "https://example.com/modules.tar.xz"
+    assert options.modules[0] == "https://example.com/modules.tar.xz"
     assert options.device.name == "qemu-armv5"
     assert options.dtb == "https://example.com/dtbs/versatile-pb.dtb"
 
@@ -421,7 +421,7 @@ def test_tuxmake_directory(monkeypatch, tmp_path, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/bzImage"
-    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
     assert options.device.name == "qemu-x86_64"
     assert options.dtb is None
 
@@ -450,7 +450,7 @@ def test_tuxmake_directory_armv5(monkeypatch, tmp_path, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/zImage"
-    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
     assert options.device.name == "qemu-armv5"
     assert options.dtb == f"file://{tuxmake_build}/dtbs/versatile-pb.dtb"
 
@@ -473,7 +473,7 @@ def test_no_modules(monkeypatch, tmp_path, run):
     main()
     run.assert_called()
     options = run.call_args[0][0]
-    assert options.modules is None
+    assert not options.modules
 
 
 def test_invalid_tuxmake_directory(monkeypatch, tmp_path, capsys):

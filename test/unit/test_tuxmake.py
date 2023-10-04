@@ -50,7 +50,7 @@ class TestTuxMakeBuild:
         assert tuxmake_build.kernel == f"file://{directory / 'bzImage'}"
 
     def test_modules(self, tuxmake_build, directory):
-        assert tuxmake_build.modules == f"file://{directory / 'modules.tar.xz'}"
+        assert tuxmake_build.modules[0] == f"file://{directory / 'modules.tar.xz'}"
 
     def test_target_arch(self, tuxmake_build):
         assert tuxmake_build.target_arch == "arm64"
@@ -67,7 +67,7 @@ class TestTuxMakeBuild:
         del metadata1["results"]["artifacts"]["modules"]
         directory = build_directory(tmp_path / "build", metadata1)
         tuxmake_build = TuxMakeBuild(directory)
-        assert tuxmake_build.modules is None
+        assert not tuxmake_build.modules
 
     def test_no_metadata(self, tmp_path):
         with pytest.raises(InvalidTuxBuild):
@@ -104,7 +104,7 @@ class TestTuxBuildBuild:
         assert tuxbuild_build.kernel == "https://example.com/bzImage"
 
     def test_modules(self, tuxbuild_build):
-        assert tuxbuild_build.modules == "https://example.com/modules.tar.xz"
+        assert tuxbuild_build.modules[0] == "https://example.com/modules.tar.xz"
 
     def test_http_error(self, get, mocker, url):
         get.side_effect = [mocker.Mock(status_code=404)]
