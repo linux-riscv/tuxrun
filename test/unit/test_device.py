@@ -252,6 +252,21 @@ def artefacts(tmp_path):
             "qemu-i386-kunit-overlays.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-i386",
+                "--tests",
+                "kunit",
+                "--overlay",
+                "http://example.com/overlay1.tar.xz",
+                "/overlay1/",
+                "--overlay",
+                "http://example.com/overlay2.tar.xz",
+                "/overlay2/",
+            ],
+            "qemu-i386-kunit-overlays-paths.yaml",
+        ),
+        (
             ["--device", "qemu-i386", "--kernel", "bzImage.gz"],
             "qemu-i386-kernel-gz.yaml",
         ),
