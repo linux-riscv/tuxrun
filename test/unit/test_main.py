@@ -110,6 +110,20 @@ def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
     with pytest.raises(InvalidArgument):
         main()
 
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=qemu-x86_64",
+            "--overlay",
+            "foo.tar.xz",
+            "/usr/",
+            "argh",
+        ],
+    )
+    with pytest.raises(InvalidArgument):
+        main()
+
 
 FVP_MORELLO_ARGS = [
     "--ap-romfw",
