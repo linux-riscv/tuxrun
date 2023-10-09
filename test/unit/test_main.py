@@ -6,6 +6,7 @@ import yaml
 
 import tuxrun.__main__
 from tuxrun.__main__ import main, start
+from tuxrun.exceptions import InvalidArgument
 
 
 def touch(directory, name):
@@ -86,7 +87,7 @@ def test_main_usage(monkeypatch, capsys, run):
     assert "usage: tuxrun" in err
 
 
-def test_almost_real_run(tuxrun_args, lava_run, capsys):
+def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
     lava_run.stderr = [
         '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n'
     ]
@@ -94,6 +95,20 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
     assert exitcode == 0
     stdout, _ = capsys.readouterr()
     assert "Hello, world" in stdout
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=qemu-x86_64",
+            "--modules",
+            "foo.tar.xz",
+            "/usr/",
+            "argh",
+        ],
+    )
+    with pytest.raises(InvalidArgument):
+        main()
 
 
 FVP_MORELLO_ARGS = [
