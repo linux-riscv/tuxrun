@@ -68,7 +68,7 @@ class QemuDevice(Device):
             raise InvalidArgument('argument --prompt should not contains "')
         if dtb and self.name != "qemu-armv5":
             raise InvalidArgument("argument --dtb is only valid for qemu-armv5 device")
-        if modules and compression(modules) not in [("tar", "gz"), ("tar", "xz")]:
+        if modules and compression(modules[0]) not in [("tar", "gz"), ("tar", "xz")]:
             raise InvalidArgument(
                 "argument --modules should be a .tar.gz, tar.xz or .tgz"
             )

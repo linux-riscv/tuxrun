@@ -176,14 +176,21 @@ def setup_parser() -> argparse.ArgumentParser:
     artefact("kernel")
     artefact("mcp-fw")
     artefact("mcp-romfw")
-    artefact("modules")
+    group.add_argument(
+        "--modules",
+        default=[],
+        type=str,
+        help="modules URL and optionally PATH to extract the modules, default PATH '/'",
+        nargs="+",
+        dest="modules",
+    )
     group.add_argument(
         "--overlay",
         default=[],
-        metavar="URL",
-        type=pathurlnone,
-        help="Tarball with overlay for rootfs. Can be specified multiple times",
+        type=str,
+        help="Tarball with overlay and optionally PATH to extract the tarball, default PATH '/'. Overlay can be specified multiple times",
         action="append",
+        nargs="+",
         dest="overlays",
     )
     group.add_argument(

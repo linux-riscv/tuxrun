@@ -6,6 +6,7 @@ import yaml
 
 import tuxrun.__main__
 from tuxrun.__main__ import main, start
+from tuxrun.exceptions import InvalidArgument
 
 
 def touch(directory, name):
@@ -86,7 +87,7 @@ def test_main_usage(monkeypatch, capsys, run):
     assert "usage: tuxrun" in err
 
 
-def test_almost_real_run(tuxrun_args, lava_run, capsys):
+def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
     lava_run.stderr = [
         '{"lvl": "info", "msg": "Hello, world", "dt": "2021-04-08T18:42:25.139513"}\n'
     ]
@@ -94,6 +95,34 @@ def test_almost_real_run(tuxrun_args, lava_run, capsys):
     assert exitcode == 0
     stdout, _ = capsys.readouterr()
     assert "Hello, world" in stdout
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=qemu-x86_64",
+            "--modules",
+            "foo.tar.xz",
+            "/usr/",
+            "argh",
+        ],
+    )
+    with pytest.raises(InvalidArgument):
+        main()
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=qemu-x86_64",
+            "--overlay",
+            "foo.tar.xz",
+            "/usr/",
+            "argh",
+        ],
+    )
+    with pytest.raises(InvalidArgument):
+        main()
 
 
 FVP_MORELLO_ARGS = [
@@ -372,7 +401,7 @@ def test_tuxbuild(get, monkeypatch, mocker, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == "https://example.com/bzImage"
-    assert options.modules == "https://example.com/modules.tar.xz"
+    assert options.modules[0] == "https://example.com/modules.tar.xz"
     assert options.device.name == "qemu-x86_64"
     assert options.dtb is None
 
@@ -397,7 +426,7 @@ def test_tuxbuild_armv5(get, monkeypatch, mocker, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == "https://example.com/bzImage"
-    assert options.modules == "https://example.com/modules.tar.xz"
+    assert options.modules[0] == "https://example.com/modules.tar.xz"
     assert options.device.name == "qemu-armv5"
     assert options.dtb == "https://example.com/dtbs/versatile-pb.dtb"
 
@@ -421,7 +450,7 @@ def test_tuxmake_directory(monkeypatch, tmp_path, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/bzImage"
-    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
     assert options.device.name == "qemu-x86_64"
     assert options.dtb is None
 
@@ -450,7 +479,7 @@ def test_tuxmake_directory_armv5(monkeypatch, tmp_path, run):
     run.assert_called()
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/zImage"
-    assert options.modules == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
     assert options.device.name == "qemu-armv5"
     assert options.dtb == f"file://{tuxmake_build}/dtbs/versatile-pb.dtb"
 
@@ -473,7 +502,7 @@ def test_no_modules(monkeypatch, tmp_path, run):
     main()
     run.assert_called()
     options = run.call_args[0][0]
-    assert options.modules is None
+    assert not options.modules
 
 
 def test_invalid_tuxmake_directory(monkeypatch, tmp_path, capsys):
