@@ -23,6 +23,17 @@ fvp-aemva | perf                                                                
 fvp-aemva | rcutorture                                                                |                                                |
 fvp-aemva | v4l2                                                                      |                                                |
 fvp-aemva | vdso                                                                      |                                                |
+fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,        | ITERATIONS, MMTESTS_PATH                       |
+                     io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite, |                                                |
+                     io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite, |                                                |
+                     io-fsmark-small-file-stream, memdb-redis-benchmark-small,        |                                                |
+                     memdb-redis-memtier-small, scheduler-schbench,                   |                                                |
+                     scheduler-sysbench-cpu, scheduler-sysbench-thread,               |                                                |
+                     workload-coremark, workoad-cyclictest-fine-hackbench,            |                                                |
+                     workload-cyclictest-hackbench, workload-ebizzy,                  |                                                |
+                     workload-pmqtest-hackbench, workload-stressng-class-io-parallel, |                                                |
+                     workload-stressng-context, workload-stressng-get,                |                                                |
+                     workload-stressng-mmap, workload-usemem)                         |                                                |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -123,6 +134,17 @@ qemu-\* | perf                                                                  
 qemu-\* | rcutorture                                                                |                                                          |
 qemu-\* | v4l2                                                                      |                                                          |
 qemu-\* | vdso                                                                      |                                                          |
+qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,        | ITERATIONS, MMTESTS_PATH                                 |
+                   io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite, |                                                          |
+                   io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite, |                                                          |
+                   io-fsmark-small-file-stream, memdb-redis-benchmark-small,        |                                                          |
+                   memdb-redis-memtier-small, scheduler-schbench,                   |                                                          |
+                   scheduler-sysbench-cpu, scheduler-sysbench-thread,               |                                                          |
+                   workload-coremark, workoad-cyclictest-fine-hackbench,            |                                                          |
+                   workload-cyclictest-hackbench, workload-ebizzy,                  |                                                          |
+                   workload-pmqtest-hackbench, workload-stressng-class-io-parallel, |                                                          |
+                   workload-stressng-context, workload-stressng-get,                |                                                          |
+                   workload-stressng-mmap, workload-usemem)                         |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
