@@ -1,8 +1,8 @@
 LAVA_IMAGE ?= ""
 RUNTIME ?= "podman"
 
-aemva_version ?= "11.21_15"
-aemva_version_sha256 ?= "895db3c7ea6f98a5ce6329307c374716fee23bf2dd990740330a0cad4efb8c9a"
+aemva_version ?= "11.23_9"
+aemva_version_sha256 ?= "9d43c8eb347bf169a024cdbbc04572d169f60098fe061316b36bdbd4a44ffd79"
 morello_version ?= "0.11_34"
 morello_version_sha256 ?= "ed1e110fb7fa8732d4f1bea9af69491a9e3f7dbf57d2ce6ea916d3cdf910d324"
 
