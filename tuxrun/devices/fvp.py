@@ -112,7 +112,7 @@ class AEMvAFVPDevice(FVPDevice):
         if compression(kernel)[1]:
             kernel = kernel[: -1 - len(compression(kernel)[1])]
         (tmpdir / "startup.nsh").write_text(
-            f"{kernel} dtb={dtb} {tux_boot_args + ' ' if tux_boot_args else ''}console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp",
+            f"{kernel} dtb={dtb} {tux_boot_args + ' ' if tux_boot_args else ''}systemd.log_level=warning console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp",
             encoding="utf-8",
         )
         return [f"file://{tmpdir / 'startup.nsh'}"]
