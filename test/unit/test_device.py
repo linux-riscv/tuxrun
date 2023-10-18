@@ -964,7 +964,7 @@ def test_fvp_aemva_extra_assets(tmpdir):
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
         encoding="utf-8"
-    ) == "Image dtb=fvp-base-revc.dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+    ) == "Image dtb=fvp-base-revc.dtb systemd.log_level=warning console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
 
     # 2/ custom urls
     asset = device.extra_assets(
@@ -977,7 +977,7 @@ def test_fvp_aemva_extra_assets(tmpdir):
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
         encoding="utf-8"
-    ) == "kernel dtb=fdt.dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+    ) == "kernel dtb=fdt.dtb systemd.log_level=warning console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
 
     # 3/ compression
     asset = device.extra_assets(
@@ -987,7 +987,7 @@ def test_fvp_aemva_extra_assets(tmpdir):
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
         encoding="utf-8"
-    ) == "Image dtb=my-dtb console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+    ) == "Image dtb=my-dtb systemd.log_level=warning console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
 
     # 4/ custom boot-args
     asset = device.extra_assets(
@@ -997,4 +997,4 @@ def test_fvp_aemva_extra_assets(tmpdir):
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
         encoding="utf-8"
-    ) == "Image dtb=fvp-base-revc.dtb debug console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+    ) == "Image dtb=fvp-base-revc.dtb debug systemd.log_level=warning console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
