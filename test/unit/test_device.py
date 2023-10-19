@@ -997,4 +997,4 @@ def test_fvp_aemva_extra_assets(tmpdir):
     assert asset[0] == f"file://{tmpdir / 'startup.nsh'}"
     assert (tmpdir / "startup.nsh").read_text(
         encoding="utf-8"
-    ) == "Image dtb=fvp-base-revc.dtb debug systemd.log_level=warning console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
+    ) == "Image dtb=fvp-base-revc.dtb systemd.log_level=warning debug console=ttyAMA0 earlycon=pl011,0x1c090000 root=/dev/vda ip=dhcp"
