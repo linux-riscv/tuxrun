@@ -18,12 +18,13 @@ class Perf(Test):
         kwargs["timeout"] = self.timeout
 
         if "PERF" in kwargs["parameters"]:
-            kwargs["overlays"].append(
+            kwargs["overlays"].insert(
+                0,
                 (
                     "perf",
                     kwargs["parameters"]["PERF"],
                     "/",
-                )
+                ),
             )
 
         return self._render("perf.yaml.jinja2", **kwargs)
