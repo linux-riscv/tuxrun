@@ -20,16 +20,17 @@ class KSelfTest(Test):
         )
 
         if "CPUPOWER" in kwargs["parameters"]:
-            kwargs["overlays"].append(
-                ("cpupower", kwargs["parameters"]["CPUPOWER"], "/")
+            kwargs["overlays"].insert(
+                0, ("cpupower", kwargs["parameters"]["CPUPOWER"], "/")
             )
         if "KSELFTEST" in kwargs["parameters"]:
-            kwargs["overlays"].append(
+            kwargs["overlays"].insert(
+                0,
                 (
                     "kselftest",
                     kwargs["parameters"]["KSELFTEST"],
                     "/opt/kselftests/default-in-kernel/",
-                )
+                ),
             )
 
         return self._render("kselftest.yaml.jinja2", **kwargs)
