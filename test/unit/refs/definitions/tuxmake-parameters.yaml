@@ -39,14 +39,14 @@ actions:
         format: ext4
         overlays:
           lava: true
-          modules:
-            url: "/DATA/modules.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
           kselftest:
             url: "/DATA/kselftest.tar.xz"
             path: "/opt/kselftests/default-in-kernel/"
+            format: tar
+            compression: xz
+          modules:
+            url: "/DATA/modules.tar.xz"
+            path: "/"
             format: tar
             compression: xz
 - boot:

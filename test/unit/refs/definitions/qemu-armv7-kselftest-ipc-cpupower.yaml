@@ -38,14 +38,14 @@ actions:
         format: ext4
         overlays:
           lava: true
-          cpupower:
-            url: "https://example.com/cpupower.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
           kselftest:
             url: "https://example.com/kselftest.tar.xz"
             path: "/opt/kselftests/default-in-kernel/"
+            format: tar
+            compression: xz
+          cpupower:
+            url: "https://example.com/cpupower.tar.xz"
+            path: "/"
             format: tar
             compression: xz
 - boot:
