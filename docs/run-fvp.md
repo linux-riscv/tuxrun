@@ -38,7 +38,7 @@ make fvp-aemva RUNTIME=docker
 ```
 
 > Warning: "Container tag"
-    The container should be named **fvp:aemva-11.21.15** in order for TuxRun
+    The container should be named **fvp:aemva-11.23.9** in order for TuxRun
     to work.
 
 
