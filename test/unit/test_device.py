@@ -737,6 +737,17 @@ def artefacts(tmp_path):
             "qemu-i386-kunit.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-i386",
+                "--tests",
+                "kunit",
+                "--parameters",
+                "KUNIT_TEST_MODULE=test.ko",
+            ],
+            "qemu-i386-kunit-module.yaml",
+        ),
+        (
             ["--device", "qemu-i386", "--tests", "libgpiod"],
             "qemu-i386-libgpiod.yaml",
         ),
