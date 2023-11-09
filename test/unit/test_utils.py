@@ -9,6 +9,7 @@ from tuxrun.utils import (
     notnone,
     pathnone,
     pathurlnone,
+    notify,
 )
 
 
@@ -47,3 +48,37 @@ def test_pathnone():
     with pytest.raises(ArgumentTypeError) as exc:
         pathnone("/should-not-exists")
     assert exc.match("/should-not-exists no such file or directory")
+
+
+def test_notify(mocker):
+    mock_get = mocker.patch("requests.Session.get")
+    mock_post = mocker.patch("requests.Session.post")
+    notify_list = {
+        "callbacks": [
+            {
+                "dataset": "MINIMAL",
+                "header": "PRIVATE-TOKEN",
+                "method": "POST",
+                "token": "test",
+                "url": "https://callback_url.com",
+            },
+            {
+                "dataset": "MINIMAL",
+                "header": "PRIVATE-TOKEN",
+                "method": "GET",
+                "token": "test",
+                "url": "https://callback_url.com",
+            },
+            {
+                "dataset": "MINIMAL",
+                "header": "PRIVATE-TOKEN",
+                "method": "POST",
+                "token": "",
+                "url": "https://callback_url.com",
+            },
+            {},
+        ]
+    }
+    notify(notify_list)
+    assert mock_get.call_count == 1
+    assert mock_post.call_count == 1
