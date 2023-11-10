@@ -9,7 +9,7 @@ import re
 
 
 class MMTests(Test):
-    devices = ["qemu-*", "fvp-aemva"]
+    devices = ["qemu-arm64", "qemu-x86_64"]
     configfile: str = ""
     iterations: int = 0
     need_test_definition = True

@@ -58,4 +58,4 @@ actions:
       path: automated/linux/kunit/kunit.yaml
       name: kunit
       parameters:
-        KUNIT_TEST_MODULE: "kunit-test.ko"
+        KUNIT_TEST_MODULE: 'kunit-test.ko'

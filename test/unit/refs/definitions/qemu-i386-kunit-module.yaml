@@ -1,15 +1,15 @@
 device_type: "qemu"
 
-job_name: "tuxrun@qemu-mips32: kunit"
+job_name: "tuxrun@qemu-i386: kunit"
 priority: "medium"
 visibility: "public"
 
 context:
-    arch: "mips"
-    machine: "malta"
-    cpu: "mips32r6-generic"
-    memory: "2G"
-    extra_options: ["-no-reboot", ""]
+    arch: "i386"
+    machine: "q35"
+    cpu: "coreduo"
+    memory: "4G"
+    extra_options: ["-no-reboot", "-smp 2"]
     no_kvm: true
     no_network: true
 timeouts:
@@ -30,24 +30,14 @@ actions:
     images:
       kernel:
         image_arg: '-kernel {kernel} -append "console=ttyS0,115200 rootwait root=/dev/sda debug verbose console_msg_format=syslog systemd.log_level=warning earlycon"'
-        url: "https://storage.tuxboot.com/buildroot/mips32/vmlinux"
+        url: "https://storage.tuxboot.com/buildroot/i386/bzImage"
       rootfs:
         image_arg: "-drive file={rootfs},if=ide,format=raw"
-        url: "https://storage.tuxboot.com/buildroot/mips32/rootfs.ext4.zst"
+        url: "https://storage.tuxboot.com/buildroot/i386/rootfs.ext4.zst"
         compression: zstd
         format: ext4
         overlays:
           lava: true
-          modules:
-            url: "https://example.com/modules.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
-          overlay-00:
-            url: "http://example.com/overlay2.tar.xz"
-            path: "/"
-            format: tar
-            compression: xz
 - boot:
     method: qemu
     timeout:
@@ -68,4 +58,4 @@ actions:
       path: automated/linux/kunit/kunit.yaml
       name: kunit
       parameters:
-        KUNIT_TEST_MODULE: 'kunit-test.ko'
+        KUNIT_TEST_MODULE: 'test.ko'
