@@ -235,7 +235,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         "tests_timeout": sum(t.timeout for t in options.tests),
         "timeouts": options.timeouts,
         "tmpdir": tmpdir,
-        "tux_boot_args": options.boot_args.replace('"', "")
+        "tux_boot_args": " ".join(shlex.split(options.boot_args))
         if options.boot_args
         else None,
         "tux_prompt": options.prompt,

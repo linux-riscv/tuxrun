@@ -707,3 +707,35 @@ def overlay_subprocess_calls(mocker):
 
 def test_qemu_overlay(tuxrun_args_qemu_overlay, lava_run, overlay_subprocess_calls):
     main()
+
+
+@pytest.mark.parametrize(
+    "args,cnt",
+    [
+        ("rw", 1),
+        ("rw", 2),
+        ("" "'" "rw systemd.log_level=warning" "'" "", 3),
+        ("r'w", 4),
+        ("'rw", 5),
+        ("rw'", 6),
+    ],
+)
+def test_boot_args(monkeypatch, mocker, tmpdir, args, cnt):
+    monkeypatch.setattr(
+        "tuxrun.__main__.sys.argv",
+        ["tuxrun", "--device", "qemu-arm64", "--boot-args"] + [args],
+    )
+    mocker.patch("tuxrun.__main__.Runtime.select", side_effect=SystemExit)
+    mocker.patch("tuxrun.assets.__download_and_cache__", side_effect=lambda a, b: a)
+    mocker.patch(
+        "tuxrun.__main__.get_test_definitions", return_value="file://testdef.tar.zst"
+    )
+    mocker.patch("tempfile.mkdtemp", return_value=tmpdir)
+    mocker.patch("shutil.rmtree")
+    if cnt < 4:
+        with pytest.raises(SystemExit):
+            main()
+    else:
+        # Invalid case
+        with pytest.raises(Exception):
+            main()
