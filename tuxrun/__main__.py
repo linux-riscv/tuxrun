@@ -31,7 +31,7 @@ from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
 from tuxrun.templates import wrappers
 from tuxrun.tests import Test
-from tuxrun.utils import ProgressIndicator, get_new_output_dir
+from tuxrun.utils import ProgressIndicator, get_new_output_dir, notify
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
 
@@ -361,6 +361,8 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
 
     if options.lava_definition and cache_dir:
         (cache_dir / "definition.yaml").write_text(definition, encoding="utf-8")
+
+    notify(job_definition.get("notify", {}))
 
     # Run results-hooks only if everything was successful
     if cache_dir:

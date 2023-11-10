@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from urllib.parse import urlparse
 
-from tuxrun import xdg
+from tuxrun import xdg, requests
 
 
 class ProgressIndicator(ABC):
@@ -129,3 +129,21 @@ def pathnone(string):
     if not path.exists():
         raise argparse.ArgumentTypeError(f"{path} no such file or directory")
     return path.expanduser().resolve()
+
+
+def callback(dataset=None, header=None, method=None, token=None, url=None, **kwargs):
+    if dataset and header and method and token and url:
+        s = requests.get_session(retries=3)
+        s.headers.update({header: token})
+        if method == "POST":
+            s.post(url=url)
+        if method == "GET":
+            s.get(url=url)
+
+
+def notify(notify):
+    if not notify:
+        return
+    if "callbacks" in notify:
+        for cb in notify.get("callbacks"):
+            callback(**cb)
