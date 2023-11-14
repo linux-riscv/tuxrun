@@ -37,7 +37,10 @@ class TuxBuild:
         with contextlib.suppress(IndexError, KeyError):
             self.kernel = url + "/" + metadata["results"]["artifacts"]["kernel"][0]
         with contextlib.suppress(IndexError, KeyError):
-            self.modules = [url + "/" + metadata["results"]["artifacts"]["modules"][0]]
+            self.modules = [
+                url + "/" + metadata["results"]["artifacts"]["modules"][0],
+                "/",
+            ]
 
         if self.kernel is None:
             raise self.Invalid("Missing kernel in directory")

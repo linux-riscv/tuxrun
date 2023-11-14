@@ -166,20 +166,9 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
     # Render the job definition and device dictionary
     extra_assets = []
     overlays = []
+
     if options.modules:
-        if len(options.modules) == 1:
-            o_path = "/"
-        elif len(options.modules) == 2:
-            o_path = options.modules[1]
-        else:
-            raise InvalidArgument(
-                "argument --modules takes one or two arguments, first should be a URL/to/modules.tar.xz and second PATH where to extract the tarball."
-            )
-        try:
-            options.modules[0] = pathurlnone(options.modules[0])
-        except argparse.ArgumentError as err:
-            raise (err)
-        overlays.append(("modules", options.modules[0], o_path))
+        overlays.append(("modules", options.modules[0], options.modules[1]))
         extra_assets.append(options.modules[0])
 
     # When using --shared without any arguments, point to cache_dir

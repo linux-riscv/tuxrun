@@ -107,7 +107,7 @@ def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
             "argh",
         ],
     )
-    with pytest.raises(InvalidArgument):
+    with pytest.raises(SystemExit):
         main()
 
     monkeypatch.setattr(
