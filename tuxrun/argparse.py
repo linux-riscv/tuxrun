@@ -223,7 +223,7 @@ def setup_parser() -> argparse.ArgumentParser:
         default=[],
         type=str,
         help="Tarball with overlay and optionally PATH to extract the tarball, default PATH '/'. Overlay can be specified multiple times",
-        action="append",
+        action=OneTwoPathAction,
         nargs="+",
         dest="overlays",
     )
