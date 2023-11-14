@@ -760,6 +760,21 @@ def artefacts(tmp_path):
             "qemu-i386-perf.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-i386",
+                "--tests",
+                "perf",
+                "--overlay",
+                "http://example.com/overlay1.tar.xz",
+                "--overlay",
+                "http://example.com/overlay2.tar.xz",
+                "--parameters",
+                "PERF=https://example.com/perf.tar.xz",
+            ],
+            "qemu-i386-perf-parameters.yaml",
+        ),
+        (
             ["--device", "qemu-i386", "--tests", "rcutorture"],
             "qemu-i386-rcutorture.yaml",
         ),
@@ -798,6 +813,10 @@ def artefacts(tmp_path):
                 "/overlay2/",
             ],
             "qemu-i386-kunit-overlays-paths.yaml",
+        ),
+        (
+            ["--device", "qemu-i386", "--tests", "kvm-unit-tests"],
+            "qemu-i386-kvm-unit-tests.yaml",
         ),
         (
             ["--device", "qemu-i386", "--kernel", "bzImage.gz"],
