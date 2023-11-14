@@ -6,7 +6,6 @@ import yaml
 
 import tuxrun.__main__
 from tuxrun.__main__ import main, start
-from tuxrun.exceptions import InvalidArgument
 
 
 def touch(directory, name):
@@ -107,7 +106,7 @@ def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
             "argh",
         ],
     )
-    with pytest.raises(InvalidArgument):
+    with pytest.raises(SystemExit):
         main()
 
     monkeypatch.setattr(
@@ -121,7 +120,7 @@ def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
             "argh",
         ],
     )
-    with pytest.raises(InvalidArgument):
+    with pytest.raises(SystemExit):
         main()
 
     monkeypatch.setattr(

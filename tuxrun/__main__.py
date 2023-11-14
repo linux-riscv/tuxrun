@@ -5,7 +5,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-import argparse
 import contextlib
 import json
 import logging
@@ -166,20 +165,9 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
     # Render the job definition and device dictionary
     extra_assets = []
     overlays = []
+
     if options.modules:
-        if len(options.modules) == 1:
-            o_path = "/"
-        elif len(options.modules) == 2:
-            o_path = options.modules[1]
-        else:
-            raise InvalidArgument(
-                "argument --modules takes one or two arguments, first should be a URL/to/modules.tar.xz and second PATH where to extract the tarball."
-            )
-        try:
-            options.modules[0] = pathurlnone(options.modules[0])
-        except argparse.ArgumentError as err:
-            raise (err)
-        overlays.append(("modules", options.modules[0], o_path))
+        overlays.append(("modules", options.modules[0], options.modules[1]))
         extra_assets.append(options.modules[0])
 
     # When using --shared without any arguments, point to cache_dir
@@ -190,19 +178,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         extra_assets.append(("file://" + options.shared[0], False))
 
     for index, item in enumerate(options.overlays):
-        if len(item) == 1:
-            o_path = "/"
-        elif len(item) == 2:
-            o_path = item[1]
-        else:
-            raise InvalidArgument(
-                "argument --overlays takes one or two arguments, first should be a URL/to/file.tar.xz and second PATH where to extract the tarball."
-            )
-        try:
-            item[0] = pathurlnone(item[0])
-        except argparse.ArgumentError as err:
-            raise (err)
-        overlays.append((f"overlay-{index:02}", item[0], o_path))
+        overlays.append((f"overlay-{index:02}", item[0], item[1]))
         extra_assets.append(item[0])
 
     # Add test definitions only when needed

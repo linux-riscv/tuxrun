@@ -113,6 +113,25 @@ class KeyValueIntAction(argparse.Action):
                 )
 
 
+class OneTwoPathAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        if len(values) == 1:
+            values = [values[0], "/"]
+        elif len(values) > 2:
+            raise argparse.ArgumentError(
+                self,
+                "takes one or two arguments, first should be a URL and second the destination.",
+            )
+        try:
+            values[0] = pathurlnone(values[0])
+        except argparse.ArgumentTypeError as exc:
+            raise argparse.ArgumentError(self, str(exc))
+        if isinstance(getattr(namespace, self.dest), list):
+            getattr(namespace, self.dest).append(values)
+        else:
+            setattr(namespace, self.dest, values)
+
+
 class SharedAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         if values is None:
@@ -193,18 +212,18 @@ def setup_parser() -> argparse.ArgumentParser:
     artefact("mcp-romfw")
     group.add_argument(
         "--modules",
-        default=[],
+        default=None,
         type=str,
         help="modules URL and optionally PATH to extract the modules, default PATH '/'",
+        action=OneTwoPathAction,
         nargs="+",
-        dest="modules",
     )
     group.add_argument(
         "--overlay",
         default=[],
         type=str,
         help="Tarball with overlay and optionally PATH to extract the tarball, default PATH '/'. Overlay can be specified multiple times",
-        action="append",
+        action=OneTwoPathAction,
         nargs="+",
         dest="overlays",
     )
