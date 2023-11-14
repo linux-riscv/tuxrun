@@ -124,6 +124,31 @@ def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
     with pytest.raises(InvalidArgument):
         main()
 
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=qemu-x86_64",
+            "--shared",
+            "foo.tar.xz",
+            "/usr/",
+            "argh",
+        ],
+    )
+    with pytest.raises(SystemExit):
+        main()
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=fvp-aemva",
+            "--shared",
+        ],
+    )
+    with pytest.raises(SystemExit):
+        main()
+
 
 FVP_MORELLO_ARGS = [
     "--ap-romfw",
@@ -528,6 +553,56 @@ def test_modules(monkeypatch, lava_run_call, lava_run, artefacts):
     lava_run_call.assert_called()
     args = lava_run_call.call_args[0][0]
     assert f"{artefacts}/foo.tar.xz:{artefacts}/foo.tar.xz:ro" in args
+
+
+def test_shared(monkeypatch, lava_run_call, lava_run, artefacts):
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--kernel=bzImage",
+            "--device=qemu-x86_64",
+            "--shared",
+        ],
+    )
+    assert main() == 0
+    lava_run_call.assert_called()
+    args = lava_run_call.call_args[0][0]
+    assert (
+        f"{artefacts}/home/.cache/tuxrun/tests/1:{artefacts}/home/.cache/tuxrun/tests/1:rw"
+        in args
+    )
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--kernel=bzImage",
+            "--device=qemu-x86_64",
+            "--shared",
+            "/home/",
+        ],
+    )
+    assert main() == 0
+    lava_run_call.assert_called()
+    args = lava_run_call.call_args[0][0]
+    assert "/home/:/home/:rw" in args
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--kernel=bzImage",
+            "--device=qemu-x86_64",
+            "--shared",
+            "/home/",
+            "/mnt/home",
+        ],
+    )
+    assert main() == 0
+    lava_run_call.assert_called()
+    args = lava_run_call.call_args[0][0]
+    assert "/home/:/home/:rw" in args
 
 
 def test_overlays(monkeypatch, lava_run_call, lava_run, artefacts):

@@ -159,3 +159,32 @@ tuxrun --tuxbuild https://builds.tuxbuild.com/<ksuid>/
 
 > Tip: "default device"
     For some architectures (like ARM), the tuxrun device should be specified with `--device`.
+
+## Mounting host directory
+
+You can mount a host directory into the qemu vm using the [9p
+protocol](https://en.wikipedia.org/wiki/9P_(protocol)).
+
+Start tuxrun with `--shared`:
+```shell
+tuxrun --device qemu-arm64 --shared /home/user/shared
+```
+
+`--shared <src> <dst>` accepts zero, one or two parameters. The defaults are:
+
+* src: the cache directory (in `~/.cache/tuxrun/tests/<id>`) on the host
+* dst: /mnt/tuxrun in the VM
+
+> Warning: Device support
+    This feature is only supported on qemu devices
+
+> Warning: Kernel support
+    The Qemu kernel should be compiled with the support for 9p, PCI and virtio:
+    ```
+    CONFIG_NET_9P=y
+    CONFIG_NET_9P_VIRTIO=y
+    CONFIG_9P_FS=y
+    CONFIG_PCI=y
+    CONFIG_VIRTIO_PCI=y
+    CONFIG_PCI_HOST_GENERIC=y (only needed for the QEMU Arm 'virt' board)
+    ```
