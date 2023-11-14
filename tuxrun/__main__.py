@@ -182,16 +182,11 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         overlays.append(("modules", options.modules[0], o_path))
         extra_assets.append(options.modules[0])
 
+    # When using --shared without any arguments, point to cache_dir
     if options.shared is not None:
         if not options.shared:
             assert cache_dir
-            options.shared = [str(cache_dir)]
-        if len(options.shared) == 1:
-            options.shared = [options.shared[0], "/mnt/tuxrun"]
-        elif len(options.shared) == 2:
-            options.shared = [options.shared[0], options.shared[1]]
-        else:
-            raise InvalidArgument("--shared takes one or two arguments")
+            options.shared = [str(cache_dir), "/mnt/tuxrun"]
         extra_assets.append(("file://" + options.shared[0], False))
 
     for index, item in enumerate(options.overlays):
