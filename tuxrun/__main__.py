@@ -181,6 +181,19 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
             raise (err)
         overlays.append(("modules", options.modules[0], o_path))
         extra_assets.append(options.modules[0])
+
+    if options.shared is not None:
+        if not options.shared:
+            assert cache_dir
+            options.shared = [str(cache_dir)]
+        if len(options.shared) == 1:
+            options.shared = [options.shared[0], "/mnt/tuxrun"]
+        elif len(options.shared) == 2:
+            options.shared = [options.shared[0], options.shared[1]]
+        else:
+            raise InvalidArgument("--shared takes one or two arguments")
+        extra_assets.append(("file://" + options.shared[0], False))
+
     for index, item in enumerate(options.overlays):
         if len(item) == 1:
             o_path = "/"
@@ -228,6 +241,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         "prompt": options.prompt,
         "rootfs": options.rootfs,
         "rootfs_partition": options.partition,
+        "shared": options.shared,
         "scp_fw": options.scp_fw,
         "scp_romfw": options.scp_romfw,
         "tests": options.tests,
@@ -293,10 +307,13 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         options.scp_romfw,
         options.uefi,
     ] + extra_assets:
+        ro = True
+        if isinstance(path, tuple):
+            (path, ro) = path
         if not path:
             continue
         if urlparse(path).scheme == "file":
-            runtime.bind(path[7:], ro=True)
+            runtime.bind(path[7:], ro=ro)
 
     if options.qemu_binary:
         overlay_qemu(options.qemu_binary, tmpdir, runtime)
@@ -398,9 +415,7 @@ def main() -> int:
                 )
 
     cache_dir = None
-    if options.lava_definition:
-        options.save_outputs = True
-    if options.results_hooks:
+    if options.lava_definition or options.results_hooks or options.shared == []:
         options.save_outputs = True
     if options.save_outputs:
         if any(

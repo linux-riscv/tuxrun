@@ -40,6 +40,7 @@ def filter_options(options):
         "results_hooks",
         "debug",
         "lava_definition",
+        "shared",
     ]
     return {k: getattr(options, k) for k in vars(options) if k not in keys}
 
@@ -338,6 +339,14 @@ def setup_parser() -> argparse.ArgumentParser:
         default=False,
         action="store_true",
         help="Save the LAVA definition.yaml file",
+    )
+    group.add_argument(
+        "--shared",
+        default=None,
+        type=str,
+        help="Directory to share with the device",
+        action="extend",
+        nargs="*",
     )
 
     group = parser.add_argument_group("debugging")
