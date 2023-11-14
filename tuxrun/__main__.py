@@ -460,6 +460,9 @@ def main() -> int:
     except InvalidArgument as exc:
         parser.error(str(exc))
 
+    if options.shared is not None and not options.device.name.startswith("qemu-"):
+        parser.error("--shared options is only available for qemu devices")
+
     if options.tests:
         tests = [t.name for t in options.tests]
         if sorted(list(set(tests))) != sorted(tests):

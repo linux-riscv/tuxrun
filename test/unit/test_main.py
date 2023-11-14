@@ -138,6 +138,17 @@ def test_almost_real_run(monkeypatch, tuxrun_args, lava_run, capsys):
     with pytest.raises(SystemExit):
         main()
 
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--device=fvp-aemva",
+            "--shared",
+        ],
+    )
+    with pytest.raises(SystemExit):
+        main()
+
 
 FVP_MORELLO_ARGS = [
     "--ap-romfw",
