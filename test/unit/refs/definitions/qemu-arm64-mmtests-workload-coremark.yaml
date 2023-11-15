@@ -72,4 +72,5 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-workload-coremark'
         MMTEST_ITERATIONS: '20'
         TEST_DIR: '/mmtests'
+        SHARED_DIR: 'true'
       name: mmtests-workload-coremark

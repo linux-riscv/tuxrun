@@ -12,5 +12,6 @@
         MMTESTS_CONFIG_FILE: '{{ configfile }}'
         MMTEST_ITERATIONS: '{{ parameters.get("ITERATIONS", iterations) }}'
         TEST_DIR: '{{ parameters.get("MMTESTS_PATH", "/mmtests") }}'
+        SHARED_DIR: 'true'
       name: {{ name }}
 
