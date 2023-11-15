@@ -72,4 +72,5 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-workload-cyclictest-fine-hackbench'
         MMTEST_ITERATIONS: '15'
         TEST_DIR: '/mmtests'
+        SHARED_DIR: 'true'
       name: mmtests-workload-cyclictest-fine-hackbench

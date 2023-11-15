@@ -72,4 +72,5 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-workload-stressng-class-io-parallel'
         MMTEST_ITERATIONS: '10'
         TEST_DIR: '/mmtests'
+        SHARED_DIR: 'true'
       name: mmtests-workload-stressng-class-io-parallel

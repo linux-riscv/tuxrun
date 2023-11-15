@@ -72,4 +72,5 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-io-fsmark-small-file-stream'
         MMTEST_ITERATIONS: '10'
         TEST_DIR: '/mmtests'
+        SHARED_DIR: 'true'
       name: mmtests-io-fsmark-small-file-stream

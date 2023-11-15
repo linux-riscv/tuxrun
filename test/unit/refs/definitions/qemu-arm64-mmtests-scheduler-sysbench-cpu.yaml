@@ -72,4 +72,5 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-scheduler-sysbench-cpu'
         MMTEST_ITERATIONS: '10'
         TEST_DIR: '/mmtests'
+        SHARED_DIR: 'true'
       name: mmtests-scheduler-sysbench-cpu

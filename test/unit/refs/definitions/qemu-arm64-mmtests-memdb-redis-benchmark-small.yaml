@@ -72,4 +72,5 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-memdb-redis-benchmark-small'
         MMTEST_ITERATIONS: '20'
         TEST_DIR: '/mmtests'
+        SHARED_DIR: 'true'
       name: mmtests-memdb-redis-benchmark-small
