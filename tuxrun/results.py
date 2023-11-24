@@ -41,7 +41,12 @@ class Results:
 
         definition = re.sub(PATTERN, "", test.pop("definition"))
         case = re.sub(PATTERN, "", test.pop("case"))
-        self.__data__.setdefault(definition, {})[case] = test
+        # download action can be duplicated
+        if definition == "lava" and case.endswith("-download"):
+            label = test["extra"]["label"]
+            self.__data__.setdefault(definition, {}).setdefault(case, {})[label] = test
+        else:
+            self.__data__.setdefault(definition, {})[case] = test
         if test["result"] == "fail":
             self.__ret__ = 1
 
