@@ -112,6 +112,13 @@ class MMTestsSysbenchThread(MMTests):
     timeout = 90
 
 
+class MMTestsAim9Disk(MMTests):
+    configfile = "configs/config-workload-aim9-disk"
+    name = "mmtests-workload-aim9-disk"
+    iterations = 10
+    timeout = 90
+
+
 class MMTestsCoremark(MMTests):
     configfile = "configs/config-workload-coremark"
     name = "mmtests-workload-coremark"
@@ -147,6 +154,20 @@ class MMTestsPmqtestHackbench(MMTests):
     timeout = 90
 
 
+class MMTestsStressngAfAlg(MMTests):
+    configfile = "configs/config-workload-stressng-af-alg"
+    name = "mmtests-workload-stressng-af-alg"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsStressngBadAltstack(MMTests):
+    configfile = "configs/config-workload-stressng-bad-altstack"
+    name = "mmtests-workload-stressng-bad-altstack"
+    iterations = 10
+    timeout = 90
+
+
 class MMTestsStressngClassIoParallel(MMTests):
     configfile = "configs/config-workload-stressng-class-io-parallel"
     name = "mmtests-workload-stressng-class-io-parallel"
@@ -161,9 +182,30 @@ class MMTestsStressngContext(MMTests):
     timeout = 90
 
 
+class MMTestsStressngFork(MMTests):
+    configfile = "configs/config-workload-stressng-fork"
+    name = "mmtests-workload-stressng-fork"
+    iterations = 10
+    timeout = 90
+
+
 class MMTestsStressngGet(MMTests):
     configfile = "configs/config-workload-stressng-get"
     name = "mmtests-workload-stressng-get"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsStressngGetdent(MMTests):
+    configfile = "configs/config-workload-stressng-getdent"
+    name = "mmtests-workload-stressng-getdent"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsStressngMadvise(MMTests):
+    configfile = "configs/config-workload-stressng-madvise"
+    name = "mmtests-workload-stressng-madvise"
     iterations = 10
     timeout = 90
 
@@ -175,8 +217,64 @@ class MMTestsStressngMmap(MMTests):
     timeout = 90
 
 
+class MMTestsStressngVmSplice(MMTests):
+    configfile = "configs/config-workload-stressng-vm-splice"
+    name = "mmtests-workload-stressng-vm-splice"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsStressngZombie(MMTests):
+    configfile = "configs/config-workload-stressng-zombie"
+    name = "mmtests-workload-stressng-zombie"
+    iterations = 10
+    timeout = 90
+
+
 class MMTestsUsemem(MMTests):
     configfile = "configs/config-workload-usemem"
     name = "mmtests-workload-usemem"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsScaleIoProcesses(MMTests):
+    configfile = "configs/config-workload-will-it-scale-io-processes"
+    name = "mmtests-workload-will-it-scale-io-processes"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsScaleIoThreads(MMTests):
+    configfile = "configs/config-workload-will-it-scale-io-threads"
+    name = "mmtests-workload-will-it-scale-io-threads"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsScalePfProcesses(MMTests):
+    configfile = "configs/config-workload-will-it-scale-pf-processes"
+    name = "mmtests-workload-will-it-scale-pf-processes"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsScalePfThreads(MMTests):
+    configfile = "configs/config-workload-will-it-scale-pf-threads"
+    name = "mmtests-workload-will-it-scale-pf-threads"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsScaleSysProcesses(MMTests):
+    configfile = "configs/config-workload-will-it-scale-sys-processes"
+    name = "mmtests-workload-will-it-scale-sys-processes"
+    iterations = 10
+    timeout = 90
+
+
+class MMTestsScaleSysThreads(MMTests):
+    configfile = "configs/config-workload-will-it-scale-sys-threads"
+    name = "mmtests-workload-will-it-scale-sys-threads"
     iterations = 10
     timeout = 90
