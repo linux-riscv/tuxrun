@@ -18,6 +18,7 @@ PATTERN = re.compile(r"^(\d+_)")
 class Results:
     def __init__(self, tests):
         self.__data__ = {}
+        self.__metadata__ = {}
         self.__post_processed = False
         self.__tests__ = set(["lava"] + [t.name for t in tests])
         self.__ret__ = 0
@@ -58,10 +59,26 @@ class Results:
         if self.__tests__ != set(self.__data__.keys()):
             self.__ret__ = 2
 
+        if self.__data__.get("lava", {}).get("execute-qemu", {}).get("extra"):
+            self.__metadata__ = {
+                "arch": self.__data__["lava"]["execute-qemu"]["extra"].get("job_arch"),
+                "host_arch": self.__data__["lava"]["execute-qemu"]["extra"].get(
+                    "host_arch"
+                ),
+                "qemu_version": self.__data__["lava"]["execute-qemu"]["extra"].get(
+                    "qemu_version"
+                ),
+            }
+
     @property
     def data(self):
         self.__post_process()
         return self.__data__
+
+    @property
+    def metadata(self):
+        self.__post_process()
+        return self.__metadata__
 
     def ret(self):
         self.__post_process()

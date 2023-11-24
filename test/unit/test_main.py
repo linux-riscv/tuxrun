@@ -383,7 +383,6 @@ def test_exit_status_matches_results(tuxrun_args, lava_run, mocker):
 
 
 def test_save_output(monkeypatch, tmp_path, run):
-    print(tmp_path)
     monkeypatch.setattr(
         "sys.argv", ["tuxrun", "--device", "qemu-armv5", "--save-outputs"]
     )
@@ -405,6 +404,14 @@ def test_save_output(monkeypatch, tmp_path, run):
     assert (
         options.log_file_yaml
         == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "logs.yaml"
+    )
+    assert (
+        options.metadata
+        == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "metadata.json"
+    )
+    assert (
+        options.results
+        == tmp_path / "home" / ".cache" / "tuxrun" / "tests" / "1" / "results.json"
     )
 
 

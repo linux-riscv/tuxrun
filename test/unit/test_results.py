@@ -84,3 +84,10 @@ def test_results_parsing(name, testsuite):
         )
     data = (BASE / "results" / (name + ".json")).read_text(encoding="utf-8")
     assert results.data == json.loads(data)
+
+    if os.environ.get("TUXRUN_RENDER"):
+        (BASE / "results" / (name + "-metadata.json")).write_text(
+            json.dumps(results.metadata), encoding="utf-8"
+        )
+    data = (BASE / "results" / (name + "-metadata.json")).read_text(encoding="utf-8")
+    assert results.metadata == json.loads(data)

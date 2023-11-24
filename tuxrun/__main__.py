@@ -346,6 +346,11 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
             sys.stdout.write(json.dumps(results.data) + "\n")
         else:
             options.results.write_text(json.dumps(results.data))
+    if options.metadata:
+        if str(options.metadata) == "-":
+            sys.stdout.write(json.dumps(results.metadata) + "\n")
+        else:
+            options.metadata.write_text(json.dumps(results.metadata))
 
     if options.lava_definition and cache_dir:
         (cache_dir / "definition.yaml").write_text(definition, encoding="utf-8")
@@ -408,6 +413,8 @@ def main() -> int:
                 options.log_file_text = cache_dir / "logs.txt"
             if options.log_file_yaml is None:
                 options.log_file_yaml = cache_dir / "logs.yaml"
+            if options.metadata is None:
+                options.metadata = cache_dir / "metadata.json"
             if options.results is None:
                 options.results = cache_dir / "results.json"
     elif options.log_file is None:
