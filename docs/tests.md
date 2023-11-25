@@ -12,37 +12,37 @@ TuxRun support some tests, each tests is supported on some but not all architect
 
 The following tests are supported by the default root filesystem.
 
-Device    | Tests                                                                      | Parameters                                     |
-----------|----------------------------------------------------------------------------|------------------------------------------------|
-fvp-aemva | command                                                                    |                                                |
-fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                        | KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
-fvp-aemva | kunit\*                                                                    | KUNIT_TEST_MODULE                              |
-fvp-aemva | kvm-unit-tests                                                             |                                                |
-fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)          | SKIPFILE, SHARD_NUMBER, SHARD_INDEX            |
-fvp-aemva | perf                                                                       | PERF                                           |
-fvp-aemva | rcutorture                                                                 |                                                |
-fvp-aemva | v4l2                                                                       |                                                |
-fvp-aemva | vdso                                                                       |                                                |
-fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH                       |
-                     io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,  |                                                |
-                     io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,  |                                                |
-                     io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                |
-                     memdb-redis-memtier-small, scheduler-schbench,                    |                                                |
-                     scheduler-sysbench-cpu, scheduler-sysbench-thread,                |                                                |
-                     workload-aim9-disk, workload-coremark, workload-stressng-af-alg,  |                                                |
-                     workload-stressng-bad-altstack, workoad-cyclictest-fine-hackbench,|                                                |
-                     workload-cyclictest-hackbench, workload-ebizzy,                   |                                                |
-                     workload-pmqtest-hackbench, workload-stressng-class-io-parallel,  |                                                |
-                     workload-stressng-context, workload-stressng-get,                 |                                                |
-                     workload-stressng-getdent, workload-stressng-madvise,             |                                                |
-                     workload-stressng-mmap, workload-stressng-vm-splice,              |                                                |
-                     workload-stressng-zombie, workload-usemem,                        |                                                |
-                     workload-will-it-scale-io-processes,                              |                                                |
-                     workload-will-it-scale-io-threads                                 |                                                |
-                     workload-will-it-scale-pf-processes,                              |                                                |
-                     workload-will-it-scale-pf-threads,                                |                                                |
-                     workload-will-it-scale-sys-processes,                             |                                                |
-                     workload-will-it-scale-sys-threads)                               |                                                |
+Device    | Tests                                                                      | Parameters                                               |
+----------|----------------------------------------------------------------------------|----------------------------------------------------------|
+fvp-aemva | command                                                                    |                                                          |
+fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                        | COUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+fvp-aemva | kunit\*                                                                    | KUNIT_TEST_MODULE                                        |
+fvp-aemva | kvm-unit-tests                                                             |                                                          |
+fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)          | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+fvp-aemva | perf                                                                       | PERF                                                     |
+fvp-aemva | rcutorture                                                                 |                                                          |
+fvp-aemva | v4l2                                                                       |                                                          |
+fvp-aemva | vdso                                                                       |                                                          |
+fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH                                 |
+                     io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,  |                                                          |
+                     io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,  |                                                          |
+                     io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                          |
+                     memdb-redis-memtier-small, scheduler-schbench,                    |                                                          |
+                     scheduler-sysbench-cpu, scheduler-sysbench-thread,                |                                                          |
+                     workload-aim9-disk, workload-coremark,                            |                                                          |
+                     workload-cyclictest-fine-hackbench, workload-cyclictest-hackbench,|                                                          |
+                     workload-ebizzy, workload-pmqtest-hackbench,                      |                                                          |
+                     workload-stressng-af-alg, workload-stressng-bad-altstack,         |                                                          |
+                     workload-stressng-class-io-parallel, workload-stressng-context,   |                                                          |
+                     workload-stressng-get, workload-stressng-getdent,                 |                                                          |
+                     workload-stressng-madvise, workload-stressng-mmap,                |                                                          |
+                     workload-stressng-vm-splice, workload-stressng-zombie,            |                                                          |
+                     workload-usemem, workload-will-it-scale-io-processes,             |                                                          |
+                     workload-will-it-scale-io-threads,                                |                                                          |
+                     workload-will-it-scale-pf-processes,                              |                                                          |
+                     workload-will-it-scale-pf-threads,                                |                                                          |
+                     workload-will-it-scale-sys-processes,                             |                                                          |
+                     workload-will-it-scale-sys-threads)                               |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
@@ -149,16 +149,16 @@ qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,    
                    io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                          |
                    memdb-redis-memtier-small, scheduler-schbench,                    |                                                          |
                    scheduler-sysbench-cpu, scheduler-sysbench-thread,                |                                                          |
-                   workload-aim9-disk, workload-coremark, workload-stressng-af-alg,  |                                                          |
-                   workload-stressng-bad-altstack, workoad-cyclictest-fine-hackbench,|                                                          |
-                   workload-cyclictest-hackbench, workload-ebizzy,                   |                                                          |
-                   workload-pmqtest-hackbench, workload-stressng-class-io-parallel,  |                                                          |
-                   workload-stressng-context, workload-stressng-get,                 |                                                          |
-                   workload-stressng-getdent, workload-stressng-madvise,             |                                                          |
-                   workload-stressng-mmap, workload-stressng-vm-splice,              |                                                          |
-                   workload-stressng-zombie, workload-usemem,                        |                                                          |
-                   workload-will-it-scale-io-processes,                              |                                                          |
-                   workload-will-it-scale-io-threads                                 |                                                          |
+                   workload-aim9-disk, workload-coremark,                            |                                                          |
+                   workload-cyclictest-fine-hackbench, workload-cyclictest-hackbench,|                                                          |
+                   workload-ebizzy, workload-pmqtest-hackbench,                      |                                                          |
+                   workload-stressng-af-alg, workload-stressng-bad-altstack,         |                                                          |
+                   workload-stressng-class-io-parallel, workload-stressng-context,   |                                                          |
+                   workload-stressng-get, workload-stressng-getdent,                 |                                                          |
+                   workload-stressng-madvise, workload-stressng-mmap,                |                                                          |
+                   workload-stressng-vm-splice, workload-stressng-zombie,            |                                                          |
+                   workload-usemem, workload-will-it-scale-io-processes,             |                                                          |
+                   workload-will-it-scale-io-threads,                                |                                                          |
                    workload-will-it-scale-pf-processes,                              |                                                          |
                    workload-will-it-scale-pf-threads,                                |                                                          |
                    workload-will-it-scale-sys-processes,                             |                                                          |
