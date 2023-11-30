@@ -40,10 +40,10 @@ class Runtime:
             return PodmanRuntime
         return NullRuntime
 
-    def bind(self, src, dst=None, ro=False):
+    def bind(self, src, dst=None, ro=False, device=False):
         if dst is None:
             dst = src
-        self.__bindings__.append((str(src), dst, ro))
+        self.__bindings__.append((str(src), dst, ro, device))
 
     def image(self, image):
         self.__image__ = image
@@ -111,7 +111,7 @@ class ContainerRuntime(Runtime):
         self.bind("/lib/modules", ro=True)
         # Bind /dev/kvm is available
         if Path("/dev/kvm").exists():
-            self.bind("/dev/kvm")
+            self.bind("/dev/kvm", device=True)
         # Create /var/tmp/.guestfs-$id
         if self.bind_guestfs:
             guestfs = Path(f"/var/tmp/.guestfs-{os.getuid()}")
@@ -123,7 +123,7 @@ class ContainerRuntime(Runtime):
         srcs = set()
         dsts = set()
         for binding in self.__bindings__:
-            (src, dst, ro) = binding
+            (src, dst, ro, device) = binding
             if src in srcs:
                 LOG.error("Duplicated mount source %r", src)
                 raise Exception("Duplicated mount source %r" % src)
@@ -133,7 +133,7 @@ class ContainerRuntime(Runtime):
             srcs.add(src)
             dsts.add(dst)
             ro = "ro" if ro else "rw"
-            prefix.extend(["-v", f"{src}:{dst}:{ro}"])
+            prefix.extend(["--device" if device else "-v", f"{src}:{dst}:{ro}"])
         prefix.extend(["--name", self.__name__])
         return prefix + [self.__image__] + args
 
