@@ -39,7 +39,7 @@ def test_cmd_podman():
     if Path("/dev/kvm").exists():
         args.extend(
             [
-                "-v",
+                "--device",
                 "/dev/kvm:/dev/kvm:rw",
             ]
         )
@@ -112,6 +112,7 @@ def test_pre_run_docker(tmp_path):
     assert runtime.__bindings__[-1] == (
         "/var/run/docker.sock",
         "/var/run/docker.sock",
+        False,
         False,
     )
 
