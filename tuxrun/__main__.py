@@ -429,17 +429,8 @@ def main() -> int:
 
     try:
         options.device = Device.select(options.device)()
-        # Download only after the device has been found
-        if options.device.flag_cache_rootfs:
-            options.rootfs = pathurlnone(
-                get_rootfs(
-                    options.device,
-                    options.rootfs,
-                    ProgressIndicator.get("Downloading root filesystem"),
-                )
-            )
-
         options.tests = [Test.select(t)(options.timeouts.get(t)) for t in options.tests]
+        # options.rootfs will be overridden later on by get_rootfs
         options.device.validate(**filter_options(options))
     except InvalidArgument as exc:
         parser.error(str(exc))
@@ -451,6 +442,16 @@ def main() -> int:
         tests = [t.name for t in options.tests]
         if sorted(list(set(tests))) != sorted(tests):
             parser.error("each test should appears only once")
+
+    # Download only after the device has been found
+    if options.device.flag_cache_rootfs:
+        options.rootfs = pathurlnone(
+            get_rootfs(
+                options.device,
+                options.rootfs,
+                ProgressIndicator.get("Downloading root filesystem"),
+            )
+        )
 
     # Create the temp directory
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
