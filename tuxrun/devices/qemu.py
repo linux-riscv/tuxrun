@@ -29,10 +29,10 @@ class QemuDevice(Device):
     rootfs_dev: str = ""
     rootfs_arg: str = ""
 
-    dtb: str = ""
-    bios: str = ""
-    kernel: str = ""
-    rootfs: str = ""
+    dtb: str | None = None
+    bios: str | None = None
+    kernel: str | None = None
+    rootfs: str | None = None
     enable_kvm: bool = False
 
     test_character_delay: int = 0
@@ -79,6 +79,12 @@ class QemuDevice(Device):
         for test in tests:
             test.validate(device=self, parameters=parameters, **kwargs)
 
+    def default(self, options) -> None:
+        options.bios = notnone(options.bios, self.bios)
+        options.dtb = notnone(options.dtb, self.dtb)
+        options.kernel = notnone(options.kernel, self.kernel)
+        options.rootfs = notnone(options.rootfs, self.rootfs)
+
     def definition(self, **kwargs):
         kwargs = kwargs.copy()
 
@@ -95,10 +101,6 @@ class QemuDevice(Device):
         kwargs["no_kvm"] = not kwargs["enable_kvm"]
 
         # Options that can be updated
-        kwargs["bios"] = notnone(kwargs.get("bios"), self.bios)
-        kwargs["dtb"] = notnone(kwargs.get("dtb"), self.dtb)
-        kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
-        kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
         if self.extra_boot_args:
             if kwargs["tux_boot_args"]:
                 kwargs["tux_boot_args"] = kwargs.get("tux_boot_args") + " "
@@ -111,14 +113,14 @@ class QemuDevice(Device):
         else:
             kwargs["tux_prompt"] = []
 
-        if "cpu.lpa2" in kwargs.get("parameters").keys() and kwargs.get(
-            "parameters"
-        ).get("cpu.lpa2") in ["off", "on"]:
+        if "cpu.lpa2" in kwargs.get("parameters").keys() and kwargs["parameters"].get(
+            "cpu.lpa2"
+        ) in ["off", "on"]:
             if self.name not in ["qemu-arm64", "qemu-arm64be"]:
                 raise InvalidArgument(
                     "argument '--parameters cpu.lpa2=on/off' is only valid for qemu-arm64 and qemu-arm64be device"
                 )
-            kwargs["cpu"] += f',lpa2={kwargs.get("parameters").get("cpu.lpa2")}'
+            kwargs["cpu"] += f',lpa2={kwargs["parameters"]["cpu.lpa2"]}'
 
         kwargs["command_name"] = slugify(
             kwargs.get("parameters").get("command-name", "command")

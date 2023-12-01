@@ -432,6 +432,7 @@ def main() -> int:
         options.tests = [Test.select(t)(options.timeouts.get(t)) for t in options.tests]
         # options.rootfs will be overridden later on by get_rootfs
         options.device.validate(**filter_options(options))
+        options.device.default(options)
     except InvalidArgument as exc:
         parser.error(str(exc))
 
