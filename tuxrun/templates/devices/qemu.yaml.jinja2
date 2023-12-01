@@ -124,6 +124,11 @@ actions:
 {% block qemu_options %}
 {# arch cpu #}
 {% if arch == 'arm64' or arch == 'aarch64' %}
+{# not arch cpu #}
+{% if not no_kvm %}
+          - -enable-kvm
+{% endif %}
+{# end no_kvm #}
           - -cpu {{ cpu|default('cortex-a57') }}
           - -machine {{ machine|default('virt') }}
 {% elif arch == 'arm' %}

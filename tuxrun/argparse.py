@@ -309,6 +309,12 @@ def setup_parser() -> argparse.ArgumentParser:
         action=KeyValueIntAction,
         nargs="+",
     )
+    group.add_argument(
+        "--enable-kvm",
+        default=False,
+        action="store_true",
+        help="Enable kvm, only possible if host and QEMU system are the same",
+    )
 
     group = parser.add_argument_group("runtime")
     group.add_argument(

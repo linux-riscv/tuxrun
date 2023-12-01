@@ -208,6 +208,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         "mcp_fw": options.mcp_fw,
         "mcp_romfw": options.mcp_romfw,
         "fip": options.fip,
+        "enable_kvm": options.enable_kvm,
         "overlays": overlays,
         "prompt": options.prompt,
         "rootfs": options.rootfs,

@@ -10,6 +10,7 @@ from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
 from tuxrun.utils import compression, notnone, slugify
+import platform
 
 
 class QemuDevice(Device):
@@ -32,6 +33,7 @@ class QemuDevice(Device):
     bios: str = ""
     kernel: str = ""
     rootfs: str = ""
+    enable_kvm: bool = False
 
     test_character_delay: int = 0
 
@@ -48,6 +50,7 @@ class QemuDevice(Device):
         partition,
         prompt,
         rootfs,
+        enable_kvm,
         tests,
         **kwargs,
     ):
@@ -89,6 +92,7 @@ class QemuDevice(Device):
         kwargs["console"] = self.console
         kwargs["rootfs_dev"] = self.rootfs_dev
         kwargs["rootfs_arg"] = self.rootfs_arg
+        kwargs["no_kvm"] = not kwargs["enable_kvm"]
 
         # Options that can be updated
         kwargs["bios"] = notnone(kwargs.get("bios"), self.bios)
@@ -150,6 +154,9 @@ class QemuArm64(QemuDevice):
     lava_arch = "arm64"
     machine = "virt,virtualization=on,gic-version=3,mte=on"
     cpu = "max,pauth-impdef=on"
+    if platform.machine() == "aarch64":
+        machine = "virt,gic-version=3"
+        cpu = "max"
 
     extra_options = ["-smp 2"]
 
