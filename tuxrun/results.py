@@ -16,7 +16,8 @@ PATTERN = re.compile(r"^(\d+_)")
 
 
 class Results:
-    def __init__(self, tests):
+    def __init__(self, tests, artefacts):
+        self.__artefacts__ = artefacts
         self.__data__ = {}
         self.__metadata__ = {}
         self.__post_processed = False
@@ -50,6 +51,10 @@ class Results:
         ):
             label = test["extra"]["label"]
             self.__data__.setdefault(definition, {}).setdefault(case, {})[label] = test
+            if label in self.__artefacts__:
+                self.__data__[definition][case][label]["url"] = self.__artefacts__[
+                    label
+                ]
         else:
             self.__data__.setdefault(definition, {})[case] = test
         if test["result"] == "fail":

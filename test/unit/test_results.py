@@ -11,7 +11,7 @@ BASE = (Path(__file__) / "..").resolve()
 
 
 def test_returns_0_by_default():
-    results = Results([])
+    results = Results([], {})
     results.__data__ = {"lava": {}}
     assert results.ret() == 0
 
@@ -23,7 +23,7 @@ def gen_test(name, result, suite_name="mytestsuite"):
 def test_returns_0_with_no_failures():
     t1 = Test(timeout=None)
     t1.name = "mytestsuite"
-    results = Results([t1])
+    results = Results([t1], {})
     results.parse(gen_test("test1", "pass"))
     results.parse(gen_test("test2", "pass"))
     results.parse(gen_test("job", "pass", suite_name="lava"))
@@ -31,7 +31,7 @@ def test_returns_0_with_no_failures():
 
 
 def test_returns_1_on_failure():
-    results = Results([])
+    results = Results([], {})
     results.parse(gen_test("test1", "pass", suite_name="lava"))
     results.parse(gen_test("test2", "fail", suite_name="lava"))
     assert results.ret() == 1
@@ -40,19 +40,19 @@ def test_returns_1_on_failure():
 def test_returns_2_on_missing_test():
     t1 = Test(timeout=None)
     t1.name = "mytestsuite"
-    results = Results([t1])
+    results = Results([t1], {})
     results.parse(gen_test("test1", "pass", suite_name="lava"))
     assert results.ret() == 2
 
 
 def test_returns_invalid_logs():
-    results = Results([])
+    results = Results([], {})
     results.parse("{")
     results.parse('{ "lvl": "results", "msg": {"case": "tux", "result": "pass"}}')
 
 
 def test_data():
-    results = Results([])
+    results = Results([], {})
     results.parse(gen_test("test1", "pass"))
     assert results.data["mytestsuite"]["test1"]["result"] == "pass"
 
@@ -74,7 +74,13 @@ def test_data():
 def test_results_parsing(name, testsuite):
     logs = (BASE / "logs" / (name + ".yaml")).read_text(encoding="utf-8").strip("\n")
 
-    results = Results([Test.select(testsuite)])
+    results = Results(
+        [Test.select(testsuite)],
+        {
+            "kernel": "https://example.com/bzImage",
+            "rootfs": "https://example.com/rootfs.ext4.xz",
+        },
+    )
     for line in logs.split("\n"):
         results.parse(line[2:])
 
