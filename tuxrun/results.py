@@ -43,7 +43,11 @@ class Results:
         definition = re.sub(PATTERN, "", test.pop("definition"))
         case = re.sub(PATTERN, "", test.pop("case"))
         # download action can be duplicated
-        if definition == "lava" and case.endswith("-download"):
+        if (
+            definition == "lava"
+            and case.endswith("-download")
+            and test.get("extra", {}).get("label")
+        ):
             label = test["extra"]["label"]
             self.__data__.setdefault(definition, {}).setdefault(case, {})[label] = test
         else:
