@@ -60,6 +60,7 @@ def test_data():
 @pytest.mark.parametrize(
     "name,testsuite",
     [
+        ("canceled-1", "ltp-smoke"),
         ("fail-empty", "ltp-smoke"),
         ("fail-1", "ltp-containers"),
         ("fail-2", "ltp-mm"),
