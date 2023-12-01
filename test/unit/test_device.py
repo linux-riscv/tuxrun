@@ -945,6 +945,10 @@ def artefacts(tmp_path):
             "qemu-x86_64.yaml",
         ),
         (
+            ["--device", "qemu-x86_64", "--enable-kvm"],
+            "qemu-x86_64-enable-kvm.yaml",
+        ),
+        (
             [
                 "--device",
                 "qemu-x86_64",
