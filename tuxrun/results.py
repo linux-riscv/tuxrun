@@ -21,7 +21,7 @@ class Results:
         self.__data__ = {}
         self.__metadata__ = {}
         self.__post_processed = False
-        self.__tests__ = set(["lava"] + [t.name for t in tests])
+        self.__tests__ = ["lava"] + [t.name for t in tests]
         self.__ret__ = 0
 
     def parse(self, line):
@@ -50,11 +50,14 @@ class Results:
             and test.get("extra", {}).get("label")
         ):
             label = test["extra"]["label"]
+            label = label[len("rootfs."):] if label.startswith("rootfs.") else label
             self.__data__.setdefault(definition, {}).setdefault(case, {})[label] = test
             if label in self.__artefacts__:
-                self.__data__[definition][case][label]["url"] = self.__artefacts__[
-                    label
-                ]
+                self.__data__[definition][case][label]["url"] = (
+                    self.__artefacts__[label]
+                    if isinstance(self.__artefacts__[label], str)
+                    else self.__artefacts__[label][0]
+                )
         else:
             self.__data__.setdefault(definition, {})[case] = test
         if test["result"] == "fail":
@@ -65,9 +68,10 @@ class Results:
             return
         self.__post_processed = True
 
-        if self.__tests__ != set(self.__data__.keys()):
+        if set(self.__tests__) != set(self.__data__.keys()):
             self.__ret__ = 2
 
+        # Add qemu info
         if self.__data__.get("lava", {}).get("execute-qemu", {}).get("extra"):
             self.__metadata__ = {
                 "arch": self.__data__["lava"]["execute-qemu"]["extra"].get("job_arch"),
@@ -78,6 +82,25 @@ class Results:
                     "qemu_version"
                 ),
             }
+        # Add artefacts with url and checksum
+        self.__metadata__["artefacts"] = {}
+        for lava_key in ["file-download", "http-download"]:
+            for k, v in self.__data__.get("lava", {}).get(lava_key, {}).items():
+                if "url" in v:
+                    self.__metadata__["artefacts"][k] = {
+                        "url": v["url"],
+                        "sha256sum": v["extra"]["sha256sum"],
+                    }
+
+        # Add test durations
+        self.__metadata__["durations"] = {"tests": {}}
+        for test in self.__tests__[1:]:
+            self.__metadata__["durations"]["tests"][test] = (
+                self.__data__.get("lava", {}).get(test, {}).get("duration", 0)
+            )
+        self.__metadata__["durations"]["tests"]["boot"] = (
+            self.__data__.get("lava", {}).get("login-action", {}).get("duration", 0)
+        )
 
     @property
     def data(self):
