@@ -10,12 +10,14 @@ from tuxrun.tests import Test
 class MMTests(Test):
     devices = ["qemu-arm64", "qemu-x86_64"]
     configfile: str = ""
+    full_archive: bool = False
     iterations: int = 0
     need_test_definition = True
 
     def render(self, **kwargs):
         kwargs["name"] = self.name
         kwargs["configfile"] = self.configfile
+        kwargs["full_archive"] = self.full_archive
         kwargs["iterations"] = self.iterations
         kwargs["timeout"] = self.timeout
         return self._render("mmtests.yaml.jinja2", **kwargs)
@@ -24,6 +26,7 @@ class MMTests(Test):
 class MMTestsDbSqliteInsertSmall(MMTests):
     configfile = "configs/config-db-sqlite-insert-small"
     name = "mmtests-db-sqlite-insert-small"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -31,6 +34,7 @@ class MMTestsDbSqliteInsertSmall(MMTests):
 class MMTestsHpcScimarkcSmall(MMTests):
     configfile = "configs/config-hpc-scimarkc-small"
     name = "mmtests-hpc-scimarkc-small"
+    full_archive = False
     iterations = 20
     timeout = 90
 
@@ -38,6 +42,7 @@ class MMTestsHpcScimarkcSmall(MMTests):
 class MMTestsBlogbench(MMTests):
     configfile = "configs/config-io-blogbench"
     name = "mmtests-io-blogbench"
+    full_archive = False
     iterations = 30
     timeout = 90
 
@@ -45,6 +50,7 @@ class MMTestsBlogbench(MMTests):
 class MMTestsFioRandreadAsyncRandwrite(MMTests):
     configfile = "configs/config-io-fio-randread-async-randwrite"
     name = "mmtests-io-fio-randread-async-randwrite"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -52,6 +58,7 @@ class MMTestsFioRandreadAsyncRandwrite(MMTests):
 class MMTestsFioRandreadAsyncSeqwrite(MMTests):
     configfile = "configs/config-io-fio-randread-async-seqwrite"
     name = "mmtests-io-fio-randread-async-seqwrite"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -59,6 +66,7 @@ class MMTestsFioRandreadAsyncSeqwrite(MMTests):
 class MMTestsFioRandreadSyncHeavywrite(MMTests):
     configfile = "configs/config-io-fio-randread-sync-heavywrite"
     name = "mmtests-io-fio-randread-sync-heavywrite"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -66,6 +74,7 @@ class MMTestsFioRandreadSyncHeavywrite(MMTests):
 class MMTestsFioRandreadSyncRandwrite(MMTests):
     configfile = "configs/config-io-fio-randread-sync-randwrite"
     name = "mmtests-io-fio-randread-sync-randwrite"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -73,6 +82,7 @@ class MMTestsFioRandreadSyncRandwrite(MMTests):
 class MMTestsFsmarkSmallFileStream(MMTests):
     configfile = "configs/config-io-fsmark-small-file-stream"
     name = "mmtests-io-fsmark-small-file-stream"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -80,6 +90,7 @@ class MMTestsFsmarkSmallFileStream(MMTests):
 class MMTestsRedisBenchmarkSmall(MMTests):
     configfile = "configs/config-memdb-redis-benchmark-small"
     name = "mmtests-memdb-redis-benchmark-small"
+    full_archive = False
     iterations = 20
     timeout = 90
 
@@ -87,6 +98,7 @@ class MMTestsRedisBenchmarkSmall(MMTests):
 class MMTestsRedisMemtierSmall(MMTests):
     configfile = "configs/config-memdb-redis-memtier-small"
     name = "mmtests-memdb-redis-memtier-small"
+    full_archive = False
     iterations = 20
     timeout = 90
 
@@ -94,6 +106,7 @@ class MMTestsRedisMemtierSmall(MMTests):
 class MMTestsSchbench(MMTests):
     configfile = "configs/config-scheduler-schbench"
     name = "mmtests-scheduler-schbench"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -101,6 +114,7 @@ class MMTestsSchbench(MMTests):
 class MMTestsSysbenchCpu(MMTests):
     configfile = "configs/config-scheduler-sysbench-cpu"
     name = "mmtests-scheduler-sysbench-cpu"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -108,6 +122,7 @@ class MMTestsSysbenchCpu(MMTests):
 class MMTestsSysbenchThread(MMTests):
     configfile = "configs/config-scheduler-sysbench-thread"
     name = "mmtests-scheduler-sysbench-thread"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -115,6 +130,7 @@ class MMTestsSysbenchThread(MMTests):
 class MMTestsAim9Disk(MMTests):
     configfile = "configs/config-workload-aim9-disk"
     name = "mmtests-workload-aim9-disk"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -122,6 +138,7 @@ class MMTestsAim9Disk(MMTests):
 class MMTestsCoremark(MMTests):
     configfile = "configs/config-workload-coremark"
     name = "mmtests-workload-coremark"
+    full_archive = False
     iterations = 20
     timeout = 90
 
@@ -129,6 +146,7 @@ class MMTestsCoremark(MMTests):
 class MMTestsCyclictestFineHackbench(MMTests):
     configfile = "configs/config-workload-cyclictest-fine-hackbench"
     name = "mmtests-workload-cyclictest-fine-hackbench"
+    full_archive = False
     iterations = 15
     timeout = 90
 
@@ -136,6 +154,7 @@ class MMTestsCyclictestFineHackbench(MMTests):
 class MMTestsCyclictestHackbench(MMTests):
     configfile = "configs/config-workload-cyclictest-hackbench"
     name = "mmtests-workload-cyclictest-hackbench"
+    full_archive = False
     iterations = 20
     timeout = 90
 
@@ -143,6 +162,7 @@ class MMTestsCyclictestHackbench(MMTests):
 class MMTestsEbizzy(MMTests):
     configfile = "configs/config-workload-ebizzy"
     name = "mmtests-workload-ebizzy"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -150,6 +170,7 @@ class MMTestsEbizzy(MMTests):
 class MMTestsPmqtestHackbench(MMTests):
     configfile = "configs/config-workload-pmqtest-hackbench"
     name = "mmtests-workload-pmqtest-hackbench"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -157,6 +178,7 @@ class MMTestsPmqtestHackbench(MMTests):
 class MMTestsStressngAfAlg(MMTests):
     configfile = "configs/config-workload-stressng-af-alg"
     name = "mmtests-workload-stressng-af-alg"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -164,6 +186,7 @@ class MMTestsStressngAfAlg(MMTests):
 class MMTestsStressngBadAltstack(MMTests):
     configfile = "configs/config-workload-stressng-bad-altstack"
     name = "mmtests-workload-stressng-bad-altstack"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -171,6 +194,7 @@ class MMTestsStressngBadAltstack(MMTests):
 class MMTestsStressngClassIoParallel(MMTests):
     configfile = "configs/config-workload-stressng-class-io-parallel"
     name = "mmtests-workload-stressng-class-io-parallel"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -178,6 +202,7 @@ class MMTestsStressngClassIoParallel(MMTests):
 class MMTestsStressngContext(MMTests):
     configfile = "configs/config-workload-stressng-context"
     name = "mmtests-workload-stressng-context"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -185,6 +210,7 @@ class MMTestsStressngContext(MMTests):
 class MMTestsStressngFork(MMTests):
     configfile = "configs/config-workload-stressng-fork"
     name = "mmtests-workload-stressng-fork"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -192,6 +218,7 @@ class MMTestsStressngFork(MMTests):
 class MMTestsStressngGet(MMTests):
     configfile = "configs/config-workload-stressng-get"
     name = "mmtests-workload-stressng-get"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -199,6 +226,7 @@ class MMTestsStressngGet(MMTests):
 class MMTestsStressngGetdent(MMTests):
     configfile = "configs/config-workload-stressng-getdent"
     name = "mmtests-workload-stressng-getdent"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -206,6 +234,7 @@ class MMTestsStressngGetdent(MMTests):
 class MMTestsStressngMadvise(MMTests):
     configfile = "configs/config-workload-stressng-madvise"
     name = "mmtests-workload-stressng-madvise"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -213,6 +242,7 @@ class MMTestsStressngMadvise(MMTests):
 class MMTestsStressngMmap(MMTests):
     configfile = "configs/config-workload-stressng-mmap"
     name = "mmtests-workload-stressng-mmap"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -220,6 +250,7 @@ class MMTestsStressngMmap(MMTests):
 class MMTestsStressngVmSplice(MMTests):
     configfile = "configs/config-workload-stressng-vm-splice"
     name = "mmtests-workload-stressng-vm-splice"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -227,6 +258,7 @@ class MMTestsStressngVmSplice(MMTests):
 class MMTestsStressngZombie(MMTests):
     configfile = "configs/config-workload-stressng-zombie"
     name = "mmtests-workload-stressng-zombie"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -234,6 +266,7 @@ class MMTestsStressngZombie(MMTests):
 class MMTestsUsemem(MMTests):
     configfile = "configs/config-workload-usemem"
     name = "mmtests-workload-usemem"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -241,6 +274,7 @@ class MMTestsUsemem(MMTests):
 class MMTestsScaleIoProcesses(MMTests):
     configfile = "configs/config-workload-will-it-scale-io-processes"
     name = "mmtests-workload-will-it-scale-io-processes"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -248,6 +282,7 @@ class MMTestsScaleIoProcesses(MMTests):
 class MMTestsScaleIoThreads(MMTests):
     configfile = "configs/config-workload-will-it-scale-io-threads"
     name = "mmtests-workload-will-it-scale-io-threads"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -255,6 +290,7 @@ class MMTestsScaleIoThreads(MMTests):
 class MMTestsScalePfProcesses(MMTests):
     configfile = "configs/config-workload-will-it-scale-pf-processes"
     name = "mmtests-workload-will-it-scale-pf-processes"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -262,6 +298,7 @@ class MMTestsScalePfProcesses(MMTests):
 class MMTestsScalePfThreads(MMTests):
     configfile = "configs/config-workload-will-it-scale-pf-threads"
     name = "mmtests-workload-will-it-scale-pf-threads"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -269,6 +306,7 @@ class MMTestsScalePfThreads(MMTests):
 class MMTestsScaleSysProcesses(MMTests):
     configfile = "configs/config-workload-will-it-scale-sys-processes"
     name = "mmtests-workload-will-it-scale-sys-processes"
+    full_archive = False
     iterations = 10
     timeout = 90
 
@@ -276,5 +314,6 @@ class MMTestsScaleSysProcesses(MMTests):
 class MMTestsScaleSysThreads(MMTests):
     configfile = "configs/config-workload-will-it-scale-sys-threads"
     name = "mmtests-workload-will-it-scale-sys-threads"
+    full_archive = False
     iterations = 10
     timeout = 90

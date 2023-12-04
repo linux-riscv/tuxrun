@@ -72,5 +72,6 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-io-blogbench'
         MMTEST_ITERATIONS: '30'
         TEST_DIR: '/mmtests'
+        FULL_ARCHIVE: 'false'
         SHARED_DIR: 'true'
       name: mmtests-io-blogbench

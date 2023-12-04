@@ -72,5 +72,6 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-workload-stressng-get'
         MMTEST_ITERATIONS: '4'
         TEST_DIR: '/opt/mmtests'
+        FULL_ARCHIVE: 'false'
         SHARED_DIR: 'true'
       name: mmtests-workload-stressng-get

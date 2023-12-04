@@ -72,5 +72,6 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-workload-will-it-scale-io-processes'
         MMTEST_ITERATIONS: '10'
         TEST_DIR: '/mmtests'
+        FULL_ARCHIVE: 'false'
         SHARED_DIR: 'true'
       name: mmtests-workload-will-it-scale-io-processes

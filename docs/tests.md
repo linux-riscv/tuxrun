@@ -23,7 +23,7 @@ fvp-aemva | perf                                                                
 fvp-aemva | rcutorture                                                                 |                                                          |
 fvp-aemva | v4l2                                                                       |                                                          |
 fvp-aemva | vdso                                                                       |                                                          |
-fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH                                 |
+fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH, FULL_ARCHIVE                   |
                      io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,  |                                                          |
                      io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,  |                                                          |
                      io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                          |
@@ -143,7 +143,7 @@ qemu-\* | perf                                                                  
 qemu-\* | rcutorture                                                                 |                                                          |
 qemu-\* | v4l2                                                                       |                                                          |
 qemu-\* | vdso                                                                       |                                                          |
-qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH                                 |
+qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH, FULL_ARCHIVE                   |
                    io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,  |                                                          |
                    io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,  |                                                          |
                    io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                          |
