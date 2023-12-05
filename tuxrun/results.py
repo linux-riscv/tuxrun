@@ -53,7 +53,7 @@ class Results:
             and test.get("extra", {}).get("label")
         ):
             label = test["extra"]["label"]
-            label = label[len("rootfs."):] if label.startswith("rootfs.") else label
+            label = label[len("rootfs.") :] if label.startswith("rootfs.") else label
             self.__data__.setdefault(definition, {}).setdefault(case, {})[label] = test
             if label in self.__artefacts__:
                 self.__data__[definition][case][label]["url"] = (
