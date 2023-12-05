@@ -17,7 +17,10 @@ PATTERN = re.compile(r"^(\d+_)")
 
 class Results:
     def __init__(self, tests, artefacts):
-        self.__artefacts__ = artefacts
+        self.__artefacts__ = artefacts.copy()
+        # Add overlays
+        for index, overlay in enumerate(self.__artefacts__.get("overlays", [])):
+            self.__artefacts__[f"overlay-{index:02}"] = overlay[0]
         self.__data__ = {}
         self.__metadata__ = {}
         self.__post_processed = False

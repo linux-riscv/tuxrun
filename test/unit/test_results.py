@@ -69,6 +69,7 @@ def test_data():
         ("fail-5", "ltp-tracing"),
         ("fail-6", "ltp-smoke"),
         ("pass-1", "ltp-io"),
+        ("pass-2", "ltp-smoke"),
     ],
 )
 def test_results_parsing(name, testsuite):
@@ -78,9 +79,18 @@ def test_results_parsing(name, testsuite):
         [Test.select(testsuite)],
         {
             "kernel": "https://example.com/bzImage",
+            "modules": "https://example.com/modules.tar.xz",
             "rootfs": "https://example.com/rootfs.ext4.xz",
+            "overlays": [["https://example.com/ltp.tar.xz", "/"]],
         },
     )
+    assert results.__artefacts__ == {
+        "kernel": "https://example.com/bzImage",
+        "rootfs": "https://example.com/rootfs.ext4.xz",
+        "modules": "https://example.com/modules.tar.xz",
+        "overlays": [["https://example.com/ltp.tar.xz", "/"]],
+        "overlay-00": "https://example.com/ltp.tar.xz",
+    }
     for line in logs.split("\n"):
         results.parse(line[2:])
 
