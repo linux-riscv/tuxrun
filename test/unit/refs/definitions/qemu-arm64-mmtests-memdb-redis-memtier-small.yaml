@@ -72,5 +72,6 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-memdb-redis-memtier-small'
         MMTEST_ITERATIONS: '20'
         TEST_DIR: '/mmtests'
+        FULL_ARCHIVE: 'false'
         SHARED_DIR: 'true'
       name: mmtests-memdb-redis-memtier-small

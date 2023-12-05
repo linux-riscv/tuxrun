@@ -72,5 +72,6 @@ actions:
         MMTESTS_CONFIG_FILE: 'configs/config-io-fio-randread-async-randwrite'
         MMTEST_ITERATIONS: '10'
         TEST_DIR: '/mmtests'
+        FULL_ARCHIVE: 'false'
         SHARED_DIR: 'true'
       name: mmtests-io-fio-randread-async-randwrite
