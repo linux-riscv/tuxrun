@@ -4,13 +4,13 @@
 #
 # SPDX-License-Identifier: MIT
 
-from typing import List
+import platform
+from typing import List, Optional
 
 from tuxrun import templates
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
 from tuxrun.utils import compression, notnone, slugify
-import platform
 
 
 class QemuDevice(Device):
@@ -29,10 +29,10 @@ class QemuDevice(Device):
     rootfs_dev: str = ""
     rootfs_arg: str = ""
 
-    dtb: str | None = None
-    bios: str | None = None
-    kernel: str | None = None
-    rootfs: str | None = None
+    dtb: Optional[str] = None
+    bios: Optional[str] = None
+    kernel: Optional[str] = None
+    rootfs: Optional[str] = None
     enable_kvm: bool = False
 
     test_character_delay: int = 0
