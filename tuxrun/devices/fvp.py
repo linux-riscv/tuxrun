@@ -68,17 +68,18 @@ class AEMvAFVPDevice(FVPDevice):
         for test in tests:
             test.validate(device=self, parameters=parameters, **kwargs)
 
+    def default(self, options) -> None:
+        options.bl1 = notnone(options.bl1, self.bl1)
+        options.dtb = notnone(options.dtb, self.dtb)
+        options.fip = notnone(options.fip, self.fip)
+        options.kernel = notnone(options.kernel, self.kernel)
+        options.rootfs = notnone(options.rootfs, self.rootfs)
+        options.uefi = notnone(options.uefi, self.uefi)
+
     def definition(self, **kwargs):
         kwargs = kwargs.copy()
 
         # Options that can be updated
-        kwargs["bl1"] = notnone(kwargs.get("bl1"), self.bl1)
-        kwargs["dtb"] = notnone(kwargs.get("dtb"), self.dtb)
-        kwargs["fip"] = notnone(kwargs.get("fip"), self.fip)
-        kwargs["kernel"] = notnone(kwargs.get("kernel"), self.kernel)
-        kwargs["rootfs"] = notnone(kwargs.get("rootfs"), self.rootfs)
-        kwargs["uefi"] = notnone(kwargs.get("uefi"), self.uefi)
-
         if kwargs["tux_prompt"]:
             kwargs["tux_prompt"] = [kwargs["tux_prompt"]]
         else:
@@ -174,6 +175,10 @@ class MorelloFVPDevice(FVPDevice):
         for test in tests:
             test.validate(device=self, parameters=parameters, **kwargs)
 
+    def default(self, options) -> None:
+        if self.rootfs:
+            options.rootfs = notnone(options.rootfs, self.rootfs)
+
     def definition(self, **kwargs):
         kwargs = kwargs.copy()
 
@@ -182,8 +187,6 @@ class MorelloFVPDevice(FVPDevice):
         kwargs["auto_login"] = self.auto_login.copy()
         kwargs["kernel_start_message"] = self.kernel_start_message
         kwargs["support_tests"] = self.support_tests
-
-        kwargs["rootfs"] = self.rootfs if self.rootfs else kwargs.get("rootfs")
         kwargs["boot_timeout"] = self.boot_timeout
 
         # render the template
@@ -284,6 +287,9 @@ class FVPLAVA(FVPDevice):
             except Exception:
                 raise InvalidArgument("Unable to load LAVA job definition")
         return
+
+    def default(self, options) -> None:
+        ...
 
     def definition(self, **kwargs):
         return self.job_definition

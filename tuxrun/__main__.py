@@ -21,7 +21,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 from tuxrun import templates
-from tuxrun.argparse import filter_options, pathurlnone, setup_parser
+from tuxrun.argparse import filter_artefacts, filter_options, pathurlnone, setup_parser
 from tuxrun.assets import get_rootfs, get_test_definitions
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
@@ -161,7 +161,7 @@ def run_hooks(hooks, cwd):
 ##############
 # Entrypoint #
 ##############
-def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
+def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> int:
     # Render the job definition and device dictionary
     extra_assets = []
     overlays = []
@@ -328,7 +328,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path]) -> int:
         str(tmpdir / "definition.yaml"),
     ]
 
-    results = Results(options.tests)
+    results = Results(options.tests, artefacts)
     # Start the writer (stdout or log-file)
     with Writer(
         options.log_file,
@@ -432,6 +432,7 @@ def main() -> int:
         options.tests = [Test.select(t)(options.timeouts.get(t)) for t in options.tests]
         # options.rootfs will be overridden later on by get_rootfs
         options.device.validate(**filter_options(options))
+        options.device.default(options)
     except InvalidArgument as exc:
         parser.error(str(exc))
 
@@ -442,6 +443,8 @@ def main() -> int:
         tests = [t.name for t in options.tests]
         if sorted(list(set(tests))) != sorted(tests):
             parser.error("each test should appears only once")
+
+    artefacts = filter_artefacts(options)
 
     # Download only after the device has been found
     if options.device.flag_cache_rootfs:
@@ -457,7 +460,7 @@ def main() -> int:
     tmpdir = Path(tempfile.mkdtemp(prefix="tuxrun-"))
     LOG.debug(f"temporary directory: '{tmpdir}'")
     try:
-        return run(options, tmpdir, cache_dir)
+        return run(options, tmpdir, cache_dir, artefacts)
     except Exception as exc:
         LOG.error("Raised an exception %s", exc)
         raise

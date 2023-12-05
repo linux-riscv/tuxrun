@@ -34,13 +34,16 @@ class Device:
         return sorted([s for s in subclasses(cls) if s.name], key=lambda d: d.name)
 
     def validate(self, **kwargs):
-        raise NotImplementedError()  # pragma: no cover
+        raise NotImplementedError  # pragma: no cover
+
+    def default(self, options) -> None:
+        raise NotImplementedError  # pragma: no cover
 
     def definition(self, **kwargs) -> str:
-        raise NotImplementedError()  # pragma: no cover
+        raise NotImplementedError  # pragma: no cover
 
     def device_dict(self, context: Dict) -> str:
-        raise NotImplementedError()  # pragma: no cover
+        raise NotImplementedError  # pragma: no cover
 
     def extra_assets(self, tmpdir, **kwargs) -> List[str]:
         return []
