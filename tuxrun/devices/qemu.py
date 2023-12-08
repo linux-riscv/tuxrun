@@ -156,9 +156,6 @@ class QemuArm64(QemuDevice):
     lava_arch = "arm64"
     machine = "virt,virtualization=on,gic-version=3,mte=on"
     cpu = "max,pauth-impdef=on"
-    if platform.machine() == "aarch64":
-        machine = "virt,gic-version=3"
-        cpu = "max"
 
     extra_options = ["-smp 2"]
 
@@ -168,6 +165,13 @@ class QemuArm64(QemuDevice):
 
     kernel = "https://storage.tuxboot.com/buildroot/arm64/Image"
     rootfs = "https://storage.tuxboot.com/buildroot/arm64/rootfs.ext4.zst"
+
+    def validate(self, enable_kvm, **kwargs):
+        super().validate(enable_kvm=enable_kvm, **kwargs)
+
+        if enable_kvm and platform.machine() == "aarch64":
+            self.machine = "virt,gic-version=3"
+            self.cpu = "max"
 
 
 class QemuArm64BE(QemuArm64):
