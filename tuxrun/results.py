@@ -59,6 +59,8 @@ class Results:
                 self.__data__[definition][case][label]["url"] = (
                     self.__artefacts__[label]
                     if isinstance(self.__artefacts__[label], str)
+                    else None
+                    if not self.__artefacts__[label]
                     else self.__artefacts__[label][0]
                 )
         else:
