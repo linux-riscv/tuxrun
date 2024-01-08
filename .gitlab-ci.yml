@@ -49,6 +49,7 @@ ci-image-integration:
   - name: docker:20.10-dind
   variables:
   before_script:
+    - if [ $TAG_APPEND == "-arm64" ]; then sed -i "s|amd64/lava-dispatcher|aarch64/lava-dispatcher|g" Dockerfile.tuxrun-dispatcher; fi
     - docker info
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - export tag="linaro/tuxrun-dispatcher:${CI_COMMIT_TAG}${TAG_APPEND}"
@@ -105,6 +106,8 @@ docker-master-arm64:
   stage: build
   tags:
      - arm64-dind
+  before_script:
+    - sed -i "s|amd64/lava-dispatcher|aarch64/lava-dispatcher|g" Dockerfile.tuxrun-dispatcher
   variables:
     TAG_APPEND: -arm64
 
