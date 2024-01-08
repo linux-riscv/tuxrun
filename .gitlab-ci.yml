@@ -106,8 +106,6 @@ docker-master-arm64:
   stage: build
   tags:
      - arm64-dind
-  before_script:
-    - sed -i "s|amd64/lava-dispatcher|aarch64/lava-dispatcher|g" Dockerfile.tuxrun-dispatcher
   variables:
     TAG_APPEND: -arm64
 
