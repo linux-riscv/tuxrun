@@ -29,6 +29,7 @@ def main():
         return 1
     if sys.argv[1] == "run":
         args.append("run")
+        args.append("--log-driver=none")
         skip = False
         for index in range(2, len(sys.argv)):
             if skip:

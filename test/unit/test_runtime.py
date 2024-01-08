@@ -28,6 +28,7 @@ def test_cmd_podman():
     args = [
         "podman",
         "run",
+        "--log-driver=none",
         "--rm",
         "--hostname",
         "tuxrun",
