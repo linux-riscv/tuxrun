@@ -49,6 +49,8 @@ ci-image-integration:
   - name: docker:20.10-dind
   variables:
   before_script:
+    # FIXME: We are using hack to build aarch64 container since lava-distcher from gitlab pipelin
+    # for LAVA project is not multiarch
     - if [ $TAG_APPEND == "-arm64" ]; then sed -i "s|amd64/lava-dispatcher|aarch64/lava-dispatcher|g" Dockerfile.tuxrun-dispatcher; fi
     - docker info
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
