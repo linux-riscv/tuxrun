@@ -428,6 +428,14 @@ def main() -> int:
     if options.commands:
         options.tests.append("commands")
 
+    if "hacking-session" in options.tests:
+        options.enable_network = True
+        if not options.parameters:
+            parser.error("argument missing --parameters PUB_KEY='...'")
+        for k, v in options.parameters.items():
+            if "PUB_KEY" != k:
+                parser.error("argument missing --parameters PUB_KEY='...'")
+
     try:
         options.device = Device.select(options.device)()
         options.tests = [Test.select(t)(options.timeouts.get(t)) for t in options.tests]
