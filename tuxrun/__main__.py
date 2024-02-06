@@ -158,6 +158,20 @@ def run_hooks(hooks, cwd):
     return 0
 
 
+def run_hacking_sesson(definition, case, test):
+    if definition == "hacking-session" and case == "tmate" and "reference" in test:
+        if sys.stdout.isatty():
+            subprocess.Popen(
+                [
+                    "xterm",
+                    "-e",
+                    "bash",
+                    "-c",
+                    f"ssh {test['reference']}",
+                ]
+            )
+
+
 ##############
 # Entrypoint #
 ##############
@@ -337,6 +351,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
     ]
 
     results = Results(options.tests, artefacts)
+    hacking_session = bool("hacking-session" in t.name for t in options.tests)
     # Start the writer (stdout or log-file)
     with Writer(
         options.log_file,
@@ -348,7 +363,11 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         with runtime.run(args):
             for line in runtime.lines():
                 writer.write(line)
-                results.parse(line)
+                res = results.parse(line)
+                # Start an xterm if an hacking session url is available
+                if hacking_session and res:
+                    run_hacking_sesson(*res)
+
     runtime.post_run()
     if options.results:
         if str(options.results) == "-":

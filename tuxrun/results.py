@@ -70,6 +70,8 @@ class Results:
         if test["result"] == "fail":
             self.__ret__ = 1
 
+        return (definition, case, test)
+
     def __post_process(self):
         if self.__post_processed:
             return
