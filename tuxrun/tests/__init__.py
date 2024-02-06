@@ -55,6 +55,7 @@ class Test:
 
 
 import tuxrun.tests.commands  # noqa: E402
+import tuxrun.tests.hackingsession  # noqa: E402
 import tuxrun.tests.kselftest  # noqa: E402
 import tuxrun.tests.kunit  # noqa: E402
 import tuxrun.tests.kvmunittests  # noqa: E402

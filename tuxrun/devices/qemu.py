@@ -34,6 +34,7 @@ class QemuDevice(Device):
     kernel: Optional[str] = None
     rootfs: Optional[str] = None
     enable_kvm: bool = False
+    enable_network: bool = True
 
     test_character_delay: int = 0
 
@@ -51,6 +52,7 @@ class QemuDevice(Device):
         prompt,
         rootfs,
         enable_kvm,
+        enable_network,
         tests,
         **kwargs,
     ):
@@ -99,6 +101,7 @@ class QemuDevice(Device):
         kwargs["rootfs_dev"] = self.rootfs_dev
         kwargs["rootfs_arg"] = self.rootfs_arg
         kwargs["no_kvm"] = not kwargs["enable_kvm"]
+        kwargs["no_network"] = not kwargs["enable_network"]
 
         # Options that can be updated
         if self.extra_boot_args:

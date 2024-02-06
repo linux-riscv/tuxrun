@@ -209,6 +209,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         "mcp_romfw": options.mcp_romfw,
         "fip": options.fip,
         "enable_kvm": options.enable_kvm,
+        "enable_network": options.enable_network,
         "overlays": overlays,
         "prompt": options.prompt,
         "rootfs": options.rootfs,
@@ -426,6 +427,14 @@ def main() -> int:
 
     if options.commands:
         options.tests.append("commands")
+
+    if "hacking-session" in options.tests:
+        options.enable_network = True
+        if not options.parameters:
+            parser.error("argument missing --parameters PUB_KEY='...'")
+        for k, v in options.parameters.items():
+            if "PUB_KEY" != k:
+                parser.error("argument missing --parameters PUB_KEY='...'")
 
     try:
         options.device = Device.select(options.device)()
