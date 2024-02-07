@@ -39,6 +39,7 @@ def filter_options(options):
         "metadata",
         "results",
         "results_hooks",
+        "shell",
         "debug",
         "lava_definition",
         "shared",
@@ -339,6 +340,11 @@ def setup_parser() -> argparse.ArgumentParser:
         help="test suites",
         choices=Test.list(),
         action="extend",
+    )
+    group.add_argument(
+        "--shell",
+        action="store_true",
+        help="Start a shell in the VM",
     )
     group.add_argument(
         "commands",

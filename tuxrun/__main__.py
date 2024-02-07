@@ -425,6 +425,17 @@ def main() -> int:
                         "$BUILD/", tux.url + "/"
                     )
 
+    if options.shell:
+        if "hacking-session" not in options.tests:
+            options.tests.append("hacking-session")
+        if not options.parameters.get("PUB_KEY"):
+            keys = list(Path("~/.ssh/").expanduser().glob("id_*.pub"))
+            if len(keys) == 0:
+                parser.error("no ssh public key in ~/.ssh/")
+            options.parameters["PUB_KEY"] = "\n\n".join(
+                k.read_text(encoding="utf-8").rstrip() for k in keys
+            )
+
     cache_dir = None
     if options.lava_definition or options.results_hooks or options.shared == []:
         options.save_outputs = True
