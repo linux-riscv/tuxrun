@@ -49,9 +49,13 @@ actions:
 {% for name, overlay, dst in overlays %}
           {{ name }}:
             url: "{{ overlay }}"
-            format: tar
+            format: {{ compression(overlay)[0] }}
+{% if compression(overlay)[1] is not none %}
             compression: {{ compression(overlay)[1] }}
             path: "{{ dst }}"
+{% else %}
+            path: "{{ dst }}{{ overlay.split('/')[-1] }}"
+{% endif %}
 {% endfor %}
 {% elif tests %}
         overlays:
