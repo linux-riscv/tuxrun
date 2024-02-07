@@ -41,9 +41,9 @@ actions:
           lava: true
           modules:
             url: "/DATA/modules.tar.xz"
-            path: "/"
             format: tar
             compression: xz
+            path: "/"
 - boot:
     method: qemu
     timeout:

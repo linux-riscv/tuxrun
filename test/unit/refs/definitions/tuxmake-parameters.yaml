@@ -41,14 +41,14 @@ actions:
           lava: true
           kselftest:
             url: "/DATA/kselftest.tar.xz"
-            path: "/opt/kselftests/default-in-kernel/"
             format: tar
             compression: xz
+            path: "/opt/kselftests/default-in-kernel/"
           modules:
             url: "/DATA/modules.tar.xz"
-            path: "/"
             format: tar
             compression: xz
+            path: "/"
 - boot:
     method: qemu
     timeout:

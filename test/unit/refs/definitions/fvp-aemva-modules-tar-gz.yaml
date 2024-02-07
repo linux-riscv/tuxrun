@@ -37,9 +37,9 @@ actions:
         overlays:
           modules:
             url: "https://example.com/modules.tar.gz"
-            path: "/"
             format: tar
             compression: gz
+            path: "/"
       fip:
         url: "/DATA/fip.bin"
 - boot:

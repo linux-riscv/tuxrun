@@ -40,9 +40,9 @@ actions:
         overlays:
           modules:
             url: "https://example.com/modules.tar.xz"
-            path: "/usr/lib/"
             format: tar
             compression: xz
+            path: "/usr/lib/"
 - boot:
     method: qemu
     timeout:

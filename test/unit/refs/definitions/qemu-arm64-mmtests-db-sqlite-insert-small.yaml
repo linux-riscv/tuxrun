@@ -41,14 +41,14 @@ actions:
           lava: true
           modules:
             url: "https://example.com/modules.tar.xz"
-            path: "/"
             format: tar
             compression: xz
+            path: "/"
           overlay-00:
             url: "https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-db-sqlite-insert-small.tar.xz"
-            path: "/mmtests"
             format: tar
             compression: xz
+            path: "/mmtests"
 - boot:
     method: qemu
     timeout:

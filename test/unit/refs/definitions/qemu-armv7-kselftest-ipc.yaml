@@ -40,9 +40,9 @@ actions:
           lava: true
           kselftest:
             url: "https://example.com/kselftest.tar.xz"
-            path: "/opt/kselftests/default-in-kernel/"
             format: tar
             compression: xz
+            path: "/opt/kselftests/default-in-kernel/"
 - boot:
     method: qemu
     timeout:
