@@ -62,6 +62,8 @@ COMPRESSIONS = {
     ".gz": (None, "gz"),
     ".xz": (None, "xz"),
     ".zst": (None, "zstd"),
+    ".py": ("file", None),
+    ".sh": ("file", None),
 }
 
 
