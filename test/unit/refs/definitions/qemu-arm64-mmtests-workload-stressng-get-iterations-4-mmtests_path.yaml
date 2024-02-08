@@ -41,14 +41,14 @@ actions:
           lava: true
           modules:
             url: "https://example.com/modules.tar.xz"
-            path: "/"
             format: tar
             compression: xz
+            path: "/"
           overlay-00:
             url: "https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-workload-stressng-get.tar.xz"
-            path: "/opt/mmtests"
             format: tar
             compression: xz
+            path: "/opt/mmtests"
 - boot:
     method: qemu
     timeout:

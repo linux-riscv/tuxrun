@@ -39,9 +39,9 @@ actions:
         overlays:
           modules:
             url: "https://example.com/modules.tgz"
-            path: "/"
             format: tar
             compression: gz
+            path: "/"
 - boot:
     method: qemu
     timeout:

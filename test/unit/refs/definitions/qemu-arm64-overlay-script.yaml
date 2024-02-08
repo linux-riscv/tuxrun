@@ -44,6 +44,10 @@ actions:
             format: tar
             compression: xz
             path: "/"
+          overlay-00:
+            url: "https://example.com/script.sh"
+            format: file
+            path: "/script.sh"
 - boot:
     method: qemu
     timeout:

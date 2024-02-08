@@ -40,14 +40,14 @@ actions:
           lava: true
           modules:
             url: "https://example.com/modules.tar.xz"
-            path: "/"
             format: tar
             compression: xz
+            path: "/"
           overlay-00:
             url: "http://example.com/overlay2.tar.xz"
-            path: "/"
             format: tar
             compression: xz
+            path: "/"
 - boot:
     method: qemu
     timeout:
