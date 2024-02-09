@@ -217,14 +217,18 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         "shared": options.shared,
         "scp_fw": options.scp_fw,
         "scp_romfw": options.scp_romfw,
+        "ssh_host": options.ssh_host,
+        "ssh_prompt": options.ssh_prompt,
+        "ssh_port": options.ssh_port,
+        "ssh_user": options.ssh_user,
         "tests": options.tests,
         "test_definitions": test_definitions,
         "tests_timeout": sum(t.timeout for t in options.tests),
         "timeouts": options.timeouts,
         "tmpdir": tmpdir,
-        "tux_boot_args": " ".join(shlex.split(options.boot_args))
-        if options.boot_args
-        else None,
+        "tux_boot_args": (
+            " ".join(shlex.split(options.boot_args)) if options.boot_args else None
+        ),
         "tux_prompt": options.prompt,
         "parameters": options.parameters,
         "uefi": options.uefi,
@@ -278,6 +282,8 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         options.rootfs,
         options.scp_fw,
         options.scp_romfw,
+        options.ssh_identity_file,
+        f"{options.ssh_identity_file}.pub",
         options.uefi,
     ] + extra_assets:
         ro = True
