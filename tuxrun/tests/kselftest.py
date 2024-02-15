@@ -259,6 +259,12 @@ class KSelftestMemfd(KSelfTest):
     timeout = 5
 
 
+class KSelftestMm(KSelfTest):
+    name = "kselftest-mm"
+    cmdfile = "mm"
+    timeout = 5
+
+
 class KSelftestMemoryHotplug(KSelfTest):
     name = "kselftest-memory-hotplug"
     cmdfile = "memory-hotplug"
