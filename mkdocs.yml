@@ -42,4 +42,5 @@ nav:
   - Devices: devices.md
   - Tests: tests.md
   - Outputs: outputs.md
+  - Hacking session: hacking-session.md
 - Troubleshooting: troubleshooting.md

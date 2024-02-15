@@ -22,36 +22,37 @@ fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)   
 fvp-aemva | perf                                                                       | PERF                                                     |
 fvp-aemva | rcutorture                                                                 |                                                          |
 fvp-aemva | v4l2                                                                       |                                                          |
-fvp-aemva | vdso                                                                       |                                                          |
-fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH, FULL_ARCHIVE                   |
-                     io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,  |                                                          |
-                     io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,  |                                                          |
-                     io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                          |
-                     memdb-redis-memtier-small, scheduler-schbench,                    |                                                          |
-                     scheduler-sysbench-cpu, scheduler-sysbench-thread,                |                                                          |
-                     workload-aim9-disk, workload-coremark,                            |                                                          |
-                     workload-cyclictest-fine-hackbench, workload-cyclictest-hackbench,|                                                          |
-                     workload-ebizzy, workload-pmqtest-hackbench,                      |                                                          |
-                     workload-stressng-af-alg, workload-stressng-bad-altstack,         |                                                          |
-                     workload-stressng-class-io-parallel, workload-stressng-context,   |                                                          |
-                     workload-stressng-get, workload-stressng-getdent,                 |                                                          |
-                     workload-stressng-madvise, workload-stressng-mmap,                |                                                          |
-                     workload-stressng-vm-splice, workload-stressng-zombie,            |                                                          |
-                     workload-usemem, workload-will-it-scale-io-processes,             |                                                          |
-                     workload-will-it-scale-io-threads,                                |                                                          |
-                     workload-will-it-scale-pf-processes,                              |                                                          |
-                     workload-will-it-scale-pf-threads,                                |                                                          |
-                     workload-will-it-scale-sys-processes,                             |                                                          |
-                     workload-will-it-scale-sys-threads)                               |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
 Device    | Tests                                                                                                                                                 | Parameters                          |
 ----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-fvp-aemva | libgpiod                                                                                                                                              |                                     |
-fvp-aemva | libhugetlbfs                                                                                                                                          |                                     |
-fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+fvp-aemva | kselftest-(net, *...)                                                                                                                                 | COUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+fvp-aemva | libgpiod                                                                                                                                              |                                                          |
+fvp-aemva | libhugetlbfs                                                                                                                                          |                                                          |
+fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+fvp-aemva | vdso                                                                                                                                                  |                                                          |
+fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,                                                                                    | ITERATIONS, MMTESTS_PATH, FULL_ARCHIVE                   |
+                     io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,                                                                             |                                                          |
+                     io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,                                                                             |                                                          |
+                     io-fsmark-small-file-stream, memdb-redis-benchmark-small,                                                                                    |                                                          |
+                     memdb-redis-memtier-small, scheduler-schbench,                                                                                               |                                                          |
+                     scheduler-sysbench-cpu, scheduler-sysbench-thread,                                                                                           |                                                          |
+                     workload-aim9-disk, workload-coremark,                                                                                                       |                                                          |
+                     workload-cyclictest-fine-hackbench, workload-cyclictest-hackbench,                                                                           |                                                          |
+                     workload-ebizzy, workload-pmqtest-hackbench,                                                                                                 |                                                          |
+                     workload-stressng-af-alg, workload-stressng-bad-altstack,                                                                                    |                                                          |
+                     workload-stressng-class-io-parallel, workload-stressng-context,                                                                              |                                                          |
+                     workload-stressng-get, workload-stressng-getdent,                                                                                            |                                                          |
+                     workload-stressng-madvise, workload-stressng-mmap,                                                                                           |                                                          |
+                     workload-stressng-vm-splice, workload-stressng-zombie,                                                                                       |                                                          |
+                     workload-usemem, workload-will-it-scale-io-processes,                                                                                        |                                                          |
+                     workload-will-it-scale-io-threads,                                                                                                           |                                                          |
+                     workload-will-it-scale-pf-processes,                                                                                                         |                                                          |
+                     workload-will-it-scale-pf-threads,                                                                                                           |                                                          |
+                     workload-will-it-scale-sys-processes,                                                                                                        |                                                          |
+                     workload-will-it-scale-sys-threads)                                                                                                          |                                                          |
 
 > Tip: "Passing parameters"
     In order to pass parameters for kselftest or perf, use
@@ -142,36 +143,36 @@ qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)     
 qemu-\* | perf                                                                       | PERF                                                     |
 qemu-\* | rcutorture                                                                 |                                                          |
 qemu-\* | v4l2                                                                       |                                                          |
-qemu-\* | vdso                                                                       |                                                          |
-qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,         | ITERATIONS, MMTESTS_PATH, FULL_ARCHIVE                   |
-                   io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,  |                                                          |
-                   io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,  |                                                          |
-                   io-fsmark-small-file-stream, memdb-redis-benchmark-small,         |                                                          |
-                   memdb-redis-memtier-small, scheduler-schbench,                    |                                                          |
-                   scheduler-sysbench-cpu, scheduler-sysbench-thread,                |                                                          |
-                   workload-aim9-disk, workload-coremark,                            |                                                          |
-                   workload-cyclictest-fine-hackbench, workload-cyclictest-hackbench,|                                                          |
-                   workload-ebizzy, workload-pmqtest-hackbench,                      |                                                          |
-                   workload-stressng-af-alg, workload-stressng-bad-altstack,         |                                                          |
-                   workload-stressng-class-io-parallel, workload-stressng-context,   |                                                          |
-                   workload-stressng-get, workload-stressng-getdent,                 |                                                          |
-                   workload-stressng-madvise, workload-stressng-mmap,                |                                                          |
-                   workload-stressng-vm-splice, workload-stressng-zombie,            |                                                          |
-                   workload-usemem, workload-will-it-scale-io-processes,             |                                                          |
-                   workload-will-it-scale-io-threads,                                |                                                          |
-                   workload-will-it-scale-pf-processes,                              |                                                          |
-                   workload-will-it-scale-pf-threads,                                |                                                          |
-                   workload-will-it-scale-sys-processes,                             |                                                          |
-                   workload-will-it-scale-sys-threads)                               |                                                          |
-
 The following tests are not supported by the default root filesystem. You should
 provide a custom root filesystem.
 
-Device  | Tests                                                                                                                                                 | Parameters                          |
---------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-qemu-\* | libgpiod                                                                                                                                              |                                     |
-qemu-\* | libhugetlbfs                                                                                                                                          |                                     |
-qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+Device  | Tests                                                                                                                                                 | Parameters                             |
+--------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+qemu-\* | kselftest-(net, *...)                                                                                                                                 | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+qemu-\* | libgpiod                                                                                                                                              |                                                          |
+qemu-\* | libhugetlbfs                                                                                                                                          |                                                          |
+qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+qemu-\* | vdso                                                                                                                                                  |                                                          |
+qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,                                                                                    | ITERATIONS, MMTESTS_PATH, FULL_ARCHIVE                   |
+                   io-fio-randread-async-randwrite, io-fio-randread-async-seqwrite,                                                                             |                                                          |
+                   io-fio-randread-sync-heavywrite, io-fio-randread-sync-randwrite,                                                                             |                                                          |
+                   io-fsmark-small-file-stream, memdb-redis-benchmark-small,                                                                                    |                                                          |
+                   memdb-redis-memtier-small, scheduler-schbench,                                                                                               |                                                          |
+                   scheduler-sysbench-cpu, scheduler-sysbench-thread,                                                                                           |                                                          |
+                   workload-aim9-disk, workload-coremark,                                                                                                       |                                                          |
+                   workload-cyclictest-fine-hackbench, workload-cyclictest-hackbench,                                                                           |                                                          |
+                   workload-ebizzy, workload-pmqtest-hackbench,                                                                                                 |                                                          |
+                   workload-stressng-af-alg, workload-stressng-bad-altstack,                                                                                    |                                                          |
+                   workload-stressng-class-io-parallel, workload-stressng-context,                                                                              |                                                          |
+                   workload-stressng-get, workload-stressng-getdent,                                                                                            |                                                          |
+                   workload-stressng-madvise, workload-stressng-mmap,                                                                                           |                                                          |
+                   workload-stressng-vm-splice, workload-stressng-zombie,                                                                                       |                                                          |
+                   workload-usemem, workload-will-it-scale-io-processes,                                                                                        |                                                          |
+                   workload-will-it-scale-io-threads,                                                                                                           |                                                          |
+                   workload-will-it-scale-pf-processes,                                                                                                         |                                                          |
+                   workload-will-it-scale-pf-threads,                                                                                                           |                                                          |
+                   workload-will-it-scale-sys-processes,                                                                                                        |                                                          |
+                   workload-will-it-scale-sys-threads)                                                                                                          |                                                          |
 
 > Tip: "Passing parameters"
     In order to pass parameters for kselftest or perf, use
