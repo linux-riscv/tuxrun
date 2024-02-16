@@ -28,7 +28,7 @@ provide a custom root filesystem.
 
 Device    | Tests                                                                                                                                                 | Parameters                          |
 ----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-fvp-aemva | kselftest-(net, *...)                                                                                                                                 | COUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+fvp-aemva | kselftest-(net, mm, *...)                                                                                                                             | COUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 fvp-aemva | libgpiod                                                                                                                                              |                                                          |
 fvp-aemva | libhugetlbfs                                                                                                                                          |                                                          |
 fvp-aemva | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
@@ -148,7 +148,7 @@ provide a custom root filesystem.
 
 Device  | Tests                                                                                                                                                 | Parameters                             |
 --------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-qemu-\* | kselftest-(net, *...)                                                                                                                                 | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
+qemu-\* | kselftest-(net, mm, *...)                                                                                                                             | CPUPOWER, KSELFTEST, SKIPFILE, SHARD_NUMBER, SHARD_INDEX |
 qemu-\* | libgpiod                                                                                                                                              |                                                          |
 qemu-\* | libhugetlbfs                                                                                                                                          |                                                          |
 qemu-\* | ltp-(cap_bounds, commands, containers, controllers, crypto, cve, filecaps, fs, hugetlb, io, ipc, math, mm, pty, sched, securebits, syscalls, tracing) | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
