@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 VOLUME = "{{ volume }}".rstrip("/")
+NETWORK = "{{ network }}"
 
 
 def main():
@@ -29,6 +30,12 @@ def main():
         return 1
     if sys.argv[1] == "run":
         args.append("run")
+
+{% if runtime == "podman" %}
+        args.append("--network")
+        args.append(NETWORK)
+{% endif %}
+
         args.append("--log-driver=none")
         skip = False
         for index in range(2, len(sys.argv)):

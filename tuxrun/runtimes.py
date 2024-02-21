@@ -176,13 +176,21 @@ class DockerRuntime(ContainerRuntime):
 class PodmanRuntime(ContainerRuntime):
     binary = "podman"
     prefix = ["podman", "run", "--log-driver=none", "--rm", "--hostname", "tuxrun"]
+    network = None
 
     def pre_run(self, tmpdir):
         # Render and bind the docker wrapper
+        self.network = os.path.basename(tmpdir)
+        self.prefix.extend(["--network", self.network])
+        subprocess.run(["podman", "network", "create", self.network])
         wrap = (
             wrappers()
             .get_template("docker.jinja2")
-            .render(runtime="podman", volume=str(tmpdir / "dispatcher" / "tmp"))
+            .render(
+                runtime="podman",
+                volume=str(tmpdir / "dispatcher" / "tmp"),
+                network=self.network,
+            )
         )
         LOG.debug("docker wrapper")
         LOG.debug(wrap)
@@ -216,6 +224,8 @@ class PodmanRuntime(ContainerRuntime):
         raise Exception(f"Unable to create podman socket at {socket}")
 
     def post_run(self):
+        if self.network:
+            subprocess.run(["podman", "network", "rm", self.network])
         if self.__pre_proc__ is None:
             return
         self.__pre_proc__.kill()

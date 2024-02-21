@@ -126,15 +126,18 @@ def test_pre_run_null():
 def test_pre_run_podman(mocker, tmp_path):
     (tmp_path / "podman.sock").touch()
     popen = mocker.patch("subprocess.Popen")
+    run = mocker.patch("subprocess.run")
 
     runtime = Runtime.select("podman")()
     runtime.pre_run(tmp_path)
     assert runtime.__pre_proc__ is not None
     popen.assert_called_once()
+    run.assert_called_once()
 
 
 def test_pre_run_podman_errors(mocker, tmp_path):
     popen = mocker.patch("subprocess.Popen")
+    run = mocker.patch("subprocess.run")
     sleep = mocker.patch("time.sleep")
 
     runtime = Runtime.select("podman")()
@@ -143,6 +146,7 @@ def test_pre_run_podman_errors(mocker, tmp_path):
     assert exc.match("Unable to create podman socket at ")
     assert exc.match("podman.sock")
     popen.assert_called_once()
+    run.assert_called_once()
     sleep.assert_called()
 
 
