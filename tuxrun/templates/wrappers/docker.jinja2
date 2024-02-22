@@ -32,8 +32,10 @@ def main():
         args.append("run")
 
 {% if runtime == "podman" %}
-        args.append("--network")
-        args.append(NETWORK)
+        # docker-test-shell adds its own network argument so we will skip that usecase
+        if not any("--network=" in argv for argv in sys.argv):
+            args.append("--network")
+            args.append(NETWORK)
 {% endif %}
 
         args.append("--log-driver=none")
