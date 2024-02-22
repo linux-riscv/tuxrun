@@ -221,12 +221,14 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         "tests_timeout": sum(t.timeout for t in options.tests),
         "timeouts": options.timeouts,
         "tmpdir": tmpdir,
-        "tux_boot_args": " ".join(shlex.split(options.boot_args))
-        if options.boot_args
-        else None,
+        "tux_boot_args": (
+            " ".join(shlex.split(options.boot_args)) if options.boot_args else None
+        ),
         "tux_prompt": options.prompt,
         "parameters": options.parameters,
         "uefi": options.uefi,
+        "boot_args": options.boot_args,
+        "secrets": options.secrets,
     }
     definition = options.device.definition(**def_arguments)
     LOG.debug("job definition")

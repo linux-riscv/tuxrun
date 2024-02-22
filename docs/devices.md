@@ -1,12 +1,23 @@
 # Devices
 
-TuxRun supports many architectures for both FVP and QEMU.
+TuxRun supports many architectures for the following virtual devices.
+
+* AVH
+* FVP
+* QEMU
 
 !!! tip "Listing devices"
     You can list the supported devices with:
     ```shell
     tuxrun --list-devices
     ```
+
+## AVH devices
+
+Device        | AVH Model      | Kernel |
+--------------|----------------|--------|
+avh-rpi4b     | Raspberry Pi 4 | Image  |
+avh-imx93     | i.MX93         | Image  |
 
 ## FVP devices
 

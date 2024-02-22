@@ -11,9 +11,14 @@
 [Documentation](https://tuxrun.org/) - [Repository](https://gitlab.com/Linaro/tuxrun) - [Issues](https://gitlab.com/Linaro/tuxrun/-/issues)
 
 TuxRun, by [Linaro](https://www.linaro.org/), is a command line tool for
-testing Linux on QEMU or FVP, using curated test suites.  TuxRun is a part of
-[TuxSuite](https://tuxsuite.com), a suite of tools and services to help with
-Linux kernel development.
+testing Linux on the following virtual devices, using curated test suites.
+
+* AVH
+* FVP
+* QEMU
+
+TuxRun is a part of [TuxSuite](https://tuxsuite.com), a suite of tools and
+services to help with Linux kernel development.
 
 [[_TOC_]]
 
@@ -25,7 +30,7 @@ when you want to support the following combinations:
 - Architectures (arm64, armv5, armv7, i386, mips32, mips32el, mips64, mips64el,
   ppc32, ppc64, ppc64le, riscv64, s390, sh4, sparc64, x86_64)
 
-- Emulation systems (QEMU or FVP)
+- Emulation systems (QEMU or FVP or AVH)
 - Tests (every test suite has dependencies on the rootfs)
 
 Each of those items requires specific configuration and root file systems. In

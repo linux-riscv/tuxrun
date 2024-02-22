@@ -678,6 +678,8 @@ def test_update_cache(mocker, monkeypatch, capsys):
         stdout
         == """Updating local cache:
 * Rootfs:
+  * avh-imx93
+  * avh-rpi4b
   * fvp-aemva
   * qemu-arm64
   * qemu-arm64be

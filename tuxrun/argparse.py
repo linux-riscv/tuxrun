@@ -281,6 +281,17 @@ def setup_parser() -> argparse.ArgumentParser:
         help="UBL License to be passed to FVP that need User Based License. Applicable to FVP device type only",
     )
 
+    group = parser.add_argument_group("secrets")
+    group.add_argument(
+        "--secrets",
+        metavar="K=V",
+        default={},
+        type=str,
+        help="job secrets as key=value",
+        action=KeyValueAction,
+        nargs="+",
+    )
+
     group = parser.add_argument_group("test parameters")
     group.add_argument(
         "--parameters",
