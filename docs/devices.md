@@ -45,3 +45,11 @@ qemu-s390     | 64-bit s390         | max,zpci=on | s390-ccw-virtio  | bzImage
 qemu-sh4      | 32-bit SH           | r2d         | sh7785           | zImage
 qemu-sparc64  | 64-bit Sparc        | sun4u       | UltraSPARC II    | vmlinux
 qemu-x86_64   | 64-bit X86          | q35         | Nehalem          | bzImage
+
+## SSH device
+
+Run tests on an already booted machine over ssh
+
+Device        | Description            | Machine     | CPU              | Kernel
+--------------|------------------------|-------------|------------------|--------
+ssh-device    | Device with ssh access | Any         | Any	        | N/A

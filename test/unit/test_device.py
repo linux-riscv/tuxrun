@@ -1846,6 +1846,23 @@ def artefacts(tmp_path):
             ],
             "fvp-lava-job-definition.yaml",
         ),
+        (
+            [
+                "--device",
+                "ssh-device",
+                "--ssh-host",
+                "127.0.0.1",
+                "--ssh-user",
+                "testuser",
+                "--ssh-identity-file",
+                f"{BASE}/refs/dummy.pem",
+                "--ssh-prompt",
+                "testuser",
+                "--tests",
+                "ltp-smoke",
+            ],
+            "ssh-device.yaml",
+        ),
     ],
 )
 def test_definition(monkeypatch, mocker, tmpdir, artefacts, args, filename):
