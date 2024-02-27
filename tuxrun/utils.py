@@ -5,14 +5,18 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
+import os
 import re
 import sys
-import os
 from abc import ABC, abstractmethod
+from io import StringIO
 from pathlib import Path
 from urllib.parse import urlparse
 
-from tuxrun import xdg, requests
+from ruamel.yaml import YAML
+
+from tuxrun import requests, xdg
+from tuxrun.yaml import yaml_load
 
 
 class ProgressIndicator(ABC):
@@ -147,3 +151,21 @@ def notify(notify):
     if "callbacks" in notify:
         for cb in notify.get("callbacks"):
             callback(**cb)
+
+
+def mask_secrets(jobdef: str) -> str:
+    data = yaml_load(jobdef)
+
+    if "secrets" in data:
+        for secret in data["secrets"]:
+            data["secrets"][secret] = "********"
+
+        yaml = YAML(typ="rt")
+        yaml.preserve_quotes = True  # type: ignore
+        yaml_stream = StringIO()
+
+        yaml.dump(data, yaml_stream)
+        masked_jobdef = yaml_stream.getvalue()
+        return masked_jobdef
+
+    return jobdef

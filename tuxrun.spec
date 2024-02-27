@@ -16,9 +16,11 @@ BuildRequires: python3-pytest
 BuildRequires: python3-pytest-cov
 BuildRequires: python3-pytest-mock
 BuildRequires: python3-yaml
+BuildRequires: python3-ruamel-yaml
 BuildRequires: python3-jinja2
 BuildRequires: python3-requests
 Requires: python3-yaml
+Requires: python3-ruamel-yaml
 Requires: python3-jinja2
 Requires: python3-requests
 

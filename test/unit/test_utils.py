@@ -1,16 +1,19 @@
 from argparse import ArgumentTypeError
 from pathlib import Path
+
 import pytest
 
 from tuxrun.utils import (
     NoProgressIndicator,
     ProgressIndicator,
     TTYProgressIndicator,
+    mask_secrets,
+    notify,
     notnone,
     pathnone,
     pathurlnone,
-    notify,
 )
+from tuxrun.yaml import yaml_load
 
 
 def test_progress_class(mocker):
@@ -82,3 +85,20 @@ def test_notify(mocker):
     notify(notify_list)
     assert mock_get.call_count == 1
     assert mock_post.call_count == 1
+
+
+def test_mask_secrets():
+    jobdef = """
+device_type: "avh"
+secrets:
+  avh_api_token: avhapitoken
+  another_secret: anothersecret
+"""
+
+    masked_jobdef = mask_secrets(jobdef)
+    assert "avhapitoken" not in masked_jobdef
+    assert "anothersecret" not in masked_jobdef
+
+    jobdef = yaml_load(masked_jobdef)
+    assert jobdef["secrets"]["avh_api_token"] == "********"
+    assert jobdef["secrets"]["another_secret"] == "********"
