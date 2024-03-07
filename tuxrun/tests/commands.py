@@ -8,7 +8,7 @@ from tuxrun.tests import Test
 
 
 class Commands(Test):
-    devices = ["qemu-*", "fvp-aemva"]
+    devices = ["qemu-*", "fvp-aemva", "avh-imx93", "avh-rpi4b"]
     name = "commands"
     timeout = 2
 

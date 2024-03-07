@@ -8,7 +8,7 @@ from tuxrun.tests import Test
 
 
 class LibHugeTLBFS(Test):
-    devices = ["qemu-*", "fvp-aemva"]
+    devices = ["qemu-*", "fvp-aemva", "avh-imx93", "avh-rpi4b"]
     name = "libhugetlbfs"
     timeout = 45
     need_test_definition = True

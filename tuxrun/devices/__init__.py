@@ -49,6 +49,7 @@ class Device:
         return []
 
 
+import tuxrun.devices.avh  # noqa: E402
 import tuxrun.devices.fvp  # noqa: E402
 import tuxrun.devices.qemu  # noqa: E402,F401
 import tuxrun.devices.ssh  # noqa: E402,F401

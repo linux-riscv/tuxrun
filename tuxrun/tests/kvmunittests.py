@@ -8,7 +8,7 @@ from tuxrun.tests import Test
 
 
 class KVMUnitTests(Test):
-    devices = ["qemu-*", "fvp-aemva"]
+    devices = ["qemu-*", "fvp-aemva", "avh-imx93", "avh-rpi4b"]
     name = "kvm-unit-tests"
     timeout = 15
     need_test_definition = True

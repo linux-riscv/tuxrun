@@ -30,7 +30,7 @@ from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
 from tuxrun.templates import wrappers
 from tuxrun.tests import Test
-from tuxrun.utils import ProgressIndicator, get_new_output_dir, notify
+from tuxrun.utils import ProgressIndicator, get_new_output_dir, mask_secrets, notify
 from tuxrun.writer import Writer
 from tuxrun.yaml import yaml_load
 
@@ -232,6 +232,8 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         "tux_prompt": options.prompt,
         "parameters": options.parameters,
         "uefi": options.uefi,
+        "boot_args": options.boot_args,
+        "secrets": options.secrets,
     }
     definition = options.device.definition(**def_arguments)
     LOG.debug("job definition")
@@ -361,7 +363,9 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
             options.metadata.write_text(json.dumps(results.metadata))
 
     if options.lava_definition and cache_dir:
-        (cache_dir / "definition.yaml").write_text(definition, encoding="utf-8")
+        (cache_dir / "definition.yaml").write_text(
+            mask_secrets(definition), encoding="utf-8"
+        )
 
     notify(job_definition.get("notify", {}))
 

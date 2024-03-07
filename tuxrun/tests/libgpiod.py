@@ -8,7 +8,7 @@ from tuxrun.tests import Test
 
 
 class LibGPIOd(Test):
-    devices = ["qemu-*", "fvp-aemva"]
+    devices = ["qemu-*", "fvp-aemva", "avh-imx93", "avh-rpi4b"]
     name = "libgpiod"
     timeout = 25
     need_test_definition = True

@@ -8,7 +8,7 @@ from tuxrun.tests import Test
 
 
 class MMTests(Test):
-    devices = ["qemu-arm64", "qemu-x86_64"]
+    devices = ["qemu-arm64", "qemu-x86_64", "avh-imx93", "avh-rpi4b"]
     configfile: str = ""
     full_archive: bool = False
     iterations: int = 10
