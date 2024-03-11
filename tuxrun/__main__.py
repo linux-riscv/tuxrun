@@ -285,7 +285,6 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         options.scp_fw,
         options.scp_romfw,
         options.ssh_identity_file,
-        f"{options.ssh_identity_file}.pub",
         options.uefi,
     ] + extra_assets:
         ro = True
