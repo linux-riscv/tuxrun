@@ -15,7 +15,7 @@ ENV PKG_DEPS="\
 "
 
 RUN if [ -z $version ]; then echo "FVP version not set!" && exit 1; fi
-RUN set -e ;\
+RUN set -ex ;\
     apt update -q=2 ;\
     apt full-upgrade -q=2 --yes ;\
     apt install --yes ca-certificates ;\
@@ -23,7 +23,7 @@ RUN set -e ;\
     # Install the FVP model
     curl --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/fvp.tgz \
     "https://developer.arm.com/-/media/Files/downloads/ecosystem-models/FVP_Base_RevC-2xAEMvA_${version}_${arch}.tgz" ;\
-    echo "${version_sha256} /tmp/fvp.tgz | sha256sum --check --status" ;\
+    echo "${version_sha256} /tmp/fvp.tgz" | sha256sum --check -;\
     tar xf /tmp/fvp.tgz -C /tmp ;\
     mkdir -p /opt/model/FVP_AEMvA/ ; \
     cp -R /tmp/Base_RevC_AEMvA_pkg/* /opt/model/FVP_AEMvA/ ;\

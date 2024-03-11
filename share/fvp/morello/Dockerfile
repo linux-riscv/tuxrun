@@ -13,7 +13,7 @@ ENV PKG_DEPS="\
 "
 
 RUN if [ -z $version ]; then echo "FVP version not set!" && exit 1; fi
-RUN set -e ;\
+RUN set -ex ;\
     apt update -q=2 ;\
     apt full-upgrade -q=2 --yes ;\
     apt install --yes ca-certificates ;\
@@ -21,7 +21,7 @@ RUN set -e ;\
     # Install Morello FVP
     curl --connect-timeout 5 --retry 5 --retry-delay 1 -fsSLo /tmp/FVP_Morello.tgz \
     "https://developer.arm.com/-/media/Arm%20Developer%20Community/Downloads/OSS/FVP/Morello%20Platform/FVP_Morello_${version}.tgz" ;\
-    echo "${version_sha256} /tmp/fvp.tgz | sha256sum --check --status" ;\
+    echo "${version_sha256} /tmp/fvp.tgz" | sha256sum --check - ;\
     tar xf /tmp/FVP_Morello.tgz -C /tmp ;\
     /tmp/FVP_Morello.sh \
       --i-agree-to-the-contained-eula \
