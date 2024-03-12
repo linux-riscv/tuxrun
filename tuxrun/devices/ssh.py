@@ -48,6 +48,7 @@ class SSHDevice(Device):
         tests = [
             t.render(
                 arch="arm64",
+                device=kwargs["device"],
                 tmpdir=kwargs["tmpdir"],
                 ssh_prompt=kwargs["ssh_prompt"],
                 overlays=kwargs["overlays"],
