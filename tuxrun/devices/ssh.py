@@ -17,6 +17,7 @@ class SSHDevice(Device):
     def validate(
         self,
         tests,
+        parameters,
         ssh_host,
         ssh_port,
         ssh_prompt,
