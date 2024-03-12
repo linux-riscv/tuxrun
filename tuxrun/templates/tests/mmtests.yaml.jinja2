@@ -3,7 +3,9 @@
       minutes: {{ timeout }}
     definitions:
     - repository: https://github.com/roxell/test-definitions.git
+{%if device != 'ssh-device' %}
       lava-signal: kmsg
+{%endif%}
       from: git
       branch: mmtests
       path: automated/linux/mmtests/mmtests.yaml

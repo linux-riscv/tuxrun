@@ -97,6 +97,7 @@ class AEMvAFVPDevice(FVPDevice):
         tests = [
             t.render(
                 arch="arm64",
+                device=kwargs["device"],
                 commands=kwargs["commands"],
                 command_name=kwargs["command_name"],
                 tmpdir=kwargs["tmpdir"],

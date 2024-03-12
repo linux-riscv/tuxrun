@@ -3,7 +3,9 @@
       minutes: {{ timeout }}
     definitions:
     - repository: {{ test_definitions }}
+{%if device != 'ssh-device' %}
       lava-signal: kmsg
+{% endif %}
       from: url
       compression: zstd
       path: automated/linux/ltp/ltp.yaml
