@@ -1,0 +1,25 @@
+# vim: set ts=4
+#
+# Copyright 2024-present Linaro Limited
+#
+# SPDX-License-Identifier: MIT
+
+from tuxrun.tests import Test
+
+
+class XfsTests(Test):
+    devices = ["qemu-arm64", "qemu-x86_64", "fvp-aemva"]
+    configfile: str = ""
+    timeout = 90
+    need_test_definition = True
+
+    def render(self, **kwargs):
+        kwargs["name"] = self.name
+        kwargs["test_filesystem"] = self.test_filesystem
+        kwargs["timeout"] = self.timeout
+        return self._render("xfstests.yaml.jinja2", **kwargs)
+
+
+class XfsTestsExt4(XfsTests):
+    name = "xfstests-ext4"
+    test_filesystem = "ext4"
