@@ -18,6 +18,7 @@ class SSHDevice(Device):
         self,
         tests,
         parameters,
+        overlays,
         ssh_host,
         ssh_port,
         ssh_prompt,

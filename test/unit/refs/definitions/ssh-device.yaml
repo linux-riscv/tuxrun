@@ -25,6 +25,40 @@ actions:
     prompts:
     - 'root@(.*):[/~]#'
     - "testuser"
+
+
+- test:
+    timeout:
+      minutes: 2
+    definitions:
+      - repository:
+          metadata:
+            format: Lava-Test Test Definition 1.0
+            name: extract-overlay
+          run:
+            steps:
+            - echo "Downloading https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz"
+            - wget -q https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz -O $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz)
+            - tar -xaf $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz) -C /mmtests
+        from: inline
+        name: extract-overlay-overlay-00
+        path: inline/extract-overlay.yaml
+- test:
+    timeout:
+      minutes: 2
+    definitions:
+      - repository:
+          metadata:
+            format: Lava-Test Test Definition 1.0
+            name: extract-overlay
+          run:
+            steps:
+            - echo "Downloading https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz"
+            - wget -q https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz -O $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz)
+            - tar -xaf $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz) -C /mmtests
+        from: inline
+        name: extract-overlay-overlay-01
+        path: inline/extract-overlay.yaml
 - test:
     timeout:
       minutes: 2
