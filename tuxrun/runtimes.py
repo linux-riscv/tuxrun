@@ -108,8 +108,7 @@ class ContainerRuntime(Runtime):
     def __init__(self):
         super().__init__()
         self.bind("/boot", ro=True)
-        if Path("/lib/modules").exists():
-            self.bind("/lib/modules", ro=True)
+        self.bind("/lib/modules", ro=True)
         # Bind /dev/kvm is available
         if Path("/dev/kvm").exists():
             self.bind("/dev/kvm", device=True)
