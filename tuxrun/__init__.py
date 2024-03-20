@@ -7,4 +7,4 @@
 """
 Command line tool for testing Linux under QEMU
 """
-__version__ = "0.64.4"
+__version__ = "0.65.0"
