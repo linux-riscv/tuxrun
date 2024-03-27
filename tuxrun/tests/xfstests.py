@@ -20,6 +20,21 @@ class XfsTests(Test):
         return self._render("xfstests.yaml.jinja2", **kwargs)
 
 
+class XfsTestsBtrfs(XfsTests):
+    name = "xfstests-btrfs"
+    test_filesystem = "btrfs"
+
+
 class XfsTestsExt4(XfsTests):
     name = "xfstests-ext4"
     test_filesystem = "ext4"
+
+
+class XfsTestsNilfs2(XfsTests):
+    name = "xfstests-nilfs2"
+    test_filesystem = "nilfs2"
+
+
+class XfsTestsXfs(XfsTests):
+    name = "xfstests-xfs"
+    test_filesystem = "xfs"
