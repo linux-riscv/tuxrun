@@ -53,6 +53,7 @@ fvp-aemva | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,  
                      workload-will-it-scale-pf-threads,                                                                                                           |                                                          |
                      workload-will-it-scale-sys-processes,                                                                                                        |                                                          |
                      workload-will-it-scale-sys-threads)                                                                                                          |                                                          |
+fvp-aemva | xfstests-(btrfs, ext4, f2fs, Nilfs2, xfs)                                                                                                             |                                                          |
 
 > Tip: "Passing parameters"
     In order to pass parameters for kselftest or perf, use
@@ -173,6 +174,7 @@ qemu-\* | mmtests-(db-sqlite-insert-small, hpc-scimarkc-small, io-blogbench,    
                    workload-will-it-scale-pf-threads,                                                                                                           |                                                          |
                    workload-will-it-scale-sys-processes,                                                                                                        |                                                          |
                    workload-will-it-scale-sys-threads)                                                                                                          |                                                          |
+qemu-\* | xfstests-(btrfs, ext4, f2fs, Nilfs2, xfs)                                                                                                             |                                                          |
 
 > Tip: "Passing parameters"
     In order to pass parameters for kselftest or perf, use
