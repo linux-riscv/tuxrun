@@ -394,12 +394,17 @@ def main() -> int:
         options.device = options.device or f"qemu-{tux.target_arch}"
         if options.device == "qemu-armv5":
             options.dtb = tux.url + "/dtbs/versatile-pb.dtb"
+        if options.parameters:
+            if options.modules:
+                module, path = options.modules
+                modules_path = options.parameters.get("MODULES_PATH", path)
+                options.modules = [module, modules_path]
 
-        for k in options.parameters:
-            if isinstance(options.parameters[k], str):
-                options.parameters[k] = options.parameters[k].replace(
-                    "$BUILD/", tux.url + "/"
-                )
+            for k in options.parameters:
+                if isinstance(options.parameters[k], str):
+                    options.parameters[k] = options.parameters[k].replace(
+                        "$BUILD/", tux.url + "/"
+                    )
 
     cache_dir = None
     if options.lava_definition or options.results_hooks or options.shared == []:
