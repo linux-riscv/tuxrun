@@ -30,6 +30,11 @@ class XfsTestsExt4(XfsTests):
     test_filesystem = "ext4"
 
 
+class XfsTestsF2fs(XfsTests):
+    name = "xfstests-f2fs"
+    test_filesystem = "f2fs"
+
+
 class XfsTestsNilfs2(XfsTests):
     name = "xfstests-nilfs2"
     test_filesystem = "nilfs2"
