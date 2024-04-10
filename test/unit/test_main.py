@@ -482,6 +482,28 @@ def test_tuxmake_directory(monkeypatch, tmp_path, run):
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/bzImage"
     assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[1] == "/"
+    assert options.device.name == "qemu-x86_64"
+    assert options.dtb is None
+
+    # case: with custom MODULES_PATH in parameters
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "tuxrun",
+            "--tuxmake",
+            str(tuxmake_build),
+            "--parameters",
+            "MODULES_PATH=/usr/",
+        ],
+    )
+
+    main()
+    run.assert_called()
+    options = run.call_args[0][0]
+    assert options.kernel == f"file://{tuxmake_build}/bzImage"
+    assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[1] == "/usr/"
     assert options.device.name == "qemu-x86_64"
     assert options.dtb is None
 
@@ -511,6 +533,7 @@ def test_tuxmake_directory_armv5(monkeypatch, tmp_path, run):
     options = run.call_args[0][0]
     assert options.kernel == f"file://{tuxmake_build}/zImage"
     assert options.modules[0] == f"file://{tuxmake_build}/modules.tar.xz"
+    assert options.modules[1] == "/"
     assert options.device.name == "qemu-armv5"
     assert options.dtb == f"file://{tuxmake_build}/dtbs/versatile-pb.dtb"
 
