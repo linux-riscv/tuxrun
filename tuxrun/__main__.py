@@ -444,11 +444,8 @@ def main() -> int:
 
     if "hacking-session" in options.tests:
         options.enable_network = True
-        if not options.parameters:
+        if not options.parameters.get("PUB_KEY"):
             parser.error("argument missing --parameters PUB_KEY='...'")
-        for k, v in options.parameters.items():
-            if "PUB_KEY" != k:
-                parser.error("argument missing --parameters PUB_KEY='...'")
 
     try:
         options.device = Device.select(options.device)()
