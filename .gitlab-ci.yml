@@ -60,9 +60,6 @@ ci-image-integration:
     - docker build --pull --tag "${tag}" --tag "${latest}" -f Dockerfile.tuxrun-dispatcher .
     - docker push "${tag}"
     - docker push "${latest}"
-    - docker build --pull --build-arg="PODMAN_VERSION=4" --tag "${tag}-podman4" --tag "${latest}-podman4" -f Dockerfile.tuxrun-dispatcher .
-    - docker push "${tag}-podman4"
-    - docker push "${latest}-podman4"
   variables:
     DOCKER_DRIVER: overlay2
 
@@ -92,8 +89,6 @@ docker-arm64:
   script:
     - docker build --pull --tag "${IMAGE_NAME}${TAG_APPEND}" -f Dockerfile.tuxrun-dispatcher .
     - docker push "${IMAGE_NAME}${TAG_APPEND}"
-    - docker build --build-arg="PODMAN_VERSION=4" --pull --tag "${IMAGE_NAME}${TAG_APPEND}-podman4" -f Dockerfile.tuxrun-dispatcher .
-    - docker push "${IMAGE_NAME}${TAG_APPEND}-podman4"
   only:
     - master
 
@@ -121,10 +116,6 @@ publish-dockerhub:
     - docker manifest create "${latest}" "${latest}-amd64" "${latest}-arm64"
     - docker manifest push "${tag}"
     - docker manifest push "${latest}"
-    - docker manifest create "${tag}-podman4" "${tag}-amd64-podman4" "${tag}-arm64-podman4"
-    - docker manifest create "${latest}-podman4" "${latest}-amd64-podman4" "${latest}-arm64-podman4"
-    - docker manifest push "${tag}-podman4"
-    - docker manifest push "${latest}-podman4"
   only:
     - tags
 
@@ -137,8 +128,6 @@ publish-master-dockerhub:
   script:
     - docker manifest create "${IMAGE_NAME}" "${IMAGE_NAME}-amd64" "${IMAGE_NAME}-arm64"
     - docker manifest push "${IMAGE_NAME}"
-    - docker manifest create "${IMAGE_NAME}-podman4" "${IMAGE_NAME}-amd64-podman4" "${IMAGE_NAME}-arm64-podman4"
-    - docker manifest push "${IMAGE_NAME}-podman4"
   only:
     - master
 

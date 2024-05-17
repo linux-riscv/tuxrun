@@ -1,14 +1,9 @@
 # FROM lavasoftware/lava-dispatcher:2024.01
 FROM registry.gitlab.com/lava/lava/amd64/lava-dispatcher:2024.01.dev0111
 ARG EXTRA_PACKAGES
-ARG PODMAN_VERSION=3
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes gnupg && \
-    if [ "${PODMAN_VERSION}" = "4" ]; then echo "deb http://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Testing/ /" > /etc/apt/sources.list.d/kubic.list && \
-    curl -L "http://download.opensuse.org/repositories/devel:kubic:libcontainers:unstable/Debian_Unstable/Release.key" | apt-key add -; else echo "deb http://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Debian_12/ /" > /etc/apt/sources.list.d/kubic.list && \
-    curl -L "http://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Debian_12/Release.key" | apt-key add -; fi && \
-    apt-get update && \
     apt-get install --yes libgpgme11-dev podman ${EXTRA_PACKAGES} && \
     echo "deb     http://ftp.de.debian.org/debian/    testing main contrib non-free" > /etc/apt/sources.list.d/testing.list && \
     echo "deb-src http://ftp.de.debian.org/debian/    testing main contrib non-free" >> /etc/apt/sources.list.d/testing.list && \
