@@ -21,6 +21,7 @@ fvp-aemva | kvm-unit-tests                                                      
 fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)          | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
 fvp-aemva | perf                                                                       | PERF                                                     |
 fvp-aemva | rcutorture                                                                 |                                                          |
+fvp-aemva | systemd-analyze                                                            |                                                          |
 fvp-aemva | v4l2                                                                       |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
@@ -124,6 +125,7 @@ qemu-\* | kvm-unit-tests                                                        
 qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)          | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
 qemu-\* | perf                                                                       | PERF                                                     |
 qemu-\* | rcutorture                                                                 |                                                          |
+qemu-\* | systemd-analyze                                                            |                                                          |
 qemu-\* | v4l2                                                                       |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
