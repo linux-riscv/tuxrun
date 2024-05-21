@@ -16,9 +16,7 @@ RUN apt-get update && \
 
 COPY share/pind/containers.conf /etc/containers/containers.conf
 
-RUN sed -i 's|^#mount_program|mount_program|g' /etc/containers/storage.conf && \
-    sed -i '/additionalimage.*/a "/var/lib/shared",' /etc/containers/storage.conf && \
-    sed -i 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' /etc/containers/storage.conf && \
+RUN \
     mkdir -p /var/lib/shared/overlay-images && \
     mkdir -p /var/lib/shared/overlay-layers && \
     mkdir -p /var/lib/shared/vfs-images && \
