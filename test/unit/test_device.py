@@ -963,6 +963,23 @@ def artefacts(tmp_path):
             "qemu-arm64-xfstests-ext4.yaml",
         ),
         (
+            [
+                "--device",
+                "qemu-arm64",
+                "--boot-args",
+                "rw",
+                "--kernel",
+                "https://example.com/Image.gz",
+                "--modules",
+                "https://example.com/modules.tar.xz",
+                "--rootfs",
+                "https://storage.tuxboot.com/debian/bookworm/arm64/rootfs.ext4.xz",
+                "--tests",
+                "systemd-analyze",
+            ],
+            "qemu-arm64-systemd-analyze.yaml",
+        ),
+        (
             ["--device", "qemu-arm64be"],
             "qemu-arm64be.yaml",
         ),
