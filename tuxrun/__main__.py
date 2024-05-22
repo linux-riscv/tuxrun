@@ -158,6 +158,20 @@ def run_hooks(hooks, cwd):
     return 0
 
 
+def run_hacking_sesson(definition, case, test):
+    if definition == "hacking-session" and case == "tmate" and "reference" in test:
+        if sys.stdout.isatty():
+            subprocess.Popen(
+                [
+                    "xterm",
+                    "-e",
+                    "bash",
+                    "-c",
+                    f"ssh {test['reference']}",
+                ]
+            )
+
+
 ##############
 # Entrypoint #
 ##############
@@ -337,6 +351,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
     ]
 
     results = Results(options.tests, artefacts)
+    hacking_session = bool("hacking-session" in t.name for t in options.tests)
     # Start the writer (stdout or log-file)
     with Writer(
         options.log_file,
@@ -348,7 +363,11 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         with runtime.run(args):
             for line in runtime.lines():
                 writer.write(line)
-                results.parse(line)
+                res = results.parse(line)
+                # Start an xterm if an hacking session url is available
+                if hacking_session and res:
+                    run_hacking_sesson(*res)
+
     runtime.post_run()
     if options.results:
         if str(options.results) == "-":
@@ -405,6 +424,17 @@ def main() -> int:
                     options.parameters[k] = options.parameters[k].replace(
                         "$BUILD/", tux.url + "/"
                     )
+
+    if options.shell:
+        if "hacking-session" not in options.tests:
+            options.tests.append("hacking-session")
+        if not options.parameters.get("PUB_KEY"):
+            keys = list(Path("~/.ssh/").expanduser().glob("id_*.pub"))
+            if len(keys) == 0:
+                parser.error("no ssh public key in ~/.ssh/")
+            options.parameters["PUB_KEY"] = "\n\n".join(
+                k.read_text(encoding="utf-8").rstrip() for k in keys
+            )
 
     cache_dir = None
     if options.lava_definition or options.results_hooks or options.shared == []:
