@@ -2,6 +2,8 @@
 
 - TuxRun requires Python 3.6 or newer.
 - The default runtime is podman, you should install it.
+- TuxRun operates with Podman 4 inside the container. If the Podman version on the host mismatches, particularly with the FVP device type, this could lead to issues.
+
 
 If you don't want to or can't install TuxRun, you can run it directly from the
 source directory. After getting the sources via git or something else, there is
