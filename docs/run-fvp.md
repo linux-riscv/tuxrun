@@ -161,7 +161,7 @@ echo 0 > /sys/kernel/debug/tracing/tracing_on
 
 cat /sys/kernel/debug/tracing/trace
 ```
-Tar the cusom-script scripts together
+Tar the custom-script scripts together
 ```shell
 chmod +x *.sh
 tar cJf ../custom-scripts.tar.xz .
