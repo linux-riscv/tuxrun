@@ -38,6 +38,7 @@ actions:
           run:
             steps:
             - echo "Downloading https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz"
+            - mkdir -p /mmtests
             - wget -q https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz -O $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz)
             - tar -xaf $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench2.tar.xz) -C /mmtests
         from: inline
@@ -54,6 +55,7 @@ actions:
           run:
             steps:
             - echo "Downloading https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz"
+            - mkdir -p /mmtests
             - wget -q https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz -O $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz)
             - tar -xaf $(basename https://storage.tuxboot.com/overlays/debian/bookworm/arm64/mmtests/master/config-io-blogbench.tar.xz) -C /mmtests
         from: inline
