@@ -50,6 +50,7 @@ actions:
           run:
             steps:
             - echo "Downloading {{ overlay }}"
+            - mkdir -p {{ dst }}
             - wget -q {{ overlay }} -O $(basename {{ overlay }})
             - tar -xaf $(basename {{ overlay }}) -C {{ dst }}
         from: inline
