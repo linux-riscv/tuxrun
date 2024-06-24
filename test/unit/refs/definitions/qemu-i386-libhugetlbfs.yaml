@@ -59,3 +59,5 @@ actions:
       name: libhugetlbfs
       parameters:
         WORD_SIZE: 64
+        SKIP_INSTALL: True
+        LIBHUGETLBFS_PATH: '/opt/libhugetlbfs/'
