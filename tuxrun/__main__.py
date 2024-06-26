@@ -43,15 +43,6 @@ LOG = logging.getLogger("tuxrun")
 ###########
 # Helpers #
 ###########
-def download(src, dst):
-    url = urlparse(src)
-    if url.scheme in ["http", "https"]:
-        ret = requests_get(src)
-        dst.write_text(ret.text, encoding="utf-8")
-    else:
-        shutil.copyfile(src, dst)
-
-
 def overlay_qemu(qemu_binary, tmpdir, runtime):
     """
     Overlay an external QEMU into the container, taking care to also
