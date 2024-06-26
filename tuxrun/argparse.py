@@ -371,7 +371,7 @@ def setup_parser() -> argparse.ArgumentParser:
         metavar="K=V",
         default={},
         type=str,
-        help="timouts in minutes as action=duration",
+        help="timeouts in minutes as action=duration",
         action=KeyValueIntAction,
         nargs="+",
     )

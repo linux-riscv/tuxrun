@@ -25,7 +25,6 @@ from tuxrun.argparse import filter_artefacts, filter_options, pathurlnone, setup
 from tuxrun.assets import get_rootfs, get_test_definitions
 from tuxrun.devices import Device
 from tuxrun.exceptions import InvalidArgument
-from tuxrun.requests import requests_get
 from tuxrun.results import Results
 from tuxrun.runtimes import Runtime
 from tuxrun.templates import wrappers
