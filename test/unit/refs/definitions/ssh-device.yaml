@@ -29,7 +29,7 @@ actions:
 
 - test:
     timeout:
-      minutes: 2
+      minutes: 5
     definitions:
       - repository:
           metadata:
@@ -46,7 +46,7 @@ actions:
         path: inline/extract-overlay.yaml
 - test:
     timeout:
-      minutes: 2
+      minutes: 5
     definitions:
       - repository:
           metadata:
