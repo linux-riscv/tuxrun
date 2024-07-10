@@ -1,4 +1,4 @@
-FROM lavasoftware/lava-dispatcher:2024.05
+FROM registry.gitlab.com/lava/lava/amd64/lava-dispatcher:2024.05.dev0067
 ARG EXTRA_PACKAGES
 
 RUN apt-get update && \
@@ -8,6 +8,7 @@ RUN apt-get update && \
     echo "deb-src http://ftp.de.debian.org/debian/    testing main contrib non-free" >> /etc/apt/sources.list.d/testing.list && \
     apt-get update && \
     apt-get -t testing install --no-install-recommends --yes qemu-system-arm qemu-system-mips qemu-system-misc qemu-system-ppc qemu-system-sparc qemu-system-x86 && \
+    apt-get upgrade --yes && \
     apt-get purge --yes gnupg && \
     apt-get autoremove --purge --yes && \
     apt-get clean && \
