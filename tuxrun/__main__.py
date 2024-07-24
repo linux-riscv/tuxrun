@@ -213,6 +213,7 @@ def run(options, tmpdir: Path, cache_dir: Optional[Path], artefacts: dict) -> in
         "mcp_romfw": options.mcp_romfw,
         "fip": options.fip,
         "enable_kvm": options.enable_kvm,
+        "enable_trustzone": options.enable_trustzone,
         "enable_network": options.enable_network,
         "overlays": overlays,
         "prompt": options.prompt,
