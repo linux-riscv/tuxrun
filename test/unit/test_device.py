@@ -2024,6 +2024,22 @@ def artefacts(tmp_path):
             ],
             "avh-imx93-multiple-tests.yaml",
         ),
+        (
+            [
+                "--device",
+                "qemu-arm64",
+                "--boot-args",
+                "earlycon",
+                "--kernel",
+                "https://example.com/Image",
+                "--bios",
+                "https://example.com/Bios",
+                "--enable-trustzone",
+                "--tests",
+                "tfa-tests",
+            ],
+            "tfa-tests.yaml",
+        ),
     ],
 )
 def test_definition(monkeypatch, mocker, tmpdir, artefacts, args, filename):

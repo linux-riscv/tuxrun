@@ -177,7 +177,6 @@ FVP_MORELLO_ARGS = [
         ["--device", "fvp-aemva", "--prompt", 'bla"bl'],
         ["--device", "qemu-armv7", "--dtb", "arm.dtb"],
         ["--device", "qemu-armv7", "--tests", "kselftest-arm64"],
-        ["--device", "qemu-arm64", "--bios", "bios.bin"],
         ["--device", "qemu-arm64", "--modules", "modules.tar"],
         ["--kernel", "https://storage.tuxboot.com/buildroot/i386/bzImage"],
         ["--device", "fvp-aemva", "--mcp-fw", "fvp.bin"],
