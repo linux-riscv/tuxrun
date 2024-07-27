@@ -126,6 +126,7 @@ qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)     
 qemu-\* | perf                                                                       | PERF                                                     |
 qemu-\* | rcutorture                                                                 |                                                          |
 qemu-\* | systemd-analyze                                                            |                                                          |
+qemu-arm64 | tfa-tests                                                               |                                                          |
 qemu-\* | v4l2                                                                       |                                                          |
 
 The following tests are not supported by the default root filesystem. You should
