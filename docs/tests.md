@@ -19,6 +19,7 @@ fvp-aemva | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                 
 fvp-aemva | kunit\*                                                                    | KUNIT_TEST_MODULE                                        |
 fvp-aemva | kvm-unit-tests                                                             |                                                          |
 fvp-aemva | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)          | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+fvp-aemva | modules                                                                    | MODULES_LIST, MODULES_SUBDIRS, MODULE_MODPROBE_NUMBER, SKIPLIST, SHARD_NUMBER, SHARD_INDEX |
 fvp-aemva | perf                                                                       | PERF                                                     |
 fvp-aemva | rcutorture                                                                 |                                                          |
 fvp-aemva | systemd-analyze                                                            |                                                          |
@@ -123,6 +124,7 @@ qemu-\* | kselftest-(arm64, gpio, ipc, ir, kcmp, kexec, *...)                   
 qemu-\* | kunit\*                                                                    | KUNIT_TEST_MODULE                                        |
 qemu-\* | kvm-unit-tests                                                             |                                                          |
 qemu-\* | ltp-(fcntl-locktests, fs_bind, fs_perms_simple, fsx, nptl, smoke)          | SKIPFILE, SHARD_NUMBER, SHARD_INDEX                      |
+qemu-\* | modules                                                                    | MODULES_LIST, MODULES_SUBDIRS, MODULE_MODPROBE_NUMBER, SKIPLIST, SHARD_NUMBER, SHARD_INDEX |
 qemu-\* | perf                                                                       | PERF                                                     |
 qemu-\* | rcutorture                                                                 |                                                          |
 qemu-\* | systemd-analyze                                                            |                                                          |
