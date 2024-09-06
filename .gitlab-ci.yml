@@ -75,7 +75,7 @@ docker-arm64:
   extends: .docker
   stage: build
   tags:
-     - saas-linux-medium-arm64 
+     - saas-linux-medium-arm64
   variables:
     TAG_APPEND: -arm64
   only:
