@@ -66,6 +66,7 @@ import tuxrun.tests.mmtests  # noqa: E402,F401
 import tuxrun.tests.modules  # noqa: E402,F401
 import tuxrun.tests.morello  # noqa: E402,F401
 import tuxrun.tests.perf  # noqa: E402,F401
+import tuxrun.tests.peripherals  # noqa: E402,F401
 import tuxrun.tests.rcutorture  # noqa: E402,F401
 import tuxrun.tests.systemdanalyze  # noqa: E402,F401
 import tuxrun.tests.tfatests  # noqa: E402,F401
