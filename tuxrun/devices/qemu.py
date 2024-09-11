@@ -181,7 +181,8 @@ class QemuArm64(QemuDevice):
             self.cpu = "max"
 
         if enable_trustzone:
-            self.machine = f"{self.machine},secure=on"
+            # This is a usecase for old 4.19 kernel
+            self.machine = f"virt-6.0,virtualization=on,gic-version=3,secure=on"
 
 
 class QemuArm64BE(QemuArm64):
