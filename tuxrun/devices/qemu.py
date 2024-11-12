@@ -419,9 +419,13 @@ class QemuRiscV64(QemuDevice):
     arch = "riscv64"
     lava_arch = "riscv64"
     machine = "virt"
-    cpu = "rv64"
 
-    extra_options = ["-smp 2"]
+    # rva23 profile is not yet implemented in qemu
+    # The following results in:
+    # rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintntl_zihintpause_zihpm_zacas_zawrs_zfa_zca_zcd_zba_zbb_zbc_zbs_zkr_sscsrind_sscofpmf_sstc_svadu_svinval_svnapot_svpbmt_svvptc
+    cpu = "rv64,sv48=on,svadu=on,svpbmt=on,svinval=on,svnapot=on,sstc=on,sscofpmf=on,zkr=on,svvptc=on,zabha=on,zacas=on"
+
+    extra_options = ["-smp 4 -m 8G"]
 
     console = "ttyS0"
     rootfs_dev = "/dev/vda"
