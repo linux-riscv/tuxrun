@@ -426,7 +426,7 @@ class QemuRiscV64(QemuDevice):
     console = "ttyS0"
     rootfs_dev = "/dev/vda"
     rootfs_arg = (
-        "-drive file={rootfs},format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
+        "-drive file={rootfs},if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0"
     )
 
     kernel = "https://storage.tuxboot.com/buildroot/riscv64/Image"
