@@ -16,7 +16,7 @@ from tuxrun.requests import requests_get
 from tuxrun.utils import NoProgressIndicator, ProgressIndicator, pathurlnone
 from tuxrun.xdg import get_cache_dir
 
-TEST_DEFINITIONS = "https://storage.tuxboot.com/test-definitions/2024.07.tar.zst"
+TEST_DEFINITIONS = "/build/test-definitions-riscv64.tar.zst"
 
 
 def get_rootfs(
