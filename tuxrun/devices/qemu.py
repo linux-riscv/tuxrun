@@ -418,7 +418,7 @@ class QemuRiscV64(QemuDevice):
 
     arch = "riscv64"
     lava_arch = "riscv64"
-    machine = "virt"
+    machine = "virt,acpi=on,aia=aplic-imsic"
 
     # rva23 profile is not yet implemented in qemu
     # The following results in:
