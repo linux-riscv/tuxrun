@@ -61,6 +61,7 @@ import tuxrun.tests.kunit  # noqa: E402
 import tuxrun.tests.kvmunittests  # noqa: E402
 import tuxrun.tests.libgpiod  # noqa: E402
 import tuxrun.tests.libhugetlbfs  # noqa: E402
+import tuxrun.tests.cfi  # noqa: E402
 import tuxrun.tests.ltp  # noqa: E402
 import tuxrun.tests.mmtests  # noqa: E402,F401
 import tuxrun.tests.modules  # noqa: E402,F401
