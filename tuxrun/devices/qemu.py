@@ -425,7 +425,7 @@ class QemuRiscV64(QemuDevice):
     # rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintntl_zihintpause_zihpm_zacas_zawrs_zfa_zca_zcd_zba_zbb_zbc_zbs_zkr_sscsrind_sscofpmf_sstc_svadu_svinval_svnapot_svpbmt_svvptc
     cpu = "rv64,sv48=on,svadu=on,svpbmt=on,svinval=on,svnapot=on,sstc=on,sscofpmf=on,zkr=on,svvptc=on,zabha=on,zacas=on,zcmop=on,zimop=on,zicfiss=on,zicfilp=on"
 
-    extra_options = ["-smp 4 -m 8G"]
+    extra_options = ["-smp 4 -m 8G -bios /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin"]
 
     console = "ttyS0"
     rootfs_dev = "/dev/vda"
